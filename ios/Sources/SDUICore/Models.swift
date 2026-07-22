@@ -114,10 +114,17 @@ public struct Component: Decodable, Equatable, Sendable {
 public struct Modifiers: Decodable, Equatable, Sendable {
     public let padding: EdgeInsets?
     public let background: String?
-    /// A translucent material behind the node — `"glass"` (frosted, visionOS-style)
-    /// or `"regular"`. Renders natively on every platform, so one payload keeps the
-    /// same spatial look on iOS, Android and Aurora.
+    /// A translucent material behind the node. One of the enumerated system
+    /// materials — `"ultraThin" | "thin" | "regular" | "thick" | "bar"` — which map
+    /// straight onto the platform's system blur materials, or `"glass"` (the
+    /// engine's bespoke frosted, visionOS-style pane with a top-lit rim). Renders
+    /// natively on every platform, so one payload keeps the same spatial look on
+    /// iOS, Android and Aurora. Absent = no material.
     public let material: String?
+    /// A raw Gaussian blur radius in points applied to the node itself (distinct
+    /// from `material`, which frosts what is *behind* the node). Use for e.g. a
+    /// blurred hero image behind a sheet. Absent / `0` = no blur.
+    public let blur: Double?
     public let cornerRadius: Dimension?
     public let opacity: Double?
     public let frame: Frame?

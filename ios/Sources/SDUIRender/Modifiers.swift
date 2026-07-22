@@ -28,6 +28,7 @@ private struct SDUIModifier: ViewModifier {
             .modifier(SizeModifier(size: modifiers.size, ctx: ctx))
             .modifier(FrameModifier(frame: modifiers.frame, ctx: ctx))
             .modifier(BackgroundModifier(color: modifiers.background, material: modifiers.material, radius: modifiers.cornerRadius, ctx: ctx))
+            .modifier(BlurModifier(radius: modifiers.blur))
             .modifier(ShadowModifier(shadow: modifiers.shadow, ctx: ctx))
             .opacity(modifiers.opacity ?? 1)
             .modifier(ScaleModifier(scale: modifiers.scale, ctx: ctx))
@@ -346,9 +347,21 @@ private struct BackgroundModifier: ViewModifier {
             .sduiClipIfRounded(shape, active: r > 0)
     }
 
-    /// A frosted, visionOS-style pane with a top-lit rim when `material == "glass"`.
+    /// Maps the neutral `material` value onto a system material fill (iOS 15+), or
+    /// the engine's bespoke `"glass"` — a frosted, visionOS-style pane with a
+    /// top-lit rim. Unknown / absent values render nothing (safe degradation).
     @ViewBuilder private func materialView<S: Shape>(_ shape: S) -> some View {
         switch material {
+        case "ultraThin":
+            shape.fill(.ultraThinMaterial)
+        case "thin":
+            shape.fill(.thinMaterial)
+        case "regular":
+            shape.fill(.regularMaterial)
+        case "thick":
+            shape.fill(.thickMaterial)
+        case "bar":
+            shape.fill(.bar)
         case "glass":
             ZStack {
                 shape.fill(.ultraThinMaterial)
@@ -358,10 +371,24 @@ private struct BackgroundModifier: ViewModifier {
                                    startPoint: .topLeading, endPoint: .bottomTrailing),
                     lineWidth: 1)
             }
-        case "regular":
-            shape.fill(.regularMaterial)
         default:
             EmptyView()
+        }
+    }
+}
+
+/// A raw Gaussian blur on the node itself — `"blur": 8` in the contract. Distinct
+/// from `material` (which frosts what's *behind* the node): this blurs the node's
+/// own content, for a blurred hero behind a sheet or a redacted preview. A missing
+/// or non-positive radius is a no-op so an unset value never softens the view.
+/// `.blur(radius:)` is iOS 15+, so no availability gate is needed.
+private struct BlurModifier: ViewModifier {
+    let radius: Double?
+    func body(content: Content) -> some View {
+        if let r = radius, r > 0 {
+            content.blur(radius: CGFloat(r))
+        } else {
+            content
         }
     }
 }
