@@ -1,6 +1,67 @@
 import Foundation
 import SDUICore
 
+/// A non-dismissable (or soft) version-gate alert authored entirely by the
+/// contract. The confirm button routes to the App Store; a hard gate re-presents
+/// itself so the only escape is updating.
+public struct VersionAlert: Equatable, Sendable {
+    public let title: String
+    public let message: String
+    public let confirmTitle: String
+    /// `false` = a hard gate (no dismiss); `true` = a soft "recommended" nudge
+    /// with a secondary "Later" button.
+    public let dismissible: Bool
+
+    public init(title: String, message: String, confirmTitle: String, dismissible: Bool) {
+        self.title = title
+        self.message = message
+        self.confirmTitle = confirmTitle
+        self.dismissible = dismissible
+    }
+}
+
+/// A fully decoded, platform-neutral permission request. The `permission` kind is
+/// mapped to the concrete OS framework by the host; the contract never names a
+/// UIKit / AVFoundation type.
+public struct PermissionRequest: Equatable, Sendable {
+    /// The closed set of permissions the contract can ask for. Identical spelling
+    /// on Android, which maps each to its own runtime permission.
+    public enum Kind: String, Sendable {
+        case camera, microphone, location, notifications, photos, contacts, calendar, tracking
+    }
+
+    public let permission: Kind
+    /// Location: `whenInUse` (default) | `always`. Photos: `readWrite` (default) |
+    /// `addOnly`. Ignored by permissions that have no level.
+    public let level: String?
+    /// The contract-authored priming rationale, shown (once) before the OS prompt.
+    /// `nil` skips priming and goes straight to the system dialog.
+    public let priming: PermissionPriming?
+    public let resultKey: String?
+
+    public init(permission: Kind, level: String?, priming: PermissionPriming?, resultKey: String?) {
+        self.permission = permission
+        self.level = level
+        self.priming = priming
+        self.resultKey = resultKey
+    }
+}
+
+/// The `priming` object from a `requestPermission` action, carried verbatim so the
+/// host can render it through the SDUI registry (it inherits the app's theme and
+/// press feel, not a system alert).
+public struct PermissionPriming: Equatable, Sendable {
+    /// The raw `priming` JSON, so the host renders it as an SDUI subtree.
+    public let raw: JSONValue
+    public init(raw: JSONValue) { self.raw = raw }
+}
+
+/// The outcome of an OS permission request, reflected back into `$state` as its
+/// `rawValue` so the contract — not Swift — decides what happens next.
+public enum PermissionOutcome: String, Sendable {
+    case granted, denied, restricted, notDetermined, unavailable
+}
+
 /// Capabilities the host app provides so the interpreter can carry out leaf
 /// actions. The interpreter owns control flow (`sequence`, `parallel`,
 /// `condition`); the host owns side effects. This split keeps the action
@@ -26,6 +87,32 @@ public protocol ActionHost: AnyObject {
     func log(_ message: String) async
     func track(_ tag: AnalyticsTag) async
     func custom(name: String, payload: JSONValue?) async
+
+    // MARK: Native capabilities
+
+    /// Force-update gate. Compares the running app's version to `minVersion`; when
+    /// outdated, presents a (soft or hard) alert routing to the App Store.
+    func requireVersion(minVersion: String, storeURL: String,
+                        alert: VersionAlert, resultKey: String?) async
+    /// `true` the first time this permission is asked (so a priming sheet is worth
+    /// showing). Tracked per-permission so priming appears only once.
+    func shouldPrime(_ permission: PermissionRequest.Kind) -> Bool
+    /// Renders the contract-authored priming rationale through the SDUI registry
+    /// and resolves to `true` when the user confirms, `false` when they decline.
+    func presentPriming(_ priming: PermissionPriming) async -> Bool
+    /// Requests the real OS permission and maps the result to a neutral outcome.
+    func requestPermission(_ request: PermissionRequest) async -> PermissionOutcome
+}
+
+/// Source-compatible defaults: a host that predates these capabilities keeps
+/// compiling — the version gate and permission verbs simply no-op cleanly and
+/// write a neutral outcome so the contract's `$state` stays well-defined.
+public extension ActionHost {
+    func requireVersion(minVersion: String, storeURL: String,
+                        alert: VersionAlert, resultKey: String?) async {}
+    func shouldPrime(_ permission: PermissionRequest.Kind) -> Bool { false }
+    func presentPriming(_ priming: PermissionPriming) async -> Bool { true }
+    func requestPermission(_ request: PermissionRequest) async -> PermissionOutcome { .unavailable }
 }
 
 /// Walks a declarative `Action` tree and drives the `ActionHost`.
@@ -133,6 +220,58 @@ public struct ActionInterpreter {
         case "custom":
             guard let name = action.field("name")?.stringValue else { return }
             await host.custom(name: name, payload: action.field("payload").map { resolvedValue($0, ctx) })
+
+        case "requireVersion":
+            // Server-driven minimum-version gate. `minVersion` is required; the
+            // store destination is either an explicit `storeURL` override or an
+            // `itms-apps://` URL synthesised from the numeric `storeId`.
+            guard let minVersion = action.field("minVersion")?.stringValue, !minVersion.isEmpty else { return }
+            let explicitStore = resolvedString(action.field("storeURL"), ctx)
+            let storeURL: String
+            if !explicitStore.isEmpty {
+                storeURL = explicitStore
+            } else if let id = action.field("storeId")?.stringValue, !id.isEmpty {
+                storeURL = "itms-apps://apps.apple.com/app/id\(id)"
+            } else {
+                storeURL = ""
+            }
+            let alert = VersionAlert(
+                title: action.field("title")?.stringValue ?? "Update required",
+                message: resolvedString(action.field("message"), ctx),
+                confirmTitle: action.field("confirmTitle")?.stringValue ?? "Update",
+                dismissible: action.field("dismissible")?.boolValue ?? false)
+            await host.requireVersion(minVersion: minVersion, storeURL: storeURL,
+                                      alert: alert, resultKey: action.field("resultKey")?.stringValue)
+
+        case "requestPermission":
+            // Orchestrates priming → OS request → resultKey → onGranted/onDenied.
+            // The host owns the platform mechanics; the interpreter owns the flow.
+            guard let raw = action.field("permission")?.stringValue,
+                  let kind = PermissionRequest.Kind(rawValue: raw) else {
+                await host.log("requestPermission: unknown permission '\(action.field("permission")?.stringValue ?? "")'")
+                return
+            }
+            let priming = action.field("priming").map { PermissionPriming(raw: $0) }
+            let resultKey = action.field("resultKey")?.stringValue
+            let req = PermissionRequest(permission: kind,
+                                        level: action.field("level")?.stringValue,
+                                        priming: priming,
+                                        resultKey: resultKey)
+            // Priming is shown only on the first ask, before the (one-shot) OS
+            // prompt is burned. Declining priming writes `denied`, runs `onDenied`,
+            // and — deliberately — does NOT consume the system prompt.
+            if let priming, host.shouldPrime(kind) {
+                let confirmed = await host.presentPriming(priming)
+                guard confirmed else {
+                    if let key = resultKey { await host.setState(key: key, value: .string(PermissionOutcome.denied.rawValue)) }
+                    if let onDenied = action.field("onDenied")?.decode(Action.self) { await run(onDenied, ctx: ctx) }
+                    return
+                }
+            }
+            let outcome = await host.requestPermission(req)
+            if let key = resultKey { await host.setState(key: key, value: .string(outcome.rawValue)) }
+            let branch = (outcome == .granted) ? "onGranted" : "onDenied"
+            if let next = action.field(branch)?.decode(Action.self) { await run(next, ctx: ctx) }
 
         default:
             await host.log("Unhandled action '\(action.action)'")

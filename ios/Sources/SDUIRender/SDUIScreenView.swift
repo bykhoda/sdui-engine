@@ -43,16 +43,22 @@ public final class SDUIScreenModel: ObservableObject, ActionHost {
     private let screen: Screen
     private let loader: DataLoader?
     private weak var delegate: SDUIHostDelegate?
+    /// Registry used to render the contract-authored permission priming subtree
+    /// through the same builders as the rest of the screen, so it inherits theme
+    /// and press feel rather than looking like a system alert.
+    private let registry: ComponentRegistry
 
     public init(screen: Screen,
                 tokens: JSONValue,
                 env: [String: JSONValue],
                 params: [String: JSONValue] = [:],
                 loader: DataLoader?,
-                delegate: SDUIHostDelegate?) {
+                delegate: SDUIHostDelegate?,
+                registry: ComponentRegistry? = nil) {
         self.screen = screen
         self.loader = loader
         self.delegate = delegate
+        self.registry = registry ?? ComponentRegistry()
         var state: [String: JSONValue] = [:]
         for (k, v) in screen.state ?? [:] { state[k] = v }
         self.binding = BindingContext(tokens: tokens, env: env, state: state, params: params)
@@ -142,6 +148,73 @@ public final class SDUIScreenModel: ObservableObject, ActionHost {
     public func log(_ message: String) async { print("[SDUI] \(message)") }
     public func track(_ tag: AnalyticsTag) async { delegate?.track(tag) }
     public func custom(name: String, payload: JSONValue?) async { delegate?.custom(name: name, payload: payload) }
+
+    // MARK: ActionHost — native capabilities
+
+    /// Force-update gate. Reads `CFBundleShortVersionString` and compares it to
+    /// `minVersion` with `.numericSearch`, so "1.10" correctly orders above "1.9".
+    /// When outdated, presents the (soft or hard) gate over the top-most VC.
+    public func requireVersion(minVersion: String, storeURL: String,
+                               alert: VersionAlert, resultKey: String?) async {
+        let current = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
+        // Numeric ordering → "1.10" correctly compares above "1.9";
+        // .orderedAscending == current < min == outdated.
+        let outdated = current.compare(minVersion, options: [.numeric]) == .orderedAscending
+        if let key = resultKey { await setState(key: key, value: .bool(!outdated)) }
+        guard outdated else { return }
+        #if os(iOS)
+        SDUIVersionGate.shared.present(alert: alert, storeURL: storeURL)
+        #endif
+    }
+
+    /// First-ask tracking is a small `UserDefaults` flag keyed per permission, so
+    /// the contract-authored priming rationale shows only once (before the OS
+    /// prompt is burned). No priming to show ⇒ always straight to the request.
+    public func shouldPrime(_ permission: PermissionRequest.Kind) -> Bool {
+        let key = "sdui.permission.primed.\(permission.rawValue)"
+        return !UserDefaults.standard.bool(forKey: key)
+    }
+
+    /// Renders the `priming` subtree via the same registry as the screen and
+    /// presents it as a sheet. Resolves `true` on confirm, `false` on cancel.
+    /// Marks the permission primed so it won't re-prime on a later ask.
+    public func presentPriming(_ priming: PermissionPriming) async -> Bool {
+        #if os(iOS)
+        // The priming subtree renders in a self-contained context that shares this
+        // screen's binding/state and dispatches actions through this host.
+        let ctx = RenderContext(
+            binding: binding,
+            registry: registry,
+            dispatch: { [weak self] action, bindingCtx in
+                guard let self else { return }
+                Task { await ActionInterpreter(host: self).run(action, ctx: bindingCtx) }
+            },
+            stringBinding: { [weak self] key in self?.stringBinding(for: key) ?? .constant("") },
+            boolBinding: { [weak self] key in self?.boolBinding(for: key) ?? .constant(false) },
+            doubleBinding: { [weak self] key in self?.doubleBinding(for: key) ?? .constant(0) },
+            loadSource: { [weak self] source in await self?.loadOne(source) })
+        return await SDUIPermissionPriming.shared.present(priming: priming, registry: registry, ctx: ctx)
+        #else
+        return true
+        #endif
+    }
+
+    /// Requests the real OS permission, `#available`-gated per framework, and maps
+    /// the result to a neutral `PermissionOutcome`. Marks the permission primed so
+    /// a subsequent ask skips the rationale sheet.
+    ///
+    /// NOTE: The matching Info.plist usage-description strings
+    /// (`NSCameraUsageDescription`, `NSLocationWhenInUseUsageDescription`, …) are
+    /// **host-app responsibility** — reviewed by Apple, embedded in the binary, and
+    /// therefore never server-driven. iOS crashes on request if they're absent.
+    public func requestPermission(_ request: PermissionRequest) async -> PermissionOutcome {
+        UserDefaults.standard.set(true, forKey: "sdui.permission.primed.\(request.permission.rawValue)")
+        #if os(iOS)
+        return await SDUIPermissions.request(request)
+        #else
+        return .unavailable
+        #endif
+    }
 }
 
 /// The view a host embeds to render a server-driven screen.
@@ -168,10 +241,12 @@ public struct SDUIScreenView: View {
         // Construct the default registry in the (main-actor) init body rather than
         // in a default-argument expression, which is nonisolated — keeps the SDK
         // compiling in Swift 5 language mode, not just Swift 6.
-        self.registry = registry ?? ComponentRegistry()
+        let resolvedRegistry = registry ?? ComponentRegistry()
+        self.registry = resolvedRegistry
         self.env = env
         _model = StateObject(wrappedValue: SDUIScreenModel(
-            screen: document.screen, tokens: tokens, env: env, params: params, loader: loader, delegate: delegate))
+            screen: document.screen, tokens: tokens, env: env, params: params,
+            loader: loader, delegate: delegate, registry: resolvedRegistry))
     }
 
     public var body: some View {
