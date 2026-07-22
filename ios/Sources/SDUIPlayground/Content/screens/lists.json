@@ -1,0 +1,147 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "lists",
+    "title": "Lists & Grids",
+    "scrollBehavior": { "subtitle": "One array, one template — flip the segment to draw it as rows or columns." },
+    "state": {
+      "layout": "list",
+      "selected": "",
+      "rows": [
+        {
+          "id": "r1",
+          "title": "Data-bound row",
+          "subtitle": "Rendered from $item",
+          "icon": "1.circle.fill"
+        },
+        {
+          "id": "r2",
+          "title": "One template",
+          "subtitle": "Repeated per array element",
+          "icon": "2.circle.fill"
+        },
+        {
+          "id": "r3",
+          "title": "Virtualised",
+          "subtitle": "Lazy \u2014 only visible rows render",
+          "icon": "3.circle.fill"
+        }
+      ],
+      "tiles": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg"
+        },
+        "children": [
+          {
+            "type": "picker",
+            "bind": "layout",
+            "style": "segmented",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "options": [
+              { "label": "List", "value": "list" },
+              { "label": "Grid", "value": "grid" }
+            ]
+          },
+          {
+            "type": "list",
+            "items": "$state.rows",
+            "spacing": "$token.spacing.sm",
+            "visibleWhen": { "equals": ["$state.layout", "list"] },
+            "modifiers": {
+              "size": {
+                "height": {
+                  "mode": "fixed",
+                  "value": 460
+                }
+              },
+              "animation": { "curve": "spring" }
+            },
+            "template": {
+              "type": "hstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.md",
+              "modifiers": {
+                "padding": "$token.spacing.md",
+                "background": "$token.color.surface",
+                "cornerRadius": "$token.radius.md",
+                "size": {
+                  "width": {
+                    "mode": "fill"
+                  }
+                },
+                "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "$item.title" } ] }
+              },
+              "children": [
+                {
+                  "type": "icon",
+                  "name": "$item.icon",
+                  "color": "$token.color.primary"
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "leading",
+                  "spacing": "$token.spacing.xs",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "$item.title",
+                      "style": "$token.typography.headline",
+                      "color": "$token.color.textPrimary"
+                    },
+                    {
+                      "type": "text",
+                      "value": "$item.subtitle",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.textSecondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "spacer"
+                },
+                { "type": "icon", "name": "chevron.right", "color": "$token.color.textTertiary", "size": 13 }
+              ]
+            }
+          },
+          {
+            "type": "grid",
+            "columns": 2,
+            "spacing": "$token.spacing.md",
+            "items": "$state.rows",
+            "visibleWhen": { "equals": ["$state.layout", "grid"] },
+            "modifiers": { "animation": { "curve": "spring" } },
+            "template": {
+              "type": "vstack",
+              "alignment": "leading",
+              "spacing": "$token.spacing.xs",
+              "modifiers": {
+                "padding": "$token.spacing.md",
+                "background": "$token.color.surface",
+                "cornerRadius": "$token.radius.md",
+                "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 110 } },
+                "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "$item.title" } ] }
+              },
+              "children": [
+                { "type": "icon", "name": "$item.icon", "color": "$token.color.primary", "size": 24 },
+                { "type": "spacer" },
+                { "type": "text", "value": "$item.title", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "lineLimit": 2 }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "controls",
+    "title": "Controls",
+    "scrollBehavior": { "subtitle": "Pickers, toggles, and sliders bound to state" },
+    "state": {
+      "view": "grid",
+      "plan": "pro",
+      "wifi": true,
+      "bluetooth": false
+    },
+    "content": {
+      "type": "scroll",
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.xl",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": { "width": { "mode": "fill" } }
+        },
+        "children": [
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "SEGMENTED",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "picker",
+                    "bind": "view",
+                    "style": "segmented",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "options": [
+                      { "label": "List", "value": "list" },
+                      { "label": "Grid", "value": "grid" },
+                      { "label": "Map", "value": "map" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "SELECT",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "star.circle.fill",
+                    "color": "$token.color.primary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Plan",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "picker",
+                    "bind": "plan",
+                    "options": [
+                      { "label": "Free", "value": "free" },
+                      { "label": "Pro", "value": "pro" },
+                      { "label": "Team", "value": "team" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "SWITCHES",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "fill" } }, "animation": { "curve": "spring" } },
+                    "children": [
+                      { "type": "toggle", "bind": "wifi", "title": "Wi-Fi", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                    ]
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": { "animation": { "curve": "spring" } },
+                    "children": [
+                      { "type": "icon", "name": "wifi", "color": "$token.color.success", "size": 13, "visibleWhen": { "equals": ["$state.wifi", "true"] } },
+                      { "type": "text", "value": "Connected", "style": "$token.typography.caption", "color": "$token.color.success", "visibleWhen": { "equals": ["$state.wifi", "true"] } },
+                      { "type": "icon", "name": "wifi.slash", "color": "$token.color.textTertiary", "size": 13, "visibleWhen": { "equals": ["$state.wifi", "false"] } },
+                      { "type": "text", "value": "Off", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.wifi", "false"] } }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "$token.color.separator"
+                  },
+                  {
+                    "type": "toggle",
+                    "bind": "bluetooth",
+                    "title": "Bluetooth"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": { "animation": { "curve": "spring" } },
+                    "children": [
+                      { "type": "text", "value": "Discoverable as \"Studio\"", "style": "$token.typography.caption", "color": "$token.color.info", "visibleWhen": { "equals": ["$state.bluetooth", "true"] } },
+                      { "type": "text", "value": "Off", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.bluetooth", "false"] } }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": { "width": { "mode": "fill" } },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.primarySoft",
+              "cornerRadius": "$token.radius.lg",
+              "animation": { "curve": "spring" }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "dot.radiowaves.left.and.right",
+                "color": "$token.color.primary",
+                "symbolEffect": "pulse"
+              },
+              {
+                "type": "text",
+                "value": "Live · view: $state.view · plan: $state.plan · wifi: $state.wifi · bt: $state.bluetooth",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.primary"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "nav_detail",
+    "title": "$params.title",
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": { "width": { "mode": "fill" } }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": { "size": { "width": { "mode": "fixed", "value": 60 }, "height": { "mode": "fixed", "value": 60 } }, "cornerRadius": "$token.radius.lg" },
+                "children": [
+                  { "type": "gradient", "colors": ["#7B7BF6", "#5B5BF0"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+                  { "type": "icon", "name": "checkmark.seal.fill", "color": "#FFFFFF", "size": 28 }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "children": [
+                  { "type": "text", "value": "YOU ARRIVED HERE", "style": "$token.typography.caption", "color": "$token.color.primary" },
+                  { "type": "text", "value": "$params.title", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "Slid in from the right.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "visibleWhen": { "equals": ["$params.mode", "push"] } },
+                  { "type": "text", "value": "Presented as a bottom sheet.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "visibleWhen": { "equals": ["$params.mode", "sheet"] } },
+                  { "type": "text", "value": "Covered the whole screen.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "visibleWhen": { "equals": ["$params.mode", "fullScreenCover"] } },
+                  { "type": "text", "value": "Built entirely from the params passed in.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "visibleWhen": { "equals": ["$params.mode", "params"] } }
+                ]
+              }
+            ]
+          },
+
+          { "type": "text", "value": "PARAMETERS RECEIVED", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": 0,
+            "modifiers": {
+              "size": { "width": { "mode": "fill" } },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": { "radius": 10, "y": 4, "color": "#00000010" }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "vertical": "$token.spacing.sm" } },
+                "children": [
+                  { "type": "text", "value": "title", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+                  { "type": "spacer" },
+                  { "type": "text", "value": "$params.title", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "alignment": "trailing" }
+                ]
+              },
+              { "type": "divider", "color": "$token.color.separator" },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "vertical": "$token.spacing.sm" } },
+                "children": [
+                  { "type": "text", "value": "mode", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+                  { "type": "spacer" },
+                  { "type": "text", "value": "$params.mode", "style": "$token.typography.headline", "color": "$token.color.primary", "alignment": "trailing" }
+                ]
+              },
+              { "type": "divider", "color": "$token.color.separator" },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "vertical": "$token.spacing.sm" } },
+                "children": [
+                  { "type": "text", "value": "subtitle", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+                  { "type": "spacer" },
+                  { "type": "text", "value": "$params.subtitle", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "alignment": "trailing" }
+                ]
+              }
+            ]
+          },
+
+          {
+            "type": "hstack",
+            "alignment": "top",
+            "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "leading": "$token.spacing.xs" } },
+            "children": [
+              { "type": "icon", "name": "arrow.turn.down.left", "color": "$token.color.textTertiary", "size": 14 },
+              { "type": "text", "value": "Every value above came straight from the navigate params — no fetch, no hardcoding.", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+            ]
+          },
+
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.xs" } },
+            "children": [
+              {
+                "type": "button",
+                "title": "Push another",
+                "style": "$token.button.tinted",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "onTap": { "action": "navigate", "to": "nav_detail", "params": { "title": "Deeper screen", "mode": "push" }, "transition": "push" }
+              },
+              {
+                "type": "button",
+                "title": "Back to start",
+                "style": "$token.button.secondary",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "onTap": { "action": "dismissRoot" }
+              },
+              {
+                "type": "button",
+                "title": "Go back",
+                "style": "$token.button.large",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "dismiss" } ] }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,665 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "inbox",
+    "title": "Inbox",
+    "scrollBehavior": {
+      "subtitle": "Swipe a message to read, archive, or delete"
+    },
+    "state": {
+      "filter": "all",
+      "resultCount": 5,
+      "messages": [
+        {
+          "id": "m1",
+          "name": "Maya Chen",
+          "preview": "Swipe me left or right — actions are pure JSON.",
+          "time": "9:41",
+          "category": "primary",
+          "unread": "yes",
+          "avatar": "https://picsum.photos/seed/a1/100/100"
+        },
+        {
+          "id": "m2",
+          "name": "Design Weekly",
+          "preview": "Your Tuesday digest is ready to read.",
+          "time": "8:02",
+          "category": "updates",
+          "unread": "yes",
+          "avatar": "https://picsum.photos/seed/a2/100/100"
+        },
+        {
+          "id": "m3",
+          "name": "GitHub",
+          "preview": "PR #128 was approved and merged.",
+          "time": "Yst",
+          "category": "updates",
+          "unread": "no",
+          "avatar": "https://picsum.photos/seed/a3/100/100"
+        },
+        {
+          "id": "m4",
+          "name": "Aruzhan Kim",
+          "preview": "Lunch tomorrow? I found a great spot nearby.",
+          "time": "Yst",
+          "category": "social",
+          "unread": "yes",
+          "avatar": "https://picsum.photos/seed/a4/100/100"
+        },
+        {
+          "id": "m5",
+          "name": "Figma",
+          "preview": "3 people commented on your prototype.",
+          "time": "Mon",
+          "category": "social",
+          "unread": "no",
+          "avatar": "https://picsum.photos/seed/a5/100/100"
+        }
+      ]
+    },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.sm",
+      "alignment": "leading",
+      "modifiers": {
+        "size": {
+          "width": {
+            "mode": "fill"
+          },
+          "height": {
+            "mode": "fill"
+          }
+        },
+        "padding": {}
+      },
+      "children": [
+        {
+          "type": "scroll",
+          "axis": "horizontal",
+          "modifiers": {
+            "size": {
+              "width": {
+                "mode": "fill"
+              },
+              "height": {
+                "mode": "fixed",
+                "value": 40
+              }
+            },
+            "padding": {
+              "leading": "$token.spacing.lg",
+              "trailing": "$token.spacing.lg"
+            }
+          },
+          "child": {
+            "type": "hstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "center",
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.filter",
+                    "all"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.primary",
+                  "cornerRadius": "$token.radius.pill"
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "tray.full.fill",
+                    "color": "$token.color.onPrimary",
+                    "size": 13
+                  },
+                  {
+                    "type": "text",
+                    "value": "All",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.onPrimary"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "visibleWhen": {
+                  "notEquals": [
+                    "$state.filter",
+                    "all"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.pill",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "setState",
+                        "key": "filter",
+                        "value": "all"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "tray.full",
+                    "color": "$token.color.textSecondary",
+                    "size": 13
+                  },
+                  {
+                    "type": "text",
+                    "value": "All",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "Primary",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.onPrimary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.filter",
+                    "primary"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.primary",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "text",
+                "value": "Primary",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textPrimary",
+                "visibleWhen": {
+                  "notEquals": [
+                    "$state.filter",
+                    "primary"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.pill",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "setState",
+                        "key": "filter",
+                        "value": "primary"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "value": "Social",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.onPrimary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.filter",
+                    "social"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.primary",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "text",
+                "value": "Social",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textPrimary",
+                "visibleWhen": {
+                  "notEquals": [
+                    "$state.filter",
+                    "social"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.pill",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "setState",
+                        "key": "filter",
+                        "value": "social"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "value": "Updates",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.onPrimary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.filter",
+                    "updates"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.primary",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "text",
+                "value": "Updates",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textPrimary",
+                "visibleWhen": {
+                  "notEquals": [
+                    "$state.filter",
+                    "updates"
+                  ]
+                },
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.md",
+                    "trailing": "$token.spacing.md",
+                    "top": "$token.spacing.sm",
+                    "bottom": "$token.spacing.sm"
+                  },
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.pill",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "setState",
+                        "key": "filter",
+                        "value": "updates"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "spacing": "$token.spacing.xs",
+          "modifiers": {
+            "padding": {
+              "leading": "$token.spacing.lg",
+              "trailing": "$token.spacing.lg"
+            }
+          },
+          "children": [
+            {
+              "type": "text",
+              "value": "$state.resultCount",
+              "style": "$token.typography.caption",
+              "color": "$token.color.textSecondary"
+            },
+            {
+              "type": "text",
+              "value": "conversations",
+              "style": "$token.typography.caption",
+              "color": "$token.color.textSecondary"
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "items": "$state.messages",
+          "spacing": "$token.spacing.sm",
+          "resultCount": "$state.resultCount",
+          "filter": {
+            "equals": {
+              "field": "category",
+              "value": "$state.filter"
+            }
+          },
+          "modifiers": {
+            "size": {
+              "width": {
+                "mode": "fill"
+              },
+              "height": {
+                "mode": "fill"
+              }
+            },
+            "animation": {
+              "curve": "spring"
+            }
+          },
+          "empty": {
+            "type": "vstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "top": 60,
+                "bottom": 24
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 72
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 72
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "children": [],
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      },
+                      "background": "$token.color.primarySoft",
+                      "cornerRadius": 36
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "tray",
+                    "color": "$token.color.primary",
+                    "size": 30
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "All caught up",
+                "style": "$token.typography.headline",
+                "color": "$token.color.textPrimary",
+                "alignment": "center"
+              },
+              {
+                "type": "text",
+                "value": "No messages in this category.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary",
+                "alignment": "center"
+              }
+            ]
+          },
+          "template": {
+            "type": "hstack",
+            "spacing": "$token.spacing.md",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1212"
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Opening conversation"
+                  }
+                ]
+              },
+              "swipe": {
+                "leading": [
+                  {
+                    "title": "Read",
+                    "icon": "envelope.open.fill",
+                    "tint": "$token.color.primary",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Marked as read"
+                    }
+                  },
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Flagged"
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Deleted",
+                      "style": "error"
+                    }
+                  },
+                  {
+                    "title": "Archive",
+                    "icon": "archivebox.fill",
+                    "tint": "$token.color.primary",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Archived"
+                    }
+                  }
+                ]
+              },
+              "contextMenu": [
+                {
+                  "title": "Reply",
+                  "icon": "arrowshape.turn.up.left",
+                  "action": {
+                    "action": "showToast",
+                    "message": "Reply"
+                  }
+                },
+                {
+                  "title": "Delete",
+                  "icon": "trash",
+                  "role": "destructive",
+                  "action": {
+                    "action": "showToast",
+                    "message": "Deleted",
+                    "style": "error"
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "type": "image",
+                "source": "$item.avatar",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "aspectRatio": 1
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 48
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 48
+                    }
+                  },
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "$item.name",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "$item.preview",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "vstack",
+                "alignment": "trailing",
+                "spacing": "$token.spacing.xs",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "$item.time",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.primary"
+                  },
+                  {
+                    "type": "vstack",
+                    "children": [],
+                    "visibleWhen": {
+                      "equals": [
+                        "$item.unread",
+                        "yes"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 9
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 9
+                        }
+                      },
+                      "background": "$token.color.primary",
+                      "cornerRadius": 5
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

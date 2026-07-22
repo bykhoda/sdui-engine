@@ -1,0 +1,30 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "alert_sheet",
+    "content": {
+      "type": "vstack",
+      "alignment": "center",
+      "spacing": "$token.spacing.md",
+      "modifiers": { "padding": "$token.spacing.xl", "size": { "width": { "mode": "fill" } } },
+      "children": [
+        {
+          "type": "zstack", "alignment": "center",
+          "modifiers": { "size": { "width": { "mode": "fixed", "value": 64 }, "height": { "mode": "fixed", "value": 64 } }, "cornerRadius": 32, "padding": { "top": "$token.spacing.md" } },
+          "children": [
+            { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "$token.color.successSoft", "cornerRadius": 32 } },
+            { "type": "icon", "name": "checkmark.circle.fill", "color": "$token.color.success", "size": 34 }
+          ]
+        },
+        { "type": "text", "value": "You're all set", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "alignment": "center" },
+        { "type": "text", "value": "Your changes have been saved and synced.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "alignment": "center" },
+        {
+          "type": "button", "title": "Done", "style": "$token.button.large",
+          "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.sm" } },
+          "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "dismiss" } ] }
+        },
+        { "type": "text", "value": "View details", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } }, "onTap": { "action": "showToast", "message": "Details" } } }
+      ]
+    }
+  }
+}

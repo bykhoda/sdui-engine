@@ -1,0 +1,77 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "product_detail",
+    "title": "$data.product.title",
+    "analytics": { "screenName": "product.detail" },
+    "data": {
+      "mode": "parallel",
+      "sources": [
+        {
+          "id": "product",
+          "service": "catalog",
+          "path": "/products/{productId}",
+          "method": "GET",
+          "query": { "lang": "$env.locale" },
+          "policy": "cacheThenNetwork"
+        }
+      ]
+    },
+    "refresh": { "sources": ["product"] },
+    "content": {
+      "type": "scroll",
+      "axis": "vertical",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": { "padding": "$token.spacing.lg" },
+        "children": [
+          {
+            "type": "image",
+            "source": "$data.product.imageUrl",
+            "loader": { "placeholder": "skeleton", "aspectRatio": 1.6, "contentMode": "fill" },
+            "modifiers": { "cornerRadius": "$token.radius.lg" }
+          },
+          {
+            "type": "text",
+            "value": "$data.product.title",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "text",
+            "value": "$data.product.price",
+            "style": "$token.typography.headline",
+            "color": "$token.color.primary"
+          },
+          {
+            "type": "text",
+            "value": "$data.product.description",
+            "style": "$token.typography.body",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "button",
+            "title": "Купить",
+            "style": "$token.button.primary",
+            "modifiers": { "frame": { "maxWidth": "infinity" } },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                { "action": "haptic", "style": "success" },
+                {
+                  "action": "navigate",
+                  "to": "checkout",
+                  "params": { "productId": "$data.product.id" },
+                  "transition": "sheet",
+                  "analytics": { "event": "buy_tap", "params": { "productId": "$data.product.id" } }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

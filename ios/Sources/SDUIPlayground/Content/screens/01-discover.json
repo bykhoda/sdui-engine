@@ -1,0 +1,197 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "discover",
+    "state": { "category": "all", "likedShirt": false },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "children": [
+          {
+            "type": "zstack",
+            "alignment": "bottomLeading",
+            "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Summer Collection" } ] } },
+            "children": [
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/summer/800/520",
+                "loader": { "placeholder": "skeleton", "aspectRatio": 1.5, "contentMode": "fill" }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "modifiers": { "padding": "$token.spacing.lg" },
+                "children": [
+                  { "type": "text", "value": "Summer Collection", "style": "$token.typography.largeTitle", "color": "#FFFFFF" },
+                  { "type": "text", "value": "Up to 50% off — this week only", "style": "$token.typography.subheadline", "color": "#FFFFFF" }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.sm",
+              "modifiers": { "padding": { "horizontal": "$token.spacing.lg" } },
+              "children": [
+                {
+                  "type": "text", "value": "All", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary",
+                  "visibleWhen": { "equals": ["$state.category", "all"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" }
+                },
+                {
+                  "type": "text", "value": "All", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                  "visibleWhen": { "notEquals": ["$state.category", "all"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "all" }, { "action": "haptic", "style": "light" } ] } }
+                },
+                {
+                  "type": "text", "value": "Apparel", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary",
+                  "visibleWhen": { "equals": ["$state.category", "apparel"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" }
+                },
+                {
+                  "type": "text", "value": "Apparel", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                  "visibleWhen": { "notEquals": ["$state.category", "apparel"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "apparel" }, { "action": "haptic", "style": "light" } ] } }
+                },
+                {
+                  "type": "text", "value": "Home", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary",
+                  "visibleWhen": { "equals": ["$state.category", "home"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" }
+                },
+                {
+                  "type": "text", "value": "Home", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                  "visibleWhen": { "notEquals": ["$state.category", "home"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "home" }, { "action": "haptic", "style": "light" } ] } }
+                },
+                {
+                  "type": "text", "value": "Beauty", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary",
+                  "visibleWhen": { "equals": ["$state.category", "beauty"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" }
+                },
+                {
+                  "type": "text", "value": "Beauty", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                  "visibleWhen": { "notEquals": ["$state.category", "beauty"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "beauty" }, { "action": "haptic", "style": "light" } ] } }
+                },
+                {
+                  "type": "text", "value": "Sport", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary",
+                  "visibleWhen": { "equals": ["$state.category", "sport"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" }
+                },
+                {
+                  "type": "text", "value": "Sport", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                  "visibleWhen": { "notEquals": ["$state.category", "sport"] },
+                  "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "sport" }, { "action": "haptic", "style": "light" } ] } }
+                }
+              ]
+            }
+          },
+          {
+            "type": "hstack",
+            "modifiers": { "padding": { "horizontal": "$token.spacing.lg" } },
+            "children": [
+              { "type": "text", "value": "Popular", "style": "$token.typography.title2", "color": "$token.color.textPrimary" },
+              { "type": "spacer" },
+              { "type": "text", "value": "See all", "style": "$token.typography.subheadline", "color": "$token.color.primary", "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "All popular items" } ] } } }
+            ]
+          },
+          {
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.md",
+              "modifiers": { "padding": { "horizontal": "$token.spacing.lg" } },
+              "children": [
+                {
+                  "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
+                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } } },
+                  "children": [
+                    {
+                      "type": "zstack", "alignment": "topTrailing",
+                      "modifiers": { "cornerRadius": "$token.radius.md" },
+                      "children": [
+                        { "type": "image", "source": "https://picsum.photos/seed/p1/320/320", "loader": { "placeholder": "skeleton", "aspectRatio": 1 }, "modifiers": { "cornerRadius": "$token.radius.md" } },
+                        {
+                          "type": "icon", "name": "heart", "color": "#FFFFFF", "size": 16,
+                          "visibleWhen": { "equals": ["$state.likedShirt", "false"] },
+                          "modifiers": { "padding": "$token.spacing.sm", "hitSlop": 6, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "likedShirt", "value": true }, { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Saved to favorites" } ] } }
+                        },
+                        {
+                          "type": "icon", "name": "heart.fill", "color": "$token.color.danger", "size": 16, "symbolEffect": "bounce",
+                          "visibleWhen": { "equals": ["$state.likedShirt", "true"] },
+                          "modifiers": { "padding": "$token.spacing.sm", "hitSlop": 6, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "likedShirt", "value": false }, { "action": "haptic", "style": "light" } ] } }
+                        }
+                      ]
+                    },
+                    { "type": "text", "value": "Linen Shirt", "style": "$token.typography.headline", "lineLimit": 1 },
+                    { "type": "text", "value": "$49", "style": "$token.typography.subheadline", "color": "$token.color.primary" }
+                  ]
+                },
+                {
+                  "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
+                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } } },
+                  "children": [
+                    { "type": "image", "source": "https://picsum.photos/seed/p2/320/320", "loader": { "placeholder": "skeleton", "aspectRatio": 1 }, "modifiers": { "cornerRadius": "$token.radius.md" } },
+                    { "type": "text", "value": "Canvas Tote", "style": "$token.typography.headline", "lineLimit": 1 },
+                    { "type": "text", "value": "$32", "style": "$token.typography.subheadline", "color": "$token.color.primary" }
+                  ]
+                },
+                {
+                  "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
+                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } } },
+                  "children": [
+                    { "type": "image", "source": "https://picsum.photos/seed/p3/320/320", "loader": { "placeholder": "skeleton", "aspectRatio": 1 }, "modifiers": { "cornerRadius": "$token.radius.md" } },
+                    { "type": "text", "value": "Sunglasses", "style": "$token.typography.headline", "lineLimit": 1 },
+                    { "type": "text", "value": "$88", "style": "$token.typography.subheadline", "color": "$token.color.primary" }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": { "padding": { "horizontal": "$token.spacing.lg", "bottom": "$token.spacing.lg" } },
+            "children": [
+              { "type": "text", "value": "Categories", "style": "$token.typography.title2", "color": "$token.color.textPrimary" },
+              {
+                "type": "grid",
+                "columns": 2,
+                "spacing": "$token.spacing.md",
+                "children": [
+                  { "type": "zstack", "alignment": "bottomLeading", "modifiers": { "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "apparel" }, { "action": "haptic", "style": "light" } ] } }, "children": [
+                    { "type": "image", "source": "https://picsum.photos/seed/c1/400/260", "loader": { "placeholder": "skeleton", "aspectRatio": 1.5 } },
+                    { "type": "text", "value": "Apparel", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+                  ] },
+                  { "type": "zstack", "alignment": "bottomLeading", "modifiers": { "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "home" }, { "action": "haptic", "style": "light" } ] } }, "children": [
+                    { "type": "image", "source": "https://picsum.photos/seed/c2/400/260", "loader": { "placeholder": "skeleton", "aspectRatio": 1.5 } },
+                    { "type": "text", "value": "Home", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+                  ] },
+                  { "type": "zstack", "alignment": "bottomLeading", "modifiers": { "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "beauty" }, { "action": "haptic", "style": "light" } ] } }, "children": [
+                    { "type": "image", "source": "https://picsum.photos/seed/c3/400/260", "loader": { "placeholder": "skeleton", "aspectRatio": 1.5 } },
+                    { "type": "text", "value": "Beauty", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+                  ] },
+                  { "type": "zstack", "alignment": "bottomLeading", "modifiers": { "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "category", "value": "sport" }, { "action": "haptic", "style": "light" } ] } }, "children": [
+                    { "type": "image", "source": "https://picsum.photos/seed/c4/400/260", "loader": { "placeholder": "skeleton", "aspectRatio": 1.5 } },
+                    { "type": "text", "value": "Sport", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+                  ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

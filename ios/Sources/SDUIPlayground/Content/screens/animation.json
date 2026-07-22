@@ -1,0 +1,538 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "animation",
+    "title": "Animation",
+    "scrollBehavior": { "subtitle": "Springs, transitions, and symbol effects — all declarative" },
+    "state": {
+      "expanded": false,
+      "liked": false,
+      "angle": 0,
+      "big": false,
+      "speed": "normal"
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg"
+        },
+        "children": [
+          {
+            "type": "text",
+            "value": "Tap to scale",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "text",
+            "value": "A scale modifier bound to state — tap the tile to spring between sizes.",
+            "style": "$token.typography.subheadline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.lg",
+            "modifiers": {
+              "size": { "width": { "mode": "fill" } },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md"
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": { "width": { "mode": "fixed", "value": 64 }, "height": { "mode": "fixed", "value": 64 } },
+                  "cornerRadius": "$token.radius.md",
+                  "scale": 1.4,
+                  "animation": { "curve": "spring" },
+                  "visibleWhen": { "equals": ["$state.big", "true"] },
+                  "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "big", "value": false } ] }
+                },
+                "children": [
+                  { "type": "gradient", "colors": ["#6E6EF7", "#DD2476"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "cornerRadius": "$token.radius.md" } },
+                  { "type": "icon", "name": "arrow.down.right.and.arrow.up.left", "color": "#FFFFFF", "size": 24 }
+                ]
+              },
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": { "width": { "mode": "fixed", "value": 64 }, "height": { "mode": "fixed", "value": 64 } },
+                  "cornerRadius": "$token.radius.md",
+                  "animation": { "curve": "spring" },
+                  "visibleWhen": { "equals": ["$state.big", "false"] },
+                  "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "big", "value": true } ] }
+                },
+                "children": [
+                  { "type": "gradient", "colors": ["#6E6EF7", "#DD2476"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "cornerRadius": "$token.radius.md" } },
+                  { "type": "icon", "name": "arrow.up.left.and.arrow.down.right", "color": "#FFFFFF", "size": 24 }
+                ]
+              },
+              { "type": "spacer" },
+              { "type": "text", "value": "Scaled up", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "visibleWhen": { "equals": ["$state.big", "true"] } },
+              { "type": "text", "value": "Tap the tile", "style": "$token.typography.headline", "color": "$token.color.textSecondary", "visibleWhen": { "equals": ["$state.big", "false"] } }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "text",
+            "value": "Reveal on state change",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "toggle",
+            "bind": "expanded",
+            "title": "Show details"
+          },
+          {
+            "type": "vstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "leading",
+            "modifiers": {
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "animation": {
+                "curve": "spring"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "Summary always visible",
+                "style": "$token.typography.headline",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "These details animate in and out with a spring when you flip the toggle — driven only by visibleWhen + an animation modifier.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.expanded",
+                    "true"
+                  ]
+                }
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.xs",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.expanded",
+                    "true"
+                  ]
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.success"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Extra row",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "text",
+            "value": "Toggle a like",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "modifiers": {
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "animation": {
+                "curve": "spring"
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "heart",
+                "color": "$token.color.textSecondary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.liked",
+                    "false"
+                  ]
+                }
+              },
+              {
+                "type": "icon",
+                "name": "heart.fill",
+                "color": "#FF375F",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.liked",
+                    "true"
+                  ]
+                }
+              },
+              {
+                "type": "text",
+                "value": " Tap the button to like",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "toggle",
+                "bind": "liked",
+                "title": ""
+              }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "text",
+            "value": "Tap to rotate",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "text",
+            "value": "The rotation modifier + an increment action + a spring — each tap turns it 90°.",
+            "style": "$token.typography.subheadline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.lg",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md"
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 64
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 64
+                    }
+                  },
+                  "cornerRadius": "$token.radius.md",
+                  "rotation": "$state.angle",
+                  "animation": {
+                    "curve": "spring"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "increment",
+                        "key": "angle",
+                        "by": 90
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#6E6EF7",
+                      "#4338CA"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      },
+                      "cornerRadius": "$token.radius.md"
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "arrow.up",
+                    "color": "#FFFFFF",
+                    "size": 26
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "Tap the square",
+                "style": "$token.typography.headline",
+                "color": "$token.color.textPrimary"
+              }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "text",
+            "value": "Timing",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "text",
+            "value": "Pick a spring feel — the label reflects the live state key that a curve would read.",
+            "style": "$token.typography.subheadline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": { "width": { "mode": "fill" } },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "animation": { "curve": "spring" }
+            },
+            "children": [
+              { "type": "text", "value": "Gentle", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.speed", "gentle"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+              { "type": "text", "value": "Gentle", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.speed", "gentle"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "speed", "value": "gentle" } } },
+              { "type": "text", "value": "Normal", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.speed", "normal"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+              { "type": "text", "value": "Normal", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.speed", "normal"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "speed", "value": "normal" } } },
+              { "type": "text", "value": "Snappy", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.speed", "snappy"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+              { "type": "text", "value": "Snappy", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.speed", "snappy"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "speed", "value": "snappy" } } }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "text",
+            "value": "SF Symbol effects",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "text",
+            "value": "Native looping symbol animations — one prop per icon (iOS 17+, safe no-op below).",
+            "style": "$token.typography.subheadline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "hstack",
+            "alignment": "top",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md"
+            },
+            "children": [
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "weight",
+                      "value": 1
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "bell.fill",
+                    "color": "$token.color.primary",
+                    "size": 26,
+                    "symbolEffect": "bounce"
+                  },
+                  {
+                    "type": "text",
+                    "value": "bounce",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "weight",
+                      "value": 1
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "heart.fill",
+                    "color": "#FF375F",
+                    "size": 26,
+                    "symbolEffect": "pulse"
+                  },
+                  {
+                    "type": "text",
+                    "value": "pulse",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "weight",
+                      "value": 1
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "wifi",
+                    "color": "$token.color.success",
+                    "size": 26,
+                    "symbolEffect": "variableColor"
+                  },
+                  {
+                    "type": "text",
+                    "value": "variable",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "weight",
+                      "value": 1
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "star.fill",
+                    "color": "$token.color.warning",
+                    "size": 26,
+                    "symbolEffect": "wiggle"
+                  },
+                  {
+                    "type": "text",
+                    "value": "wiggle",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "weight",
+                      "value": 1
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "arrow.triangle.2.circlepath",
+                    "color": "$token.color.info",
+                    "size": 26,
+                    "symbolEffect": "rotate"
+                  },
+                  {
+                    "type": "text",
+                    "value": "rotate",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

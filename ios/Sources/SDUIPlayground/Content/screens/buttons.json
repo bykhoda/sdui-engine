@@ -1,0 +1,352 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "buttons",
+    "title": "Buttons",
+    "scrollBehavior": { "subtitle": "Every style and state from one node" },
+    "state": {
+      "demoEnabled": true,
+      "demoSize": "M"
+    },
+    "content": {
+      "type": "scroll",
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.xl",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": { "width": { "mode": "fill" } }
+        },
+        "children": [
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "INTERACTIVE",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "alignment": "leading",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 },
+                  "animation": { "curve": "spring" }
+                },
+                "children": [
+                  {
+                    "type": "toggle",
+                    "bind": "demoEnabled",
+                    "title": "Enabled"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.sm",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "children": [
+                      { "type": "text", "value": "Size", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+                      { "type": "spacer" },
+                      { "type": "text", "value": "S", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.demoSize", "S"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                      { "type": "text", "value": "S", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.demoSize", "S"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "demoSize", "value": "S" } } },
+                      { "type": "text", "value": "M", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.demoSize", "M"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                      { "type": "text", "value": "M", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.demoSize", "M"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "demoSize", "value": "M" } } },
+                      { "type": "text", "value": "L", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.demoSize", "L"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                      { "type": "text", "value": "L", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.demoSize", "L"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "demoSize", "value": "L" } } }
+                    ]
+                  },
+                  { "type": "divider", "color": "$token.color.separator" },
+                  {
+                    "type": "vstack",
+                    "spacing": 0,
+                    "visibleWhen": { "equals": ["$state.demoEnabled", "true"] },
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "children": [
+                      {
+                        "type": "button",
+                        "title": "Small preview",
+                        "style": "$token.button.small",
+                        "visibleWhen": { "equals": ["$state.demoSize", "S"] },
+                        "modifiers": { "size": { "width": { "mode": "fill" } } },
+                        "onTap": { "action": "showToast", "message": "Tapped · Small" }
+                      },
+                      {
+                        "type": "button",
+                        "title": "Medium preview",
+                        "style": "$token.button.primary",
+                        "visibleWhen": { "equals": ["$state.demoSize", "M"] },
+                        "modifiers": { "size": { "width": { "mode": "fill" } } },
+                        "onTap": { "action": "showToast", "message": "Tapped · Medium" }
+                      },
+                      {
+                        "type": "button",
+                        "title": "Large preview",
+                        "style": "$token.button.large",
+                        "visibleWhen": { "equals": ["$state.demoSize", "L"] },
+                        "modifiers": { "size": { "width": { "mode": "fill" } } },
+                        "onTap": { "action": "showToast", "message": "Tapped · Large" }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "visibleWhen": { "equals": ["$state.demoEnabled", "false"] },
+                    "modifiers": {
+                      "size": { "width": { "mode": "fill" } },
+                      "padding": "$token.spacing.md",
+                      "background": "$token.color.surface",
+                      "cornerRadius": "$token.radius.md",
+                      "opacity": 0.55
+                    },
+                    "children": [
+                      { "type": "icon", "name": "hand.raised.slash.fill", "color": "$token.color.textTertiary", "size": 15 },
+                      { "type": "text", "value": "Disabled — flip Enabled to interact", "style": "$token.typography.subheadline", "color": "$token.color.textTertiary" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "STYLES",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "button",
+                    "title": "Filled",
+                    "style": "$token.button.primary",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "onTap": { "action": "showToast", "message": "Filled" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Tinted",
+                    "style": "$token.button.tinted",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "onTap": { "action": "showToast", "message": "Tinted" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Gray",
+                    "style": "$token.button.secondary",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "onTap": { "action": "showToast", "message": "Gray" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Destructive",
+                    "style": "$token.button.destructive",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "warning" }, { "action": "showToast", "message": "Destructive", "style": "error" } ] }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "WITH ICON",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "button",
+                    "title": "Download",
+                    "icon": "arrow.down.circle.fill",
+                    "style": "$token.button.primary",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Share",
+                    "icon": "square.and.arrow.up",
+                    "style": "$token.button.tinted",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "SHAPE",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "button",
+                    "title": "Follow",
+                    "style": "$token.button.pill",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Message",
+                    "icon": "message.fill",
+                    "style": "$token.button.pill",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "SIZE",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "alignment": "center",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "button",
+                    "title": "Small",
+                    "style": "$token.button.small",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Regular",
+                    "style": "$token.button.primary",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Large",
+                    "style": "$token.button.large",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "ICON ONLY",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "button",
+                    "title": "",
+                    "icon": "heart.fill",
+                    "style": "$token.button.tinted",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "",
+                    "icon": "bookmark.fill",
+                    "style": "$token.button.tinted",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "",
+                    "icon": "bell.fill",
+                    "style": "$token.button.tinted",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "",
+                    "icon": "ellipsis",
+                    "style": "$token.button.secondary",
+                    "onTap": { "action": "haptic", "style": "light" }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

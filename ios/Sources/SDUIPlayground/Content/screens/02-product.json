@@ -1,0 +1,170 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "product",
+    "state": { "favorite": false, "size": "42", "color": "black", "qty": 1 },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "children": [
+          {
+            "type": "image",
+            "source": "https://picsum.photos/seed/sneaker/800/700",
+            "loader": { "placeholder": "skeleton", "aspectRatio": 1.1, "contentMode": "fill" }
+          },
+          {
+            "type": "vstack",
+            "spacing": "$token.spacing.md",
+            "alignment": "leading",
+            "modifiers": { "padding": { "horizontal": "$token.spacing.lg", "bottom": "$token.spacing.lg" } },
+            "children": [
+              { "type": "text", "value": "Runner Pro", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary", "lineLimit": 1 },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "children": [
+                  { "type": "icon", "name": "star.fill", "color": "#FF9F0A" },
+                  { "type": "icon", "name": "star.fill", "color": "#FF9F0A" },
+                  { "type": "icon", "name": "star.fill", "color": "#FF9F0A" },
+                  { "type": "icon", "name": "star.fill", "color": "#FF9F0A" },
+                  { "type": "icon", "name": "star.leadinghalf.filled", "color": "#FF9F0A" },
+                  { "type": "text", "value": "4.6 · 218", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+                  { "type": "spacer" },
+                  { "type": "text", "value": "$129", "style": "$token.typography.title2", "color": "$token.color.primary" }
+                ]
+              },
+              { "type": "text", "value": "Lightweight everyday running shoe with a breathable knit upper and a responsive foam sole. Built for comfort mile after mile.", "style": "$token.typography.body", "color": "$token.color.textSecondary" },
+              { "type": "text", "value": "SIZE", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "hstack", "spacing": "$token.spacing.sm",
+                "children": [
+                  {
+                    "type": "text", "value": "41", "style": "$token.typography.headline", "color": "$token.color.onPrimary", "alignment": "center",
+                    "visibleWhen": { "equals": ["$state.size", "41"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.primary", "cornerRadius": "$token.radius.md" }
+                  },
+                  {
+                    "type": "text", "value": "41", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "alignment": "center",
+                    "visibleWhen": { "notEquals": ["$state.size", "41"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "size", "value": "41" }, { "action": "haptic", "style": "light" } ] } }
+                  },
+                  {
+                    "type": "text", "value": "42", "style": "$token.typography.headline", "color": "$token.color.onPrimary", "alignment": "center",
+                    "visibleWhen": { "equals": ["$state.size", "42"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.primary", "cornerRadius": "$token.radius.md" }
+                  },
+                  {
+                    "type": "text", "value": "42", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "alignment": "center",
+                    "visibleWhen": { "notEquals": ["$state.size", "42"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "size", "value": "42" }, { "action": "haptic", "style": "light" } ] } }
+                  },
+                  {
+                    "type": "text", "value": "43", "style": "$token.typography.headline", "color": "$token.color.onPrimary", "alignment": "center",
+                    "visibleWhen": { "equals": ["$state.size", "43"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.primary", "cornerRadius": "$token.radius.md" }
+                  },
+                  {
+                    "type": "text", "value": "43", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "alignment": "center",
+                    "visibleWhen": { "notEquals": ["$state.size", "43"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "size", "value": "43" }, { "action": "haptic", "style": "light" } ] } }
+                  },
+                  {
+                    "type": "text", "value": "44", "style": "$token.typography.headline", "color": "$token.color.onPrimary", "alignment": "center",
+                    "visibleWhen": { "equals": ["$state.size", "44"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.primary", "cornerRadius": "$token.radius.md" }
+                  },
+                  {
+                    "type": "text", "value": "44", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "alignment": "center",
+                    "visibleWhen": { "notEquals": ["$state.size", "44"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 44 } }, "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "size", "value": "44" }, { "action": "haptic", "style": "light" } ] } }
+                  }
+                ]
+              },
+              { "type": "text", "value": "COLOR", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "hstack", "spacing": "$token.spacing.md", "alignment": "center",
+                "children": [
+                  {
+                    "type": "zstack", "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 36 }, "height": { "mode": "fixed", "value": 36 } }, "cornerRadius": 18, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "color", "value": "black" }, { "action": "haptic", "style": "light" } ] } },
+                    "children": [
+                      { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "#1C1C24", "cornerRadius": 18 } },
+                      { "type": "icon", "name": "checkmark", "color": "#FFFFFF", "size": 15, "visibleWhen": { "equals": ["$state.color", "black"] } }
+                    ]
+                  },
+                  {
+                    "type": "zstack", "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 36 }, "height": { "mode": "fixed", "value": 36 } }, "cornerRadius": 18, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "color", "value": "blue" }, { "action": "haptic", "style": "light" } ] } },
+                    "children": [
+                      { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "#3B5BDB", "cornerRadius": 18 } },
+                      { "type": "icon", "name": "checkmark", "color": "#FFFFFF", "size": 15, "visibleWhen": { "equals": ["$state.color", "blue"] } }
+                    ]
+                  },
+                  {
+                    "type": "zstack", "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 36 }, "height": { "mode": "fixed", "value": 36 } }, "cornerRadius": 18, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "color", "value": "sand" }, { "action": "haptic", "style": "light" } ] } },
+                    "children": [
+                      { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "#D8C3A5", "cornerRadius": 18 } },
+                      { "type": "icon", "name": "checkmark", "color": "#3B3B4F", "size": 15, "visibleWhen": { "equals": ["$state.color", "sand"] } }
+                    ]
+                  },
+                  { "type": "spacer" },
+                  { "type": "icon", "name": "minus.circle.fill", "color": "$token.color.textTertiary", "size": 30, "modifiers": { "hitSlop": 6, "onTap": { "action": "sequence", "actions": [ { "action": "increment", "key": "qty", "by": -1 }, { "action": "haptic", "style": "light" } ] } } },
+                  { "type": "text", "value": "$state.qty", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fixed", "value": 32 } } } },
+                  { "type": "icon", "name": "plus.circle.fill", "color": "$token.color.primary", "size": 30, "modifiers": { "hitSlop": 6, "onTap": { "action": "sequence", "actions": [ { "action": "increment", "key": "qty", "by": 1 }, { "action": "haptic", "style": "light" } ] } } }
+                ]
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": { "animation": { "curve": "spring" } },
+                "children": [
+                  {
+                    "type": "button",
+                    "title": "Add to bag",
+                    "style": "$token.button.primary",
+                    "icon": "bag.fill",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "onTap": { "action": "sequence", "actions": [
+                      { "action": "haptic", "style": "success" },
+                      { "action": "showToast", "message": "Added to your bag", "style": "success" }
+                    ] }
+                  },
+                  {
+                    "type": "button",
+                    "title": "",
+                    "style": "$token.button.secondary",
+                    "icon": "heart",
+                    "visibleWhen": { "equals": ["$state.favorite", "false"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 56 } } },
+                    "onTap": { "action": "sequence", "actions": [
+                      { "action": "setState", "key": "favorite", "value": true },
+                      { "action": "haptic", "style": "light" },
+                      { "action": "showToast", "message": "Saved to favorites" }
+                    ] }
+                  },
+                  {
+                    "type": "button",
+                    "title": "",
+                    "style": "$token.button.secondary",
+                    "icon": "heart.fill",
+                    "visibleWhen": { "equals": ["$state.favorite", "true"] },
+                    "modifiers": { "size": { "width": { "mode": "fixed", "value": 56 } } },
+                    "onTap": { "action": "sequence", "actions": [
+                      { "action": "setState", "key": "favorite", "value": false },
+                      { "action": "haptic", "style": "light" }
+                    ] }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "signup",
+    "teach": {
+      "title": "Sign up",
+      "task": "Tap Continue with an empty email to see inline validation kick in."
+    },
+    "state": {
+      "email": "",
+      "emailError": false
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "center",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          },
+          "animation": {
+            "curve": "spring"
+          }
+        },
+        "children": [
+          {
+            "type": "zstack",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fixed",
+                  "value": 60
+                },
+                "height": {
+                  "mode": "fixed",
+                  "value": 60
+                }
+              },
+              "cornerRadius": 16,
+              "padding": {
+                "top": "$token.spacing.md"
+              }
+            },
+            "children": [
+              {
+                "type": "gradient",
+                "colors": [
+                  "#6E6EF7",
+                  "#4338CA"
+                ],
+                "direction": "diagonal",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fill"
+                    }
+                  },
+                  "cornerRadius": 16
+                }
+              },
+              {
+                "type": "icon",
+                "name": "square.stack.3d.up.fill",
+                "color": "#FFFFFF",
+                "size": 26
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.xs",
+            "children": [
+              {
+                "type": "text",
+                "value": "Create your account",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary",
+                "alignment": "center"
+              },
+              {
+                "type": "text",
+                "value": "Start building — free, no credit card.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary",
+                "alignment": "center"
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "title": "Continue with Apple",
+            "style": "$token.button.large",
+            "icon": "apple.logo",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "top": "$token.spacing.sm"
+              }
+            },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                {
+                  "action": "haptic",
+                  "style": "light"
+                },
+                {
+                  "action": "showToast",
+                  "message": "Continue with Apple"
+                }
+              ]
+            }
+          },
+          {
+            "type": "button",
+            "title": "Continue with Google",
+            "style": "$token.button.tinted",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                {
+                  "action": "haptic",
+                  "style": "light"
+                },
+                {
+                  "action": "showToast",
+                  "message": "Continue with Google"
+                }
+              ]
+            }
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "top": "$token.spacing.xs",
+                "bottom": "$token.spacing.xs"
+              }
+            },
+            "children": [
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "text",
+                "value": "or",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textTertiary"
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "id": "field-email",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "textfield",
+                "bind": "email",
+                "placeholder": "you@example.com",
+                "keyboardType": "email",
+                "textContentType": "email",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.emailError",
+                    "false"
+                  ]
+                },
+                "modifiers": {
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.md",
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "textfield",
+                "bind": "email",
+                "placeholder": "you@example.com",
+                "keyboardType": "email",
+                "textContentType": "email",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.emailError",
+                    "true"
+                  ]
+                },
+                "modifiers": {
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.errorSoft",
+                  "cornerRadius": "$token.radius.md",
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "value": "We'll send a magic link — no password.",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textTertiary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.emailError",
+                    "false"
+                  ]
+                }
+              },
+              {
+                "type": "text",
+                "value": "Enter your email to continue.",
+                "style": "$token.typography.caption",
+                "color": "$token.color.error",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.emailError",
+                    "true"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "title": "Continue",
+            "style": "$token.button.large",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "onTap": {
+              "action": "condition",
+              "if": {
+                "equals": [
+                  "$state.email",
+                  ""
+                ]
+              },
+              "then": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "setState",
+                    "key": "emailError",
+                    "value": true
+                  },
+                  {
+                    "action": "scrollTo",
+                    "target": "field-email"
+                  },
+                  {
+                    "action": "haptic",
+                    "style": "error"
+                  }
+                ]
+              },
+              "else": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "setState",
+                    "key": "emailError",
+                    "value": false
+                  },
+                  {
+                    "action": "haptic",
+                    "style": "success"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Magic link sent"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "type": "text",
+            "value": "By continuing you agree to the Terms & Privacy Policy.",
+            "style": "$token.typography.caption",
+            "color": "$token.color.textTertiary",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            }
+          },
+          {
+            "type": "text",
+            "value": "Already have an account? Sign in",
+            "style": "$token.typography.subheadline",
+            "color": "$token.color.primary",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "top": "$token.spacing.xs"
+              },
+              "onTap": {
+                "action": "showToast",
+                "message": "Sign in"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

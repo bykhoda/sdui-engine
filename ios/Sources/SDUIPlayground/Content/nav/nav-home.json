@@ -1,0 +1,633 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "nav_home",
+    "teach": {
+      "title": "Navigation",
+      "task": "Open each card — push slides in, sheet slides up, and the title you see is the param you passed."
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "children": [
+              {
+                "type": "text",
+                "value": "NAVIGATION",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": "Redirects, one contract",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "Push, sheet, full-screen, replace and params — every flow is pure JSON. Change a transition on the server and the app follows, no release.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "TRANSITIONS",
+            "style": "$token.typography.caption",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#00000010"
+              },
+              "onTap": {
+                "action": "navigate",
+                "to": "nav_detail",
+                "params": {
+                  "title": "Pushed screen",
+                  "mode": "push"
+                },
+                "transition": "push"
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.md"
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#7B7BF6",
+                      "#5B5BF0"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "arrow.right.square.fill",
+                    "color": "#FFFFFF",
+                    "size": 22
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Push a detail",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Slides in from the right, back to return",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "push",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary",
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.sm",
+                    "trailing": "$token.spacing.sm",
+                    "top": 4,
+                    "bottom": 4
+                  },
+                  "background": "$token.color.primarySoft",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "icon",
+                "name": "chevron.right",
+                "color": "$token.color.textTertiary",
+                "size": 14
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#00000010"
+              },
+              "onTap": {
+                "action": "navigate",
+                "to": "nav_detail",
+                "params": {
+                  "title": "Sheet screen",
+                  "mode": "sheet"
+                },
+                "transition": "sheet"
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.md"
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#3BB0F0",
+                      "#2E8FE0"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "rectangle.portrait.bottomhalf.inset.filled",
+                    "color": "#FFFFFF",
+                    "size": 22
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Present a sheet",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Slides up at a detent, swipe down to close",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "sheet",
+                "style": "$token.typography.caption",
+                "color": "$token.color.info",
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.sm",
+                    "trailing": "$token.spacing.sm",
+                    "top": 4,
+                    "bottom": 4
+                  },
+                  "background": "$token.color.infoSoft",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "icon",
+                "name": "chevron.right",
+                "color": "$token.color.textTertiary",
+                "size": 14
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#00000010"
+              },
+              "onTap": {
+                "action": "navigate",
+                "to": "nav_detail",
+                "params": {
+                  "title": "Full-screen",
+                  "mode": "fullScreenCover"
+                },
+                "transition": "fullScreenCover"
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.md"
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#34D399",
+                      "#10B981"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "arrow.up.left.and.arrow.down.right",
+                    "color": "#FFFFFF",
+                    "size": 20
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Full-screen cover",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Covers everything — great for onboarding",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "cover",
+                "style": "$token.typography.caption",
+                "color": "$token.color.success",
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.sm",
+                    "trailing": "$token.spacing.sm",
+                    "top": 4,
+                    "bottom": 4
+                  },
+                  "background": "$token.color.successSoft",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "icon",
+                "name": "chevron.right",
+                "color": "$token.color.textTertiary",
+                "size": 14
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#00000010"
+              },
+              "onTap": {
+                "action": "navigate",
+                "to": "nav_detail",
+                "params": {
+                  "title": "Order #4821",
+                  "mode": "params",
+                  "subtitle": "Delivered · 2 items"
+                },
+                "transition": "push"
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.md"
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#F59E0B",
+                      "#EA580C"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "shippingbox.fill",
+                    "color": "#FFFFFF",
+                    "size": 20
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Pass parameters",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "The screen is built from the data you send",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "params",
+                "style": "$token.typography.caption",
+                "color": "$token.color.warning",
+                "modifiers": {
+                  "padding": {
+                    "leading": "$token.spacing.sm",
+                    "trailing": "$token.spacing.sm",
+                    "top": 4,
+                    "bottom": 4
+                  },
+                  "background": "$token.color.warningSoft",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "icon",
+                "name": "chevron.right",
+                "color": "$token.color.textTertiary",
+                "size": 14
+              }
+            ]
+          },
+          {
+            "type": "disclosure",
+            "title": "How it works",
+            "subtitle": "The exact JSON behind every card",
+            "icon": "curlybraces",
+            "accent": "$token.color.primary",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.md"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "A tap fires one navigate action:",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "{\n \"action\": \"navigate\",\n \"to\": \"nav_detail\",\n \"transition\": \"sheet\",\n \"params\": { \"title\": \"Sheet screen\" }\n}",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "divider",
+                    "color": "$token.color.separator"
+                  },
+                  {
+                    "type": "text",
+                    "value": "The destination reads them back as $params.title — swap \"transition\" to push, fullScreenCover or replace and the same JSON behaves differently.",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "top",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "leading": "$token.spacing.xs",
+                "top": "$token.spacing.xs"
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "info.circle",
+                "color": "$token.color.textTertiary",
+                "size": 14
+              },
+              {
+                "type": "text",
+                "value": "Open each card and compare — the title you land on is exactly the param you passed.",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textTertiary"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

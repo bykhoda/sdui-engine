@@ -1,0 +1,712 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sdui.dev/schema/v0/sdui.schema.json",
+  "title": "SDUI Screen Contract",
+  "description": "Platform-neutral Server-Driven UI contract. A single JSON drives both SwiftUI (iOS) and Compose (Android) renderers. Nothing here is specific to any platform: 'vstack' maps to VStack / Column, tokens resolve from a shared design-token file. This schema is the single source of truth — Swift and Kotlin models are generated from it, and it validates payloads BEFORE they ever reach a renderer.",
+  "type": "object",
+  "required": ["version", "screen"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Contract version this payload targets, e.g. '0.1'. Renderers reject payloads whose major version they do not understand.",
+      "pattern": "^\\d+\\.\\d+$"
+    },
+    "screen": { "$ref": "#/$defs/Screen" }
+  },
+  "additionalProperties": false,
+
+  "$defs": {
+    "Screen": {
+      "type": "object",
+      "description": "A full screen: its data dependencies, its content tree, and screen-level lifecycle hooks.",
+      "required": ["id", "content"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable screen identifier. Used for navigation targets, deep links and analytics.",
+          "pattern": "^[a-z][a-z0-9_.]*$"
+        },
+        "title": { "$ref": "#/$defs/BindableString", "description": "Navigation-bar title. May be a binding, e.g. '$data.product.title'." },
+        "analytics": { "$ref": "#/$defs/AnalyticsTag" },
+        "data": { "$ref": "#/$defs/DataConfig" },
+        "state": {
+          "type": "object",
+          "description": "Local, client-only state initialised when the screen appears. Keys are referenced as '$state.<key>'. Values are literals used as defaults.",
+          "additionalProperties": true
+        },
+        "onAppear": { "$ref": "#/$defs/Action", "description": "Action run once the screen becomes visible (analytics, prefetch, etc.)." },
+        "onDisappear": { "$ref": "#/$defs/Action" },
+        "refresh": {
+          "type": "object",
+          "description": "Pull-to-refresh behaviour. If present, the renderer attaches a refresh control that re-runs the named data sources.",
+          "properties": {
+            "sources": { "type": "array", "items": { "type": "string" }, "description": "IDs of data sources to reload. Empty = reload all." }
+          },
+          "additionalProperties": false
+        },
+        "chrome": { "enum": ["standard", "immersive"], "description": "How the host frames the screen. 'immersive' = edge-to-edge, no nav bar, fixed theme (the screen draws its own background/chrome)." },
+        "teach": {
+          "type": "object",
+          "description": "An interactive-teaching coach prompt — a dismissible 'try this' card that onboards a newcomer with one concrete action and an instant result.",
+          "properties": {
+            "title": { "type": "string", "description": "What this screen demonstrates, in a few words." },
+            "task": { "type": "string", "description": "A micro-task the user can do right now for an immediate change." }
+          },
+          "required": ["title", "task"]
+        },
+        "scrollBehavior": { "$ref": "#/$defs/ScrollBehavior" },
+        "content": { "$ref": "#/$defs/Component" }
+      },
+      "additionalProperties": false
+    },
+
+    "ScrollBehavior": {
+      "type": "object",
+      "description": "Scroll-reactive header for the whole screen: a large title (derived from the screen 'title') that shrinks and pins as you scroll, cross-fading into the nav bar, plus optional pull-to-reveal search. Set once per screen; the engine gives every scroll the same Apple-grade behaviour.",
+      "properties": {
+        "largeTitle": { "type": "boolean", "description": "Show the collapsing large title. Default true; false = a plain inline title." },
+        "subtitle": { "$ref": "#/$defs/BindableString", "description": "Optional one-line subtitle under the large title." },
+        "minScale": { "type": "number", "minimum": 0.3, "maximum": 1, "description": "How small the title shrinks before handing off to the nav bar, as a fraction of full size. Default 0.62." },
+        "range": { "type": "number", "description": "Scroll distance (pt) over which the collapse completes. Default derived from the title height." },
+        "pinTitle": { "type": "boolean", "description": "Cross-fade a compact title into the nav bar after collapse. Default true." },
+        "revealOnPull": {
+          "type": "object",
+          "description": "Telegram-style search hidden above the title, revealed by pulling down at the top.",
+          "properties": {
+            "placeholder": { "type": "string", "description": "Search field placeholder." },
+            "bind": { "type": "string", "description": "A '$state.<key>' the query is written to, so content can filter live." },
+            "threshold": { "type": "number", "description": "Pull distance (pt) past the top that latches the field open. Default 52." }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Component": {
+      "type": "object",
+      "description": "A node in the view tree. The 'type' field is the discriminator. Unknown types beginning with 'custom.' are passed to the host app's component registry; all other unknown types are a validation error.",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string", "description": "Component discriminator, e.g. 'vstack', 'text', 'image', 'custom.map'." },
+        "id": { "type": "string", "description": "Optional stable id. Required for scroll-to targets and diffed list items." },
+        "modifiers": { "$ref": "#/$defs/Modifiers" },
+        "visibleWhen": { "$ref": "#/$defs/Condition", "description": "If present and false, the node (and subtree) is not rendered." }
+      },
+      "allOf": [
+        { "if": { "properties": { "type": { "const": "vstack" } } }, "then": { "$ref": "#/$defs/StackProps" } },
+        { "if": { "properties": { "type": { "const": "hstack" } } }, "then": { "$ref": "#/$defs/StackProps" } },
+        { "if": { "properties": { "type": { "const": "zstack" } } }, "then": { "$ref": "#/$defs/ZStackProps" } },
+        { "if": { "properties": { "type": { "const": "scroll" } } }, "then": { "$ref": "#/$defs/ScrollProps" } },
+        { "if": { "properties": { "type": { "const": "list" } } }, "then": { "$ref": "#/$defs/ListProps" } },
+        { "if": { "properties": { "type": { "const": "spacer" } } }, "then": { "$ref": "#/$defs/SpacerProps" } },
+        { "if": { "properties": { "type": { "const": "divider" } } }, "then": { "$ref": "#/$defs/DividerProps" } },
+        { "if": { "properties": { "type": { "const": "text" } } }, "then": { "$ref": "#/$defs/TextProps" } },
+        { "if": { "properties": { "type": { "const": "image" } } }, "then": { "$ref": "#/$defs/ImageProps" } },
+        { "if": { "properties": { "type": { "const": "button" } } }, "then": { "$ref": "#/$defs/ButtonProps" } },
+        { "if": { "properties": { "type": { "const": "grid" } } }, "then": { "$ref": "#/$defs/GridProps" } },
+        { "if": { "properties": { "type": { "const": "icon" } } }, "then": { "$ref": "#/$defs/IconProps" } },
+        { "if": { "properties": { "type": { "const": "textfield" } } }, "then": { "$ref": "#/$defs/TextFieldProps" } },
+        { "if": { "properties": { "type": { "const": "toggle" } } }, "then": { "$ref": "#/$defs/ToggleProps" } },
+        { "if": { "properties": { "type": { "const": "picker" } } }, "then": { "$ref": "#/$defs/PickerProps" } },
+        { "if": { "properties": { "type": { "const": "progress" } } }, "then": { "$ref": "#/$defs/ProgressProps" } },
+        { "if": { "properties": { "type": { "const": "chart" } } }, "then": { "$ref": "#/$defs/ChartProps" } },
+        { "if": { "properties": { "type": { "const": "gradient" } } }, "then": { "$ref": "#/$defs/GradientProps" } },
+        { "if": { "properties": { "type": { "const": "rings" } } }, "then": { "$ref": "#/$defs/RingsProps" } },
+        { "if": { "properties": { "type": { "const": "spinner" } } }, "then": { "$ref": "#/$defs/SpinnerProps" } },
+        { "if": { "properties": { "type": { "const": "async" } } }, "then": { "$ref": "#/$defs/AsyncProps" } },
+        { "if": { "properties": { "type": { "const": "slider" } } }, "then": { "$ref": "#/$defs/SliderProps" } },
+        { "if": { "properties": { "type": { "const": "roadmap" } } }, "then": { "$ref": "#/$defs/RoadmapProps" } },
+        { "if": { "properties": { "type": { "const": "disclosure" } } }, "then": { "$ref": "#/$defs/DisclosureProps" } },
+        { "if": { "properties": { "type": { "const": "ticker" } } }, "then": { "$ref": "#/$defs/TickerProps" } },
+        { "if": { "properties": { "type": { "const": "datepicker" } } }, "then": { "$ref": "#/$defs/DatePickerProps" } },
+        { "if": { "properties": { "type": { "const": "filecell" } } }, "then": { "$ref": "#/$defs/FileCellProps" } },
+        { "if": { "properties": { "type": { "const": "calendar" } } }, "then": { "$ref": "#/$defs/CalendarProps" } },
+        { "if": { "properties": { "type": { "const": "clips" } } }, "then": { "$ref": "#/$defs/ClipsProps" } }
+      ]
+    },
+
+    "DatePickerProps": {
+      "description": "A native date picker two-way bound to a $state key holding an ISO yyyy-MM-dd string. Each platform renders its own native calendar from the same contract.",
+      "properties": {
+        "bind": { "type": "string", "description": "State key holding the selected date (yyyy-MM-dd)." },
+        "style": { "enum": ["graphical", "compact"], "default": "graphical", "description": "Full month calendar or a compact field." },
+        "color": { "$ref": "#/$defs/Color", "description": "Accent tint." }
+      },
+      "required": ["bind"]
+    },
+
+    "CalendarProps": {
+      "description": "A custom month-grid calendar. The same node does single-day, contiguous range, or multi-day selection via the bindable `mode`. All dates are ISO yyyy-MM-dd strings in $state; range uses two keys, multi uses one comma-separated key. Maps 1:1 to Compose/Aurora (pure layout + state maths).",
+      "properties": {
+        "mode": { "$ref": "#/$defs/BindableString", "description": "'single' | 'range' | 'multi'. Bindable so chips can switch it live." },
+        "bind": { "type": "string", "description": "State key for the single-day selection (yyyy-MM-dd)." },
+        "startBind": { "type": "string", "description": "Range start state key (yyyy-MM-dd, may be empty)." },
+        "endBind": { "type": "string", "description": "Range end state key (yyyy-MM-dd, may be empty)." },
+        "multiBind": { "type": "string", "description": "Multi-select state key: comma-separated yyyy-MM-dd list." },
+        "weekStart": { "$ref": "#/$defs/BindableString", "description": "'sunday' (default) or 'monday'." },
+        "color": { "$ref": "#/$defs/Color", "description": "Accent tint." }
+      },
+      "required": ["mode"]
+    },
+
+    "ClipsProps": {
+      "description": "A full-screen vertical snap-pager — an Instagram Reels / TikTok feed. Swipe up/down to page, double-tap to like. Each page carries its own media, caption and action-rail counts. Maps to a Compose VerticalPager / Aurora scroll-snap container.",
+      "properties": {
+        "pages": {
+          "type": "array",
+          "description": "The feed. Each page is one full-screen clip.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "colors": { "type": "array", "items": { "$ref": "#/$defs/Color" }, "description": "Gradient stops for the media backdrop (stand-in for a video/photo URL)." },
+              "author": { "type": "string", "description": "Creator handle." },
+              "caption": { "type": "string", "description": "Caption (truncated to two lines)." },
+              "audio": { "type": "string", "description": "Audio track label." },
+              "likes": { "type": "string", "description": "Like count label, e.g. '12.4K'." },
+              "comments": { "type": "string", "description": "Comment count label." },
+              "shares": { "type": "string", "description": "Share count label." }
+            }
+          }
+        }
+      },
+      "required": ["pages"]
+    },
+
+    "FileCellProps": {
+      "description": "A document/upload cell: pick a file from the system Files app, then show its format, icon and size. Handles empty / success / error (over max size) states.",
+      "properties": {
+        "title": { "type": "string", "description": "Empty-state label (default 'Choose a file')." },
+        "maxSizeKB": { "type": "number", "description": "Reject files larger than this and show an inline error." },
+        "color": { "$ref": "#/$defs/Color", "description": "Accent tint." }
+      }
+    },
+
+    "TickerProps": {
+      "description": "An invisible clock that advances a numeric $state value on an interval (a playing progress bar, stopwatch, live counter). Writes through the same two-way binding a slider reads.",
+      "properties": {
+        "bind": { "type": "string", "description": "State key it advances." },
+        "interval": { "type": "number", "description": "Seconds between ticks (default 1)." },
+        "step": { "type": "number", "description": "Amount added each tick (default 0.01)." },
+        "max": { "type": "number", "description": "Upper bound (default 1)." },
+        "loop": { "type": "boolean", "description": "Reset to 0 when it reaches max (default false)." },
+        "while": { "type": "string", "description": "Bool state key — ticks only while true." }
+      },
+      "required": ["bind"]
+    },
+
+    "DisclosureProps": {
+      "description": "A collapsible section: a tappable header (title, optional subtitle and icon) that reveals or hides its children with a spring. Self-contained — no state binding needed. Its `children` render only while open.",
+      "properties": {
+        "title": { "$ref": "#/$defs/BindableString", "description": "Header label." },
+        "subtitle": { "$ref": "#/$defs/BindableString", "description": "Secondary header line." },
+        "icon": { "type": "string", "description": "Optional leading SF Symbol name." },
+        "accent": { "$ref": "#/$defs/Color", "description": "Chevron / icon tint." },
+        "expanded": { "type": "boolean", "description": "Whether it starts open (default false)." }
+      },
+      "required": ["title"]
+    },
+
+    "RoadmapProps": {
+      "description": "A numbered vertical roadmap / timeline; steps with a detail expand like sections on tap.",
+      "properties": {
+        "accent": { "$ref": "#/$defs/Color", "description": "Node colour." },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "$ref": "#/$defs/BindableString" },
+              "detail": { "$ref": "#/$defs/BindableString", "description": "Disclosed on tap." },
+              "done": { "type": "boolean", "description": "Marks the node complete (a check)." }
+            },
+            "required": ["title"]
+          }
+        }
+      },
+      "required": ["steps"]
+    },
+
+    "SliderProps": {
+      "description": "A draggable continuous control (0…1), two-way bound to screen state.",
+      "properties": {
+        "bind": { "type": "string", "description": "State key it reads and writes (0…1)." },
+        "color": { "$ref": "#/$defs/Color" },
+        "height": { "type": "number", "description": "Track thickness in points." },
+        "thumb": { "type": "boolean", "description": "Show the draggable thumb (default true)." }
+      },
+      "required": ["bind"]
+    },
+
+    "SpinnerProps": {
+      "properties": {
+        "color": { "$ref": "#/$defs/Color", "description": "Tint of the indicator." },
+        "scale": { "type": "number", "description": "Size multiplier (1 = default)." }
+      }
+    },
+
+    "AsyncProps": {
+      "description": "Fetch-then-render container: loads one data source, showing a loading slot while in flight, then the content slot with the response bound as $data.<source.id> (or the error slot on failure).",
+      "properties": {
+        "source": { "$ref": "#/$defs/DataSource", "description": "The data source to load. Its id becomes the $data key inside content." },
+        "loading": { "$ref": "#/$defs/Component", "description": "Shown while fetching. Defaults to a centred spinner." },
+        "content": { "$ref": "#/$defs/Component", "description": "Shown on success; binds to $data.<source.id>." },
+        "error": { "$ref": "#/$defs/Component", "description": "Shown on failure. Defaults to a recoverable message." }
+      },
+      "required": ["source", "content"]
+    },
+
+    "ChartProps": {
+      "properties": {
+        "style": { "enum": ["line", "area", "bar"], "description": "Series style. Rendered natively (Swift Charts on iOS)." },
+        "color": { "type": "string", "description": "Series color: hex or '$token.color.*'." },
+        "values": { "type": "array", "items": { "type": "number" }, "description": "Y values plotted against their index. Use this OR 'points'." },
+        "points": { "type": "array", "items": { "type": "object", "properties": { "x": { "type": "number" }, "y": { "type": "number" } }, "required": ["x", "y"] }, "description": "Explicit {x,y} samples." }
+      }
+    },
+
+    "GradientProps": {
+      "properties": {
+        "colors": { "type": "array", "items": { "type": "string" }, "description": "Two or more stops: hex or '$token.color.*'." },
+        "direction": { "enum": ["vertical", "horizontal", "diagonal"], "description": "Gradient axis. Defaults to vertical." }
+      },
+      "required": ["colors"]
+    },
+
+    "RingsProps": {
+      "properties": {
+        "values": { "type": "array", "items": { "type": "number", "minimum": 0, "maximum": 1 }, "description": "Progress per ring, 0…1, outermost first (Apple Fitness idiom)." },
+        "colors": { "type": "array", "items": { "type": "string" }, "description": "Color per ring: hex or '$token.color.*'." },
+        "lineWidth": { "type": "number", "description": "Ring thickness in points. Default 16." },
+        "gap": { "type": "number", "description": "Space between rings in points. Default 6." }
+      },
+      "required": ["values", "colors"]
+    },
+
+    "StackProps": {
+      "properties": {
+        "spacing": { "$ref": "#/$defs/Dimension", "description": "Gap between children. Token ref like '$token.spacing.md' or a number in points." },
+        "alignment": { "enum": ["leading", "center", "trailing", "top", "bottom", "firstTextBaseline", "lastTextBaseline"], "description": "Cross-axis alignment. Baseline options align text of mixed sizes (e.g. a big number next to a small unit)." },
+        "lazy": { "type": "boolean", "default": true, "description": "When this stack is the immediate child of a same-axis 'scroll', its rows render lazily (on demand) for smooth scrolling on long content — the default. Set false to force eager rendering (build all rows up front)." },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/Component" } }
+      },
+      "required": ["children"]
+    },
+    "ZStackProps": {
+      "properties": {
+        "alignment": { "enum": ["topLeading","top","topTrailing","leading","center","trailing","bottomLeading","bottom","bottomTrailing"] },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/Component" } }
+      },
+      "required": ["children"]
+    },
+    "ScrollProps": {
+      "properties": {
+        "collapsingHeader": {
+          "type": "object",
+          "description": "Apple-Weather-style collapsing hero: 'expanded' fades/shrinks as you scroll over 'range' points while 'compact' pins to the top on a material bar.",
+          "properties": {
+            "expanded": { "$ref": "#/$defs/Component" },
+            "compact": { "$ref": "#/$defs/Component" },
+            "range": { "type": "number", "description": "Scroll distance (points) over which the collapse completes. Default 150." }
+          },
+          "required": ["expanded"]
+        },
+        "axis": { "enum": ["vertical", "horizontal"], "default": "vertical" },
+        "showsIndicators": { "type": "boolean", "default": true },
+        "onReachEnd": { "$ref": "#/$defs/Action", "description": "Fired when the user scrolls near the end — used to drive pagination." },
+        "child": { "$ref": "#/$defs/Component" }
+      },
+      "required": ["child"]
+    },
+    "ListProps": {
+      "description": "Lazy, virtualised list. Either provide static 'children', or bind 'items' to an array and provide an item 'template'.",
+      "properties": {
+        "items": { "$ref": "#/$defs/BindableString", "description": "Binding to a data array, e.g. '$data.feed.items'. Each element is exposed as '$item' inside the template." },
+        "template": { "$ref": "#/$defs/Component", "description": "Rendered once per element of 'items'." },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/Component" } },
+        "empty": { "$ref": "#/$defs/Component", "description": "Rendered instead of any rows when the filtered result is empty — the no-results state (SF Symbol + message + a clear-filters button). Shown live as search/filters narrow to nothing." },
+        "resultCount": { "type": "string", "description": "A '$state.<key>' the filtered-total (before pagination) is mirrored into, so the contract can show a live count ('128 people') and drive the empty state. Written whenever the count changes." },
+        "filter": {
+          "type": "object",
+          "description": "Live filtering. A text 'query' over 'fields', an exact 'equals' category match, and a numeric 'min'/'max' range — every value bindable to $state so a search box, chips and range inputs narrow the same list without a round-trip.",
+          "properties": {
+            "query": { "$ref": "#/$defs/BindableString", "description": "Search text (usually a $state binding)." },
+            "fields": { "type": "array", "items": { "type": "string" }, "description": "Item fields the query matches against (case-insensitive contains)." },
+            "equals": { "type": "object", "properties": { "field": { "type": "string" }, "value": { "$ref": "#/$defs/BindableString" } }, "description": "Keep only items whose 'field' equals 'value'. A value of '' or 'all' matches everything." },
+            "min": { "type": "object", "properties": { "field": { "type": "string" }, "value": { "$ref": "#/$defs/BindableString" } }, "description": "Keep only items whose numeric 'field' is >= 'value' (ignored when 0/empty)." },
+            "max": { "type": "object", "properties": { "field": { "type": "string" }, "value": { "$ref": "#/$defs/BindableString" } }, "description": "Keep only items whose numeric 'field' is <= 'value' (ignored when 0/empty)." }
+          }
+        },
+        "sort": {
+          "type": "object",
+          "description": "Sort the (filtered) items by a field, numeric when both sides parse else lexical.",
+          "properties": {
+            "by": { "$ref": "#/$defs/BindableString", "description": "Item field to sort on (bindable to $state so a control can switch it)." },
+            "order": { "$ref": "#/$defs/BindableString", "description": "'asc' or 'desc' (bindable)." }
+          }
+        },
+        "spacing": { "$ref": "#/$defs/Dimension" },
+        "limit": { "$ref": "#/$defs/BindableString", "description": "Show only the first N rows. A literal number or a $state.<key> binding — pair with pagination to grow the cursor and reveal more." },
+        "reorder": { "type": "boolean", "description": "When true and 'items' binds to a $state.<key> array, rows can be dragged to reorder; the new order is written back to that state key.", "default": false },
+        "paginateOnScroll": { "type": "boolean", "description": "Infinite scroll: reaching the last row auto-loads the next page (shows a shimmer footer, waits 'loadDelay', then fires 'onReachEnd' — or, if none, increments the $state key behind 'limit' by 6). Defaults to true whenever 'limit' binds to $state; set false to keep a manual load-more control." },
+        "loadDelay": { "type": "number", "description": "Seconds the shimmer footer lingers before the next page appears, so the load reads as real work rather than an instant jump. Default 0.6.", "default": 0.6 },
+        "onReachEnd": { "$ref": "#/$defs/Action", "description": "Pagination hook fired when the last row appears. With paginateOnScroll it runs after the shimmer delay; without it, it fires immediately." }
+      }
+    },
+    "SpacerProps": {
+      "properties": { "minLength": { "$ref": "#/$defs/Dimension" } }
+    },
+    "DividerProps": {
+      "properties": { "color": { "$ref": "#/$defs/Color" } }
+    },
+    "TextProps": {
+      "properties": {
+        "value": { "$ref": "#/$defs/BindableString", "description": "Text content. May be literal or a binding like '$data.user.name'." },
+        "style": { "$ref": "#/$defs/BindableString", "description": "Typography token ref, e.g. '$token.typography.title2'." },
+        "color": { "$ref": "#/$defs/Color" },
+        "lineLimit": { "type": "integer", "minimum": 1 },
+        "alignment": { "enum": ["leading", "center", "trailing"] }
+      },
+      "required": ["value"]
+    },
+    "ImageProps": {
+      "properties": {
+        "source": { "$ref": "#/$defs/BindableString", "description": "Remote URL binding or a bundled asset name prefixed with 'asset:'." },
+        "loader": {
+          "type": "object",
+          "description": "Async loading behaviour for remote images.",
+          "properties": {
+            "placeholder": { "enum": ["skeleton", "spinner", "none"], "default": "skeleton" },
+            "aspectRatio": { "type": "number", "exclusiveMinimum": 0, "description": "width / height; reserves layout space so the list does not jump while loading." },
+            "contentMode": { "enum": ["fit", "fill"], "default": "fill" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["source"]
+    },
+    "ButtonProps": {
+      "properties": {
+        "title": { "$ref": "#/$defs/BindableString" },
+        "style": { "$ref": "#/$defs/BindableString", "description": "Button style token, e.g. '$token.button.primary'." },
+        "icon": { "$ref": "#/$defs/BindableString", "description": "SF Symbol / shared icon name." },
+        "enabledWhen": { "$ref": "#/$defs/Condition" },
+        "onTap": { "$ref": "#/$defs/Action" }
+      },
+      "required": ["onTap"]
+    },
+    "GridProps": {
+      "description": "Lazy grid. Provide static 'children', or bind 'items' to an array and supply a 'template'.",
+      "properties": {
+        "columns": { "type": "integer", "minimum": 1, "default": 2 },
+        "spacing": { "$ref": "#/$defs/Dimension" },
+        "items": { "$ref": "#/$defs/BindableString" },
+        "template": { "$ref": "#/$defs/Component" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/Component" } }
+      }
+    },
+    "IconProps": {
+      "properties": {
+        "name": { "$ref": "#/$defs/BindableString", "description": "SF Symbol / shared icon name." },
+        "color": { "$ref": "#/$defs/Color" },
+        "size": { "type": "number", "description": "Point size of the symbol. Defaults to the surrounding text size." }
+      },
+      "required": ["name"]
+    },
+    "TextFieldProps": {
+      "description": "Single-line text input, two-way bound to screen state.",
+      "properties": {
+        "bind": { "type": "string", "description": "State key to read/write, e.g. 'email' or '$state.email'." },
+        "placeholder": { "$ref": "#/$defs/BindableString" },
+        "secure": { "type": "boolean", "description": "Mask input (passwords)." },
+        "keyboardType": { "enum": ["default", "email", "number", "decimal", "phone", "url", "numbersAndPunctuation"], "description": "Which keyboard to present." },
+        "textContentType": { "enum": ["email", "password", "newPassword", "name", "username", "oneTimeCode", "telephone"], "description": "Semantic hint for autofill / suggestions." },
+        "label": { "$ref": "#/$defs/BindableString", "description": "Caption shown above the field." },
+        "helper": { "$ref": "#/$defs/BindableString", "description": "Helper / validation text shown below the field; coloured by status." },
+        "icon": { "type": "string", "description": "Leading glyph name (SF Symbol on iOS; mapped per platform)." },
+        "status": { "enum": ["error", "success", "disabled"], "description": "Explicit visual state. Absent = a normal focus-aware field. 'error'/'success' tint the border, helper and a trailing glyph; 'disabled' dims and blocks editing." }
+      },
+      "required": ["bind"]
+    },
+    "ToggleProps": {
+      "properties": {
+        "bind": { "type": "string", "description": "Boolean state key to read/write." },
+        "title": { "$ref": "#/$defs/BindableString" }
+      },
+      "required": ["bind"]
+    },
+    "ProgressProps": {
+      "description": "Linear progress. Provide 'value' (0..1, may be a binding) for a determinate bar, or omit for an indeterminate spinner.",
+      "properties": {
+        "value": { "oneOf": [ { "type": "number" }, { "type": "string" } ] },
+        "color": { "$ref": "#/$defs/Color" }
+      }
+    },
+    "PickerProps": {
+      "properties": {
+        "bind": { "type": "string", "description": "State key holding the selected option value." },
+        "style": { "enum": ["menu", "segmented", "wheel", "inline"], "default": "menu" },
+        "title": { "$ref": "#/$defs/BindableString" },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": { "$ref": "#/$defs/BindableString" },
+              "value": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": ["bind", "options"]
+    },
+
+    "Modifiers": {
+      "type": "object",
+      "description": "Platform-neutral visual modifiers applied to any component. Renderers translate each key to native equivalents.",
+      "properties": {
+        "padding": { "$ref": "#/$defs/EdgeInsets" },
+        "background": { "$ref": "#/$defs/Color" },
+        "material": { "enum": ["glass", "regular"], "description": "Translucent material behind the node (visionOS-style frosted glass). Renders natively on iOS/Android/Aurora." },
+        "cornerRadius": { "$ref": "#/$defs/Dimension" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "scale": { "oneOf": [ { "type": "number" }, { "type": "string" } ], "description": "Uniform scale — a number or a $state binding. Pair with animation for a spring scale on state change." },
+        "ignoresSafeArea": { "type": "boolean", "description": "Extend this node under the safe area (edge-to-edge) — for immersive backgrounds." },
+        "frame": {
+          "type": "object",
+          "properties": {
+            "width": { "$ref": "#/$defs/Dimension" },
+            "height": { "$ref": "#/$defs/Dimension" },
+            "maxWidth": { "oneOf": [ { "$ref": "#/$defs/Dimension" }, { "const": "infinity" } ] }
+          },
+          "additionalProperties": false
+        },
+        "size": {
+          "type": "object",
+          "description": "Explicit, platform-neutral sizing per axis. Prefer this over 'frame' — it lays out identically on iOS and Android instead of relying on platform defaults.",
+          "properties": {
+            "width": { "$ref": "#/$defs/AxisSize" },
+            "height": { "$ref": "#/$defs/AxisSize" }
+          },
+          "additionalProperties": false
+        },
+        "accessibility": {
+          "type": "object",
+          "description": "Accessibility metadata. Explicit because a control read as a button by VoiceOver is not automatically labelled for TalkBack.",
+          "properties": {
+            "label": { "$ref": "#/$defs/BindableString" },
+            "value": { "$ref": "#/$defs/BindableString" },
+            "hint": { "$ref": "#/$defs/BindableString" },
+            "role": { "enum": ["button", "image", "header", "link", "none"] },
+            "hidden": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        "shadow": {
+          "type": "object",
+          "properties": {
+            "color": { "$ref": "#/$defs/Color" },
+            "radius": { "$ref": "#/$defs/Dimension" },
+            "x": { "type": "number" },
+            "y": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "onTap": { "$ref": "#/$defs/Action", "description": "Tap gesture on the whole component." },
+        "onLongPress": { "$ref": "#/$defs/Action", "description": "Long-press gesture; commonly opens a context menu." },
+        "contextMenu": {
+          "type": "array",
+          "description": "Menu items shown on long-press.",
+          "items": {
+            "type": "object",
+            "required": ["title", "action"],
+            "properties": {
+              "title": { "$ref": "#/$defs/BindableString" },
+              "icon": { "type": "string" },
+              "role": { "enum": ["default", "destructive"], "default": "default" },
+              "action": { "$ref": "#/$defs/Action" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "swipe": {
+          "type": "object",
+          "description": "Swipe-to-reveal actions. 'leading' reveals on a left-to-right swipe, 'trailing' on a right-to-left swipe.",
+          "properties": {
+            "leading": { "type": "array", "items": { "$ref": "#/$defs/SwipeAction" } },
+            "trailing": { "type": "array", "items": { "$ref": "#/$defs/SwipeAction" } }
+          },
+          "additionalProperties": false
+        },
+        "animation": {
+          "type": "object",
+          "description": "Animation applied when this node's inputs change.",
+          "properties": {
+            "curve": { "enum": ["linear", "easeIn", "easeOut", "easeInOut", "spring"], "default": "easeInOut" },
+            "duration": { "type": "number", "exclusiveMinimum": 0, "default": 0.25 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "DataConfig": {
+      "type": "object",
+      "description": "Declarative networking. Sources are fetched by the runtime and exposed under '$data.<id>'. Execution mode controls parallelism so both platforms behave identically.",
+      "properties": {
+        "mode": {
+          "enum": ["parallel", "sequential"],
+          "default": "parallel",
+          "description": "'parallel' fetches all sources concurrently (async let / TaskGroup on iOS, coroutine async on Android). 'sequential' awaits them in order — use when one request depends on another."
+        },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/DataSource" } }
+      },
+      "required": ["sources"],
+      "additionalProperties": false
+    },
+    "DataSource": {
+      "type": "object",
+      "description": "A single network request described declaratively. The host app maps 'service' to a base URL / auth, so payloads never hardcode hostnames.",
+      "required": ["id", "service", "path"],
+      "properties": {
+        "id": { "type": "string", "description": "Referenced as '$data.<id>'.", "pattern": "^[a-z][a-zA-Z0-9_]*$" },
+        "service": { "type": "string", "description": "Logical service name resolved by the host to a base URL + auth, e.g. 'catalog'." },
+        "path": { "$ref": "#/$defs/BindableString", "description": "Path template; '{param}' segments are filled from 'params' or bindings." },
+        "method": { "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"], "default": "GET" },
+        "query": { "type": "object", "additionalProperties": { "$ref": "#/$defs/BindableString" }, "description": "Query items; values may be bindings." },
+        "body": { "description": "Request body for write methods. Object values may contain bindings." },
+        "headers": { "type": "object", "additionalProperties": { "$ref": "#/$defs/BindableString" } },
+        "dependsOn": { "type": "array", "items": { "type": "string" }, "description": "IDs that must resolve first; forces ordering even in parallel mode." },
+        "policy": { "enum": ["networkOnly", "cacheFirst", "cacheThenNetwork"], "default": "networkOnly", "description": "Caching strategy." }
+      },
+      "additionalProperties": false
+    },
+
+    "Action": {
+      "type": "object",
+      "description": "A declarative action triggered by an event. Actions compose: 'sequence' and 'parallel' wrap child actions. This is a closed vocabulary so both platforms interpret it identically.",
+      "required": ["action"],
+      "properties": {
+        "action": {
+          "enum": [
+            "navigate", "dismiss", "dismissRoot", "openURL", "openDeepLink",
+            "setState", "refresh", "request", "sequence", "parallel", "condition",
+            "delay", "showToast", "scrollTo", "haptic", "share", "saveFile", "log", "analytics", "custom"
+          ],
+          "description": "Action kind. See spec/docs/actions.md for the full field set of each."
+        },
+        "analytics": { "$ref": "#/$defs/AnalyticsTag", "description": "Optional analytics event emitted when this action fires." }
+      },
+      "allOf": [
+        { "if": { "properties": { "action": { "const": "navigate" } } }, "then": {
+          "properties": {
+            "to": { "type": "string", "description": "Target screen id or a route path." },
+            "params": { "type": "object", "additionalProperties": { "$ref": "#/$defs/BindableString" } },
+            "transition": { "enum": ["push", "sheet", "fullScreenCover", "replace"], "default": "push" }
+          }, "required": ["to"] } },
+        { "if": { "properties": { "action": { "const": "openURL" } } }, "then": {
+          "properties": { "url": { "$ref": "#/$defs/BindableString" } }, "required": ["url"] } },
+        { "if": { "properties": { "action": { "const": "setState" } } }, "then": {
+          "properties": { "key": { "type": "string" }, "value": {} }, "required": ["key"] } },
+        { "if": { "properties": { "action": { "const": "request" } } }, "then": {
+          "properties": { "source": { "$ref": "#/$defs/DataSource" }, "onSuccess": { "$ref": "#/$defs/Action" }, "onError": { "$ref": "#/$defs/Action" } }, "required": ["source"] } },
+        { "if": { "properties": { "action": { "const": "sequence" } } }, "then": {
+          "properties": { "actions": { "type": "array", "items": { "$ref": "#/$defs/Action" } } }, "required": ["actions"] } },
+        { "if": { "properties": { "action": { "const": "parallel" } } }, "then": {
+          "properties": { "actions": { "type": "array", "items": { "$ref": "#/$defs/Action" } } }, "required": ["actions"] } },
+        { "if": { "properties": { "action": { "const": "condition" } } }, "then": {
+          "properties": { "if": { "$ref": "#/$defs/Condition" }, "then": { "$ref": "#/$defs/Action" }, "else": { "$ref": "#/$defs/Action" } }, "required": ["if", "then"] } },
+        { "if": { "properties": { "action": { "const": "showToast" } } }, "then": {
+          "properties": { "message": { "$ref": "#/$defs/BindableString" }, "style": { "enum": ["info", "success", "error"] } }, "required": ["message"] } },
+        { "if": { "properties": { "action": { "const": "haptic" } } }, "then": {
+          "properties": { "style": { "enum": ["light", "medium", "heavy", "success", "warning", "error"] } } } },
+        { "if": { "properties": { "action": { "const": "share" } } }, "then": {
+          "properties": { "text": { "$ref": "#/$defs/BindableString" }, "url": { "$ref": "#/$defs/BindableString" } } } },
+        { "if": { "properties": { "action": { "const": "custom" } } }, "then": {
+          "properties": { "name": { "type": "string" }, "payload": {} }, "required": ["name"] } }
+      ]
+    },
+
+    "Condition": {
+      "type": "object",
+      "description": "Boolean expression over bindings. Exactly one operator key is expected.",
+      "properties": {
+        "equals": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/BindableString" } },
+        "notEquals": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/BindableString" } },
+        "exists": { "$ref": "#/$defs/BindableString" },
+        "not": { "$ref": "#/$defs/Condition" },
+        "and": { "type": "array", "items": { "$ref": "#/$defs/Condition" } },
+        "or": { "type": "array", "items": { "$ref": "#/$defs/Condition" } }
+      },
+      "additionalProperties": false
+    },
+
+    "AnalyticsTag": {
+      "type": "object",
+      "properties": {
+        "event": { "type": "string" },
+        "screenName": { "type": "string" },
+        "params": { "type": "object", "additionalProperties": { "$ref": "#/$defs/BindableString" } }
+      },
+      "additionalProperties": false
+    },
+
+    "BindableString": {
+      "type": "string",
+      "description": "A string that is either a literal, or a binding expression starting with '$'. Namespaces: $data.<source>.<path>, $token.<group>.<name>, $env.<key> (locale, theme, platform...), $state.<key>, $params.<key> (navigation parameters passed to this screen), $item.<path> (inside list templates). Interpolation is allowed: 'Hello, $data.user.name'."
+    },
+    "AxisSize": {
+      "type": "object",
+      "description": "Sizing along one axis. 'fixed' = exact points (needs 'value'); 'hug' = size to content; 'fill' = take all available space; 'weight' = share available space proportionally (needs 'value').",
+      "required": ["mode"],
+      "properties": {
+        "mode": { "enum": ["fixed", "hug", "fill", "weight"] },
+        "value": { "type": "number" },
+        "min": { "type": "number" },
+        "max": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "SwipeAction": {
+      "type": "object",
+      "required": ["action"],
+      "properties": {
+        "title": { "$ref": "#/$defs/BindableString" },
+        "icon": { "type": "string", "description": "SF Symbol / shared icon name." },
+        "role": { "enum": ["default", "destructive"], "default": "default" },
+        "tint": { "$ref": "#/$defs/Color", "description": "Button colour; defaults by role (destructive = red)." },
+        "action": { "$ref": "#/$defs/Action" }
+      },
+      "additionalProperties": false
+    },
+    "Dimension": {
+      "description": "A length in points (number) or a spacing/size token ref (string like '$token.spacing.md').",
+      "oneOf": [ { "type": "number" }, { "type": "string" } ]
+    },
+    "Color": {
+      "description": "A design token ref ('$token.color.primary'), a hex string ('#RRGGBB' / '#RRGGBBAA'), or a binding.",
+      "type": "string"
+    },
+    "EdgeInsets": {
+      "description": "Either a single value applied to all edges, or per-edge values.",
+      "oneOf": [
+        { "$ref": "#/$defs/Dimension" },
+        {
+          "type": "object",
+          "properties": {
+            "top": { "$ref": "#/$defs/Dimension" },
+            "leading": { "$ref": "#/$defs/Dimension" },
+            "bottom": { "$ref": "#/$defs/Dimension" },
+            "trailing": { "$ref": "#/$defs/Dimension" },
+            "horizontal": { "$ref": "#/$defs/Dimension" },
+            "vertical": { "$ref": "#/$defs/Dimension" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

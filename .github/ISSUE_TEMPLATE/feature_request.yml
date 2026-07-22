@@ -1,0 +1,24 @@
+name: Feature request
+description: Propose a new component, action, or contract capability.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: The screen or interaction you can't express today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed contract shape
+      description: How would this look in JSON? Sketch the fields.
+      render: json
+  - type: checkboxes
+    id: cross-platform
+    attributes:
+      label: Cross-platform
+      options:
+        - label: This can be expressed neutrally and implemented on both iOS and Android.
+          required: true

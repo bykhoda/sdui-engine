@@ -1,0 +1,65 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "feed",
+    "title": "Лента",
+    "analytics": { "screenName": "feed.home" },
+    "state": { "page": 1 },
+    "data": {
+      "mode": "parallel",
+      "sources": [
+        {
+          "id": "feed",
+          "service": "content",
+          "path": "/feed",
+          "method": "GET",
+          "query": { "page": "$state.page", "lang": "$env.locale" },
+          "policy": "cacheThenNetwork"
+        }
+      ]
+    },
+    "refresh": { "sources": ["feed"] },
+    "content": {
+      "type": "list",
+      "items": "$data.feed.items",
+      "spacing": "$token.spacing.md",
+      "onReachEnd": {
+        "action": "sequence",
+        "actions": [
+          { "action": "setState", "key": "page", "value": "$state.page" },
+          { "action": "refresh", "sources": ["feed"] }
+        ]
+      },
+      "template": {
+        "type": "vstack",
+        "alignment": "leading",
+        "spacing": "$token.spacing.sm",
+        "modifiers": {
+          "padding": "$token.spacing.md",
+          "background": "$token.color.surface",
+          "cornerRadius": "$token.radius.md",
+          "onTap": {
+            "action": "navigate",
+            "to": "product_detail",
+            "params": { "productId": "$item.id" },
+            "transition": "push"
+          },
+          "contextMenu": [
+            { "title": "Поделиться", "icon": "square.and.arrow.up", "action": { "action": "share", "url": "$item.shareUrl" } },
+            { "title": "Скрыть", "icon": "eye.slash", "role": "destructive", "action": { "action": "custom", "name": "hideItem", "payload": { "id": "$item.id" } } }
+          ]
+        },
+        "children": [
+          {
+            "type": "image",
+            "source": "$item.cover",
+            "loader": { "placeholder": "skeleton", "aspectRatio": 1.78 },
+            "modifiers": { "cornerRadius": "$token.radius.sm" }
+          },
+          { "type": "text", "value": "$item.title", "style": "$token.typography.headline", "lineLimit": 2 },
+          { "type": "text", "value": "$item.subtitle", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "lineLimit": 1 }
+        ]
+      }
+    }
+  }
+}

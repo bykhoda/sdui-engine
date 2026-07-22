@@ -1,0 +1,649 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "cart",
+    "teach": {
+      "title": "Cart",
+      "task": "Tap the trash on the cable to remove it — watch the total update instantly."
+    },
+    "state": {
+      "cableRemoved": false,
+      "promo": false,
+      "giftWrap": false
+    },
+    "content": {
+      "type": "vstack",
+      "spacing": 0,
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "children": [
+      {
+      "type": "scroll",
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          },
+          "animation": {
+            "curve": "spring"
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "children": [
+              {
+                "type": "text",
+                "value": "MARKETPLACE",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": "Your Bag",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "2 items · ships to Alex",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.cableRemoved",
+                    "false"
+                  ]
+                }
+              },
+              {
+                "type": "text",
+                "value": "1 item · ships to Alex",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.cableRemoved",
+                    "true"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "visibleWhen": {
+              "equals": [
+                "$state.cableRemoved",
+                "false"
+              ]
+            },
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.successSoft",
+              "cornerRadius": "$token.radius.md"
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "shippingbox.fill",
+                "color": "$token.color.success",
+                "size": 16
+              },
+              {
+                "type": "text",
+                "value": "You've unlocked free shipping",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.success"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "visibleWhen": {
+              "equals": [
+                "$state.cableRemoved",
+                "true"
+              ]
+            },
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.warningSoft",
+              "cornerRadius": "$token.radius.md"
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "shippingbox",
+                "color": "$token.color.warning",
+                "size": 16
+              },
+              {
+                "type": "text",
+                "value": "Add $1.00 more for free shipping",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.warning"
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "spacing": 0,
+            "alignment": "leading",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#00000010"
+              }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "padding": "$token.spacing.md"
+                },
+                "children": [
+                  {
+                    "type": "zstack",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 64
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 64
+                        }
+                      },
+                      "cornerRadius": "$token.radius.md"
+                    },
+                    "children": [
+                      {
+                        "type": "gradient",
+                        "colors": [
+                          "#3B3B4F",
+                          "#17171F"
+                        ],
+                        "direction": "diagonal",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fill"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "headphones",
+                        "color": "#FFFFFF",
+                        "size": 26
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Studio Headphones",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Midnight · Wireless",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Qty 1",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textTertiary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$199.00",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.cableRemoved",
+                    "false"
+                  ]
+                }
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.cableRemoved",
+                    "false"
+                  ]
+                },
+                "modifiers": {
+                  "padding": "$token.spacing.md"
+                },
+                "children": [
+                  {
+                    "type": "zstack",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 64
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 64
+                        }
+                      },
+                      "cornerRadius": "$token.radius.md"
+                    },
+                    "children": [
+                      {
+                        "type": "gradient",
+                        "colors": [
+                          "#E8E8F0",
+                          "#CFCFDD"
+                        ],
+                        "direction": "diagonal",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fill"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "cable.connector",
+                        "color": "#3B3B4F",
+                        "size": 26
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "USB-C Cable, 2 m",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Braided · White",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Qty 2",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textTertiary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.md",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "$38.00",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "trash",
+                        "color": "$token.color.textTertiary",
+                        "size": 18,
+                        "modifiers": {
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "setState",
+                                "key": "cableRemoved",
+                                "value": true
+                              },
+                              {
+                                "action": "haptic",
+                                "style": "medium"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Removed from bag"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "spacing": "$token.spacing.md",
+            "alignment": "leading",
+            "modifiers": {
+              "size": { "width": { "mode": "fill" } },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.lg",
+              "animation": { "curve": "spring" }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.sm",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "children": [
+                  { "type": "icon", "name": "tag.fill", "color": "$token.color.textTertiary", "size": 16 },
+                  { "type": "vstack", "alignment": "leading", "spacing": 1, "children": [
+                    { "type": "text", "value": "Promo code", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+                    { "type": "text", "value": "WELCOME10 · save $20", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "lineLimit": 1 }
+                  ] },
+                  { "type": "spacer" },
+                  {
+                    "type": "text", "value": "Apply", "style": "$token.typography.subheadline", "color": "$token.color.primary", "lineLimit": 1,
+                    "visibleWhen": { "equals": ["$state.promo", "false"] },
+                    "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primarySoft", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "promo", "value": true }, { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Promo applied · -$20", "style": "success" } ] } }
+                  },
+                  {
+                    "type": "hstack", "alignment": "center", "spacing": 4,
+                    "visibleWhen": { "equals": ["$state.promo", "true"] },
+                    "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "promo", "value": false }, { "action": "haptic", "style": "light" } ] } },
+                    "children": [
+                      { "type": "icon", "name": "checkmark", "color": "$token.color.onPrimary", "size": 12 },
+                      { "type": "text", "value": "WELCOME10", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "lineLimit": 1 }
+                    ]
+                  }
+                ]
+              },
+              { "type": "divider", "color": "$token.color.separator" },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.sm",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "children": [
+                  { "type": "icon", "name": "gift.fill", "color": "$token.color.textTertiary", "size": 16 },
+                  { "type": "vstack", "alignment": "leading", "spacing": 1, "children": [
+                    { "type": "text", "value": "Gift wrap", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+                    { "type": "text", "value": "+$5.00", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                  ] },
+                  { "type": "spacer" },
+                  { "type": "toggle", "bind": "giftWrap", "title": "" }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "leading",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.lg",
+              "animation": { "curve": "spring" }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Subtotal",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$237.00",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.cableRemoved",
+                        "false"
+                      ]
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "$199.00",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.cableRemoved",
+                        "true"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Shipping",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Free",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.success",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.cableRemoved",
+                        "false"
+                      ]
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "$5.00",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.cableRemoved",
+                        "true"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "hstack",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Total",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$237.00",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.cableRemoved",
+                        "false"
+                      ]
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "$204.00",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.cableRemoved",
+                        "true"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      },
+      {
+        "type": "vstack",
+        "alignment": "center",
+        "spacing": "$token.spacing.sm",
+        "ignoresSafeArea": true,
+        "modifiers": {
+          "size": { "width": { "mode": "fill" } },
+          "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.md", "bottom": 40 },
+          "background": "$token.color.surfaceElevated",
+          "shadow": { "radius": 16, "y": -6, "color": "#00000014" }
+        },
+        "children": [
+          {
+            "type": "button",
+            "title": "Check Out",
+            "style": "$token.button.large",
+            "icon": "apple.logo",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                {
+                  "action": "haptic",
+                  "style": "success"
+                },
+                {
+                  "action": "showToast",
+                  "message": "Order placed"
+                }
+              ]
+            }
+          },
+          {
+            "type": "text",
+            "value": "Free returns within 14 days. Taxes calculated at checkout.",
+            "style": "$token.typography.caption",
+            "color": "$token.color.textTertiary",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            }
+          }
+        ]
+      }
+      ]
+    }
+  }
+}

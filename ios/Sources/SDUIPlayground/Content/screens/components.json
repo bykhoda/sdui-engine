@@ -1,0 +1,457 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "components",
+    "title": "Components",
+    "scrollBehavior": { "subtitle": "Live, state-bound building blocks" },
+    "state": {
+      "level": 0.4,
+      "notify": true,
+      "avatar": "none"
+    },
+    "content": {
+      "type": "scroll",
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.xl",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": { "width": { "mode": "fill" } }
+        },
+        "children": [
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "LIVE PROGRESS",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "alignment": "leading",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Drag the slider — the bar and toggle follow",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  { "type": "slider", "bind": "level", "color": "$token.color.primary" },
+                  { "type": "progress", "value": "$state.level" },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "children": [
+                      { "type": "toggle", "bind": "notify", "title": "Notifications", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                    ]
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": { "animation": { "curve": "spring" } },
+                    "children": [
+                      { "type": "icon", "name": "bell.badge.fill", "color": "$token.color.primary", "size": 13, "symbolEffect": "bounce", "visibleWhen": { "equals": ["$state.notify", "true"] } },
+                      { "type": "text", "value": "On", "style": "$token.typography.caption", "color": "$token.color.primary", "visibleWhen": { "equals": ["$state.notify", "true"] } },
+                      { "type": "icon", "name": "bell.slash.fill", "color": "$token.color.textTertiary", "size": 13, "visibleWhen": { "equals": ["$state.notify", "false"] } },
+                      { "type": "text", "value": "Muted", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.notify", "false"] } }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "BUTTONS",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "button",
+                    "title": "Primary",
+                    "style": "$token.button.primary",
+                    "icon": "bolt.fill",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "onTap": { "action": "showToast", "message": "Primary tapped" }
+                  },
+                  {
+                    "type": "button",
+                    "title": "Secondary",
+                    "style": "$token.button.secondary",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "onTap": { "action": "showToast", "message": "Secondary tapped" }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "ICONS",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.lg",
+                "alignment": "center",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "house.fill",
+                    "color": "$token.color.primary"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "heart.fill",
+                    "color": "#FF375F",
+                    "symbolEffect": "bounce"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "star.fill",
+                    "color": "#FF9F0A"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "bell.fill",
+                    "color": "$token.color.success",
+                    "symbolEffect": "pulse"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "gearshape.fill",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "BADGES",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "New",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFF",
+                    "modifiers": {
+                      "padding": {
+                        "horizontal": "$token.spacing.sm",
+                        "vertical": "$token.spacing.xs"
+                      },
+                      "background": "$token.color.primary",
+                      "cornerRadius": "$token.radius.pill",
+                      "onTap": { "action": "showToast", "message": "New" }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Sale",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFF",
+                    "modifiers": {
+                      "padding": {
+                        "horizontal": "$token.spacing.sm",
+                        "vertical": "$token.spacing.xs"
+                      },
+                      "background": "$token.color.error",
+                      "cornerRadius": "$token.radius.pill",
+                      "onTap": { "action": "showToast", "message": "Sale", "style": "error" }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Pro",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textPrimary",
+                    "modifiers": {
+                      "padding": {
+                        "horizontal": "$token.spacing.sm",
+                        "vertical": "$token.spacing.xs"
+                      },
+                      "background": "$token.color.surface",
+                      "cornerRadius": "$token.radius.pill",
+                      "onTap": { "action": "showToast", "message": "Pro" }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "TAGS",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Action",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.primary",
+                    "modifiers": {
+                      "padding": {
+                        "horizontal": "$token.spacing.sm",
+                        "vertical": "$token.spacing.xs"
+                      },
+                      "background": "$token.color.primarySoft",
+                      "cornerRadius": "$token.radius.pill"
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Success",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.success",
+                    "modifiers": {
+                      "padding": {
+                        "horizontal": "$token.spacing.sm",
+                        "vertical": "$token.spacing.xs"
+                      },
+                      "background": "$token.color.successSoft",
+                      "cornerRadius": "$token.radius.pill"
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Warning",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.warning",
+                    "modifiers": {
+                      "padding": {
+                        "horizontal": "$token.spacing.sm",
+                        "vertical": "$token.spacing.xs"
+                      },
+                      "background": "$token.color.warningSoft",
+                      "cornerRadius": "$token.radius.pill"
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Error",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.error",
+                    "modifiers": {
+                      "padding": {
+                        "horizontal": "$token.spacing.sm",
+                        "vertical": "$token.spacing.xs"
+                      },
+                      "background": "$token.color.errorSoft",
+                      "cornerRadius": "$token.radius.pill"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "AVATARS",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "alignment": "center",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 },
+                  "animation": { "curve": "spring" }
+                },
+                "children": [
+                  {
+                    "type": "zstack",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": { "width": { "mode": "fixed", "value": 60 }, "height": { "mode": "fixed", "value": 60 } },
+                      "cornerRadius": "$token.radius.pill",
+                      "animation": { "curve": "spring" },
+                      "onTap": { "action": "setState", "key": "avatar", "value": "photo" }
+                    },
+                    "children": [
+                      { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "$token.color.primarySoft", "cornerRadius": "$token.radius.pill" }, "visibleWhen": { "equals": ["$state.avatar", "photo"] } },
+                      {
+                        "type": "image",
+                        "source": "https://picsum.photos/seed/av/100/100",
+                        "loader": { "placeholder": "skeleton", "contentMode": "fill" },
+                        "modifiers": { "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } }, "cornerRadius": "$token.radius.pill" }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "zstack",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": { "width": { "mode": "fixed", "value": 60 }, "height": { "mode": "fixed", "value": 60 } },
+                      "cornerRadius": "$token.radius.pill",
+                      "animation": { "curve": "spring" },
+                      "onTap": { "action": "setState", "key": "avatar", "value": "initials" }
+                    },
+                    "children": [
+                      { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "$token.color.primarySoft", "cornerRadius": "$token.radius.pill" }, "visibleWhen": { "equals": ["$state.avatar", "initials"] } },
+                      {
+                        "type": "text", "value": "AK", "style": "$token.typography.headline", "color": "#FFFFFF", "alignment": "center",
+                        "modifiers": { "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "zstack",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": { "width": { "mode": "fixed", "value": 60 }, "height": { "mode": "fixed", "value": 60 } },
+                      "cornerRadius": "$token.radius.pill",
+                      "animation": { "curve": "spring" },
+                      "onTap": { "action": "setState", "key": "avatar", "value": "person" }
+                    },
+                    "children": [
+                      { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "$token.color.primarySoft", "cornerRadius": "$token.radius.pill" }, "visibleWhen": { "equals": ["$state.avatar", "person"] } },
+                      {
+                        "type": "icon", "name": "person.fill", "color": "$token.color.textSecondary",
+                        "modifiers": { "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill" }
+                      }
+                    ]
+                  },
+                  { "type": "spacer" },
+                  { "type": "text", "value": "Tap to select", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.avatar", "none"] } },
+                  { "type": "icon", "name": "checkmark.circle.fill", "color": "$token.color.success", "size": 20, "visibleWhen": { "notEquals": ["$state.avatar", "none"] } }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "ASYNC IMAGE + SKELETON",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/component/800/360",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "aspectRatio": 2.2,
+                  "contentMode": "fill"
+                },
+                "modifiers": {
+                  "cornerRadius": "$token.radius.lg"
+                }
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": { "width": { "mode": "fill" } },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md"
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "shield.lefthalf.filled",
+                "color": "$token.color.success"
+              },
+              {
+                "type": "text",
+                "value": "Shadow, corner radius, opacity — all tokenized.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

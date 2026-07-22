@@ -1,0 +1,73 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "reorder",
+    "teach": {"title": "Drag & Drop", "task": "Drag a row by its handle to reorder the list."},
+    "title": "Drag & Drop",
+    "state": {
+      "tasks": [
+        { "title": "Design the contract", "subtitle": "Define the JSON schema", "icon": "pencil.and.ruler.fill" },
+        { "title": "Build the renderer", "subtitle": "Native, per platform", "icon": "hammer.fill" },
+        { "title": "Write the docs", "subtitle": "Guide & examples", "icon": "doc.text.fill" },
+        { "title": "Ship it", "subtitle": "Straight from the backend", "icon": "paperplane.fill" }
+      ]
+    },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "children": [
+        {
+          "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
+          "modifiers": { "padding": { "horizontal": "$token.spacing.lg", "top": "$token.spacing.md" } },
+          "children": [
+            { "type": "text", "value": "Press and drag a row by its handle to reorder — the new order is written back to screen state instantly.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+          ]
+        },
+        {
+          "type": "list",
+          "items": "$state.tasks",
+          "reorder": true,
+          "spacing": "$token.spacing.sm",
+          "modifiers": { "size": { "height": { "mode": "fixed", "value": 340 } } },
+          "template": {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } }, "shadow": { "color": "#00000012", "radius": 8, "y": 3 }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "$item.title" } ] } },
+            "children": [
+              { "type": "icon", "name": "$item.icon", "color": "#FFFFFF", "modifiers": { "size": { "width": { "mode": "fixed", "value": 40 }, "height": { "mode": "fixed", "value": 40 } }, "background": "$token.color.primary", "cornerRadius": "$token.radius.md" } },
+              { "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs", "children": [
+                { "type": "text", "value": "$item.title", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                { "type": "text", "value": "$item.subtitle", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+              ] },
+              { "type": "spacer" },
+              { "type": "icon", "name": "line.3.horizontal", "color": "$token.color.textTertiary", "size": 16 }
+            ]
+          }
+        },
+        {
+          "type": "vstack", "spacing": "$token.spacing.md", "alignment": "leading",
+          "modifiers": { "padding": { "horizontal": "$token.spacing.lg", "bottom": "$token.spacing.lg" } },
+          "children": [
+            {
+              "type": "button",
+              "title": "Reset order",
+              "style": "$token.button.tinted",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "onTap": { "action": "sequence", "actions": [
+                { "action": "haptic", "style": "light" },
+                { "action": "setState", "key": "tasks", "value": [
+                  { "title": "Design the contract", "subtitle": "Define the JSON schema", "icon": "pencil.and.ruler.fill" },
+                  { "title": "Build the renderer", "subtitle": "Native, per platform", "icon": "hammer.fill" },
+                  { "title": "Write the docs", "subtitle": "Guide & examples", "icon": "doc.text.fill" },
+                  { "title": "Ship it", "subtitle": "Straight from the backend", "icon": "paperplane.fill" }
+                ] }
+              ] }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

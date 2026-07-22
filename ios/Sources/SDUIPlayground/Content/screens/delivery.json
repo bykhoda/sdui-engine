@@ -1,0 +1,843 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "delivery",
+    "state": {
+      "tip": "15",
+      "leaveAtDoor": true,
+      "contact": "chat"
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          },
+          "animation": {
+            "curve": "spring"
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "children": [
+              {
+                "type": "text",
+                "value": "DELIVERY",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": "Arriving in 12 min",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "Order #2847 \u00b7 Sushi Ato",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          },
+          {
+            "type": "zstack",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                },
+                "height": {
+                  "mode": "fixed",
+                  "value": 150
+                }
+              },
+              "cornerRadius": "$token.radius.lg"
+            },
+            "children": [
+              {
+                "type": "gradient",
+                "colors": [
+                  "#B8E3C8",
+                  "#8CCBAD",
+                  "#EBF2E4"
+                ],
+                "direction": "diagonal",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fill"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "location.circle.fill",
+                    "color": "#1F7A4D",
+                    "size": 40,
+                    "symbolEffect": "pulse"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Marat is 1.2 km away",
+                    "style": "$token.typography.subheadline",
+                    "color": "#14532D"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#00000010"
+              }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.sm",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.success",
+                    "size": 22
+                  },
+                  {
+                    "type": "vstack",
+                    "children": [],
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 3
+                        }
+                      },
+                      "background": "$token.color.success",
+                      "cornerRadius": "$token.radius.pill"
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.success",
+                    "size": 22
+                  },
+                  {
+                    "type": "vstack",
+                    "children": [],
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 3
+                        }
+                      },
+                      "background": "$token.color.success",
+                      "cornerRadius": "$token.radius.pill"
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "bicycle",
+                    "color": "$token.color.primary",
+                    "size": 22,
+                    "symbolEffect": "pulse"
+                  },
+                  {
+                    "type": "vstack",
+                    "children": [],
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 3
+                        }
+                      },
+                      "background": "$token.color.separator",
+                      "cornerRadius": "$token.radius.pill"
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "house",
+                    "color": "$token.color.textTertiary",
+                    "size": 22
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Confirmed",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Prepared",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "On the way",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.primary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Delivered",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textTertiary"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#00000010"
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 52
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 52
+                    }
+                  },
+                  "cornerRadius": "$token.radius.pill"
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#F59E0B",
+                      "#EF4444"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "M",
+                    "style": "$token.typography.title2",
+                    "color": "#FFFFFF"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Marat",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": 4,
+                    "children": [
+                      {
+                        "type": "icon",
+                        "name": "star.fill",
+                        "color": "$token.color.warning",
+                        "size": 12
+                      },
+                      {
+                        "type": "text",
+                        "value": "4.9 \u00b7 your courier",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "icon", "name": "message.fill", "color": "$token.color.onPrimary", "size": 18,
+                "visibleWhen": { "equals": ["$state.contact", "chat"] },
+                "modifiers": { "padding": "$token.spacing.sm", "background": "$token.color.primary", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Chat opened" } ] } }
+              },
+              {
+                "type": "icon", "name": "message", "color": "$token.color.primary", "size": 18,
+                "visibleWhen": { "equals": ["$state.contact", "call"] },
+                "modifiers": { "padding": "$token.spacing.sm", "background": "$token.color.primarySoft", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "contact", "value": "chat" }, { "action": "haptic", "style": "light" } ] } }
+              },
+              {
+                "type": "icon", "name": "phone.fill", "color": "$token.color.onPrimary", "size": 18,
+                "visibleWhen": { "equals": ["$state.contact", "call"] },
+                "modifiers": { "padding": "$token.spacing.sm", "background": "$token.color.primary", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Calling Marat\u2026" } ] } }
+              },
+              {
+                "type": "icon", "name": "phone.fill", "color": "$token.color.primary", "size": 18,
+                "visibleWhen": { "equals": ["$state.contact", "chat"] },
+                "modifiers": { "padding": "$token.spacing.sm", "background": "$token.color.primarySoft", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "contact", "value": "call" }, { "action": "haptic", "style": "light" } ] } }
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": { "width": { "mode": "fill" } },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": { "radius": 10, "y": 4, "color": "#00000010" }
+            },
+            "children": [
+              { "type": "icon", "name": "door.left.hand.closed", "color": "$token.color.primary", "size": 20 },
+              { "type": "vstack", "alignment": "leading", "spacing": 1, "children": [
+                { "type": "text", "value": "Leave at door", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                { "type": "text", "value": "Marat drops it off, no knock", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.leaveAtDoor", "true"] } },
+                { "type": "text", "value": "Marat hands it to you", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.leaveAtDoor", "false"] } }
+              ] },
+              { "type": "spacer" },
+              { "type": "toggle", "bind": "leaveAtDoor", "title": "" }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.lg"
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "TIP MARAT",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "10%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.onPrimary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "10"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.primary",
+                      "cornerRadius": "$token.radius.md"
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "10%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textSecondary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "15"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.md",
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "setState",
+                            "key": "tip",
+                            "value": "10"
+                          },
+                          {
+                            "action": "haptic",
+                            "style": "light"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "10%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textSecondary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "20"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.md",
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "setState",
+                            "key": "tip",
+                            "value": "10"
+                          },
+                          {
+                            "action": "haptic",
+                            "style": "light"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "15%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textSecondary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "10"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.md",
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "setState",
+                            "key": "tip",
+                            "value": "15"
+                          },
+                          {
+                            "action": "haptic",
+                            "style": "light"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "15%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.onPrimary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "15"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.primary",
+                      "cornerRadius": "$token.radius.md"
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "15%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textSecondary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "20"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.md",
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "setState",
+                            "key": "tip",
+                            "value": "15"
+                          },
+                          {
+                            "action": "haptic",
+                            "style": "light"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "20%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textSecondary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "10"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.md",
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "setState",
+                            "key": "tip",
+                            "value": "20"
+                          },
+                          {
+                            "action": "haptic",
+                            "style": "light"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "20%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textSecondary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "15"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.md",
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "setState",
+                            "key": "tip",
+                            "value": "20"
+                          },
+                          {
+                            "action": "haptic",
+                            "style": "light"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "20%",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.onPrimary",
+                    "alignment": "center",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.tip",
+                        "20"
+                      ]
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      },
+                      "padding": {
+                        "vertical": "$token.spacing.sm"
+                      },
+                      "background": "$token.color.primary",
+                      "cornerRadius": "$token.radius.md"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.lg"
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "YOUR ORDER",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "2\u00d7 Salmon roll",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$18.00",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "1\u00d7 Miso soup",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$6.50",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "hstack",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Total",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$24.50",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

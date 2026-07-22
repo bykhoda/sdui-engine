@@ -1,0 +1,1047 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "feed",
+    "teach": {
+      "title": "Feed",
+      "task": "Tap the heart or repost on any post to interact."
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "children": [
+              {
+                "type": "text",
+                "value": "Home",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "Latest posts",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 42
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 42
+                    }
+                  },
+                  "cornerRadius": 21
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#5B8DEF",
+                      "#3B5BDB"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "A",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": 4,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Aizhan",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "@aizhan · 2h",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": "Shipped a whole checkout flow tonight without touching Xcode. Backend sent new JSON, the app re-rendered live. Still feels illegal",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 4
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.lg",
+                    "modifiers": {
+                      "padding": {
+                        "top": "$token.spacing.xs"
+                      },
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "animation": {
+                        "curve": "spring"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "bubble.left",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reply"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 12",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "arrow.2.squarepath",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reposted"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 34",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "heart",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "symbolEffect": "bounce",
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Liked"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "type": "text",
+                            "value": " 218",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "square.and.arrow.up",
+                        "color": "$token.color.textSecondary",
+                        "size": 15,
+                        "modifiers": {
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Share"
+                              }
+                            ]
+                          }
+                        },
+                        "symbolEffect": "bounce"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "hstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 42
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 42
+                    }
+                  },
+                  "cornerRadius": 21
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#10B981",
+                      "#059669"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "K",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": 4,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Kuan",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "@devkuan · 5h",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": "Hot take: your design system should be data, not code. One tokens.json, and every platform themes itself. Stop shipping the same color twice.",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 4
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.lg",
+                    "modifiers": {
+                      "padding": {
+                        "top": "$token.spacing.xs"
+                      },
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "animation": {
+                        "curve": "spring"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "bubble.left",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reply"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 41",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "arrow.2.squarepath",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reposted"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 96",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "heart",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Liked"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 512",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "square.and.arrow.up",
+                        "color": "$token.color.textSecondary",
+                        "size": 15,
+                        "modifiers": {
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Share"
+                              }
+                            ]
+                          }
+                        },
+                        "symbolEffect": "bounce"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "hstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 42
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 42
+                    }
+                  },
+                  "cornerRadius": 21
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#8B5CF6",
+                      "#6D28D9"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "S",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": 4,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "SDUI",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "@sdui · 8h",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": "v0.1 is live. One JSON contract renders natively on every platform — validated before it ever hits a screen. No more \"works on my platform\".",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 4
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.lg",
+                    "modifiers": {
+                      "padding": {
+                        "top": "$token.spacing.xs"
+                      },
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "animation": {
+                        "curve": "spring"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "bubble.left",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reply"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 88",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "arrow.2.squarepath",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reposted"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 240",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "heart",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Liked"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 1.2k",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "square.and.arrow.up",
+                        "color": "$token.color.textSecondary",
+                        "size": 15,
+                        "modifiers": {
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Share"
+                              }
+                            ]
+                          }
+                        },
+                        "symbolEffect": "bounce"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "divider",
+            "color": "$token.color.separator"
+          },
+          {
+            "type": "hstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 42
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 42
+                    }
+                  },
+                  "cornerRadius": 21
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#F59E0B",
+                      "#EA580C"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fill"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "M",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": 4,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Meiram",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "@meiram · 1d",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": "Redesigned three screens this morning. Zero rebuilds, zero App Store review. Just pushed the layout and watched it land on my phone. This is the workflow.",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 4
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.lg",
+                    "modifiers": {
+                      "padding": {
+                        "top": "$token.spacing.xs"
+                      },
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "animation": {
+                        "curve": "spring"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "bubble.left",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reply"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 7",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "arrow.2.squarepath",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Reposted"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 19",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "heart",
+                            "color": "$token.color.textSecondary",
+                            "size": 15,
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  },
+                                  {
+                                    "action": "showToast",
+                                    "message": "Liked"
+                                  }
+                                ]
+                              }
+                            },
+                            "symbolEffect": "bounce"
+                          },
+                          {
+                            "type": "text",
+                            "value": " 143",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "square.and.arrow.up",
+                        "color": "$token.color.textSecondary",
+                        "size": 15,
+                        "modifiers": {
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Share"
+                              }
+                            ]
+                          }
+                        },
+                        "symbolEffect": "bounce"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

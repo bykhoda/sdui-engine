@@ -1,0 +1,68 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "calendar",
+    "title": "Pick your dates",
+    "scrollBehavior": {},
+    "teach": { "title": "Calendar", "task": "Switch Single / Range / Multi — the same calendar node changes selection mode live." },
+    "state": {
+      "mode": "range",
+      "weekStart": "monday",
+      "date": "2026-07-24",
+      "start": "2026-07-22",
+      "end": "2026-07-26",
+      "days": "2026-07-24,2026-07-29"
+    },
+    "content": {
+      "type": "vstack",
+      "spacing": 0,
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "children": [
+        {
+          "type": "picker",
+          "bind": "mode",
+          "style": "segmented",
+          "modifiers": {
+            "size": { "width": { "mode": "fill" } },
+            "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }
+          },
+          "options": [
+            { "label": "Single", "value": "single" },
+            { "label": "Range", "value": "range" },
+            { "label": "Multi", "value": "multi" }
+          ]
+        },
+        {
+          "type": "scroll",
+          "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+          "child": {
+            "type": "vstack",
+            "spacing": "$token.spacing.xl",
+            "alignment": "center",
+            "modifiers": { "padding": "$token.spacing.lg", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "vstack", "spacing": "$token.spacing.md", "alignment": "leading",
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 18, "y": 8, "color": "#00000012" } },
+                "children": [
+                  { "type": "calendar", "mode": "$state.mode", "weekStart": "$state.weekStart", "bind": "date", "startBind": "start", "endBind": "end", "multiBind": "days", "color": "$token.color.primary", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "vstack", "alignment": "leading", "spacing": 0,
+          "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.md", "bottom": "$token.spacing.md" }, "background": "$token.color.surfaceElevated", "shadow": { "radius": 12, "y": -4, "color": "#00000010" } },
+          "children": [
+            {
+              "type": "button", "title": "Confirm dates", "style": "$token.button.large",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "success" }, { "action": "showToast", "message": "Dates confirmed" } ] }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

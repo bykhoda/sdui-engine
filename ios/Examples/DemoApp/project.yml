@@ -1,0 +1,42 @@
+# XcodeGen manifest for the iOS demo app.
+# Generate the project with:  xcodegen   (run from this folder)
+# Then open SDUIDemo.xcodeproj, pick an iPhone simulator, and Run.
+name: SDUIDemo
+options:
+  bundleIdPrefix: dev.sdui
+  deploymentTarget:
+    iOS: "15.0"
+  createIntermediateGroups: true
+
+packages:
+  SDUI:
+    # The local Swift package lives two levels up (ios/).
+    path: ../..
+
+targets:
+  SDUIDemo:
+    type: application
+    platform: iOS
+    sources:
+      - Sources
+    dependencies:
+      - package: SDUI
+        product: SDUIPlayground
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: dev.sdui.demo
+        MARKETING_VERSION: "0.1"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        SWIFT_VERSION: "6.0"
+        # Run on My Mac (Mac Catalyst) as well as the iOS simulator/device.
+        SUPPORTS_MACCATALYST: YES
+        MACOSX_DEPLOYMENT_TARGET: "12.0"
+        # Sign to Run Locally — Catalyst needs a signature; this ad-hoc identity
+        # runs on your Mac with no Apple Developer team selected.
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGNING_REQUIRED: NO
+        DEVELOPMENT_TEAM: ""

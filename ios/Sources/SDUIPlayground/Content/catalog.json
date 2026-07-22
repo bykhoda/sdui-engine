@@ -1,0 +1,209 @@
+{
+  "$comment": "Groups the bundled showcase screens into categories for the catalog. Each category has a gradient (two hex colors) for its icon tile; each screen references a bundled screen by its screen.id with a short subtitle.",
+  "categories": [
+    {
+      "name": "Live",
+      "icon": "waveform",
+      "colors": [
+        "#5AC8FA",
+        "#0A84FF"
+      ],
+      "screens": [
+        {
+          "id": "fitness",
+          "subtitle": "Activity rings & live charts"
+        },
+        {
+          "id": "music",
+          "subtitle": "Immersive now-playing"
+        },
+        {
+          "id": "stocks",
+          "subtitle": "Live chart, ranges & stats"
+        },
+        {
+          "id": "weather",
+          "subtitle": "Immersive gradient sky"
+        }
+      ]
+    },
+    {
+      "name": "Real apps",
+      "icon": "square.stack.3d.up.fill",
+      "colors": [
+        "#5B5BF0",
+        "#4338CA"
+      ],
+      "screens": [
+        {
+          "id": "cart",
+          "subtitle": "Marketplace bag — remove, totals & checkout"
+        },
+        {
+          "id": "messenger",
+          "subtitle": "Chat thread — bubbles, avatar & composer"
+        },
+        {
+          "id": "feed",
+          "subtitle": "Social timeline of live posts"
+        },
+        {
+          "id": "clips",
+          "subtitle": "Vertical short-video feed — swipe, like, share"
+        },
+        {
+          "id": "todo",
+          "subtitle": "A living checklist you can swipe"
+        },
+        {
+          "id": "paywall",
+          "subtitle": "Subscription paywall — plans & trial"
+        },
+        {
+          "id": "delivery",
+          "subtitle": "Courier tracking — status, tips & order"
+        },
+        {
+          "id": "gym",
+          "subtitle": "Club membership & class booking"
+        },
+        {
+          "id": "discover",
+          "subtitle": "Store home — hero, rails & cards"
+        },
+        {
+          "id": "product",
+          "subtitle": "Product page with rating & actions"
+        },
+        {
+          "id": "inbox",
+          "subtitle": "Mail — swipe rows & context menus"
+        },
+        {
+          "id": "signup",
+          "subtitle": "Onboarding with real validation"
+        },
+        {
+          "id": "settings",
+          "subtitle": "Preferences — toggles, pickers & sections"
+        }
+      ]
+    },
+    {
+      "name": "Design System",
+      "icon": "paintpalette.fill",
+      "colors": [
+        "#FF9F0A",
+        "#FF6B00"
+      ],
+      "screens": [
+        {
+          "id": "typography",
+          "subtitle": "Type scale, colour & truncation"
+        },
+        {
+          "id": "layout",
+          "subtitle": "Stacks, overlays & the sizing model"
+        },
+        {
+          "id": "buttons",
+          "subtitle": "Styles, shapes, sizes & icons"
+        },
+        {
+          "id": "inputs",
+          "subtitle": "Text fields — every state & keyboard"
+        },
+        {
+          "id": "controls",
+          "subtitle": "Segmented, select & switches"
+        },
+        {
+          "id": "uploader",
+          "subtitle": "File upload — every state, preview & remove"
+        },
+        {
+          "id": "cards",
+          "subtitle": "Surface, elevated, selectable & media"
+        },
+        {
+          "id": "components",
+          "subtitle": "Icons, badges, avatars & progress"
+        },
+        {
+          "id": "feedback",
+          "subtitle": "Banners, alerts & loaders"
+        },
+        {
+          "id": "calendar",
+          "subtitle": "Calendar, date range & file upload"
+        }
+      ]
+    },
+    {
+      "name": "Interactions",
+      "icon": "hand.tap.fill",
+      "colors": [
+        "#FF375F",
+        "#C9184A"
+      ],
+      "screens": [
+        {
+          "id": "swipe",
+          "subtitle": "Custom swipe actions — Telegram/Outlook style"
+        },
+        {
+          "id": "gestures",
+          "subtitle": "Tap, double-tap, long-press & swipe"
+        },
+        {
+          "id": "animation",
+          "subtitle": "State springs & SF Symbol effects"
+        }
+      ]
+    },
+    {
+      "name": "Engine",
+      "icon": "gearshape.2.fill",
+      "colors": [
+        "#32ADE6",
+        "#0A84FF"
+      ],
+      "screens": [
+        {
+          "id": "table",
+          "subtitle": "Search, filters, sort & pagination"
+        },
+        {
+          "id": "document",
+          "subtitle": "Async fetch — skeleton → content + share"
+        },
+        {
+          "id": "actions",
+          "subtitle": "Toasts, state, conditions & haptics"
+        },
+        {
+          "id": "lists",
+          "subtitle": "Data-bound lists and grids"
+        },
+        {
+          "id": "reorder",
+          "subtitle": "Drag rows to reorder, saved to state"
+        }
+      ]
+    },
+    {
+      "name": "Figma & Tokens",
+      "icon": "wand.and.stars",
+      "colors": [
+        "#A259FF",
+        "#6E44FF"
+      ],
+      "screens": [
+        {
+          "id": "figma",
+          "subtitle": "How Figma variables drive every screen"
+        }
+      ]
+    }
+  ]
+}

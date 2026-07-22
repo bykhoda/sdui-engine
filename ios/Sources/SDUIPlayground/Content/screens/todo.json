@@ -1,0 +1,727 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "todo",
+    "teach": {
+      "title": "To-Do",
+      "task": "Tap a task to complete. Swipe right to remind, left to flag or delete."
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "modifiers": {
+              "padding": {
+                "top": "$token.spacing.xs"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "MONDAY, JULY 20",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": "Today",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "2 left to do · 3 done",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "success"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Completed",
+                    "style": "success"
+                  }
+                ]
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Remind",
+                    "icon": "bell.fill",
+                    "tint": "$token.color.primary",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Reminder set"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Flagged"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "medium"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Deleted",
+                          "style": "error"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "checkmark.circle.fill",
+                "color": "$token.color.success",
+                "size": 26
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Design the paywall",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textTertiary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Final polish · shipped",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textTertiary"
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "success"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Completed",
+                    "style": "success"
+                  }
+                ]
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Remind",
+                    "icon": "bell.fill",
+                    "tint": "$token.color.primary",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Reminder set"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Flagged"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "medium"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Deleted",
+                          "style": "error"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "checkmark.circle.fill",
+                "color": "$token.color.success",
+                "size": 26
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Ship the JSON contract",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textTertiary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "v0.1 · merged",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textTertiary"
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "success"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Completed",
+                    "style": "success"
+                  }
+                ]
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Remind",
+                    "icon": "bell.fill",
+                    "tint": "$token.color.primary",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Reminder set"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Flagged"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "medium"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Deleted",
+                          "style": "error"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "checkmark.circle.fill",
+                "color": "$token.color.success",
+                "size": 26
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Call Aizhan about the demo",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textTertiary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Follow-up sent",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textTertiary"
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "success"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Completed",
+                    "style": "success"
+                  }
+                ]
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Remind",
+                    "icon": "bell.fill",
+                    "tint": "$token.color.primary",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Reminder set"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Flagged"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "medium"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Deleted",
+                          "style": "error"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "circle",
+                "color": "$token.color.textTertiary",
+                "size": 26
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Review the pull request",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Due today · 4:00 PM",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textTertiary"
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "success"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Completed",
+                    "style": "success"
+                  }
+                ]
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Remind",
+                    "icon": "bell.fill",
+                    "tint": "$token.color.primary",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Reminder set"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Flagged"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "medium"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Deleted",
+                          "style": "error"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "circle",
+                "color": "$token.color.textTertiary",
+                "size": 26
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Book the team dinner",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Pick a spot for Friday",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textTertiary"
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "title": "Add task",
+            "style": "$token.button.large",
+            "icon": "plus",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "top": "$token.spacing.sm"
+              }
+            },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                {
+                  "action": "haptic",
+                  "style": "light"
+                },
+                {
+                  "action": "showToast",
+                  "message": "New task"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

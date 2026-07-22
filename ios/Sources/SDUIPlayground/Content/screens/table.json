@@ -1,0 +1,324 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "table",
+    "teach": { "title": "Data table", "task": "Type to search, tap a role chip, open Filters for the amount range, then scroll to load more." },
+    "state": {
+      "search": "",
+      "role": "all",
+      "min": 0,
+      "max": 0,
+      "sortBy": "name",
+      "sortOrder": "asc",
+      "currency": "USD",
+      "pageSize": 6,
+      "showFilters": false,
+      "resultCount": 36,
+      "total": 36,
+      "people": [
+        { "id": "p1", "name": "Aizhan Suleimenova", "role": "Engineer", "amount": 4200, "amountLabel": "$4,200" },
+        { "id": "p2", "name": "Kuanysh Bekov", "role": "Designer", "amount": 3100, "amountLabel": "$3,100" },
+        { "id": "p3", "name": "Meiram Zhaksybek", "role": "PM", "amount": 5400, "amountLabel": "$5,400" },
+        { "id": "p4", "name": "Dana Orazova", "role": "Engineer", "amount": 3900, "amountLabel": "$3,900" },
+        { "id": "p5", "name": "Timur Akhmetov", "role": "Designer", "amount": 2700, "amountLabel": "$2,700" },
+        { "id": "p6", "name": "Aruzhan Kim", "role": "Engineer", "amount": 4600, "amountLabel": "$4,600" },
+        { "id": "p7", "name": "Nurlan Serik", "role": "PM", "amount": 6100, "amountLabel": "$6,100" },
+        { "id": "p8", "name": "Saya Tolegen", "role": "Designer", "amount": 2900, "amountLabel": "$2,900" },
+        { "id": "p9", "name": "Yerlan Bolat", "role": "Engineer", "amount": 3500, "amountLabel": "$3,500" },
+        { "id": "p10", "name": "Gulnara Iskakova", "role": "PM", "amount": 5800, "amountLabel": "$5,800" },
+        { "id": "p11", "name": "Alibek Nurpeis", "role": "Engineer", "amount": 4100, "amountLabel": "$4,100" },
+        { "id": "p12", "name": "Zhanel Abenova", "role": "Designer", "amount": 3300, "amountLabel": "$3,300" },
+        { "id": "p13", "name": "Askar Tulegenov", "role": "Engineer", "amount": 4400, "amountLabel": "$4,400" },
+        { "id": "p14", "name": "Madina Yusupova", "role": "PM", "amount": 5200, "amountLabel": "$5,200" },
+        { "id": "p15", "name": "Ruslan Karimov", "role": "Designer", "amount": 3000, "amountLabel": "$3,000" },
+        { "id": "p16", "name": "Aigerim Sultan", "role": "Engineer", "amount": 4800, "amountLabel": "$4,800" },
+        { "id": "p17", "name": "Bekzat Amanov", "role": "PM", "amount": 6300, "amountLabel": "$6,300" },
+        { "id": "p18", "name": "Diana Kaliyeva", "role": "Designer", "amount": 2800, "amountLabel": "$2,800" },
+        { "id": "p19", "name": "Yerbol Zhumagul", "role": "Engineer", "amount": 3700, "amountLabel": "$3,700" },
+        { "id": "p20", "name": "Ainur Bekova", "role": "PM", "amount": 5600, "amountLabel": "$5,600" },
+        { "id": "p21", "name": "Sanzhar Omarov", "role": "Engineer", "amount": 4300, "amountLabel": "$4,300" },
+        { "id": "p22", "name": "Kamila Nurlan", "role": "Designer", "amount": 3200, "amountLabel": "$3,200" },
+        { "id": "p23", "name": "Daulet Sagyn", "role": "PM", "amount": 5900, "amountLabel": "$5,900" },
+        { "id": "p24", "name": "Zarina Akhmet", "role": "Engineer", "amount": 4000, "amountLabel": "$4,000" },
+        { "id": "p25", "name": "Nurzhan Kadyr", "role": "Designer", "amount": 2600, "amountLabel": "$2,600" },
+        { "id": "p26", "name": "Aliya Serikova", "role": "Engineer", "amount": 4700, "amountLabel": "$4,700" },
+        { "id": "p27", "name": "Erlan Toktar", "role": "PM", "amount": 6000, "amountLabel": "$6,000" },
+        { "id": "p28", "name": "Symbat Dosova", "role": "Designer", "amount": 3400, "amountLabel": "$3,400" },
+        { "id": "p29", "name": "Miras Zhanibek", "role": "Engineer", "amount": 3800, "amountLabel": "$3,800" },
+        { "id": "p30", "name": "Laura Esen", "role": "PM", "amount": 5500, "amountLabel": "$5,500" },
+        { "id": "p31", "name": "Arman Kussain", "role": "Engineer", "amount": 4500, "amountLabel": "$4,500" },
+        { "id": "p32", "name": "Dinara Abay", "role": "Designer", "amount": 3100, "amountLabel": "$3,100" },
+        { "id": "p33", "name": "Temirlan Ospan", "role": "PM", "amount": 6200, "amountLabel": "$6,200" },
+        { "id": "p34", "name": "Zhuldyz Marat", "role": "Engineer", "amount": 3600, "amountLabel": "$3,600" },
+        { "id": "p35", "name": "Alisher Zhaks", "role": "Designer", "amount": 2900, "amountLabel": "$2,900" },
+        { "id": "p36", "name": "Aisulu Berik", "role": "PM", "amount": 5700, "amountLabel": "$5,700" }
+      ]
+    },
+    "content": {
+      "type": "zstack",
+      "alignment": "top",
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "children": [
+        {
+          "type": "scroll",
+          "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+          "child": {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": { "padding": { "top": "$token.spacing.sm", "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "bottom": "$token.spacing.lg" }, "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "vstack", "alignment": "leading", "spacing": 2,
+                "children": [
+                  { "type": "text", "value": "DIRECTORY", "style": "$token.typography.caption", "color": "$token.color.primary" },
+                  {
+                    "type": "hstack", "alignment": "firstTextBaseline", "spacing": "$token.spacing.sm",
+                    "children": [
+                      { "type": "text", "value": "People", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary" },
+                      { "type": "text", "value": "$state.resultCount", "style": "$token.typography.title2", "color": "$token.color.textTertiary" }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "hstack", "alignment": "center", "spacing": "$token.spacing.sm",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "children": [
+                  {
+                    "type": "hstack", "alignment": "center", "spacing": "$token.spacing.sm",
+                    "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.sm", "top": 12, "bottom": 12 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.md" },
+                    "children": [
+                      { "type": "icon", "name": "magnifyingglass", "color": "$token.color.textTertiary", "size": 17 },
+                      { "type": "textfield", "bind": "search", "placeholder": "Search name or role", "modifiers": { "background": "$token.color.surface", "size": { "width": { "mode": "fill" } } } },
+                      {
+                        "type": "icon", "name": "xmark.circle.fill", "color": "$token.color.textTertiary", "size": 17,
+                        "visibleWhen": { "notEquals": ["$state.search", ""] },
+                        "modifiers": { "hitSlop": 8, "onTap": { "action": "setState", "key": "search", "value": "" } }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "zstack", "alignment": "topTrailing",
+                    "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "showFilters", "value": true } ] } },
+                    "children": [
+                      {
+                        "type": "zstack", "alignment": "center",
+                        "modifiers": { "size": { "width": { "mode": "fixed", "value": 46 }, "height": { "mode": "fixed", "value": 46 } }, "background": "$token.color.surface", "cornerRadius": "$token.radius.md" },
+                        "children": [ { "type": "icon", "name": "slider.horizontal.3", "color": "$token.color.primary", "size": 19 } ]
+                      },
+                      {
+                        "type": "zstack", "alignment": "center",
+                        "visibleWhen": { "notEquals": ["$state.role", "all"] },
+                        "modifiers": { "size": { "width": { "mode": "fixed", "value": 16 }, "height": { "mode": "fixed", "value": 16 } } },
+                        "children": [
+                          { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "$token.color.primary", "cornerRadius": 8 } },
+                          { "type": "text", "value": "1", "style": "$token.typography.caption", "color": "$token.color.onPrimary" }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "scroll", "axis": "horizontal",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "child": {
+                  "type": "hstack", "spacing": "$token.spacing.sm", "alignment": "center",
+                  "children": [
+                    { "type": "text", "value": "All", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "all"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                    { "type": "text", "value": "All", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "all"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "role", "value": "all" } ] } } },
+                    { "type": "text", "value": "Engineer", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "Engineer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                    { "type": "text", "value": "Engineer", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "Engineer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "role", "value": "Engineer" } ] } } },
+                    { "type": "text", "value": "Designer", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "Designer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                    { "type": "text", "value": "Designer", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "Designer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "role", "value": "Designer" } ] } } },
+                    { "type": "text", "value": "PM", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "PM"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                    { "type": "text", "value": "PM", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "PM"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "role", "value": "PM" } ] } } }
+                  ]
+                }
+              },
+              {
+                "type": "hstack", "alignment": "center", "spacing": "$token.spacing.sm",
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.xs" } },
+                "children": [
+                  { "type": "text", "value": "Sort by", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+                  { "type": "text", "value": "Name", "style": "$token.typography.caption", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.sortBy", "name"] }, "modifiers": { "padding": { "leading": 12, "trailing": 12, "top": 6, "bottom": 6 }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                  { "type": "text", "value": "Name", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "visibleWhen": { "notEquals": ["$state.sortBy", "name"] }, "modifiers": { "padding": { "leading": 12, "trailing": 12, "top": 6, "bottom": 6 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "sortBy", "value": "name" } ] } } },
+                  { "type": "text", "value": "Amount", "style": "$token.typography.caption", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.sortBy", "amount"] }, "modifiers": { "padding": { "leading": 12, "trailing": 12, "top": 6, "bottom": 6 }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                  { "type": "text", "value": "Amount", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "visibleWhen": { "notEquals": ["$state.sortBy", "amount"] }, "modifiers": { "padding": { "leading": 12, "trailing": 12, "top": 6, "bottom": 6 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "sortBy", "value": "amount" } ] } } },
+                  { "type": "spacer" },
+                  {
+                    "type": "hstack", "alignment": "center", "spacing": 4,
+                    "visibleWhen": { "equals": ["$state.sortOrder", "asc"] },
+                    "modifiers": { "padding": { "leading": 10, "trailing": 10, "top": 6, "bottom": 6 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "sortOrder", "value": "desc" } ] } },
+                    "children": [
+                      { "type": "icon", "name": "arrow.up", "color": "$token.color.primary", "size": 13 },
+                      { "type": "text", "value": "Asc", "style": "$token.typography.caption", "color": "$token.color.primary" }
+                    ]
+                  },
+                  {
+                    "type": "hstack", "alignment": "center", "spacing": 4,
+                    "visibleWhen": { "equals": ["$state.sortOrder", "desc"] },
+                    "modifiers": { "padding": { "leading": 10, "trailing": 10, "top": 6, "bottom": 6 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "sortOrder", "value": "asc" } ] } },
+                    "children": [
+                      { "type": "icon", "name": "arrow.down", "color": "$token.color.primary", "size": 13 },
+                      { "type": "text", "value": "Desc", "style": "$token.typography.caption", "color": "$token.color.primary" }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "list",
+                "items": "$state.people",
+                "spacing": 6,
+                "resultCount": "$state.resultCount",
+                "filter": { "query": "$state.search", "fields": ["name", "role"], "equals": { "field": "role", "value": "$state.role" }, "min": { "field": "amount", "value": "$state.min" }, "max": { "field": "amount", "value": "$state.max" } },
+                "sort": { "by": "$state.sortBy", "order": "$state.sortOrder" },
+                "limit": "$state.pageSize",
+                "paginateOnScroll": true,
+                "onReachEnd": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "increment", "key": "pageSize", "by": 6 } ] },
+                "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 420 } }, "animation": { "curve": "spring" } },
+                "empty": {
+                  "type": "vstack", "alignment": "center", "spacing": "$token.spacing.md",
+                  "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": 48, "bottom": 24 } },
+                  "children": [
+                    {
+                      "type": "zstack", "alignment": "center",
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 72 }, "height": { "mode": "fixed", "value": 72 } } },
+                      "children": [
+                        { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "$token.color.primarySoft", "cornerRadius": 36 } },
+                        { "type": "icon", "name": "person.crop.circle.badge.questionmark", "color": "$token.color.primary", "size": 30 }
+                      ]
+                    },
+                    { "type": "text", "value": "No people match", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "alignment": "center" },
+                    { "type": "text", "value": "Try a different search or clear your filters.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary", "alignment": "center" },
+                    {
+                      "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
+                      "modifiers": { "padding": { "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primarySoft", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "role", "value": "all" }, { "action": "setState", "key": "min", "value": 0 }, { "action": "setState", "key": "max", "value": 0 }, { "action": "setState", "key": "search", "value": "" } ] } },
+                      "children": [
+                        { "type": "icon", "name": "arrow.counterclockwise", "color": "$token.color.primary", "size": 13 },
+                        { "type": "text", "value": "Clear filters", "style": "$token.typography.subheadline", "color": "$token.color.primary" }
+                      ]
+                    }
+                  ]
+                },
+                "template": {
+                  "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md",
+                  "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": 12, "bottom": 12 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+                  "children": [
+                    {
+                      "type": "zstack", "alignment": "center",
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 40 }, "height": { "mode": "fixed", "value": 40 } }, "cornerRadius": 20 },
+                      "children": [
+                        { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "$token.color.primarySoft", "cornerRadius": 20 } },
+                        { "type": "icon", "name": "person.fill", "color": "$token.color.primary", "size": 16 }
+                      ]
+                    },
+                    { "type": "vstack", "alignment": "leading", "spacing": 1, "children": [
+                      { "type": "text", "value": "$item.name", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "lineLimit": 1 },
+                      { "type": "text", "value": "$item.role", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+                    ] },
+                    { "type": "spacer" },
+                    { "type": "text", "value": "$item.amountLabel", "style": "$token.typography.headline", "color": "$token.color.textPrimary" }
+                  ]
+                }
+              },
+              {
+                "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
+                "visibleWhen": { "notEquals": ["$state.resultCount", "0"] },
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.xs" } },
+                "children": [
+                  { "type": "spacer" },
+                  { "type": "icon", "name": "checkmark.circle.fill", "color": "$token.color.textTertiary", "size": 12 },
+                  { "type": "text", "value": "Showing all $state.resultCount people", "style": "$token.typography.caption", "color": "$token.color.textTertiary" },
+                  { "type": "spacer" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "vstack",
+          "alignment": "leading",
+          "spacing": "$token.spacing.lg",
+          "modifiers": { "presentWhen": "showFilters", "presentStyle": "sheet", "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.lg", "leading": "$token.spacing.lg", "trailing": "$token.spacing.lg", "bottom": "$token.spacing.lg" }, "background": "$token.color.surfaceElevated" },
+          "children": [
+            {
+              "type": "hstack", "alignment": "center",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "text", "value": "Filters", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary" },
+                { "type": "spacer" },
+                { "type": "icon", "name": "xmark", "weight": "semibold", "color": "$token.color.textSecondary", "size": 20, "modifiers": { "hitSlop": 12, "onTap": { "action": "setState", "key": "showFilters", "value": false } } }
+              ]
+            },
+            { "type": "text", "value": "ROLE", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+            {
+              "type": "hstack", "spacing": "$token.spacing.sm", "alignment": "center",
+              "children": [
+                { "type": "text", "value": "All", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "all"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                { "type": "text", "value": "All", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "all"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "role", "value": "all" } } },
+                { "type": "text", "value": "Engineer", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "Engineer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                { "type": "text", "value": "Engineer", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "Engineer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "role", "value": "Engineer" } } },
+                { "type": "text", "value": "Designer", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "Designer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                { "type": "text", "value": "Designer", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "Designer"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "role", "value": "Designer" } } },
+                { "type": "text", "value": "PM", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.role", "PM"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                { "type": "text", "value": "PM", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.role", "PM"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "role", "value": "PM" } } }
+              ]
+            },
+            {
+              "type": "hstack", "alignment": "center", "spacing": "$token.spacing.sm",
+              "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.sm" } },
+              "children": [
+                { "type": "text", "value": "AMOUNT", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+                { "type": "spacer" },
+                { "type": "text", "value": "USD", "style": "$token.typography.caption", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.currency", "USD"] }, "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                { "type": "text", "value": "USD", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "visibleWhen": { "notEquals": ["$state.currency", "USD"] }, "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "currency", "value": "USD" } } },
+                { "type": "text", "value": "EUR", "style": "$token.typography.caption", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.currency", "EUR"] }, "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                { "type": "text", "value": "EUR", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "visibleWhen": { "notEquals": ["$state.currency", "EUR"] }, "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "currency", "value": "EUR" } } },
+                { "type": "text", "value": "KZT", "style": "$token.typography.caption", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.currency", "KZT"] }, "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                { "type": "text", "value": "KZT", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "visibleWhen": { "notEquals": ["$state.currency", "KZT"] }, "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "currency", "value": "KZT" } } }
+              ]
+            },
+            {
+              "type": "hstack", "spacing": "$token.spacing.md", "alignment": "center",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "textfield", "bind": "min", "placeholder": "From", "keyboardType": "number", "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } } } },
+                { "type": "text", "value": "—", "style": "$token.typography.body", "color": "$token.color.textTertiary" },
+                { "type": "textfield", "bind": "max", "placeholder": "To", "keyboardType": "number", "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } } } }
+              ]
+            },
+            {
+              "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
+              "children": [
+                { "type": "icon", "name": "arrow.left.arrow.right", "color": "$token.color.textTertiary", "size": 12 },
+                { "type": "text", "value": "Live rate · 1 USD = 470 ₸ · base currency", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.currency", "USD"] } },
+                { "type": "text", "value": "Live rate · 1 EUR = 1.09 USD = 512 ₸", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.currency", "EUR"] } },
+                { "type": "text", "value": "Live rate · 1 ₸ = 0.0021 USD · amounts ÷ 470", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.currency", "KZT"] } }
+              ]
+            },
+            { "type": "spacer" },
+            {
+              "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "icon", "name": "person.2.fill", "color": "$token.color.primary", "size": 13 },
+                { "type": "text", "value": "$state.resultCount", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary" },
+                { "type": "text", "value": "of $state.total match", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+              ]
+            },
+            {
+              "type": "hstack", "spacing": "$token.spacing.md", "alignment": "center",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "button", "title": "Clear", "style": "$token.button.tinted", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "role", "value": "all" }, { "action": "setState", "key": "min", "value": 0 }, { "action": "setState", "key": "max", "value": 0 }, { "action": "setState", "key": "search", "value": "" } ] }, "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } } } },
+                { "type": "button", "title": "Show results", "style": "$token.button.large", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "showFilters", "value": false } ] }, "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } } } }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

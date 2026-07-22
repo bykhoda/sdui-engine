@@ -1,0 +1,27 @@
+# Swift / SPM
+ios/.build/
+.build/
+DerivedData/
+.swiftpm/
+
+# Xcode per-user state (the .xcodeproj itself is intentionally committed)
+xcuserdata/
+*.xcuserstate
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+
+# Android (Gradle)
+android/.gradle/
+android/build/
+android/**/build/
+android/local.properties
+
+# Editor / tooling local state
+.claude/settings.local.json
+.idea/
+*.iml
+

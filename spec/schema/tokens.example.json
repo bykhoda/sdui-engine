@@ -1,0 +1,45 @@
+{
+  "$comment": "Shared design tokens. Loaded once by the host app and referenced from any payload as '$token.<group>.<name>'. Values are platform-neutral: colors are hex, spacing/radii are points, typography is a small descriptor both platforms map to native fonts. Ship one of these per brand/theme.",
+  "version": "0.1",
+  "color": {
+    "primary":       "#0A84FF",
+    "onPrimary":     "#FFFFFF",
+    "background":    "#FFFFFF",
+    "surface":       "#F2F2F7",
+    "textPrimary":   "#1C1C1E",
+    "textSecondary": "#8E8E93",
+    "separator":     "#C6C6C8",
+    "success":       "#34C759",
+    "error":         "#FF3B30"
+  },
+  "$comment_colorDark": "Dark mode is a separate palette, not an inversion. When $env.theme is 'dark', a $token.color.X ref resolves to $token.colorDark.X if present, else falls back to the light value.",
+  "colorDark": {
+    "primary":       "#0A84FF",
+    "onPrimary":     "#FFFFFF",
+    "background":    "#000000",
+    "surface":       "#1C1C1E",
+    "textPrimary":   "#FFFFFF",
+    "textSecondary": "#98989F",
+    "separator":     "#38383A",
+    "success":       "#30D158",
+    "error":         "#FF453A"
+  },
+  "spacing": {
+    "xs": 4, "sm": 8, "md": 16, "lg": 24, "xl": 32, "xxl": 48
+  },
+  "radius": {
+    "sm": 8, "md": 12, "lg": 20, "pill": 999
+  },
+  "typography": {
+    "largeTitle": { "size": 34, "weight": "bold" },
+    "title2":     { "size": 22, "weight": "semibold" },
+    "headline":   { "size": 17, "weight": "semibold" },
+    "body":       { "size": 17, "weight": "regular" },
+    "subheadline":{ "size": 15, "weight": "regular" },
+    "caption":    { "size": 12, "weight": "regular" }
+  },
+  "button": {
+    "primary":   { "background": "$token.color.primary", "foreground": "$token.color.onPrimary", "radius": "$token.radius.md", "paddingV": "$token.spacing.md", "paddingH": "$token.spacing.lg" },
+    "secondary": { "background": "$token.color.surface", "foreground": "$token.color.primary", "radius": "$token.radius.md", "paddingV": "$token.spacing.md", "paddingH": "$token.spacing.lg" }
+  }
+}

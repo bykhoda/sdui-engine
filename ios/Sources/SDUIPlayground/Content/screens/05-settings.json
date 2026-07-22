@@ -1,0 +1,71 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "settings",
+    "title": "Settings",
+    "scrollBehavior": {
+      "subtitle": "Local device preferences",
+      "revealOnPull": { "placeholder": "Search settings", "bind": "$state.query" }
+    },
+    "state": { "notifications": true, "sounds": false, "quality": "high", "wifiOnly": true, "query": "" },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": { "padding": "$token.spacing.lg" },
+        "children": [
+          {
+            "type": "hstack",
+            "spacing": "$token.spacing.md",
+            "alignment": "center",
+            "children": [
+              { "type": "image", "source": "https://picsum.photos/seed/avatar/120/120", "loader": { "placeholder": "skeleton", "aspectRatio": 1 }, "modifiers": { "size": { "width": { "mode": "fixed", "value": 64 }, "height": { "mode": "fixed", "value": 64 } }, "cornerRadius": "$token.radius.pill" } },
+              { "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs", "children": [
+                { "type": "text", "value": "Alex Rivera", "style": "$token.typography.title2", "color": "$token.color.textPrimary" },
+                { "type": "text", "value": "alex@example.com", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+              ] }
+            ]
+          },
+          { "type": "text", "value": "PREFERENCES", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+          {
+            "type": "vstack",
+            "spacing": "$token.spacing.sm",
+            "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "toggle", "bind": "notifications", "title": "Push notifications" },
+              { "type": "divider", "color": "$token.color.separator" },
+              { "type": "toggle", "bind": "sounds", "title": "In-app sounds" }
+            ]
+          },
+          { "type": "text", "value": "PLAYBACK", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+          {
+            "type": "vstack",
+            "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "picker", "bind": "quality", "title": "Streaming quality", "options": [
+                { "label": "Low", "value": "low" },
+                { "label": "High", "value": "high" },
+                { "label": "Lossless", "value": "lossless" }
+              ] },
+              { "type": "divider", "color": "$token.color.separator" },
+              { "type": "text", "value": "Uses up to 24 MB/hour · saves data", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.quality", "low"] } },
+              { "type": "text", "value": "Uses up to 72 MB/hour · balanced", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.quality", "high"] } },
+              { "type": "text", "value": "Uses up to 145 MB/hour · best fidelity", "style": "$token.typography.caption", "color": "$token.color.textTertiary", "visibleWhen": { "equals": ["$state.quality", "lossless"] } },
+              { "type": "toggle", "bind": "wifiOnly", "title": "Download over Wi-Fi only" }
+            ]
+          },
+          {
+            "type": "button",
+            "title": "Sign out",
+            "style": "$token.button.secondary",
+            "icon": "rectangle.portrait.and.arrow.right",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "medium" }, { "action": "showToast", "message": "Signed out" } ] }
+          }
+        ]
+      }
+    }
+  }
+}

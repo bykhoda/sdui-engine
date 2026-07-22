@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios:
+    name: Swift build & test
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Swift version
+        run: swift --version
+      - name: Build
+        working-directory: ios
+        run: swift build
+      - name: Test
+        working-directory: ios
+        run: swift test
+
+  ios-app:
+    name: Demo app builds for iOS Simulator
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build demo app
+        working-directory: ios/Examples/DemoApp
+        run: >
+          xcodebuild
+          -project SDUIDemo.xcodeproj
+          -scheme SDUIDemo
+          -destination 'generic/platform=iOS Simulator'
+          CODE_SIGNING_ALLOWED=NO
+          build
+
+  contract:
+    name: Validate contract & examples
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate example payloads
+        run: node spec/tools/validate.mjs spec/examples/*.json

@@ -1,0 +1,57 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "login_form",
+    "title": "Sign in",
+    "analytics": { "screenName": "auth.login" },
+    "state": { "email": "", "password": "", "remember": true, "plan": "free" },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": { "padding": "$token.spacing.lg" },
+        "children": [
+          { "type": "text", "value": "Welcome back", "style": "$token.typography.largeTitle" },
+          {
+            "type": "textfield",
+            "bind": "email",
+            "placeholder": "Email",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "accessibility": { "label": "Email", "role": "none" } }
+          },
+          {
+            "type": "textfield",
+            "bind": "password",
+            "placeholder": "Password",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "accessibility": { "label": "Password" } }
+          },
+          { "type": "toggle", "bind": "remember", "title": "Remember me" },
+          {
+            "type": "picker",
+            "bind": "plan",
+            "title": "Plan",
+            "options": [
+              { "label": "Free", "value": "free" },
+              { "label": "Pro", "value": "pro" }
+            ]
+          },
+          {
+            "type": "button",
+            "title": "Sign in",
+            "style": "$token.button.primary",
+            "enabledWhen": { "and": [ { "exists": "$state.email" }, { "exists": "$state.password" } ] },
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "accessibility": { "role": "button", "label": "Sign in" } },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                { "action": "haptic", "style": "medium" },
+                { "action": "showToast", "message": "Signing in $state.email…", "style": "info" }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

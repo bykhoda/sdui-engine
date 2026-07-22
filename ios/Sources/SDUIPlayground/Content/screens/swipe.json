@@ -1,0 +1,623 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "swipe",
+    "title": "Swipe Actions",
+    "scrollBehavior": {
+      "subtitle": "Custom drag swipe — one open at a time, velocity snap, full-swipe."
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1216"
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Done",
+                    "icon": "checkmark",
+                    "tint": "$token.color.success",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "success"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Completed",
+                          "style": "success"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Flagged"
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Deleted",
+                      "style": "error"
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/sw1/100/100",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "aspectRatio": 1
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Maya Chen",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Swipe me left or right — pure JSON.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "text",
+                "value": "9:41",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1216"
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Done",
+                    "icon": "checkmark",
+                    "tint": "$token.color.success",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "success"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Completed",
+                          "style": "success"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Flagged"
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Deleted",
+                      "style": "error"
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/sw2/100/100",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "aspectRatio": 1
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Design Weekly",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Long-swipe fires the edge action.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "text",
+                "value": "8:02",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1216"
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Done",
+                    "icon": "checkmark",
+                    "tint": "$token.color.success",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "success"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Completed",
+                          "style": "success"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Flagged"
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Deleted",
+                      "style": "error"
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/sw3/100/100",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "aspectRatio": 1
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "GitHub",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Open one, swipe another — first closes.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "text",
+                "value": "Yst",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1216"
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Done",
+                    "icon": "checkmark",
+                    "tint": "$token.color.success",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "success"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Completed",
+                          "style": "success"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Flagged"
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Deleted",
+                      "style": "error"
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/sw4/100/100",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "aspectRatio": 1
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Aruzhan Kim",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Flick back to close, drag far to flip.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "text",
+                "value": "Yst",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1216"
+              },
+              "swipe": {
+                "style": "custom",
+                "fullSwipe": true,
+                "leading": [
+                  {
+                    "title": "Done",
+                    "icon": "checkmark",
+                    "tint": "$token.color.success",
+                    "action": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "success"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Completed",
+                          "style": "success"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "trailing": [
+                  {
+                    "title": "Flag",
+                    "icon": "flag.fill",
+                    "tint": "$token.color.warning",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Flagged"
+                    }
+                  },
+                  {
+                    "title": "Delete",
+                    "icon": "trash.fill",
+                    "role": "destructive",
+                    "action": {
+                      "action": "showToast",
+                      "message": "Deleted",
+                      "style": "error"
+                    }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/sw5/100/100",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "aspectRatio": 1
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 46
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 46
+                    }
+                  },
+                  "cornerRadius": "$token.radius.pill"
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Figma",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Circular actions, spring physics.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "text",
+                "value": "Mon",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

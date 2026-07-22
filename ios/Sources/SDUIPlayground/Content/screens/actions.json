@@ -1,0 +1,251 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "actions",
+    "title": "Actions",
+    "scrollBehavior": { "subtitle": "Tap any control — every effect is pure JSON" },
+    "state": {
+      "status": "no action yet",
+      "flag": false
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg"
+        },
+        "children": [
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "modifiers": {
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "bolt.horizontal.circle.fill",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": " Last action: $state.status",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textPrimary"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "Feedback",
+            "style": "$token.typography.headline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "hstack",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "button",
+                "title": "Toast",
+                "style": "$token.button.secondary",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "onTap": {
+                  "action": "showToast",
+                  "message": "Info toast",
+                  "style": "info"
+                }
+              },
+              {
+                "type": "button",
+                "title": "Haptic",
+                "style": "$token.button.secondary",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "success"
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "Haptic · success (feel it on a device)"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "title": "Share",
+                "style": "$token.button.secondary",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "onTap": {
+                  "action": "share",
+                  "text": "Built with SDUI",
+                  "url": "https://example.com"
+                }
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "State",
+            "style": "$token.typography.headline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "button",
+            "title": "Set state to \"saved\"",
+            "style": "$token.button.primary",
+            "icon": "square.and.arrow.down",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "onTap": {
+              "action": "setState",
+              "key": "status",
+              "value": "saved to state"
+            }
+          },
+          {
+            "type": "text",
+            "value": "Conditional",
+            "style": "$token.typography.headline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "toggle",
+            "bind": "flag",
+            "title": "Feature flag"
+          },
+          {
+            "type": "button",
+            "title": "Run condition",
+            "style": "$token.button.secondary",
+            "icon": "arrow.triangle.branch",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "onTap": {
+              "action": "condition",
+              "if": {
+                "equals": [
+                  "$state.flag",
+                  "true"
+                ]
+              },
+              "then": {
+                "action": "showToast",
+                "message": "Flag is ON",
+                "style": "success"
+              },
+              "else": {
+                "action": "showToast",
+                "message": "Flag is OFF",
+                "style": "error"
+              }
+            }
+          },
+          {
+            "type": "text",
+            "value": "Composed (sequence)",
+            "style": "$token.typography.headline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "button",
+            "title": "Haptic, toast, then save",
+            "style": "$token.button.primary",
+            "icon": "wand.and.stars",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                {
+                  "action": "haptic",
+                  "style": "medium"
+                },
+                {
+                  "action": "showToast",
+                  "message": "Sequence ran",
+                  "style": "success"
+                },
+                {
+                  "action": "setState",
+                  "key": "status",
+                  "value": "sequence complete"
+                }
+              ]
+            }
+          },
+          {
+            "type": "text",
+            "value": "Links",
+            "style": "$token.typography.headline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "button",
+            "title": "openURL",
+            "style": "$token.button.secondary",
+            "icon": "safari",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "onTap": {
+              "action": "openURL",
+              "url": "https://developer.apple.com"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

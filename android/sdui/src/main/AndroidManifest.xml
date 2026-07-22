@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Empty manifest. The SDUI renderer is a pure UI library: it declares no
+  components, permissions or resources of its own. Networking (and therefore the
+  INTERNET permission) belongs to the host app that implements `DataLoader`.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />

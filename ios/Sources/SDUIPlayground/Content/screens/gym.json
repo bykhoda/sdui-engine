@@ -1,0 +1,219 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "gym",
+    "state": { "bookedHiit": false, "bookedYoga": false, "bookedBox": false, "plan": "annual" },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": { "padding": "$token.spacing.lg", "size": { "width": { "mode": "fill" } }, "animation": { "curve": "spring" } },
+        "children": [
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
+            "children": [
+              { "type": "text", "value": "PULSE CLUB", "style": "$token.typography.caption", "color": "$token.color.primary" },
+              { "type": "text", "value": "Good morning, Alex", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Monday, July 20 · 3 classes today", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+            ]
+          },
+          {
+            "type": "zstack", "alignment": "topLeading",
+            "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 170 } }, "cornerRadius": "$token.radius.lg", "shadow": { "radius": 16, "y": 8, "color": "#5B5BF033" } },
+            "children": [
+              { "type": "gradient", "colors": ["#1B1B3A", "#3A2A78", "#5B5BF0"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": 0,
+                "modifiers": { "padding": "$token.spacing.lg", "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+                "children": [
+                  {
+                    "type": "hstack", "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "children": [
+                      { "type": "text", "value": "MEMBER", "style": "$token.typography.caption", "color": "#FFFFFF99" },
+                      { "type": "spacer" },
+                      { "type": "text", "value": "PRO", "style": "$token.typography.caption", "color": "#0E0E12", "modifiers": { "padding": { "horizontal": "$token.spacing.sm", "vertical": 3 }, "background": "#F5C518", "cornerRadius": "$token.radius.pill" } }
+                    ]
+                  },
+                  { "type": "spacer" },
+                  { "type": "text", "value": "Alex Morgan", "style": "$token.typography.title2", "color": "#FFFFFF" },
+                  { "type": "text", "value": "№ 8412 6690 · valid thru 03/27", "style": "$token.typography.subheadline", "color": "#FFFFFF99" },
+                  { "type": "spacer" },
+                  {
+                    "type": "hstack", "alignment": "center", "spacing": "$token.spacing.sm",
+                    "children": [
+                      { "type": "icon", "name": "qrcode", "color": "#FFFFFF", "size": 22, "symbolEffect": "pulse" },
+                      { "type": "text", "value": "Show at the front desk to check in", "style": "$token.typography.caption", "color": "#FFFFFFAA" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack", "alignment": "center",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "Today's classes", "style": "$token.typography.title2", "color": "$token.color.textPrimary" },
+              { "type": "spacer" },
+              { "type": "text", "value": "See week", "style": "$token.typography.subheadline", "color": "$token.color.primary", "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Weekly schedule" } ] } } }
+            ]
+          },
+          {
+            "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 10, "y": 4, "color": "#00000010" } },
+            "children": [
+              {
+                "type": "vstack", "alignment": "center", "spacing": 0,
+                "modifiers": { "size": { "width": { "mode": "fixed", "value": 56 } } },
+                "children": [
+                  { "type": "text", "value": "07:00", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "45 min", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                ]
+              },
+              { "type": "divider", "color": "$token.color.separator" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": 2,
+                "children": [
+                  { "type": "text", "value": "HIIT Blast", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "Coach Mia · Studio 2", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+                  { "type": "text", "value": "4 spots left", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                ]
+              },
+              { "type": "spacer" },
+              { "type": "button", "title": "Book", "style": "$token.button.small", "visibleWhen": { "equals": ["$state.bookedHiit", "false"] }, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "bookedHiit", "value": true }, { "action": "haptic", "style": "success" }, { "action": "showToast", "message": "Booked · HIIT Blast 07:00" } ] } },
+              { "type": "hstack", "alignment": "center", "spacing": 4, "visibleWhen": { "equals": ["$state.bookedHiit", "true"] }, "modifiers": { "padding": { "horizontal": "$token.spacing.sm", "vertical": 6 }, "background": "$token.color.successSoft", "cornerRadius": "$token.radius.pill" }, "children": [
+                { "type": "icon", "name": "checkmark", "color": "$token.color.success", "size": 12 },
+                { "type": "text", "value": "Booked", "style": "$token.typography.caption", "color": "$token.color.success" }
+              ] }
+            ]
+          },
+          {
+            "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 10, "y": 4, "color": "#00000010" } },
+            "children": [
+              {
+                "type": "vstack", "alignment": "center", "spacing": 0,
+                "modifiers": { "size": { "width": { "mode": "fixed", "value": 56 } } },
+                "children": [
+                  { "type": "text", "value": "12:30", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "60 min", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                ]
+              },
+              { "type": "divider", "color": "$token.color.separator" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": 2,
+                "children": [
+                  { "type": "text", "value": "Yoga Flow", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "Coach Sana · Studio 1", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+                  { "type": "text", "value": "8 spots left", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                ]
+              },
+              { "type": "spacer" },
+              { "type": "button", "title": "Book", "style": "$token.button.small", "visibleWhen": { "equals": ["$state.bookedYoga", "false"] }, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "bookedYoga", "value": true }, { "action": "haptic", "style": "success" }, { "action": "showToast", "message": "Booked · Yoga Flow 12:30" } ] } },
+              { "type": "hstack", "alignment": "center", "spacing": 4, "visibleWhen": { "equals": ["$state.bookedYoga", "true"] }, "modifiers": { "padding": { "horizontal": "$token.spacing.sm", "vertical": 6 }, "background": "$token.color.successSoft", "cornerRadius": "$token.radius.pill" }, "children": [
+                { "type": "icon", "name": "checkmark", "color": "$token.color.success", "size": 12 },
+                { "type": "text", "value": "Booked", "style": "$token.typography.caption", "color": "$token.color.success" }
+              ] }
+            ]
+          },
+          {
+            "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 10, "y": 4, "color": "#00000010" } },
+            "children": [
+              {
+                "type": "vstack", "alignment": "center", "spacing": 0,
+                "modifiers": { "size": { "width": { "mode": "fixed", "value": 56 } } },
+                "children": [
+                  { "type": "text", "value": "18:00", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "50 min", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                ]
+              },
+              { "type": "divider", "color": "$token.color.separator" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": 2,
+                "children": [
+                  { "type": "text", "value": "Box & Burn", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "Coach Deni · Ring", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+                  { "type": "text", "value": "2 spots left", "style": "$token.typography.caption", "color": "$token.color.warning" }
+                ]
+              },
+              { "type": "spacer" },
+              { "type": "button", "title": "Book", "style": "$token.button.small", "visibleWhen": { "equals": ["$state.bookedBox", "false"] }, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "bookedBox", "value": true }, { "action": "haptic", "style": "success" }, { "action": "showToast", "message": "Booked · Box & Burn 18:00" } ] } },
+              { "type": "hstack", "alignment": "center", "spacing": 4, "visibleWhen": { "equals": ["$state.bookedBox", "true"] }, "modifiers": { "padding": { "horizontal": "$token.spacing.sm", "vertical": 6 }, "background": "$token.color.successSoft", "cornerRadius": "$token.radius.pill" }, "children": [
+                { "type": "icon", "name": "checkmark", "color": "$token.color.success", "size": 12 },
+                { "type": "text", "value": "Booked", "style": "$token.typography.caption", "color": "$token.color.success" }
+              ] }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.md",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "background": "$token.color.surface", "cornerRadius": "$token.radius.lg", "animation": { "curve": "spring" } },
+            "children": [
+              { "type": "text", "value": "MEMBERSHIP", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "hstack", "spacing": "$token.spacing.sm",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "children": [
+                  {
+                    "type": "vstack", "alignment": "center", "spacing": 1,
+                    "visibleWhen": { "equals": ["$state.plan", "monthly"] },
+                    "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } }, "padding": { "vertical": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.md" },
+                    "children": [
+                      { "type": "text", "value": "Monthly", "style": "$token.typography.headline", "color": "$token.color.onPrimary" },
+                      { "type": "text", "value": "$39 / mo", "style": "$token.typography.caption", "color": "$token.color.onPrimary" }
+                    ]
+                  },
+                  {
+                    "type": "vstack", "alignment": "center", "spacing": 1,
+                    "visibleWhen": { "equals": ["$state.plan", "annual"] },
+                    "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } }, "padding": { "vertical": "$token.spacing.sm" }, "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "plan", "value": "monthly" }, { "action": "haptic", "style": "light" } ] } },
+                    "children": [
+                      { "type": "text", "value": "Monthly", "style": "$token.typography.headline", "color": "$token.color.textSecondary" },
+                      { "type": "text", "value": "$39 / mo", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                    ]
+                  },
+                  {
+                    "type": "vstack", "alignment": "center", "spacing": 1,
+                    "visibleWhen": { "equals": ["$state.plan", "annual"] },
+                    "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } }, "padding": { "vertical": "$token.spacing.sm" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.md" },
+                    "children": [
+                      { "type": "text", "value": "Annual", "style": "$token.typography.headline", "color": "$token.color.onPrimary" },
+                      { "type": "text", "value": "$29 / mo · save 25%", "style": "$token.typography.caption", "color": "$token.color.onPrimary" }
+                    ]
+                  },
+                  {
+                    "type": "vstack", "alignment": "center", "spacing": 1,
+                    "visibleWhen": { "equals": ["$state.plan", "monthly"] },
+                    "modifiers": { "size": { "width": { "mode": "weight", "value": 1 } }, "padding": { "vertical": "$token.spacing.sm" }, "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.md", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "plan", "value": "annual" }, { "action": "haptic", "style": "light" } ] } },
+                    "children": [
+                      { "type": "text", "value": "Annual", "style": "$token.typography.headline", "color": "$token.color.textSecondary" },
+                      { "type": "text", "value": "$29 / mo · save 25%", "style": "$token.typography.caption", "color": "$token.color.textTertiary" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "background": "$token.color.surface", "cornerRadius": "$token.radius.lg" },
+            "children": [
+              { "type": "rings", "values": [0.62], "colors": ["#5B5BF0"], "lineWidth": 8, "gap": 4, "modifiers": { "size": { "width": { "mode": "fixed", "value": 54 }, "height": { "mode": "fixed", "value": 54 } } } },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": 2,
+                "children": [
+                  { "type": "text", "value": "Weekly goal", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                  { "type": "text", "value": "3 of 5 visits this week", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+                ]
+              },
+              { "type": "spacer" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

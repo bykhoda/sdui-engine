@@ -1,0 +1,144 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "inputs",
+    "title": "Text inputs",
+    "scrollBehavior": { "subtitle": "Every state, one contract — default, focus, error, success, disabled and secure." },
+    "teach": { "title": "Input states", "task": "Tap any field to see the focus ring, then check the error, success & disabled states below." },
+    "state": {
+      "empty": "",
+      "focusMe": "",
+      "filled": "Aizhan Suleimenova",
+      "email": "aizhan@studio.io",
+      "goodPass": "s3cure-passw0rd",
+      "badEmail": "aizhan@@studio",
+      "locked": "Verified account",
+      "secret": "hunter2000",
+      "amount": "",
+      "phone": "",
+      "site": ""
+    },
+    "content": {
+      "type": "scroll",
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "child": {
+        "type": "vstack",
+        "alignment": "leading",
+        "spacing": "$token.spacing.xl",
+        "modifiers": { "padding": "$token.spacing.lg", "size": { "width": { "mode": "fill" } } },
+        "children": [
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "DEFAULT & FOCUS", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  { "type": "textfield", "bind": "empty", "label": "Full name", "placeholder": "Enter your name", "helper": "Idle — a calm hairline border.", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+                  { "type": "textfield", "bind": "focusMe", "label": "Tap me", "placeholder": "Tap to focus this field", "icon": "cursorarrow.rays", "helper": "Focused — the border lifts to the accent colour.", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                ]
+              }
+            ]
+          },
+
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "FILLED & WITH ICON", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  { "type": "textfield", "bind": "filled", "label": "Display name", "icon": "person", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+                  { "type": "textfield", "bind": "email", "label": "Email", "icon": "envelope", "keyboardType": "email", "textContentType": "email", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                ]
+              }
+            ]
+          },
+
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "VALIDATION", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  { "type": "textfield", "bind": "goodPass", "label": "Password", "icon": "lock", "status": "success", "helper": "Strong — 14 characters, looks great.", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+                  { "type": "textfield", "bind": "badEmail", "label": "Work email", "icon": "envelope", "status": "error", "keyboardType": "email", "helper": "That doesn't look like a valid email address.", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                ]
+              }
+            ]
+          },
+
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "DISABLED & SECURE", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  { "type": "textfield", "bind": "locked", "label": "Account", "icon": "checkmark.seal", "status": "disabled", "helper": "Locked — not editable.", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+                  { "type": "textfield", "bind": "secret", "label": "Secret", "icon": "lock.fill", "secure": true, "helper": "Secure entry masks every character.", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                ]
+              }
+            ]
+          },
+
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "KEYBOARD TYPES", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              {
+                "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  { "type": "textfield", "bind": "amount", "label": "Amount", "icon": "dollarsign.circle", "placeholder": "0.00", "keyboardType": "decimal", "helper": "Decimal pad.", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+                  { "type": "textfield", "bind": "phone", "label": "Phone", "icon": "phone", "placeholder": "+1 555 000 0000", "keyboardType": "phone", "textContentType": "telephone", "helper": "Phone pad.", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+                  { "type": "textfield", "bind": "site", "label": "Website", "icon": "link", "placeholder": "https://", "keyboardType": "url", "helper": "URL keyboard.", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
