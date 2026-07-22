@@ -1305,23 +1305,24 @@ struct CustomSwipeModifier: ViewModifier {
         return Button {
             fire(a)
         } label: {
+            // Everything is always present and toggled by OPACITY (never inserted /
+            // removed) — inserting views mid-gesture is what makes the row and its
+            // text jitter/reflow when the armed state flips near the threshold.
             ZStack {
-                if expanded {
-                    // The edge action's tinted "pill" stretched to fill the row —
-                    // inset a touch so it floats clear of the cell edge, not glued.
-                    RoundedRectangle(cornerRadius: 24, style: .continuous).fill(tint)
-                        .padding(.vertical, 7).padding(.horizontal, 7)
-                }
+                // The edge action's tinted "pill" stretched to fill the row when armed,
+                // inset a touch so it floats clear of the cell edge.
+                RoundedRectangle(cornerRadius: 24, style: .continuous).fill(tint)
+                    .padding(.vertical, 7).padding(.horizontal, 7)
+                    .opacity(expanded ? 1 : 0)
                 VStack(spacing: 5) {
                     ZStack {
-                        if !expanded { Circle().fill(tint).frame(width: 46, height: 46) }
+                        Circle().fill(tint).frame(width: 46, height: 46).opacity(expanded ? 0 : 1)
                         Image(systemName: a.icon ?? "circle")
                             .font(.system(size: 19, weight: .semibold)).foregroundColor(.white)
                     }
-                    if !expanded {
-                        Text(BindingEngine.resolveString(a.title ?? "", in: ctx.binding))
-                            .font(.caption2).foregroundStyle(.secondary).lineLimit(1)
-                    }
+                    Text(BindingEngine.resolveString(a.title ?? "", in: ctx.binding))
+                        .font(.caption2).foregroundStyle(.secondary).lineLimit(1)
+                        .opacity(expanded ? 0 : 1)
                 }
             }
             .frame(width: max(w, 0))
