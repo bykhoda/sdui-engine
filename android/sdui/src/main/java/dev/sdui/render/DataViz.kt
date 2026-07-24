@@ -223,7 +223,6 @@ internal fun ChartView(component: Component, ctx: RenderContext) {
  * maps them to resources via an icon registry. Absent that, we surface the name
  * as text so authoring intent stays visible — the same fallback [ButtonView] uses.
  */
-@Composable
 // Maps an SF-Symbol-style contract icon name to a Material icon, so the same
 // JSON that draws SF Symbols on iOS draws real glyphs on Android (not the name
 // as text). A host `iconResolver` still wins when provided.
@@ -264,6 +263,7 @@ private fun materialIcon(sf: String): ImageVector = when (sf) {
     else -> Icons.Filled.Widgets
 }
 
+@Composable
 internal fun IconView(component: Component, ctx: RenderContext) {
     val name = BindingEngine.resolveString(component.prop("name")?.stringValue ?: "", ctx.binding)
     val color = Theme.color(component.prop("color")?.stringValue, ctx.binding)
