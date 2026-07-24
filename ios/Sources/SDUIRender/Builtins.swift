@@ -42,6 +42,7 @@ enum Builtins {
         r.register("calendar") { c, ctx in AnyView(CalendarGridView(component: c, ctx: ctx)) }
         r.register("clips") { c, ctx in AnyView(ClipsView(component: c, ctx: ctx)) }
         r.register("filecell") { c, ctx in AnyView(FileCellView(component: c, ctx: ctx)) }
+        r.register("pager") { c, ctx in AnyView(PagerView(component: c, ctx: ctx)) }
         #if canImport(Charts)
         if #available(iOS 16, macOS 13, *) {
             r.register("chart") { c, ctx in AnyView(SDUIChartView(component: c, ctx: ctx)) }

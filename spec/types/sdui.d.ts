@@ -93,7 +93,24 @@ export type Component = ComponentBase & (StackProps
   | DatePickerProps
   | FileCellProps
   | CalendarProps
-  | ClipsProps);
+  | ClipsProps
+  | PagerProps);
+
+/**
+ * A paging carousel: shows one child page at a time with page dots and optional auto-advance — the premium rotating-hero-banner pattern. Manual swipe always works; auto-advance pauses under Reduce Motion.
+ */
+export interface PagerProps {
+  /**
+   * Auto-advance interval in milliseconds; 0 (default) = manual paging only. 4000–7000 is the premium range.
+   */
+  autoAdvanceMs?: number;
+  /** The pages, one shown at a time. */
+  children: Component[];
+  /** Page height in points (the carousel doesn't size to content). */
+  height?: number;
+  /** Page indicator style. */
+  indicator?: "dots" | "none";
+}
 
 /**
  * A native date picker two-way bound to a $state key holding an ISO yyyy-MM-dd string. Each platform renders its own native calendar from the same contract.

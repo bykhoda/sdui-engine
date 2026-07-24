@@ -8,7 +8,7 @@
 
 ## Components
 
-### Components (29)
+### Components (30)
 
 | Component | iOS | Android | Aurora |
 |---|---|---|---|
@@ -21,12 +21,13 @@
 | `disclosure` | ✅ | ✅ | — |
 | `divider` | ✅ | ✅ | ✅ |
 | `filecell` | ✅ | — | — |
-| `gradient` | ✅ | ✅ | — |
-| `grid` | ✅ | ✅ | — |
+| `gradient` | ✅ | ✅ | ✅ |
+| `grid` | ✅ | ✅ | ✅ |
 | `hstack` | ✅ | ✅ | ✅ |
 | `icon` | ✅ | ✅ | ✅ |
 | `image` | ✅ | ✅ | ✅ |
 | `list` | ✅ | ✅ | — |
+| `pager` | ✅ | — | — |
 | `picker` | ✅ | — | — |
 | `progress` | ✅ | ✅ | — |
 | `rings` | ✅ | ✅ | — |
@@ -41,13 +42,13 @@
 | `toggle` | ✅ | ✅ | ✅ |
 | `vstack` | ✅ | ✅ | ✅ |
 | `zstack` | ✅ | ✅ | ✅ |
-| **supported** | **29/29** | **23/29** | **12/29** |
+| **supported** | **30/30** | **23/30** | **14/30** |
 
 ### Gaps — components
 
 - **iOS** missing 0: _none — full parity_
-- **Android** missing 6: `calendar`, `clips`, `datepicker`, `filecell`, `picker`, `roadmap`
-- **Aurora** missing 17: `async`, `calendar`, `chart`, `clips`, `datepicker`, `disclosure`, `filecell`, `gradient`, `grid`, `list`, `picker`, `progress`, `rings`, `roadmap`, `slider`, `spinner`, `ticker`
+- **Android** missing 7: `calendar`, `clips`, `datepicker`, `filecell`, `pager`, `picker`, `roadmap`
+- **Aurora** missing 16: `async`, `calendar`, `chart`, `clips`, `datepicker`, `disclosure`, `filecell`, `list`, `pager`, `picker`, `progress`, `rings`, `roadmap`, `slider`, `spinner`, `ticker`
 
 ## Actions
 

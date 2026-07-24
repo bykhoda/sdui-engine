@@ -122,8 +122,20 @@
         { "if": { "properties": { "type": { "const": "datepicker" } } }, "then": { "$ref": "#/$defs/DatePickerProps" } },
         { "if": { "properties": { "type": { "const": "filecell" } } }, "then": { "$ref": "#/$defs/FileCellProps" } },
         { "if": { "properties": { "type": { "const": "calendar" } } }, "then": { "$ref": "#/$defs/CalendarProps" } },
-        { "if": { "properties": { "type": { "const": "clips" } } }, "then": { "$ref": "#/$defs/ClipsProps" } }
+        { "if": { "properties": { "type": { "const": "clips" } } }, "then": { "$ref": "#/$defs/ClipsProps" } },
+        { "if": { "properties": { "type": { "const": "pager" } } }, "then": { "$ref": "#/$defs/PagerProps" } }
       ]
+    },
+
+    "PagerProps": {
+      "description": "A paging carousel: shows one child page at a time with page dots and optional auto-advance — the premium rotating-hero-banner pattern. Manual swipe always works; auto-advance pauses under Reduce Motion.",
+      "properties": {
+        "children": { "type": "array", "items": { "$ref": "#/$defs/Component" }, "description": "The pages, one shown at a time." },
+        "height": { "type": "number", "description": "Page height in points (the carousel doesn't size to content)." },
+        "autoAdvanceMs": { "type": "number", "description": "Auto-advance interval in milliseconds; 0 (default) = manual paging only. 4000–7000 is the premium range." },
+        "indicator": { "enum": ["dots", "none"], "default": "dots", "description": "Page indicator style." }
+      },
+      "required": ["children"]
     },
 
     "DatePickerProps": {

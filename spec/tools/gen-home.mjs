@@ -96,8 +96,7 @@ const storyRail = {
     children: STORIES.map((s, i) => storyCircle(s, i)) },
 };
 
-// ── 3. Hero: a swipeable collection of full-bleed banners (peek of the next) ──
-const HERO_W = 330;
+// ── 3. Hero: an auto-advancing carousel of full-bleed banners (dots) ─────────
 const HERO_H = 220;
 const BANNERS = [
   { eyebrow: 'FEATURED', title: 'Ship whole screens from JSON',
@@ -112,13 +111,13 @@ const BANNERS = [
 ];
 const banner = (b) => ({
   type: 'zstack', alignment: 'bottomLeading',
-  modifiers: { size: { width: { mode: 'fixed', value: HERO_W } }, onTap: nav(b.to) },
+  modifiers: { size: { width: { mode: 'fill' } }, onTap: nav(b.to) },
   children: [
     { type: 'gradient', colors: b.colors, direction: 'diagonal',
-      modifiers: { size: { width: { mode: 'fixed', value: HERO_W }, height: { mode: 'fixed', value: HERO_H } },
+      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: HERO_H } },
         cornerRadius: '$token.radius.lg', shadow: { radius: 14, y: 8, color: b.shadow } } },
     { type: 'gradient', colors: ['#00000000', '#00000066'], direction: 'vertical',
-      modifiers: { size: { width: { mode: 'fixed', value: HERO_W }, height: { mode: 'fixed', value: HERO_H } },
+      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: HERO_H } },
         cornerRadius: '$token.radius.lg' } },
     { type: 'vstack', alignment: 'leading', spacing: XS, modifiers: { padding: LG },
       children: [
@@ -131,10 +130,10 @@ const banner = (b) => ({
       ] },
   ],
 });
-const heroRail = {
-  type: 'scroll', axis: 'horizontal', showsIndicators: false,
-  child: { type: 'hstack', spacing: MD, modifiers: { padding: { horizontal: LG } },
-    children: BANNERS.map(banner) },
+// Auto-advancing carousel with page dots — the rotating hero the home leads with.
+const heroPager = {
+  type: 'pager', height: HERO_H, autoAdvanceMs: 5000, indicator: 'dots',
+  children: BANNERS.map(banner),
 };
 
 // ── 4. Per-category horizontal rails (peek of the next card) ─────────────────
@@ -182,7 +181,7 @@ const doc = {
       child: {
         type: 'vstack', alignment: 'leading', spacing: '$token.spacing.xl',
         modifiers: { padding: { top: SM, bottom: '$token.spacing.xl' }, size: { width: { mode: 'fill' } } },
-        children: [header, storyRail, heroRail, ...catalog.categories.map(railSection)],
+        children: [header, storyRail, heroPager, ...catalog.categories.map(railSection)],
       },
     },
   },
