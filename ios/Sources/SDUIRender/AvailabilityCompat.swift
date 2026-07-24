@@ -32,11 +32,13 @@ public extension View {
         }
     }
 
-    /// Hides the bottom tab bar for a pushed screen (iOS 16+), so drilling in from
-    /// a tab goes full-height — the standard detail-screen behaviour. No-op on iOS 15.
-    @ViewBuilder func sduiHiddenTabBar() -> some View {
+    /// Hides the bottom tab bar (iOS 16+) when `hidden` is true. Per HIG this is
+    /// reserved for full-screen immersive screens (a media/story player, an
+    /// edge-to-edge preview) — NOT ordinary detail pushes, which keep the tab bar.
+    /// No-op on iOS 15.
+    @ViewBuilder func sduiHiddenTabBar(_ hidden: Bool = true) -> some View {
         #if os(iOS)
-        if #available(iOS 16, *) {
+        if hidden, #available(iOS 16, *) {
             self.toolbar(.hidden, for: .tabBar)
         } else {
             self

@@ -123,10 +123,7 @@ public struct SDUIContainerView: View {
         SDUINavPathContainer(path: $navigator.path) {
             routeView(root)
         } destination: { route in
-            // Drilling into a screen hides the bottom tab bar (HIG: detail views go
-            // full-height); the root screen keeps it.
             routeView(route)
-                .sduiHiddenTabBar()
         }
         .sheet(item: $navigator.sheet) { route in
             SDUINavContainer { routeView(route) }
@@ -176,6 +173,9 @@ private struct RouteScreenView: View {
                 SDUIScreenView(document: document, tokens: tokens, env: env,
                                params: route.params, loader: loader,
                                registry: registry, delegate: delegate)
+                    // HIG: keep the tab bar on ordinary detail pushes; hide it only
+                    // for full-screen immersive screens (they draw their own chrome).
+                    .sduiHiddenTabBar(document.screen.chrome == "immersive")
             } else if didFail {
                 VStack(spacing: 8) {
                     Image(systemName: "wifi.exclamationmark").font(.largeTitle).foregroundColor(.secondary)
