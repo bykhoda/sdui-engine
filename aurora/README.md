@@ -5,14 +5,16 @@ JSON contract as iOS and Android (see [`../spec/`](../spec)) and renders it with
 **Qt Quick / Sailfish Silica** on **Aurora OS (ОС Аврора)** — one contract, three
 native apps.
 
-> Status: **v0 skeleton — initial renderer.** Pure QML/Silica, no native model.
-> Covers the core primitives (stacks, text, button, image, icon, divider, spacer,
-> toggle, textfield) and `$token`/`$state`/`$data` binding. The long tail (list
-> templates, chart, calendar, clips, async, swipe, the action runtime) is TODO;
-> unsupported components degrade to a visible marker, never a crash. **Not yet
-> compiled** — it needs the Aurora SDK (unavailable in this repo's CI); the code is
-> written to the documented Aurora conventions (Qt 5.6, `Aurora::Application`,
-> Silica, ES5).
+> Status: **v0.2 — renders the premium home.** Pure QML/Silica. The renderer now
+> applies the shared modifier surface (size / background / cornerRadius / shadow /
+> padding / onTap / pulse), plus `grid`, horizontal `scroll` rails, `zstack`
+> overlays with alignment, `gradient` fills (QtGraphicalEffects), and server-driven
+> navigation via a `dispatch` runtime — so the app roots at the same `home.json`
+> the iOS/Android demos do. Remaining long tail (list templates, chart, calendar,
+> clips, async, swipe, form two-way state, stories player) is TODO; unsupported
+> types degrade to a visible marker, never a crash. **Not yet compiled** — it needs
+> the Aurora SDK (unavailable here); written to documented Aurora conventions
+> (Qt 5.6, `Aurora::Application`, Silica, ES5, QtGraphicalEffects).
 
 ## Layout
 

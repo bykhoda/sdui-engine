@@ -18,7 +18,6 @@ DISTFILES += \
     ru.auroraos.SduiPlayground.desktop \
     qml/SduiPlayground.qml \
     qml/cover/DefaultCover.qml \
-    qml/pages/CatalogPage.qml \
     qml/pages/ScreenPage.qml \
     qml/sdui/SduiRenderer.qml \
     qml/sdui/Tokens.js
