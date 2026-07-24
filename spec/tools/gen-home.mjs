@@ -24,6 +24,21 @@ const pretty = (id) =>
   id.replace(/^\d+[-_]?/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 const nav = (to) => ({ action: 'navigate', to, transition: 'push' });
 
+// A glyph per screen so every card reads at a glance (what the screen shows) —
+// falls back to the category icon. This is what makes the capabilities legible.
+const ICONS = {
+  fitness: 'figure.run', music: 'music.note', stocks: 'chart.line.uptrend.xyaxis', weather: 'cloud.sun.fill',
+  cart: 'cart.fill', messenger: 'bubble.left.and.bubble.right.fill', feed: 'square.stack.fill', clips: 'play.rectangle.fill',
+  todo: 'checklist', paywall: 'crown.fill', delivery: 'shippingbox.fill', gym: 'dumbbell.fill', discover: 'sparkles',
+  product: 'tag.fill', inbox: 'tray.fill', signup: 'person.crop.circle.badge.plus', settings: 'gearshape.fill',
+  typography: 'textformat', layout: 'square.grid.3x3.fill', buttons: 'capsule.fill', inputs: 'character.cursor.ibeam',
+  controls: 'switch.2', uploader: 'arrow.up.doc.fill', cards: 'rectangle.stack.fill', components: 'square.grid.2x2.fill',
+  feedback: 'exclamationmark.bubble.fill', calendar: 'calendar', materials: 'drop.fill', capabilities: 'bolt.shield.fill',
+  swipe: 'hand.draw.fill', gestures: 'hand.tap.fill', animation: 'wand.and.rays', table: 'tablecells.fill',
+  document: 'doc.text.fill', actions: 'bolt.fill', lists: 'list.bullet', reorder: 'arrow.up.arrow.down', figma: 'wand.and.stars',
+};
+const iconFor = (id, fallback) => ICONS[id] || fallback || 'square.grid.2x2.fill';
+
 // A soft, single-tier shadow (premium apps cap elevation at one subtle tier).
 const softShadow = { radius: 12, y: 6, color: '#0E0E1216' };
 
@@ -41,16 +56,16 @@ const header = {
 
 // ── 2. Story rail: capability circles (the engine's pitch, tappable) ─────────
 const STORIES = [
-  { label: 'Server-driven', icon: 'bolt.fill', colors: ['#5AC8FA', '#0A84FF'], to: 'actions' },
-  { label: 'One contract', icon: 'square.on.square', colors: ['#5B5BF0', '#4338CA'], to: 'figma' },
-  { label: 'Live theming', icon: 'paintpalette.fill', colors: ['#FF9F0A', '#FF6B00'], to: 'materials' },
+  { label: 'Live edits', icon: 'bolt.fill', colors: ['#5AC8FA', '#0A84FF'], to: 'actions' },
+  { label: 'One JSON', icon: 'square.on.square', colors: ['#5B5BF0', '#4338CA'], to: 'figma' },
+  { label: 'Theming', icon: 'paintpalette.fill', colors: ['#FF9F0A', '#FF6B00'], to: 'materials' },
   { label: 'Components', icon: 'square.grid.2x2.fill', colors: ['#FF375F', '#C9184A'], to: 'components' },
-  { label: 'Interactions', icon: 'hand.tap.fill', colors: ['#A259FF', '#6E44FF'], to: 'gestures' },
+  { label: 'Gestures', icon: 'hand.tap.fill', colors: ['#A259FF', '#6E44FF'], to: 'gestures' },
   { label: 'Live data', icon: 'waveform.path.ecg', colors: ['#30D158', '#0A84FF'], to: 'stocks' },
 ];
 const storyCircle = (s) => ({
   type: 'vstack', alignment: 'center', spacing: XS,
-  modifiers: { size: { width: { mode: 'fixed', value: 76 } }, onTap: nav(s.to) },
+  modifiers: { size: { width: { mode: 'fixed', value: 84 } }, onTap: nav(s.to) },
   children: [
     { type: 'zstack', alignment: 'center', children: [
       { type: 'gradient', colors: s.colors, direction: 'diagonal',
@@ -84,23 +99,34 @@ const hero = {
         text('Ship whole screens from JSON', '$token.typography.title2', '#FFFFFF'),
         text('One contract, three native apps — no app-store release.',
           '$token.typography.subheadline', '#FFFFFFCC'),
+        text('Explore  →', '$token.typography.subheadline', '$token.color.primary', {
+          modifiers: {
+            padding: { leading: MD, trailing: MD, top: XS, bottom: XS },
+            background: '#FFFFFF', cornerRadius: '$token.radius.pill',
+          },
+        }),
       ] },
   ],
 };
 
 // ── 4. Per-category horizontal rails (peek of the next card) ─────────────────
-const railCard = (entry, colors) => ({
+const railCard = (entry, colors, catIcon) => ({
   type: 'vstack', alignment: 'leading', spacing: SM,
+  // Fixed size so every card in a rail is identical height — even bottoms, no ragged rail.
   modifiers: {
-    size: { width: { mode: 'fixed', value: 172 } },
+    size: { width: { mode: 'fixed', value: 172 }, height: { mode: 'fixed', value: 212 } },
     padding: MD, background: '$token.color.surfaceElevated',
     cornerRadius: '$token.radius.lg', shadow: softShadow,
     onTap: nav(entry.id),
   },
   children: [
-    { type: 'gradient', colors, direction: 'diagonal',
-      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: 92 } },
-        cornerRadius: '$token.radius.md' } },
+    // Tonal gradient cover with the screen's glyph centred — reads at a glance.
+    { type: 'zstack', alignment: 'center', children: [
+      { type: 'gradient', colors, direction: 'diagonal',
+        modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: 96 } },
+          cornerRadius: '$token.radius.md' } },
+      { type: 'icon', name: iconFor(entry.id, catIcon), color: '#FFFFFF', size: 30 },
+    ] },
     text(pretty(entry.id), '$token.typography.headline', '$token.color.textPrimary', { lineLimit: 1 }),
     text(entry.subtitle, '$token.typography.caption', '$token.color.textSecondary', { lineLimit: 2 }),
   ],
@@ -115,7 +141,7 @@ const railSection = (cat) => ({
     ] },
     { type: 'scroll', axis: 'horizontal', showsIndicators: false,
       child: { type: 'hstack', spacing: MD, modifiers: { padding: { horizontal: LG } },
-        children: cat.screens.map((s) => railCard(s, cat.colors)) } },
+        children: cat.screens.map((s) => railCard(s, cat.colors, cat.icon)) } },
   ],
 });
 

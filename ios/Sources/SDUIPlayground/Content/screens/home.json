@@ -73,7 +73,7 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 76
+                        "value": 84
                       }
                     },
                     "onTap": {
@@ -118,7 +118,7 @@
                     },
                     {
                       "type": "text",
-                      "value": "Server-driven",
+                      "value": "Live edits",
                       "style": "$token.typography.caption",
                       "color": "$token.color.textSecondary",
                       "alignment": "center",
@@ -134,7 +134,7 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 76
+                        "value": 84
                       }
                     },
                     "onTap": {
@@ -179,7 +179,7 @@
                     },
                     {
                       "type": "text",
-                      "value": "One contract",
+                      "value": "One JSON",
                       "style": "$token.typography.caption",
                       "color": "$token.color.textSecondary",
                       "alignment": "center",
@@ -195,7 +195,7 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 76
+                        "value": 84
                       }
                     },
                     "onTap": {
@@ -240,7 +240,7 @@
                     },
                     {
                       "type": "text",
-                      "value": "Live theming",
+                      "value": "Theming",
                       "style": "$token.typography.caption",
                       "color": "$token.color.textSecondary",
                       "alignment": "center",
@@ -256,7 +256,7 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 76
+                        "value": 84
                       }
                     },
                     "onTap": {
@@ -317,7 +317,7 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 76
+                        "value": 84
                       }
                     },
                     "onTap": {
@@ -362,7 +362,7 @@
                     },
                     {
                       "type": "text",
-                      "value": "Interactions",
+                      "value": "Gestures",
                       "style": "$token.typography.caption",
                       "color": "$token.color.textSecondary",
                       "alignment": "center",
@@ -378,7 +378,7 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 76
+                        "value": 84
                       }
                     },
                     "onTap": {
@@ -519,6 +519,22 @@
                     "value": "One contract, three native apps — no app-store release.",
                     "style": "$token.typography.subheadline",
                     "color": "#FFFFFFCC"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Explore  →",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary",
+                    "modifiers": {
+                      "padding": {
+                        "leading": "$token.spacing.md",
+                        "trailing": "$token.spacing.md",
+                        "top": "$token.spacing.xs",
+                        "bottom": "$token.spacing.xs"
+                      },
+                      "background": "#FFFFFF",
+                      "cornerRadius": "$token.radius.pill"
+                    }
                   }
                 ]
               }
@@ -576,6 +592,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -594,24 +614,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5AC8FA",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "figure.run",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -638,6 +670,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -656,24 +692,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5AC8FA",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "music.note",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -700,6 +748,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -718,24 +770,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5AC8FA",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "chart.line.uptrend.xyaxis",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -762,6 +826,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -780,24 +848,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5AC8FA",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "cloud.sun.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -872,6 +952,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -890,24 +974,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "cart.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -934,6 +1030,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -952,24 +1052,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "bubble.left.and.bubble.right.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -996,6 +1108,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1014,24 +1130,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "square.stack.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1058,6 +1186,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1076,24 +1208,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "play.rectangle.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1120,6 +1264,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1138,24 +1286,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "checklist",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1182,6 +1342,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1200,24 +1364,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "crown.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1244,6 +1420,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1262,24 +1442,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "shippingbox.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1306,6 +1498,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1324,24 +1520,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "dumbbell.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1368,6 +1576,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1386,24 +1598,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "sparkles",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1430,6 +1654,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1448,24 +1676,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "tag.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1492,6 +1732,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1510,24 +1754,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "tray.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1554,6 +1810,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1572,24 +1832,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "person.crop.circle.badge.plus",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1616,6 +1888,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1634,24 +1910,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "gearshape.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1726,6 +2014,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1744,24 +2036,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "textformat",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1788,6 +2092,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1806,24 +2114,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "square.grid.3x3.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1850,6 +2170,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1868,24 +2192,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "capsule.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1912,6 +2248,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1930,24 +2270,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "character.cursor.ibeam",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -1974,6 +2326,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -1992,24 +2348,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "switch.2",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2036,6 +2404,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2054,24 +2426,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "arrow.up.doc.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2098,6 +2482,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2116,24 +2504,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "rectangle.stack.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2160,6 +2560,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2178,24 +2582,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "square.grid.2x2.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2222,6 +2638,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2240,24 +2660,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "exclamationmark.bubble.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2284,6 +2716,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2302,24 +2738,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "calendar",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2394,6 +2842,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2412,24 +2864,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#30D158",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#30D158",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "drop.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2456,6 +2920,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2474,24 +2942,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#30D158",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#30D158",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "bolt.shield.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2566,6 +3046,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2584,24 +3068,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF375F",
-                            "#C9184A"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF375F",
+                                "#C9184A"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "hand.draw.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2628,6 +3124,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2646,24 +3146,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF375F",
-                            "#C9184A"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF375F",
+                                "#C9184A"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "hand.tap.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2690,6 +3202,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2708,24 +3224,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#FF375F",
-                            "#C9184A"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF375F",
+                                "#C9184A"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "wand.and.rays",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2800,6 +3328,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2818,24 +3350,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#32ADE6",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "tablecells.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2862,6 +3406,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2880,24 +3428,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#32ADE6",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "doc.text.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2924,6 +3484,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -2942,24 +3506,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#32ADE6",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "bolt.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -2986,6 +3562,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -3004,24 +3584,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#32ADE6",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "list.bullet",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -3048,6 +3640,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -3066,24 +3662,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#32ADE6",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "arrow.up.arrow.down",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
@@ -3158,6 +3766,10 @@
                           "width": {
                             "mode": "fixed",
                             "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
                           }
                         },
                         "padding": "$token.spacing.md",
@@ -3176,24 +3788,36 @@
                       },
                       "children": [
                         {
-                          "type": "gradient",
-                          "colors": [
-                            "#A259FF",
-                            "#6E44FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fill"
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 92
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#A259FF",
+                                "#6E44FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
                               }
                             },
-                            "cornerRadius": "$token.radius.md"
-                          }
+                            {
+                              "type": "icon",
+                              "name": "wand.and.stars",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
                         },
                         {
                           "type": "text",
