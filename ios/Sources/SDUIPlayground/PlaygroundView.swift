@@ -30,6 +30,9 @@ final class PlaygroundHost: ObservableObject, SDUIHostDelegate {
     @Published var lastEvent: String?
     /// A screen being presented as a bottom sheet from a `navigate` action.
     @Published var sheetScreen: PlaygroundExample?
+    /// The capability-story index the full-screen stories player should open at,
+    /// set by a `custom` action named "story" fired from a home story bubble.
+    @Published var openStoryIndex: Int?
     /// Set by a presented sheet so a `dismiss` action can close it.
     var onDismiss: (() -> Void)?
 
@@ -46,7 +49,14 @@ final class PlaygroundHost: ObservableObject, SDUIHostDelegate {
         }
     }
     func showToast(message: String, style: String?) { flash(message) }
-    func custom(name: String, payload: JSONValue?) { flash("custom → \(name)") }
+    func custom(name: String, payload: JSONValue?) {
+        // Home story bubbles open the real segmented stories player at their index.
+        if name == "story" {
+            openStoryIndex = payload?["index"]?.doubleValue.map { Int($0) } ?? 0
+            return
+        }
+        flash("custom → \(name)")
+    }
 
     func share(text: String?, url: String?) {
         #if canImport(UIKit)

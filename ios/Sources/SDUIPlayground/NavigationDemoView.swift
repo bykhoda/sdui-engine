@@ -56,6 +56,18 @@ public struct SDUIHomeView: View {
             env: ["locale": .string("en"), "platform": .string("ios")],
             appDelegate: host,
             provider: { route in ScreenLibrary.document(withId: route.screen) })
+        #if os(iOS)
+        // Tapping a home story bubble opens the real segmented, swipeable stories
+        // player full-screen (the legitimate immersive case — tab bar hidden).
+        .fullScreenCover(isPresented: Binding(
+            get: { host.openStoryIndex != nil },
+            set: { if !$0 { host.openStoryIndex = nil } })
+        ) {
+            StoriesPlayer(stories: CapabilityStory.all, start: host.openStoryIndex ?? 0) {
+                host.openStoryIndex = nil
+            }
+        }
+        #endif
     }
 }
 #endif

@@ -55,22 +55,24 @@ const header = {
 };
 
 // ── 2. Story rail: capability circles (the engine's pitch, tappable) ─────────
+// Aligned 1:1 with the native CapabilityStory.all so tapping opens the real
+// segmented stories player at the matching index (a `custom` action the host
+// interprets — the legitimate full-screen immersive case).
 const STORIES = [
-  { label: 'Live edits', icon: 'bolt.fill', colors: ['#5AC8FA', '#0A84FF'], to: 'actions' },
-  { label: 'One JSON', icon: 'square.on.square', colors: ['#5B5BF0', '#4338CA'], to: 'figma' },
-  { label: 'Theming', icon: 'paintpalette.fill', colors: ['#FF9F0A', '#FF6B00'], to: 'materials' },
-  { label: 'Components', icon: 'square.grid.2x2.fill', colors: ['#FF375F', '#C9184A'], to: 'components' },
-  { label: 'Gestures', icon: 'hand.tap.fill', colors: ['#A259FF', '#6E44FF'], to: 'gestures' },
-  { label: 'Live data', icon: 'waveform.path.ecg', colors: ['#30D158', '#0A84FF'], to: 'stocks' },
+  { label: 'Server', icon: 'arrow.triangle.2.circlepath', colors: ['#6666F5', '#754AB5'] },
+  { label: 'One JSON', icon: 'square.on.square', colors: ['#00B89E', '#00738C'] },
+  { label: 'Theming', icon: 'paintpalette.fill', colors: ['#FA8C30', '#D94D4D'] },
+  { label: 'Components', icon: 'square.grid.2x2.fill', colors: ['#C93DDB', '#8C2EB8'] },
 ];
 // A square size helper (for circles via a pill corner radius).
 const sq = (n) => ({ width: { mode: 'fixed', value: n }, height: { mode: 'fixed', value: n } });
 
 // Instagram-style story: a gradient RING (outer) → a background gap → an inner
 // circle carrying the feature glyph. Tapping opens the feature.
-const storyCircle = (s) => ({
+const storyCircle = (s, i) => ({
   type: 'vstack', alignment: 'center', spacing: XS,
-  modifiers: { size: { width: { mode: 'fixed', value: 84 } }, onTap: nav(s.to) },
+  modifiers: { size: { width: { mode: 'fixed', value: 84 } },
+    onTap: { action: 'custom', name: 'story', payload: { index: i } } },
   children: [
     { type: 'zstack', alignment: 'center', children: [
       { type: 'gradient', colors: s.colors, direction: 'diagonal',
@@ -87,7 +89,7 @@ const storyCircle = (s) => ({
 const storyRail = {
   type: 'scroll', axis: 'horizontal', showsIndicators: false,
   child: { type: 'hstack', spacing: MD, modifiers: { padding: { horizontal: LG } },
-    children: STORIES.map(storyCircle) },
+    children: STORIES.map((s, i) => storyCircle(s, i)) },
 };
 
 // ── 3. Hero: one focal card per fold — tonal gradient + scrim + overlaid copy ─

@@ -77,9 +77,11 @@
                       }
                     },
                     "onTap": {
-                      "action": "navigate",
-                      "to": "actions",
-                      "transition": "push"
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 0
+                      }
                     }
                   },
                   "children": [
@@ -90,8 +92,8 @@
                         {
                           "type": "gradient",
                           "colors": [
-                            "#5AC8FA",
-                            "#0A84FF"
+                            "#6666F5",
+                            "#754AB5"
                           ],
                           "direction": "diagonal",
                           "modifiers": {
@@ -146,8 +148,8 @@
                           "children": [
                             {
                               "type": "icon",
-                              "name": "bolt.fill",
-                              "color": "#0A84FF",
+                              "name": "arrow.triangle.2.circlepath",
+                              "color": "#754AB5",
                               "size": 24
                             }
                           ]
@@ -156,7 +158,7 @@
                     },
                     {
                       "type": "text",
-                      "value": "Live edits",
+                      "value": "Server",
                       "style": "$token.typography.caption",
                       "color": "$token.color.textSecondary",
                       "alignment": "center",
@@ -176,9 +178,11 @@
                       }
                     },
                     "onTap": {
-                      "action": "navigate",
-                      "to": "figma",
-                      "transition": "push"
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 1
+                      }
                     }
                   },
                   "children": [
@@ -189,8 +193,8 @@
                         {
                           "type": "gradient",
                           "colors": [
-                            "#5B5BF0",
-                            "#4338CA"
+                            "#00B89E",
+                            "#00738C"
                           ],
                           "direction": "diagonal",
                           "modifiers": {
@@ -246,7 +250,7 @@
                             {
                               "type": "icon",
                               "name": "square.on.square",
-                              "color": "#4338CA",
+                              "color": "#00738C",
                               "size": 24
                             }
                           ]
@@ -275,9 +279,11 @@
                       }
                     },
                     "onTap": {
-                      "action": "navigate",
-                      "to": "materials",
-                      "transition": "push"
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 2
+                      }
                     }
                   },
                   "children": [
@@ -288,8 +294,8 @@
                         {
                           "type": "gradient",
                           "colors": [
-                            "#FF9F0A",
-                            "#FF6B00"
+                            "#FA8C30",
+                            "#D94D4D"
                           ],
                           "direction": "diagonal",
                           "modifiers": {
@@ -345,7 +351,7 @@
                             {
                               "type": "icon",
                               "name": "paintpalette.fill",
-                              "color": "#FF6B00",
+                              "color": "#D94D4D",
                               "size": 24
                             }
                           ]
@@ -374,9 +380,11 @@
                       }
                     },
                     "onTap": {
-                      "action": "navigate",
-                      "to": "components",
-                      "transition": "push"
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 3
+                      }
                     }
                   },
                   "children": [
@@ -387,8 +395,8 @@
                         {
                           "type": "gradient",
                           "colors": [
-                            "#FF375F",
-                            "#C9184A"
+                            "#C93DDB",
+                            "#8C2EB8"
                           ],
                           "direction": "diagonal",
                           "modifiers": {
@@ -444,7 +452,7 @@
                             {
                               "type": "icon",
                               "name": "square.grid.2x2.fill",
-                              "color": "#C9184A",
+                              "color": "#8C2EB8",
                               "size": 24
                             }
                           ]
@@ -454,204 +462,6 @@
                     {
                       "type": "text",
                       "value": "Components",
-                      "style": "$token.typography.caption",
-                      "color": "$token.color.textSecondary",
-                      "alignment": "center",
-                      "lineLimit": 1
-                    }
-                  ]
-                },
-                {
-                  "type": "vstack",
-                  "alignment": "center",
-                  "spacing": "$token.spacing.xs",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fixed",
-                        "value": 84
-                      }
-                    },
-                    "onTap": {
-                      "action": "navigate",
-                      "to": "gestures",
-                      "transition": "push"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "zstack",
-                      "alignment": "center",
-                      "children": [
-                        {
-                          "type": "gradient",
-                          "colors": [
-                            "#A259FF",
-                            "#6E44FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fixed",
-                                "value": 72
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 72
-                              }
-                            },
-                            "cornerRadius": "$token.radius.pill"
-                          }
-                        },
-                        {
-                          "type": "vstack",
-                          "children": [],
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fixed",
-                                "value": 63
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 63
-                              }
-                            },
-                            "background": "$token.color.surface",
-                            "cornerRadius": "$token.radius.pill"
-                          }
-                        },
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fixed",
-                                "value": 55
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 55
-                              }
-                            },
-                            "background": "$token.color.surfaceElevated",
-                            "cornerRadius": "$token.radius.pill"
-                          },
-                          "children": [
-                            {
-                              "type": "icon",
-                              "name": "hand.tap.fill",
-                              "color": "#6E44FF",
-                              "size": 24
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "value": "Gestures",
-                      "style": "$token.typography.caption",
-                      "color": "$token.color.textSecondary",
-                      "alignment": "center",
-                      "lineLimit": 1
-                    }
-                  ]
-                },
-                {
-                  "type": "vstack",
-                  "alignment": "center",
-                  "spacing": "$token.spacing.xs",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fixed",
-                        "value": 84
-                      }
-                    },
-                    "onTap": {
-                      "action": "navigate",
-                      "to": "stocks",
-                      "transition": "push"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "zstack",
-                      "alignment": "center",
-                      "children": [
-                        {
-                          "type": "gradient",
-                          "colors": [
-                            "#30D158",
-                            "#0A84FF"
-                          ],
-                          "direction": "diagonal",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fixed",
-                                "value": 72
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 72
-                              }
-                            },
-                            "cornerRadius": "$token.radius.pill"
-                          }
-                        },
-                        {
-                          "type": "vstack",
-                          "children": [],
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fixed",
-                                "value": 63
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 63
-                              }
-                            },
-                            "background": "$token.color.surface",
-                            "cornerRadius": "$token.radius.pill"
-                          }
-                        },
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "modifiers": {
-                            "size": {
-                              "width": {
-                                "mode": "fixed",
-                                "value": 55
-                              },
-                              "height": {
-                                "mode": "fixed",
-                                "value": 55
-                              }
-                            },
-                            "background": "$token.color.surfaceElevated",
-                            "cornerRadius": "$token.radius.pill"
-                          },
-                          "children": [
-                            {
-                              "type": "icon",
-                              "name": "waveform.path.ecg",
-                              "color": "#0A84FF",
-                              "size": 24
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "text",
-                      "value": "Live data",
                       "style": "$token.typography.caption",
                       "color": "$token.color.textSecondary",
                       "alignment": "center",
