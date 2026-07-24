@@ -63,15 +63,23 @@ const STORIES = [
   { label: 'Gestures', icon: 'hand.tap.fill', colors: ['#A259FF', '#6E44FF'], to: 'gestures' },
   { label: 'Live data', icon: 'waveform.path.ecg', colors: ['#30D158', '#0A84FF'], to: 'stocks' },
 ];
+// A square size helper (for circles via a pill corner radius).
+const sq = (n) => ({ width: { mode: 'fixed', value: n }, height: { mode: 'fixed', value: n } });
+
+// Instagram-style story: a gradient RING (outer) → a background gap → an inner
+// circle carrying the feature glyph. Tapping opens the feature.
 const storyCircle = (s) => ({
   type: 'vstack', alignment: 'center', spacing: XS,
   modifiers: { size: { width: { mode: 'fixed', value: 84 } }, onTap: nav(s.to) },
   children: [
     { type: 'zstack', alignment: 'center', children: [
       { type: 'gradient', colors: s.colors, direction: 'diagonal',
-        modifiers: { size: { width: { mode: 'fixed', value: 64 }, height: { mode: 'fixed', value: 64 } },
-          cornerRadius: '$token.radius.pill' } },
-      { type: 'icon', name: s.icon, color: '#FFFFFF', size: 24 },
+        modifiers: { size: sq(72), cornerRadius: '$token.radius.pill' } },
+      { type: 'vstack', children: [],
+        modifiers: { size: sq(63), background: '$token.color.surface', cornerRadius: '$token.radius.pill' } },
+      { type: 'zstack', alignment: 'center',
+        modifiers: { size: sq(55), background: '$token.color.surfaceElevated', cornerRadius: '$token.radius.pill' },
+        children: [{ type: 'icon', name: s.icon, color: s.colors[1], size: 24 }] },
     ] },
     text(s.label, '$token.typography.caption', '$token.color.textSecondary', { alignment: 'center', lineLimit: 1 }),
   ],

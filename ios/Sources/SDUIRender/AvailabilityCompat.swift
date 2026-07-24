@@ -32,6 +32,20 @@ public extension View {
         }
     }
 
+    /// Hides the bottom tab bar for a pushed screen (iOS 16+), so drilling in from
+    /// a tab goes full-height — the standard detail-screen behaviour. No-op on iOS 15.
+    @ViewBuilder func sduiHiddenTabBar() -> some View {
+        #if os(iOS)
+        if #available(iOS 16, *) {
+            self.toolbar(.hidden, for: .tabBar)
+        } else {
+            self
+        }
+        #else
+        self
+        #endif
+    }
+
     /// Hides the system row separator inside a `List` on iOS 15 / macOS 13+;
     /// a no-op on macOS 12 (the API is unavailable there, so the default
     /// separator shows — acceptable on the macOS dev host).

@@ -123,7 +123,10 @@ public struct SDUIContainerView: View {
         SDUINavPathContainer(path: $navigator.path) {
             routeView(root)
         } destination: { route in
+            // Drilling into a screen hides the bottom tab bar (HIG: detail views go
+            // full-height); the root screen keeps it.
             routeView(route)
+                .sduiHiddenTabBar()
         }
         .sheet(item: $navigator.sheet) { route in
             SDUINavContainer { routeView(route) }

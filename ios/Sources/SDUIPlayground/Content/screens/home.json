@@ -98,21 +98,59 @@
                             "size": {
                               "width": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               },
                               "height": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               }
                             },
                             "cornerRadius": "$token.radius.pill"
                           }
                         },
                         {
-                          "type": "icon",
-                          "name": "bolt.fill",
-                          "color": "#FFFFFF",
-                          "size": 24
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "bolt.fill",
+                              "color": "#0A84FF",
+                              "size": 24
+                            }
+                          ]
                         }
                       ]
                     },
@@ -159,21 +197,59 @@
                             "size": {
                               "width": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               },
                               "height": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               }
                             },
                             "cornerRadius": "$token.radius.pill"
                           }
                         },
                         {
-                          "type": "icon",
-                          "name": "square.on.square",
-                          "color": "#FFFFFF",
-                          "size": 24
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "square.on.square",
+                              "color": "#4338CA",
+                              "size": 24
+                            }
+                          ]
                         }
                       ]
                     },
@@ -220,21 +296,59 @@
                             "size": {
                               "width": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               },
                               "height": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               }
                             },
                             "cornerRadius": "$token.radius.pill"
                           }
                         },
                         {
-                          "type": "icon",
-                          "name": "paintpalette.fill",
-                          "color": "#FFFFFF",
-                          "size": 24
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "paintpalette.fill",
+                              "color": "#FF6B00",
+                              "size": 24
+                            }
+                          ]
                         }
                       ]
                     },
@@ -281,21 +395,59 @@
                             "size": {
                               "width": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               },
                               "height": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               }
                             },
                             "cornerRadius": "$token.radius.pill"
                           }
                         },
                         {
-                          "type": "icon",
-                          "name": "square.grid.2x2.fill",
-                          "color": "#FFFFFF",
-                          "size": 24
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "square.grid.2x2.fill",
+                              "color": "#C9184A",
+                              "size": 24
+                            }
+                          ]
                         }
                       ]
                     },
@@ -342,21 +494,59 @@
                             "size": {
                               "width": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               },
                               "height": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               }
                             },
                             "cornerRadius": "$token.radius.pill"
                           }
                         },
                         {
-                          "type": "icon",
-                          "name": "hand.tap.fill",
-                          "color": "#FFFFFF",
-                          "size": 24
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "hand.tap.fill",
+                              "color": "#6E44FF",
+                              "size": 24
+                            }
+                          ]
                         }
                       ]
                     },
@@ -403,21 +593,59 @@
                             "size": {
                               "width": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               },
                               "height": {
                                 "mode": "fixed",
-                                "value": 64
+                                "value": 72
                               }
                             },
                             "cornerRadius": "$token.radius.pill"
                           }
                         },
                         {
-                          "type": "icon",
-                          "name": "waveform.path.ecg",
-                          "color": "#FFFFFF",
-                          "size": 24
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "waveform.path.ecg",
+                              "color": "#0A84FF",
+                              "size": 24
+                            }
+                          ]
                         }
                       ]
                     },
