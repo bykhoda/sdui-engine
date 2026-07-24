@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -43,6 +45,7 @@ fun Modifier.sduiModifiers(modifiers: Modifiers?, ctx: RenderContext): Modifier 
     val m = modifiers ?: return this
     return this
         .then(paddingModifier(m.padding, ctx))
+        .then(sizeModifier(m.size))
         .then(frameModifier(m.frame, ctx))
         .then(backgroundModifier(m.background, m.material, m.cornerRadius, ctx))
         .then(shadowModifier(m.shadow, m.cornerRadius, ctx))
@@ -75,6 +78,21 @@ private fun paddingModifier(insets: EdgeInsets?, ctx: RenderContext): Modifier =
             bottom = d(insets.bottom, insets.vertical),
         )
     }
+}
+
+/** The explicit per-axis `size` modifier: fixed points or fill the axis. */
+private fun sizeModifier(size: Modifiers.Size?): Modifier {
+    size ?: return Modifier
+    var m: Modifier = Modifier
+    when (size.width?.mode) {
+        "fixed" -> size.width.value?.let { m = m.width(it.toFloat().dp) }
+        "fill" -> m = m.fillMaxWidth()
+    }
+    when (size.height?.mode) {
+        "fixed" -> size.height.value?.let { m = m.height(it.toFloat().dp) }
+        "fill" -> m = m.fillMaxHeight()
+    }
+    return m
 }
 
 private fun frameModifier(frame: Modifiers.Frame?, ctx: RenderContext): Modifier {

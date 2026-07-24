@@ -53,6 +53,8 @@ dependencies {
 
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3")
+    // SF-Symbol-named icons in the contract map to Material icons on Android.
+    implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.runtime:runtime")

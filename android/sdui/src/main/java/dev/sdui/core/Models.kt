@@ -134,6 +134,8 @@ data class Modifiers(
     val opacity: Double? = null,
     /** Fixed / max size constraints. */
     val frame: Frame? = null,
+    /** Explicit per-axis sizing (preferred over `frame`): fixed / hug / fill / weight. */
+    val size: Size? = null,
     /** Drop shadow spec. */
     val shadow: Shadow? = null,
     /** Uniform scale — a number or a `$state` binding; pair with `animation`. */
@@ -156,6 +158,21 @@ data class Modifiers(
         val height: Dimension? = null,
         val maxWidth: Dimension? = null,
     )
+
+    /** Explicit per-axis sizing (the `size` modifier). */
+    @Serializable
+    data class Size(
+        val width: Axis? = null,
+        val height: Axis? = null,
+    ) {
+        @Serializable
+        data class Axis(
+            val mode: String? = null,   // fixed | hug | fill | weight
+            val value: Double? = null,
+            val min: Double? = null,
+            val max: Double? = null,
+        )
+    }
 
     /** Drop-shadow descriptor. */
     @Serializable

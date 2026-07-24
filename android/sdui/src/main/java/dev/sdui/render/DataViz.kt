@@ -4,6 +4,44 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Autorenew
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Checklist
+import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.DirectionsRun
+import androidx.compose.material.icons.filled.FilterNone
+import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Inbox
+import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.material.icons.filled.Layers
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.filled.Security
+import androidx.compose.material.icons.filled.Sell
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.ShowChart
+import androidx.compose.material.icons.filled.SmartButton
+import androidx.compose.material.icons.filled.SmartDisplay
+import androidx.compose.material.icons.filled.SwapVert
+import androidx.compose.material.icons.filled.TableChart
+import androidx.compose.material.icons.filled.TextFields
+import androidx.compose.material.icons.filled.TouchApp
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.UploadFile
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material.icons.filled.Widgets
+import androidx.compose.material.icons.filled.WorkspacePremium
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -186,25 +224,61 @@ internal fun ChartView(component: Component, ctx: RenderContext) {
  * as text so authoring intent stays visible — the same fallback [ButtonView] uses.
  */
 @Composable
+// Maps an SF-Symbol-style contract icon name to a Material icon, so the same
+// JSON that draws SF Symbols on iOS draws real glyphs on Android (not the name
+// as text). A host `iconResolver` still wins when provided.
+private fun materialIcon(sf: String): ImageVector = when (sf) {
+    "arrow.triangle.2.circlepath" -> Icons.Filled.Autorenew
+    "square.on.square" -> Icons.Filled.FilterNone
+    "paintpalette.fill" -> Icons.Filled.Palette
+    "square.grid.2x2.fill", "square.grid.3x3.fill" -> Icons.Filled.GridView
+    "figure.run" -> Icons.Filled.DirectionsRun
+    "music.note" -> Icons.Filled.MusicNote
+    "chart.line.uptrend.xyaxis" -> Icons.Filled.ShowChart
+    "cloud.sun.fill" -> Icons.Filled.WbSunny
+    "cart.fill" -> Icons.Filled.ShoppingCart
+    "bubble.left.and.bubble.right.fill", "exclamationmark.bubble.fill" -> Icons.Filled.Forum
+    "square.stack.fill", "rectangle.stack.fill" -> Icons.Filled.Layers
+    "play.rectangle.fill" -> Icons.Filled.SmartDisplay
+    "checklist", "list.bullet" -> Icons.Filled.Checklist
+    "crown.fill" -> Icons.Filled.WorkspacePremium
+    "shippingbox.fill" -> Icons.Filled.Inventory2
+    "dumbbell.fill" -> Icons.Filled.FitnessCenter
+    "sparkles", "wand.and.stars", "wand.and.rays" -> Icons.Filled.AutoAwesome
+    "tag.fill" -> Icons.Filled.Sell
+    "tray.fill" -> Icons.Filled.Inbox
+    "person.crop.circle.badge.plus" -> Icons.Filled.PersonAdd
+    "gearshape.fill" -> Icons.Filled.Settings
+    "textformat", "character.cursor.ibeam" -> Icons.Filled.TextFields
+    "capsule.fill" -> Icons.Filled.SmartButton
+    "switch.2" -> Icons.Filled.Tune
+    "arrow.up.doc.fill" -> Icons.Filled.UploadFile
+    "calendar" -> Icons.Filled.CalendarMonth
+    "drop.fill" -> Icons.Filled.WaterDrop
+    "bolt.shield.fill" -> Icons.Filled.Security
+    "hand.draw.fill", "hand.tap.fill" -> Icons.Filled.TouchApp
+    "tablecells.fill" -> Icons.Filled.TableChart
+    "doc.text.fill" -> Icons.Filled.Description
+    "bolt.fill" -> Icons.Filled.Bolt
+    "arrow.up.arrow.down" -> Icons.Filled.SwapVert
+    else -> Icons.Filled.Widgets
+}
+
 internal fun IconView(component: Component, ctx: RenderContext) {
     val name = BindingEngine.resolveString(component.prop("name")?.stringValue ?: "", ctx.binding)
     val color = Theme.color(component.prop("color")?.stringValue, ctx.binding)
     val size = component.prop("size")?.doubleValue
     Primitive(component, ctx) { modifier ->
+        val sized = if (size != null) modifier.size(size.dp) else modifier
         val painter = ctx.iconResolver?.invoke(name)
         if (painter != null) {
-            val sized = if (size != null) modifier.size(size.dp) else modifier
-            androidx.compose.foundation.Image(
-                painter = painter,
-                contentDescription = name,
-                modifier = sized,
-            )
+            androidx.compose.foundation.Image(painter = painter, contentDescription = name, modifier = sized)
         } else {
-            Text(
-                text = name,
-                modifier = modifier,
-                color = color ?: Color.Unspecified,
-                fontSize = if (size != null) size.sp else androidx.compose.ui.unit.TextUnit.Unspecified,
+            Icon(
+                imageVector = materialIcon(name),
+                contentDescription = name,
+                tint = color ?: LocalContentColor.current,
+                modifier = sized,
             )
         }
     }

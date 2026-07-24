@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -73,6 +76,7 @@ object Builtins {
         registry.register("grid") { c, ctx -> GridView(c, ctx) }
         registry.register("disclosure") { c, ctx -> DisclosureView(c, ctx) }
         registry.register("ticker") { c, ctx -> TickerView(c, ctx) }
+        registry.register("pager") { c, ctx -> PagerView(c, ctx) }
     }
 }
 
@@ -225,6 +229,52 @@ private fun TickerView(component: Component, ctx: RenderContext) {
         }
     }
     // Renders no UI — mirrors the iOS ticker.
+}
+
+// MARK: - Pager (auto-advancing carousel with page dots)
+
+@Composable
+private fun PagerView(component: Component, ctx: RenderContext) {
+    val pages = component.children
+    val height = component.prop("height")?.doubleValue ?: 200.0
+    val autoMs = (component.prop("autoAdvanceMs")?.doubleValue ?: 0.0).toLong()
+    val showDots = (component.prop("indicator")?.stringValue ?: "dots") != "none"
+    val accent = Theme.color("\$token.color.primary", ctx.binding) ?: Color(0xFF5B5BF0)
+    val state = rememberPagerState(pageCount = { pages.size })
+
+    if (autoMs > 0 && pages.size > 1) {
+        LaunchedEffect(state, autoMs) {
+            while (true) {
+                kotlinx.coroutines.delay(autoMs)
+                state.animateScrollToPage((state.currentPage + 1) % pages.size)
+            }
+        }
+    }
+
+    Primitive(component, ctx) { modifier ->
+        Column(modifier.fillMaxWidth()) {
+            HorizontalPager(state = state, modifier = Modifier.fillMaxWidth().height(height.toFloat().dp)) { page ->
+                ctx.registry.Render(pages[page], ctx)
+            }
+            if (showDots && pages.size > 1) {
+                Row(
+                    Modifier.fillMaxWidth().padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    repeat(pages.size) { i ->
+                        Box(
+                            Modifier
+                                .padding(horizontal = 3.dp)
+                                .size(width = if (i == state.currentPage) 18.dp else 6.dp, height = 6.dp)
+                                .clip(RoundedCornerShape(3.dp))
+                                .background(if (i == state.currentPage) accent else Color.Gray.copy(alpha = 0.3f)),
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Layout primitives

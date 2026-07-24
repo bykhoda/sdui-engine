@@ -27,7 +27,7 @@
 | `icon` | ✅ | ✅ | ✅ |
 | `image` | ✅ | ✅ | ✅ |
 | `list` | ✅ | ✅ | — |
-| `pager` | ✅ | — | — |
+| `pager` | ✅ | ✅ | — |
 | `picker` | ✅ | — | — |
 | `progress` | ✅ | ✅ | — |
 | `rings` | ✅ | ✅ | — |
@@ -42,12 +42,12 @@
 | `toggle` | ✅ | ✅ | ✅ |
 | `vstack` | ✅ | ✅ | ✅ |
 | `zstack` | ✅ | ✅ | ✅ |
-| **supported** | **30/30** | **23/30** | **14/30** |
+| **supported** | **30/30** | **24/30** | **14/30** |
 
 ### Gaps — components
 
 - **iOS** missing 0: _none — full parity_
-- **Android** missing 7: `calendar`, `clips`, `datepicker`, `filecell`, `pager`, `picker`, `roadmap`
+- **Android** missing 6: `calendar`, `clips`, `datepicker`, `filecell`, `picker`, `roadmap`
 - **Aurora** missing 16: `async`, `calendar`, `chart`, `clips`, `datepicker`, `disclosure`, `filecell`, `list`, `pager`, `picker`, `progress`, `rings`, `roadmap`, `slider`, `spinner`, `ticker`
 
 ## Actions
