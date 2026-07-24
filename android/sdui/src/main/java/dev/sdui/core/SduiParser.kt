@@ -45,4 +45,13 @@ object SduiParser {
      */
     fun decodeOrNull(json: String): SduiDocument? =
         runCatching { decode(json) }.getOrNull()
+
+    /**
+     * Decodes any JSON string into a [JsonValue] — for tokens, manifests and other
+     * config that aren't full screen documents. Returns null on malformed input.
+     * Keeps kotlinx-serialization inside this module so host apps (the demo) never
+     * need it on their own classpath.
+     */
+    fun decodeValue(json: String): JsonValue? =
+        runCatching { JsonValue.CODEC.decodeFromString(JsonValue.serializer(), json) }.getOrNull()
 }

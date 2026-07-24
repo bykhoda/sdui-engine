@@ -57,8 +57,7 @@ private class Playground(
 private fun loadPlayground(assets: AssetManager): Playground {
     fun read(path: String): String? =
         runCatching { assets.open(path).bufferedReader().use { it.readText() } }.getOrNull()
-    fun parseValue(json: String): JsonValue? =
-        runCatching { JsonValue.CODEC.decodeFromString(JsonValue.serializer(), json) }.getOrNull()
+    fun parseValue(json: String): JsonValue? = SduiParser.decodeValue(json)
 
     val tokens = read("content/tokens.json")?.let { parseValue(it) } ?: JsonValue.Obj(emptyMap())
 
