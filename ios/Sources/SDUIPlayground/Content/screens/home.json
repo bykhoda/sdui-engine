@@ -539,8 +539,8 @@
                         },
                         "cornerRadius": "$token.radius.lg",
                         "shadow": {
-                          "radius": 20,
-                          "y": 12,
+                          "radius": 14,
+                          "y": 8,
                           "color": "#5B5BF033"
                         }
                       }
@@ -649,8 +649,8 @@
                         },
                         "cornerRadius": "$token.radius.lg",
                         "shadow": {
-                          "radius": 20,
-                          "y": 12,
+                          "radius": 14,
+                          "y": 8,
                           "color": "#00B89E33"
                         }
                       }
@@ -759,8 +759,8 @@
                         },
                         "cornerRadius": "$token.radius.lg",
                         "shadow": {
-                          "radius": 20,
-                          "y": 12,
+                          "radius": 14,
+                          "y": 8,
                           "color": "#FA8C3033"
                         }
                       }

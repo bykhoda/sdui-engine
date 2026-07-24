@@ -116,7 +116,7 @@ const banner = (b) => ({
   children: [
     { type: 'gradient', colors: b.colors, direction: 'diagonal',
       modifiers: { size: { width: { mode: 'fixed', value: HERO_W }, height: { mode: 'fixed', value: HERO_H } },
-        cornerRadius: '$token.radius.lg', shadow: { radius: 20, y: 12, color: b.shadow } } },
+        cornerRadius: '$token.radius.lg', shadow: { radius: 14, y: 8, color: b.shadow } } },
     { type: 'gradient', colors: ['#00000000', '#00000066'], direction: 'vertical',
       modifiers: { size: { width: { mode: 'fixed', value: HERO_W }, height: { mode: 'fixed', value: HERO_H } },
         cornerRadius: '$token.radius.lg' } },

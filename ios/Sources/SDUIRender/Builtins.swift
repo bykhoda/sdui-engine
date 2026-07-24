@@ -828,7 +828,7 @@ private struct OptionalIDModifier: ViewModifier {
 /// shadow bleeds past the scroll's clip instead of being sliced. Sized for a
 /// typical card shadow (radius ~8–12, y-offset ~4–6). Applied inside the scroll
 /// and cancelled by the outer helper so nothing moves.
-private let sduiScrollShadowRoomInset: CGFloat = 18
+private let sduiScrollShadowRoomInset: CGFloat = 28
 
 extension View {
     /// Inner half of the shadow-room trick: pads the scrolled content on every
