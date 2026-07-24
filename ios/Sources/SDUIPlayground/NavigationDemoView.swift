@@ -37,4 +37,25 @@ public struct SDUINavigationDemoView: View {
         }
     }
 }
+
+/// The app's home/catalog — now itself a server-driven screen (`home.json`,
+/// generated from catalog.json). Rendered by the engine and navigable entirely
+/// from JSON, so the SAME chrome renders identically on iOS, Android and Aurora.
+public struct SDUIHomeView: View {
+    private let tokens: JSONValue
+    @StateObject private var host = PlaygroundHost()
+
+    public init(tokens: JSONValue = ScreenLibrary.tokens()) {
+        self.tokens = tokens
+    }
+
+    public var body: some View {
+        SDUIContainerView(
+            root: SDUIRoute(screen: "home"),
+            tokens: tokens,
+            env: ["locale": .string("en"), "platform": .string("ios")],
+            appDelegate: host,
+            provider: { route in ScreenLibrary.document(withId: route.screen) })
+    }
+}
 #endif

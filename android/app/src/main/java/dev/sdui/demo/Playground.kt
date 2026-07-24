@@ -116,33 +116,35 @@ fun PlaygroundApp() {
 
     // A minimal push/pop stack: empty = root catalog, otherwise the top is the
     // currently-shown screen id. Mirrors the iOS catalog's two-level navigation.
-    val stack = remember { mutableStateListOf<String>() }
+    // The chrome is itself a server-driven screen: root at `home` (generated from
+    // catalog.json), rendered by the SAME engine as every other screen — so the
+    // whole app looks identical to iOS/Aurora. `navigate` pushes onto the stack.
+    val stack = remember { mutableStateListOf("home") }
     val host = remember(playground) { PlaygroundHost(playground.screensById.keys) { stack.add(it) } }
 
     MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
         Surface(Modifier.fillMaxSize()) {
-            val currentId = stack.lastOrNull()
-            if (currentId == null) {
-                CatalogList(playground.categories) { stack.add(it) }
-            } else {
-                Column(Modifier.fillMaxSize()) {
+            val currentId = stack.lastOrNull() ?: "home"
+            val doc = playground.screensById[currentId]
+            Column(Modifier.fillMaxSize()) {
+                // A back affordance only once we've navigated past the home root.
+                if (stack.size > 1) {
                     NavBar(
-                        title = playground.screensById[currentId]?.screen?.title ?: currentId,
+                        title = doc?.screen?.title ?: currentId,
                         onBack = { stack.removeAt(stack.lastIndex) },
                     )
-                    val doc = playground.screensById[currentId]
-                    Box(Modifier.fillMaxWidth().weight(1f)) {
-                        if (doc != null) {
-                            SduiScreen(document = doc, tokens = playground.tokens, env = env, delegate = host)
-                        } else {
-                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                Text("Screen \"$currentId\" is not bundled")
-                            }
+                }
+                Box(Modifier.fillMaxWidth().weight(1f)) {
+                    if (doc != null) {
+                        SduiScreen(document = doc, tokens = playground.tokens, env = env, delegate = host)
+                    } else {
+                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Text("Screen \"$currentId\" is not bundled")
                         }
                     }
                 }
             }
-            BackHandler(enabled = currentId != null) { stack.removeAt(stack.lastIndex) }
+            BackHandler(enabled = stack.size > 1) { stack.removeAt(stack.lastIndex) }
         }
     }
 }

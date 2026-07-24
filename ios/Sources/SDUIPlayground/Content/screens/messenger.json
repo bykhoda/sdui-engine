@@ -314,7 +314,7 @@
                   {
                     "type": "icon",
                     "name": "heart.fill",
-                    "color": "$token.color.danger",
+                    "color": "$token.color.error",
                     "size": 16,
                     "symbolEffect": "bounce",
                     "visibleWhen": { "equals": ["$state.liked", "true"] },

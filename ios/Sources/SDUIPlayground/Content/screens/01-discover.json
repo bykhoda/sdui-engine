@@ -127,7 +127,7 @@
                           "modifiers": { "padding": "$token.spacing.sm", "hitSlop": 6, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "likedShirt", "value": true }, { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Saved to favorites" } ] } }
                         },
                         {
-                          "type": "icon", "name": "heart.fill", "color": "$token.color.danger", "size": 16, "symbolEffect": "bounce",
+                          "type": "icon", "name": "heart.fill", "color": "$token.color.error", "size": 16, "symbolEffect": "bounce",
                           "visibleWhen": { "equals": ["$state.likedShirt", "true"] },
                           "modifiers": { "padding": "$token.spacing.sm", "hitSlop": 6, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "likedShirt", "value": false }, { "action": "haptic", "style": "light" } ] } }
                         }

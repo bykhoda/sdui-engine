@@ -28,7 +28,7 @@ public struct SDUIDemoRootView: View {
     // tokens pipeline), and Settings.
     public var body: some View {
         TabView {
-            SDUIPlaygroundView()
+            SDUIHomeView()
                 .tabItem { Label("Home", systemImage: "house.fill") }
             SDUIBrowseView()
                 .tabItem { Label("Browse", systemImage: "square.grid.2x2.fill") }
