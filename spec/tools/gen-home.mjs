@@ -75,8 +75,12 @@ const storyCircle = (s, i) => ({
     onTap: { action: 'custom', name: 'story', payload: { index: i } } },
   children: [
     { type: 'zstack', alignment: 'center', children: [
+      // The gradient ring breathes gently to draw the eye to the stories (like
+      // Instagram's live rings). Desynced per bubble so it reads organic, not
+      // mechanical; subtle scale so it never gets noisy.
       { type: 'gradient', colors: s.colors, direction: 'diagonal',
-        modifiers: { size: sq(72), cornerRadius: '$token.radius.pill' } },
+        modifiers: { size: sq(72), cornerRadius: '$token.radius.pill',
+          pulse: { scale: 1.06, interval: 1.15 + i * 0.17 } } },
       { type: 'vstack', children: [],
         modifiers: { size: sq(63), background: '$token.color.surface', cornerRadius: '$token.radius.pill' } },
       { type: 'zstack', alignment: 'center',
