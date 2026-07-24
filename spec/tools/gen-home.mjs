@@ -48,8 +48,8 @@ const header = {
   modifiers: { padding: { leading: LG, trailing: LG, top: MD } },
   children: [
     text('SERVER-DRIVEN UI', '$token.typography.caption', '$token.color.primary'),
-    text('SDUI', '$token.typography.hero', '$token.color.textPrimary'),
-    text('Every screen here is JSON — rendered natively on iOS, Android and Aurora.',
+    text('SDUI', '$token.typography.largeTitle', '$token.color.textPrimary'),
+    text('Every screen here is JSON — native on iOS, Android and Aurora.',
       '$token.typography.subheadline', '$token.color.textSecondary'),
   ],
 };

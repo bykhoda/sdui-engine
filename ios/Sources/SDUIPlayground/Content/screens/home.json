@@ -41,12 +41,12 @@
               {
                 "type": "text",
                 "value": "SDUI",
-                "style": "$token.typography.hero",
+                "style": "$token.typography.largeTitle",
                 "color": "$token.color.textPrimary"
               },
               {
                 "type": "text",
-                "value": "Every screen here is JSON — rendered natively on iOS, Android and Aurora.",
+                "value": "Every screen here is JSON — native on iOS, Android and Aurora.",
                 "style": "$token.typography.subheadline",
                 "color": "$token.color.textSecondary"
               }
