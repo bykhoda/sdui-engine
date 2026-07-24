@@ -2,6 +2,65 @@
 
 Straight answers to the questions people actually ask when they wire this into a real product: where screens live, how you store images and icons, how versioning works, how it plays with UIKit, and whether Figma is safe to connect. No hand-waving.
 
+## Try a whole app from JSON in 60 seconds
+
+You don't need Swift or Kotlin to build a real screen. Everything below is language-neutral.
+
+```
+# 1. Run the mock backend (zero dependencies, just Node).
+node spec/tools/serve.mjs
+#    → http://localhost:8787   Swagger UI at /docs
+
+# 2. Explore the contract in your browser — every endpoint, every field,
+#    "Try it out" against the live mock:
+open http://localhost:8787/docs
+
+# 3. Point the app at it and it renders your JSON as a native screen:
+#    GET /screens/feed  ·  /screens/signup_submit  ·  /screens/product_detail
+```
+
+The mock validates every screen with the same validator your CI runs, so a broken
+payload 404s loudly instead of shipping. The contract itself is `spec/openapi.yaml`
+(OpenAPI 3.1) — it reuses `spec/schema/sdui.schema.json`, so the API surface and the
+payload shape can never drift.
+
+**Author confidently, in any stack:**
+
+- **Validate a payload** before you serve it (catches unknown types/actions, dangling
+  `$data` refs, and — with `--tokens` — token typos):
+  ```
+  node spec/tools/validate.mjs --tokens spec/schema/tokens.example.json my_screen.json
+  ```
+- **Generate typed models** so your endpoints return the right shape:
+  ```
+  node spec/tools/codegen.mjs                    # → spec/types/sdui.d.ts (TypeScript)
+  ```
+  For Go, Python, Kotlin, Java, Rust… point `openapi-generator` or `quicktype` at
+  `spec/openapi.yaml` (or the JSON Schema directly) and generate a client for your stack.
+- **Copy a starting point** from `spec/examples/` — a feed, a form that POSTs, a
+  data-loaded detail page, an async screen. They're all valid and runnable.
+
+## Build screens by talking to Claude (MCP)
+
+There's a zero-dependency MCP server at `spec/mcp/server.mjs`. Point any Claude client
+at it and Claude gets the whole toolchain as native tools, so anyone — designer, PM,
+backend, or a curious first-timer — can just describe a screen and get valid contract
+JSON back, checked against the same schema a device renders.
+
+The repo ships `.mcp.json`, so **Claude Code picks it up automatically** in this project.
+For Claude Desktop, add to `claude_desktop_config.json` (use an absolute path):
+
+```json
+{ "mcpServers": { "sdui": { "command": "node", "args": ["/abs/path/spec/mcp/server.mjs"] } } }
+```
+
+Tools it exposes: `validate_screen` (the important one — validates before you ship),
+`list_components` / `list_actions` / `list_tokens` (so Claude never invents fields),
+`get_example`, and `scaffold_screen` (a valid starter for a list/form/detail). It also
+serves the schema, tokens, authoring guide, and every example as MCP resources. Typical
+loop: *"scaffold a signup form, add a marketing opt-in, validate it"* → paste the JSON
+into the mock server → see it on device.
+
 ## Where do the screens live?
 
 Your backend returns two kinds of JSON:

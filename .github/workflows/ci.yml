@@ -39,6 +39,31 @@ jobs:
           CODE_SIGNING_ALLOWED=NO
           build
 
+  android:
+    name: Android build & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install required SDK packages
+        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+      # The wrapper jar is not committed (binary); materialise ./gradlew from the
+      # pinned gradle-wrapper.properties using the Gradle provided above.
+      - name: Generate Gradle wrapper
+        working-directory: android
+        run: gradle wrapper --gradle-version 8.9
+      - name: Build renderer + demo app + run core unit tests
+        working-directory: android
+        run: ./gradlew :sdui:assembleRelease :app:assembleDebug :sdui:testDebugUnitTest --stacktrace
+
   contract:
     name: Validate contract & examples
     runs-on: ubuntu-latest
@@ -47,5 +72,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Validate example payloads
-        run: node spec/tools/validate.mjs spec/examples/*.json
+      - name: Validate example payloads (strict — checks token refs too)
+        run: node spec/tools/validate.mjs --tokens spec/schema/tokens.example.json spec/examples/*.json
+      - name: Types are regenerated from the schema (no drift)
+        run: |
+          node spec/tools/codegen.mjs
+          git diff --exit-code spec/types/sdui.d.ts \
+            || (echo "::error::spec/types/sdui.d.ts is stale — run 'node spec/tools/codegen.mjs' and commit." && exit 1)
+      - name: MCP server responds to a handshake
+        run: |
+          printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{}}}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+            | node spec/mcp/server.mjs | grep -q '"validate_screen"' \
+            || (echo "::error::MCP server did not list its tools" && exit 1)

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sdui": {
+      "command": "node",
+      "args": ["spec/mcp/server.mjs"]
+    }
+  }
+}
