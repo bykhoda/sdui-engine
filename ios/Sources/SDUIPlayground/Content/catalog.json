@@ -140,6 +140,24 @@
       ]
     },
     {
+      "name": "Native",
+      "icon": "iphone.gen3.radiowaves.left.and.right",
+      "colors": [
+        "#30D158",
+        "#0A84FF"
+      ],
+      "screens": [
+        {
+          "id": "materials",
+          "subtitle": "System frost materials & blur"
+        },
+        {
+          "id": "capabilities",
+          "subtitle": "Force-update, permissions & accessibility"
+        }
+      ]
+    },
+    {
       "name": "Interactions",
       "icon": "hand.tap.fill",
       "colors": [

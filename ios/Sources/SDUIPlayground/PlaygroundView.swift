@@ -540,10 +540,14 @@ struct ScreenDetailView: View {
 
     @ViewBuilder private var content: some View {
         if let document {
-            SDUIScreenView(document: document, tokens: tokens,
-                           env: ["locale": .string("en"), "theme": .string(isDark ? "dark" : "light"), "platform": .string("ios")],
-                           loader: PlaygroundData.loader,
-                           delegate: host)
+            // Wrap so live accessibility state (VoiceOver / Reduce Motion / Bold /
+            // Dynamic Type) is merged into `$env.a11y.*` and updates on the fly.
+            SDUIAccessibilityScreen(env: ["locale": .string("en"), "theme": .string(isDark ? "dark" : "light"), "platform": .string("ios")]) { env in
+                SDUIScreenView(document: document, tokens: tokens,
+                               env: env,
+                               loader: PlaygroundData.loader,
+                               delegate: host)
+            }
         } else if parseError == nil {
             SkeletonScreen()
         } else {

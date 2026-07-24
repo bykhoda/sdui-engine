@@ -131,3 +131,20 @@ extension SDUIQuickLook: QLPreviewControllerDataSource, QLPreviewControllerDeleg
     }
 }
 #endif
+
+#if !os(iOS)
+import SwiftUI
+
+// QuickLook and UIKit haptics are iOS-only. These no-op stubs let the shared,
+// cross-platform renderer (e.g. `FileCell`) compile and run on the macOS host
+// (`swift run SDUIPlaygroundApp`) — the `preview` action and haptics simply do
+// nothing off-device, rather than the whole package failing to build.
+@MainActor final class SDUIQuickLook {
+    static let shared = SDUIQuickLook()
+    func present(urls: [String], index: Int) {}
+}
+
+enum Haptics {
+    @MainActor static func play(_ style: String?) {}
+}
+#endif

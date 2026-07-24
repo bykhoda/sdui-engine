@@ -17,7 +17,8 @@
           "time": "9:41",
           "category": "primary",
           "unread": "yes",
-          "avatar": "https://picsum.photos/seed/a1/100/100"
+          "mono": "MC",
+          "tint": "#FF6B6B"
         },
         {
           "id": "m2",
@@ -26,7 +27,8 @@
           "time": "8:02",
           "category": "updates",
           "unread": "yes",
-          "avatar": "https://picsum.photos/seed/a2/100/100"
+          "mono": "DW",
+          "tint": "#5B8DEF"
         },
         {
           "id": "m3",
@@ -35,7 +37,8 @@
           "time": "Yst",
           "category": "updates",
           "unread": "no",
-          "avatar": "https://picsum.photos/seed/a3/100/100"
+          "mono": "GH",
+          "tint": "#2B2F36"
         },
         {
           "id": "m4",
@@ -44,7 +47,8 @@
           "time": "Yst",
           "category": "social",
           "unread": "yes",
-          "avatar": "https://picsum.photos/seed/a4/100/100"
+          "mono": "AK",
+          "tint": "#34C759"
         },
         {
           "id": "m5",
@@ -53,7 +57,8 @@
           "time": "Mon",
           "category": "social",
           "unread": "no",
-          "avatar": "https://picsum.photos/seed/a5/100/100"
+          "mono": "F",
+          "tint": "#A259FF"
         }
       ]
     },
@@ -575,12 +580,8 @@
             },
             "children": [
               {
-                "type": "image",
-                "source": "$item.avatar",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "aspectRatio": 1
-                },
+                "type": "zstack",
+                "alignment": "center",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -592,8 +593,17 @@
                       "value": 48
                     }
                   },
+                  "background": "$item.tint",
                   "cornerRadius": "$token.radius.pill"
-                }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "$item.mono",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
               },
               {
                 "type": "vstack",

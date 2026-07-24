@@ -1,5 +1,26 @@
 import Foundation
 import SDUICore
+#if canImport(os)
+import os
+#endif
+
+/// Lightweight, dependency-free logging for the data layer. Data fetches
+/// degrade gracefully to `.null` on failure, so without this a failing source
+/// is silent and undebuggable. Routes through the unified logging system where
+/// available, and `print` otherwise (Linux / future non-Apple targets).
+enum SDUINetworkLog {
+    #if canImport(os)
+    private static let logger = Logger(subsystem: "dev.sdui.network", category: "data")
+    #endif
+    static func warn(_ message: @autoclosure () -> String) {
+        let text = message()
+        #if canImport(os)
+        logger.warning("SDUI ▸ \(text, privacy: .public)")
+        #else
+        print("SDUI ▸ [network] \(text)")
+        #endif
+    }
+}
 
 /// Maps a logical `service` name from the contract to a concrete base URL and
 /// per-request headers (auth, tracing). Payloads never hardcode hostnames — the
@@ -135,14 +156,25 @@ public struct DataLoader: Sendable {
     }
 
     private func fetchOne(_ source: DataSource, ctx: BindingContext) async -> JSONValue {
+        // Every failure still degrades to `.null` so a bad source never crashes or
+        // blocks the render — but it is now *logged* with the source id and reason.
+        // A blank data-bound view was previously undebuggable; a backend author can
+        // now read the console and see exactly which source failed and why.
         do {
             let request = try builder.build(source, ctx: ctx)
             let (data, response) = try await session.data(for: request)
             if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
+                SDUINetworkLog.warn("source '\(source.id)' → HTTP \(http.statusCode) from \(request.url?.absoluteString ?? "?")")
                 return .null
             }
-            return (try? JSONDecoder().decode(JSONValue.self, from: data)) ?? .null
+            do {
+                return try JSONDecoder().decode(JSONValue.self, from: data)
+            } catch {
+                SDUINetworkLog.warn("source '\(source.id)' → response is not valid JSON: \(error.localizedDescription)")
+                return .null
+            }
         } catch {
+            SDUINetworkLog.warn("source '\(source.id)' → request failed: \(error.localizedDescription)")
             return .null
         }
     }

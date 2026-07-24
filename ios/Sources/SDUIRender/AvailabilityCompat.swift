@@ -5,6 +5,21 @@ import SwiftUI
 /// macOS 12 while giving iOS 16+ the full modern behaviour. Each helper is a
 /// no-op (or the closest legacy equivalent) on old systems, so call sites stay
 /// free of `#available` noise.
+public extension Color {
+    /// A grouped-list secondary background that resolves to the native colour on
+    /// each platform — so cross-platform demo views compile and look right on the
+    /// macOS dev host as well as on iOS.
+    static var sduiSecondaryGroupedBackground: Color {
+        #if os(iOS)
+        Color(uiColor: .secondarySystemGroupedBackground)
+        #elseif os(macOS)
+        Color(nsColor: .underPageBackgroundColor)
+        #else
+        Color.gray.opacity(0.12)
+        #endif
+    }
+}
+
 public extension View {
 
     /// Hides a scroll view's / `TextEditor`'s system background on iOS 16+; a
@@ -12,6 +27,17 @@ public extension View {
     @ViewBuilder func sduiHiddenScrollBackground() -> some View {
         if #available(iOS 16, macOS 13, *) {
             self.scrollContentBackground(.hidden)
+        } else {
+            self
+        }
+    }
+
+    /// Hides the system row separator inside a `List` on iOS 15 / macOS 13+;
+    /// a no-op on macOS 12 (the API is unavailable there, so the default
+    /// separator shows — acceptable on the macOS dev host).
+    @ViewBuilder func sduiHiddenListRowSeparator() -> some View {
+        if #available(iOS 15, macOS 13, *) {
+            self.listRowSeparator(.hidden)
         } else {
             self
         }

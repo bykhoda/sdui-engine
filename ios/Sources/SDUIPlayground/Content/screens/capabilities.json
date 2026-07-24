@@ -1,0 +1,541 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "capabilities",
+    "title": "Native Capabilities",
+    "scrollBehavior": {
+      "subtitle": "Force-update, runtime permissions & accessibility — all from JSON."
+    },
+    "state": {
+      "perm": {
+        "camera": "Not asked",
+        "location": "Not asked",
+        "notifications": "Not asked"
+      },
+      "versionOK": true
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "alignment": "leading",
+        "spacing": "$token.spacing.lg",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "text",
+            "value": "FORCE UPDATE",
+            "style": "$token.typography.caption",
+            "color": "$token.color.primary"
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "A server-driven minimum-version gate. This build is v0.1, so 99.0.0 is always outdated.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "button",
+                "title": "Simulate required update",
+                "style": "$token.button.primary",
+                "icon": "arrow.up.circle.fill",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "onTap": {
+                  "action": "requireVersion",
+                  "minVersion": "99.0.0",
+                  "storeId": "389801252",
+                  "title": "Update Required",
+                  "message": "This version is no longer supported. Update to keep going.",
+                  "confirmTitle": "Update",
+                  "dismissible": false,
+                  "resultKey": "$state.versionOK"
+                }
+              },
+              {
+                "type": "button",
+                "title": "Soft update nudge",
+                "style": "$token.button.tinted",
+                "icon": "sparkles",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "onTap": {
+                  "action": "requireVersion",
+                  "minVersion": "99.0.0",
+                  "storeId": "389801252",
+                  "title": "Update Available",
+                  "message": "A newer version is ready with fixes and improvements.",
+                  "confirmTitle": "Update",
+                  "dismissible": true
+                }
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "PERMISSIONS",
+            "style": "$token.typography.caption",
+            "color": "$token.color.primary"
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "Each request shows a priming rationale first, then the system prompt — the outcome is written back to state.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "vertical": "$token.spacing.sm"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "requestPermission",
+                        "permission": "camera",
+                        "priming": {
+                          "title": "Scan documents",
+                          "message": "We use the camera only to scan a document when you ask.",
+                          "confirmTitle": "Allow Camera",
+                          "cancelTitle": "Not Now",
+                          "image": "camera.viewfinder"
+                        },
+                        "resultKey": "$state.perm.camera",
+                        "onGranted": {
+                          "action": "showToast",
+                          "message": "Camera granted",
+                          "style": "success"
+                        },
+                        "onDenied": {
+                          "action": "showToast",
+                          "message": "Camera denied",
+                          "style": "error"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "camera.fill",
+                    "color": "$token.color.primary",
+                    "size": 18
+                  },
+                  {
+                    "type": "text",
+                    "value": "Camera",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$state.perm.camera",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "chevron.right",
+                    "color": "$token.color.textTertiary",
+                    "size": 13
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "vertical": "$token.spacing.sm"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "requestPermission",
+                        "permission": "location",
+                        "priming": {
+                          "title": "Find deals near you",
+                          "message": "We use your location only while the app is open.",
+                          "confirmTitle": "Continue",
+                          "cancelTitle": "Not Now",
+                          "image": "map.fill"
+                        },
+                        "resultKey": "$state.perm.location",
+                        "onGranted": {
+                          "action": "showToast",
+                          "message": "Location granted",
+                          "style": "success"
+                        },
+                        "onDenied": {
+                          "action": "showToast",
+                          "message": "Location denied",
+                          "style": "error"
+                        },
+                        "level": "whenInUse"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "location.fill",
+                    "color": "$token.color.primary",
+                    "size": 18
+                  },
+                  {
+                    "type": "text",
+                    "value": "Location",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$state.perm.location",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "chevron.right",
+                    "color": "$token.color.textTertiary",
+                    "size": 13
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "vertical": "$token.spacing.sm"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "requestPermission",
+                        "permission": "notifications",
+                        "priming": {
+                          "title": "Stay in the loop",
+                          "message": "Get notified when your order status changes.",
+                          "confirmTitle": "Turn On",
+                          "cancelTitle": "Not Now",
+                          "image": "bell.badge.fill"
+                        },
+                        "resultKey": "$state.perm.notifications",
+                        "onGranted": {
+                          "action": "showToast",
+                          "message": "Notifications granted",
+                          "style": "success"
+                        },
+                        "onDenied": {
+                          "action": "showToast",
+                          "message": "Notifications denied",
+                          "style": "error"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "bell.fill",
+                    "color": "$token.color.primary",
+                    "size": 18
+                  },
+                  {
+                    "type": "text",
+                    "value": "Notifications",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$state.perm.notifications",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "chevron.right",
+                    "color": "$token.color.textTertiary",
+                    "size": 13
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "ACCESSIBILITY",
+            "style": "$token.typography.caption",
+            "color": "$token.color.primary"
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surfaceElevated",
+              "cornerRadius": "$token.radius.lg",
+              "shadow": {
+                "radius": 10,
+                "y": 4,
+                "color": "#0E0E1214"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "Live system settings, exposed to the contract so layouts can adapt with visibleWhen.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "speaker.wave.2.fill",
+                    "color": "$token.color.primary",
+                    "size": 16
+                  },
+                  {
+                    "type": "text",
+                    "value": "VoiceOver",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$env.a11y.voiceOver",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "figure.walk.motion",
+                    "color": "$token.color.primary",
+                    "size": 16
+                  },
+                  {
+                    "type": "text",
+                    "value": "Reduce Motion",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$env.a11y.reduceMotion",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "bold",
+                    "color": "$token.color.primary",
+                    "size": 16
+                  },
+                  {
+                    "type": "text",
+                    "value": "Bold Text",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$env.a11y.boldText",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator"
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "textformat.size",
+                    "color": "$token.color.primary",
+                    "size": 16
+                  },
+                  {
+                    "type": "text",
+                    "value": "Dynamic Type",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "$env.a11y.dynamicType",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

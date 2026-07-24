@@ -79,7 +79,7 @@ struct FigmaConverterView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
+        .background(Color.sduiSecondaryGroupedBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(Color.primary.opacity(0.06), lineWidth: 0.5))
     }
@@ -102,7 +102,7 @@ struct FigmaConverterView: View {
             .sduiHiddenScrollBackground()
             .padding(10)
             .frame(height: height)
-            .background(Color(uiColor: .secondarySystemGroupedBackground))
+            .background(Color.sduiSecondaryGroupedBackground)
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.primary.opacity(0.08), lineWidth: 0.5))
             #if os(iOS)

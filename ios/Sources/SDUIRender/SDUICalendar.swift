@@ -51,7 +51,10 @@ struct CalendarGridView: View {
         let range = cal.range(of: .day, in: .month, for: monthStart) ?? (1..<31)
         let firstWeekdayIndex = (cal.component(.weekday, from: monthStart) - cal.firstWeekday + 7) % 7
         let days: [Date?] = Array(repeating: nil, count: firstWeekdayIndex)
-            + range.map { cal.date(byAdding: .day, value: $0 - 1, to: monthStart)! }
+            // `date(byAdding:)` is already optional — keep it as `Date?` (a nil
+            // renders an empty cell) rather than force-unwrapping and crashing on
+            // the calendar's rare rollover edge cases.
+            + range.map { cal.date(byAdding: .day, value: $0 - 1, to: monthStart) }
 
         VStack(spacing: 18) {
             summaryHeader()

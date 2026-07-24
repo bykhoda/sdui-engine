@@ -46,6 +46,22 @@ final class SDUICoreTests: XCTestCase {
 
     // MARK: - Binding engine
 
+    func testCyclicTokenReferenceTerminates() {
+        // Two tokens referencing each other must not hang or crash: the
+        // depth-limited resolver bails out and returns a bounded string.
+        let cyclic = BindingContext(tokens: .object([
+            "a": .string("$token.b"),
+            "b": .string("$token.a"),
+        ]))
+        let v = BindingEngine.resolveString("$token.a", in: cyclic)
+        XCTAssertLessThan(v.count, 200, "cyclic token resolution must terminate, not expand unbounded")
+    }
+
+    func testConditionNotEquals() throws {
+        let cond = try JSONDecoder().decode(Condition.self, from: Data(#"{ "notEquals": ["$env.locale", "en"] }"#.utf8))
+        XCTAssertTrue(cond.evaluate(in: ctx()), "locale is 'ru', so notEquals 'en' must be true")
+    }
+
     private func ctx() -> BindingContext {
         BindingContext(
             data: ["product": .object([

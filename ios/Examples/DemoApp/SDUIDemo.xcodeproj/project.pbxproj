@@ -144,6 +144,14 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Demo only — used to show the camera permission flow.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Demo only — used to show the microphone permission flow.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Demo only — used to show the location permission flow.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Demo only — used to show the photos permission flow.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Demo only — used to show the contacts permission flow.";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Demo only — used to show the calendar permission flow.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Demo only — used to show the calendar permission flow.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Demo only — used to show the tracking permission flow.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -225,6 +233,14 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Demo only — used to show the camera permission flow.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Demo only — used to show the microphone permission flow.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Demo only — used to show the location permission flow.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Demo only — used to show the photos permission flow.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Demo only — used to show the contacts permission flow.";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Demo only — used to show the calendar permission flow.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Demo only — used to show the calendar permission flow.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Demo only — used to show the tracking permission flow.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

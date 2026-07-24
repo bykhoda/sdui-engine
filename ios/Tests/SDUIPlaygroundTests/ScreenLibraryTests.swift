@@ -1,4 +1,5 @@
 import XCTest
+import SDUICore
 @testable import SDUIPlayground
 
 /// Verifies the sandbox's resource pipeline: bundled screens load from
@@ -10,6 +11,18 @@ final class ScreenLibraryTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(examples.count, 2, "Expected the bundled starter screens to load.")
         XCTAssertTrue(examples.allSatisfy { !$0.name.isEmpty })
         XCTAssertTrue(examples.allSatisfy { !$0.json.isEmpty })
+    }
+
+    func testEveryBundledScreenDecodes() {
+        // The iOS-side equivalent of the spec validator: every bundled screen
+        // must decode into a valid document, so a malformed screen fails CI here
+        // rather than blanking on-device.
+        let examples = ScreenLibrary.bundledExamples()
+        XCTAssertGreaterThanOrEqual(examples.count, 10, "Expected the full showcase to be bundled.")
+        for ex in examples {
+            XCTAssertNoThrow(try SDUIParser.decode(ex.json),
+                             "Bundled screen '\(ex.name)' must decode into a valid document.")
+        }
     }
 
     func testCatalogGroupsScreensIntoCategories() {

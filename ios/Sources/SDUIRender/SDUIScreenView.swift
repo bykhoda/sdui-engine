@@ -225,6 +225,11 @@ public struct SDUIScreenView: View {
     /// Live collapse progress (0 expanded → 1 collapsed) published by the screen's
     /// scroll, used to cross-fade the compact title into the nav bar.
     @State private var collapseProgress: CGFloat = 0
+    /// One swipe coordinator PER screen instance — enforces "only one row open at
+    /// a time" within this screen without leaking that state across stacked
+    /// screens (a sheet over a list, a pushed detail). The environment's shared
+    /// default is only a last-resort fallback for rows rendered outside a screen.
+    @StateObject private var swipeCoordinator = SDUISwipeCoordinator()
     /// Kept on the view (not just the model) so a live change — e.g. the host
     /// flipping `theme` to `dark` — reaches token resolution on the next render,
     /// which a `@StateObject`'s frozen init value would not.
@@ -268,6 +273,7 @@ public struct SDUIScreenView: View {
         let resolvedTitle = screen.title.map { BindingEngine.resolveString($0, in: contextBinding) } ?? ""
         return content(ctx: ctx, interpreter: interpreter)
             .environment(\.sduiScrollTarget, model.scrollTarget.map { SDUIScrollTarget(id: $0.id, generation: $0.generation) })
+            .environment(\.sduiSwipeCoordinator, swipeCoordinator)
             // The scroll-reactive header primitive: large title collapse + nav-bar
             // cross-fade when `scrollBehavior` is set; a plain title otherwise.
             .modifier(SDUIScrollHeaderChrome(behavior: screen.scrollBehavior, title: resolvedTitle, progress: $collapseProgress))

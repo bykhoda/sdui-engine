@@ -940,7 +940,7 @@ private struct ListView: View {
                 // contract can show a live count and switch to its empty state.
                 Color.clear.frame(height: 0)
                     .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
+                    .sduiHiddenListRowSeparator()
                     .listRowBackground(Color.clear)
                     .onAppear { publishCount(all.count) }
                     .onChange(of: all.count) { publishCount($0) }
@@ -949,7 +949,7 @@ private struct ListView: View {
                     ctx.registry.view(for: empty, in: ctx)
                         .frame(maxWidth: .infinity)
                         .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                        .listRowSeparator(.hidden)
+                        .sduiHiddenListRowSeparator()
                         .listRowBackground(Color.clear)
                 } else {
                     // Stable per-item identity (id/title, else index) — index-based ids
@@ -994,7 +994,7 @@ private struct ListView: View {
             }
             .frame(height: 44)
             .listRowInsets(EdgeInsets(top: spacing / 2, leading: 16, bottom: spacing / 2, trailing: 16))
-            .listRowSeparator(.hidden)
+            .sduiHiddenListRowSeparator()
             .listRowBackground(Color.clear)
         }
         .transition(.opacity)
@@ -1118,7 +1118,7 @@ private struct ListView: View {
                 leading: 16,
                 bottom: index == count - 1 ? max(spacing / 2, 16) : spacing / 2,
                 trailing: 16))
-            .listRowSeparator(.hidden)
+            .sduiHiddenListRowSeparator()
             .listRowBackground(Color.clear)
             .modifier(SwipeActionsModifier(swipe: comp.modifiers?.swipe, ctx: rowCtx))
             .onAppear {
@@ -1237,6 +1237,14 @@ struct CustomSwipeModifier: ViewModifier {
     @State private var width: CGFloat = 360    // measured row width
     @State private var axisLock: Bool?
     @State private var rowID = UUID()
+    // The side committed for the CURRENT gesture. Once a drag picks a side, the
+    // other tray can't reveal until release — that's what stops the two sides
+    // "fighting" near zero when the velocity read is ambiguous.
+    @State private var dragSide: Side?
+    // Full-swipe arm state — held in @State (not recomputed from offset every frame)
+    // so a Schmitt-trigger hysteresis can stop it flickering at the threshold.
+    @State private var armedLeadS = false
+    @State private var armedTrailS = false
 
     private var slot: CGFloat { CGFloat(swipe?.actionWidth ?? 74) }
     private var allowFull: Bool { swipe?.fullSwipe ?? true }
@@ -1254,14 +1262,15 @@ struct CustomSwipeModifier: ViewModifier {
             let openLead = CGFloat(leading.count) * slot
             let openTrail = CGFloat(trailing.count) * slot
             let trigger = max(width * 0.62, slot + 96)     // full-swipe arm distance
-            let armedLead = allowFull && !leading.isEmpty && offset >= trigger
-            let armedTrail = allowFull && !trailing.isEmpty && offset <= -trigger
             ZStack {
                 // Only the side being revealed is shown; opacity fades smoothly
-                // through zero so switching sides never flashes both trays.
-                tray(leading, side: .leading, total: max(0, offset), armed: armedLead)
+                // through zero so switching sides never flashes both trays. Totals are
+                // capped at the row width so an over-drag can never make a tray wider
+                // than the row — that would grow the ZStack, shrink the measured row
+                // width, and set up an oscillating feedback loop (the "1-in-5" jitter).
+                tray(leading, side: .leading, total: min(max(0, offset), width), armed: armedLeadS)
                     .opacity(Double(min(1, max(0, offset / 22))))
-                tray(trailing, side: .trailing, total: max(0, -offset), armed: armedTrail)
+                tray(trailing, side: .trailing, total: min(max(0, -offset), width), armed: armedTrailS)
                     .opacity(Double(min(1, max(0, -offset / 22))))
                 content
                     .background(GeometryReader { g in
@@ -1271,10 +1280,15 @@ struct CustomSwipeModifier: ViewModifier {
                     .highPriorityGesture(drag(leading: leading, trailing: trailing,
                                               openLead: openLead, openTrail: openTrail, trigger: trigger))
             }
-            .onPreferenceChange(SwipeRowWidthKey.self) { if $0 > 0 { width = $0 } }
+            .clipped()
+            // Never let the measured width change mid-gesture: a width update while
+            // dragging would recompute `trigger`/resistance and jump the row. Only
+            // accept a new measurement at rest.
+            .onPreferenceChange(SwipeRowWidthKey.self) { if $0 > 0, axisLock != true { width = $0 } }
             .onReceive(coordinator.$openId) { id in
                 if id != rowID, settled != 0 {
                     withAnimation(.spring(response: 0.34, dampingFraction: 0.86)) { offset = 0; settled = 0 }
+                    armedLeadS = false; armedTrailS = false
                 }
             }
         } else {
@@ -1353,39 +1367,84 @@ struct CustomSwipeModifier: ViewModifier {
                 if axisLock == nil { axisLock = abs(v.translation.width) > abs(v.translation.height) }
                 guard axisLock == true else { return }
                 if coordinator.openId != rowID { coordinator.openId = rowID }   // claim single-open
-                var new = settled + v.translation.width
-                if leading.isEmpty, new > 0 { new *= 0.2 }        // rubber-band a missing edge
-                if trailing.isEmpty, new < 0 { new *= 0.2 }
-                if new > width { new = width + (new - width) * 0.2 }     // resistance past the row
-                if new < -width { new = -width + (new + width) * 0.2 }
+                let raw = settled + v.translation.width
+
+                // Commit to ONE side for the whole gesture. From an open row we keep
+                // that side; from closed we pick by the drag's initial direction. The
+                // other tray then physically can't reveal mid-drag, so the two sides
+                // never fight when the velocity read is ambiguous near zero.
+                if dragSide == nil {
+                    dragSide = settled > 0 ? .leading : settled < 0 ? .trailing : (raw >= 0 ? .leading : .trailing)
+                }
+                let side = dragSide ?? .leading
+                let hasActions = side == .leading ? !leading.isEmpty : !trailing.isEmpty
+
+                var new = raw
+                if !hasActions {
+                    new = raw * 0.2                                    // nothing to open — pure rubber-band
+                } else if side == .leading {
+                    if new < 0 { new *= 0.2 }                          // drag past closed rubber-bands,
+                    else if new > width { new = width + (new - width) * 0.2 }   // never reveals trailing
+                } else {
+                    if new > 0 { new *= 0.2 }
+                    else if new < -width { new = -width + (new + width) * 0.2 }
+                }
                 offset = new
+
+                // Full-swipe arm with hysteresis, for the committed side only: arm past
+                // `trigger`, disarm only once well back inside it (trigger − 48). The
+                // dead-band stops the edge pill flickering on a swipe that lands right
+                // on the threshold; the stretch animates so arming reads as a grow.
+                if allowFull, side == .leading, !leading.isEmpty {
+                    if !armedLeadS, new >= trigger {
+                        withAnimation(.easeOut(duration: 0.16)) { armedLeadS = true }
+                        #if os(iOS)
+                        Haptics.play("light")
+                        #endif
+                    } else if armedLeadS, new < trigger - 48 {
+                        withAnimation(.easeOut(duration: 0.16)) { armedLeadS = false }
+                    }
+                } else if allowFull, side == .trailing, !trailing.isEmpty {
+                    if !armedTrailS, new <= -trigger {
+                        withAnimation(.easeOut(duration: 0.16)) { armedTrailS = true }
+                        #if os(iOS)
+                        Haptics.play("light")
+                        #endif
+                    } else if armedTrailS, new > -(trigger - 48) {
+                        withAnimation(.easeOut(duration: 0.16)) { armedTrailS = false }
+                    }
+                }
             }
             .onEnded { v in
-                defer { axisLock = nil }
+                let side = dragSide
+                defer { axisLock = nil; dragSide = nil }
                 guard axisLock == true else { return }
-                let release = offset
-                let projected = settled + v.predictedEndTranslation.width   // velocity-aware target
-                if allowFull, release <= -trigger, let edge = trailing.last { fire(edge); return }
-                if allowFull, release >= trigger, let edge = leading.last { fire(edge); return }
+                // Velocity-aware intent, read UNCLAMPED so a hard reverse fling still
+                // registers even though the drag itself was pinned to one side.
+                let projected = settled + v.predictedEndTranslation.width
+                // Fire off the ARMED state (what's visually shown), not a fresh
+                // offset-vs-trigger test — so a release inside the hysteresis band
+                // still fires the pill the user can see is armed.
+                if armedTrailS, let edge = trailing.last { fire(edge); return }
+                if armedLeadS, let edge = leading.last { fire(edge); return }
                 withAnimation(.spring(response: 0.36, dampingFraction: 0.86)) {
-                    if settled > 0 {
-                        // Leading was open: a short flick back closes; only a LONG drag
-                        // fully past the trailing open flips to the other side.
-                        if !trailing.isEmpty, projected < -openTrail { settled = -openTrail }
-                        else if projected > openLead * 0.5 { settled = openLead }
+                    switch side {
+                    case .leading:
+                        // Stay/open leading past half; only a decisive reverse fling all
+                        // the way past the trailing open flips sides; otherwise close.
+                        if projected > openLead * 0.5 { settled = openLead }
+                        else if !trailing.isEmpty, projected < -openTrail { settled = -openTrail }
                         else { settled = 0 }
-                    } else if settled < 0 {
-                        if !leading.isEmpty, projected > openLead { settled = openLead }
-                        else if projected < -openTrail * 0.5 { settled = -openTrail }
+                    case .trailing:
+                        if projected < -openTrail * 0.5 { settled = -openTrail }
+                        else if !leading.isEmpty, projected > openLead { settled = openLead }
                         else { settled = 0 }
-                    } else {
-                        // Was closed: open the dragged side once past half its width.
-                        if !leading.isEmpty, projected > openLead * 0.5 { settled = openLead }
-                        else if !trailing.isEmpty, projected < -openTrail * 0.5 { settled = -openTrail }
-                        else { settled = 0 }
+                    case .none:
+                        settled = 0
                     }
                     offset = settled
                 }
+                armedLeadS = false; armedTrailS = false
                 if settled == 0, coordinator.openId == rowID { coordinator.openId = nil }
             }
     }

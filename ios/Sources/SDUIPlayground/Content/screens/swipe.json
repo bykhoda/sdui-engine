@@ -88,12 +88,8 @@
             },
             "children": [
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/sw1/100/100",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "aspectRatio": 1
-                },
+                "type": "zstack",
+                "alignment": "center",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -105,8 +101,17 @@
                       "value": 46
                     }
                   },
+                  "background": "#FF6B6B",
                   "cornerRadius": "$token.radius.pill"
-                }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "MC",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
               },
               {
                 "type": "vstack",
@@ -207,12 +212,8 @@
             },
             "children": [
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/sw2/100/100",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "aspectRatio": 1
-                },
+                "type": "zstack",
+                "alignment": "center",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -224,8 +225,17 @@
                       "value": 46
                     }
                   },
+                  "background": "#5B8DEF",
                   "cornerRadius": "$token.radius.pill"
-                }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "DW",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
               },
               {
                 "type": "vstack",
@@ -326,12 +336,8 @@
             },
             "children": [
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/sw3/100/100",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "aspectRatio": 1
-                },
+                "type": "zstack",
+                "alignment": "center",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -343,8 +349,17 @@
                       "value": 46
                     }
                   },
+                  "background": "#2B2F36",
                   "cornerRadius": "$token.radius.pill"
-                }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "GH",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
               },
               {
                 "type": "vstack",
@@ -445,12 +460,8 @@
             },
             "children": [
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/sw4/100/100",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "aspectRatio": 1
-                },
+                "type": "zstack",
+                "alignment": "center",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -462,8 +473,17 @@
                       "value": 46
                     }
                   },
+                  "background": "#34C759",
                   "cornerRadius": "$token.radius.pill"
-                }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "AK",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
               },
               {
                 "type": "vstack",
@@ -564,12 +584,8 @@
             },
             "children": [
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/sw5/100/100",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "aspectRatio": 1
-                },
+                "type": "zstack",
+                "alignment": "center",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -581,8 +597,17 @@
                       "value": 46
                     }
                   },
+                  "background": "#A259FF",
                   "cornerRadius": "$token.radius.pill"
-                }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "F",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
               },
               {
                 "type": "vstack",
