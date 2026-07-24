@@ -16,9 +16,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -59,6 +67,11 @@ object Builtins {
         registry.register("async") { c, ctx -> AsyncView(c, ctx) }
         registry.register("progress") { c, ctx -> ProgressBarView(c, ctx) }
         registry.register("slider") { c, ctx -> SliderView(c, ctx) }
+        registry.register("toggle") { c, ctx -> ToggleView(c, ctx) }
+        registry.register("textfield") { c, ctx -> TextFieldView(c, ctx) }
+        registry.register("grid") { c, ctx -> GridView(c, ctx) }
+        registry.register("disclosure") { c, ctx -> DisclosureView(c, ctx) }
+        registry.register("ticker") { c, ctx -> TickerView(c, ctx) }
     }
 }
 
@@ -77,6 +90,140 @@ internal fun Primitive(
     contextMenuHost(component.modifiers, ctx) {
         content(Modifier.sduiModifiers(component.modifiers, ctx))
     }
+}
+
+// MARK: - Form controls (two-way bound to $state)
+
+/** The bare state key behind a `bind`, tolerating both `"email"` and `"$state.email"`. */
+private fun bindKey(component: Component): String =
+    (component.prop("bind")?.stringValue ?: "").removePrefix("\$state.")
+
+@Composable
+private fun ToggleView(component: Component, ctx: RenderContext) {
+    val key = bindKey(component)
+    val title = BindingEngine.resolveString(component.prop("title")?.stringValue ?: "", ctx.binding)
+    val checked = BindingEngine.resolve("\$state.$key", ctx.binding).boolValue ?: false
+    Primitive(component, ctx) { modifier ->
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(title, style = androidx.compose.material3.LocalTextStyle.current)
+            androidx.compose.material3.Switch(
+                checked = checked,
+                onCheckedChange = { ctx.setState?.invoke(key, JsonValue.Bool(it)) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun TextFieldView(component: Component, ctx: RenderContext) {
+    val key = bindKey(component)
+    val current = BindingEngine.resolve("\$state.$key", ctx.binding).stringValue ?: ""
+    val label = BindingEngine.resolveString(component.prop("label")?.stringValue ?: "", ctx.binding)
+    val placeholder = BindingEngine.resolveString(component.prop("placeholder")?.stringValue ?: "", ctx.binding)
+    val secure = component.prop("secure")?.boolValue ?: false
+    Primitive(component, ctx) { modifier ->
+        androidx.compose.material3.OutlinedTextField(
+            value = current,
+            onValueChange = { ctx.setState?.invoke(key, JsonValue.Str(it)) },
+            modifier = modifier.fillMaxWidth(),
+            label = if (label.isNotEmpty()) ({ Text(label) }) else null,
+            placeholder = if (placeholder.isNotEmpty()) ({ Text(placeholder) }) else null,
+            singleLine = true,
+            visualTransformation =
+                if (secure) androidx.compose.ui.text.input.PasswordVisualTransformation()
+                else androidx.compose.ui.text.input.VisualTransformation.None,
+        )
+    }
+}
+
+// MARK: - Grid + Disclosure
+
+@Composable
+private fun GridView(component: Component, ctx: RenderContext) {
+    val cols = (component.prop("columns")?.doubleValue?.toInt() ?: 2).coerceAtLeast(1)
+    val gap = component.prop("spacing")?.decode<Dimension>()?.let { Theme.dp(it, ctx.binding) } ?: 0.dp
+    val itemsRef = component.prop("items")?.stringValue
+    val template = component.prop("template")?.decode<Component>()
+    Primitive(component, ctx) { modifier ->
+        // A non-lazy chunked grid — safe inside the screen's outer scroll (a
+        // LazyVerticalGrid would be measured with unbounded height and crash).
+        val cells: List<@Composable () -> Unit> =
+            if (itemsRef != null && template != null) {
+                val items = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
+                items.map { item -> { ctx.registry.Render(template, ctx.withItem(item)) } }
+            } else {
+                component.children.map { child -> { ctx.registry.Render(child, ctx) } }
+            }
+        Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(gap)) {
+            cells.chunked(cols).forEach { rowCells ->
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(gap)) {
+                    rowCells.forEach { cell -> Box(Modifier.weight(1f)) { cell() } }
+                    repeat(cols - rowCells.size) { Box(Modifier.weight(1f)) {} }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun DisclosureView(component: Component, ctx: RenderContext) {
+    val title = BindingEngine.resolveString(component.prop("title")?.stringValue ?: "", ctx.binding)
+    val subtitle = BindingEngine.resolveString(component.prop("subtitle")?.stringValue ?: "", ctx.binding)
+    var expanded by remember(component.id) { mutableStateOf(component.prop("expanded")?.boolValue ?: false) }
+    Primitive(component, ctx) { modifier ->
+        Column(modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth().clickable { expanded = !expanded }.padding(vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column {
+                    Text(title, style = androidx.compose.material3.LocalTextStyle.current)
+                    if (subtitle.isNotEmpty()) {
+                        Text(subtitle, style = androidx.compose.material3.MaterialTheme.typography.bodySmall)
+                    }
+                }
+                Text(if (expanded) "▾" else "▸")
+            }
+            AnimatedVisibility(visible = expanded) {
+                Column { component.children.forEach { ctx.registry.Render(it, ctx) } }
+            }
+        }
+    }
+}
+
+// MARK: - Ticker (invisible clock advancing a numeric $state on an interval)
+
+@Composable
+private fun TickerView(component: Component, ctx: RenderContext) {
+    val key = bindKey(component)
+    if (key.isEmpty()) return
+    val interval = component.prop("interval")?.doubleValue ?: 1.0
+    val step = component.prop("step")?.doubleValue ?: 0.01
+    val max = component.prop("max")?.doubleValue ?: 1.0
+    val loop = component.prop("loop")?.boolValue ?: false
+    val whileKey = component.prop("while")?.stringValue?.removePrefix("\$state.")
+    val active = whileKey == null ||
+        (BindingEngine.resolve("\$state.$whileKey", ctx.binding).boolValue ?: false)
+
+    LaunchedEffect(key, interval, step, max, loop, active) {
+        if (!active) return@LaunchedEffect
+        // Seed from state once, then accumulate locally so we never read a stale
+        // captured binding on each tick.
+        var v = BindingEngine.resolve("\$state.$key", ctx.binding).doubleValue ?: 0.0
+        while (true) {
+            kotlinx.coroutines.delay((interval * 1000).toLong().coerceAtLeast(1))
+            v += step
+            if (v >= max) v = if (loop) 0.0 else max
+            ctx.setState?.invoke(key, JsonValue.Num(v))
+            if (v >= max && !loop) break
+        }
+    }
+    // Renders no UI — mirrors the iOS ticker.
 }
 
 // MARK: - Layout primitives

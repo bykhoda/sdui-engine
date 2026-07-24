@@ -35,8 +35,14 @@ android {
     }
 
     // Keep java sources under the conventional `src/main/java` path even though
-    // they are Kotlin, matching the layout requested for this repo.
+    // they are Kotlin, matching the layout requested for this repo. The unit-test
+    // set uses the same convention so `src/test/java/**/*.kt` is compiled.
     sourceSets["main"].java.srcDir("src/main/java")
+    sourceSets["test"].java.srcDir("src/test/java")
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -58,4 +64,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // JVM unit tests for the pure-Kotlin core (binding engine, parser), run via
+    // `testDebugUnitTest` — no device needed, mirroring the iOS SDUICoreTests.
+    testImplementation(kotlin("test-junit"))
+    testImplementation("junit:junit:4.13.2")
 }

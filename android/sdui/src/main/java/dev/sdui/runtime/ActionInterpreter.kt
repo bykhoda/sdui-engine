@@ -143,6 +143,22 @@ class ActionInterpreter(private val host: ActionHost) {
                 host.custom(name, action.field("payload")?.let { resolvedValue(it, ctx) })
             }
 
+            "delay" -> {
+                // Declarative pause, mainly inside a `sequence`. Clamped to 60s.
+                val seconds = action.field("seconds")?.doubleValue ?: 0.0
+                if (seconds > 0) kotlinx.coroutines.delay((seconds.coerceAtMost(60.0) * 1000).toLong())
+            }
+
+            "increment" -> {
+                // Add `by` (default 1) to a numeric state key — powers "load more"
+                // and steppers without arithmetic in the payload.
+                val key = action.field("key")?.stringValue ?: return
+                val by = action.field("by")?.doubleValue ?: 1.0
+                val bare = key.removePrefix("\$state.")
+                val current = ctx.state[bare]?.doubleValue ?: 0.0
+                host.setState(bare, JsonValue.Num(current + by))
+            }
+
             else -> host.log("Unhandled action '${action.action}'")
         }
     }

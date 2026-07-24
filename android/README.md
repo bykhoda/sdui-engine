@@ -6,9 +6,24 @@ mirroring the SwiftUI reference module file-for-file so the two SDKs read as
 siblings.
 
 > Status: **initial Compose renderer.** It covers the core primitives and the
-> binding/action model. It is written to compile-ready, idiomatic Kotlin but must
-> be opened in Android Studio / built with the Android SDK to verify — that
-> toolchain isn't part of this repo's CI yet.
+> binding/action model. CI now builds the library and runs the core unit tests on
+> every push (see the `android` job in [`../.github/workflows/ci.yml`](../.github/workflows/ci.yml));
+> component parity with iOS is still in progress.
+
+## Build & test
+
+The module targets Gradle 8.9 (pinned in `gradle/wrapper/gradle-wrapper.properties`),
+AGP 8.5, Kotlin 2.0, compileSdk 34, minSdk 24. The wrapper *jar* is intentionally
+not committed — generate `./gradlew` once with a system Gradle, then use it:
+
+```bash
+cd android
+gradle wrapper --gradle-version 8.9   # one-time: materialise ./gradlew (or open in Android Studio)
+./gradlew :sdui:assembleRelease       # compile the renderer
+./gradlew :sdui:testDebugUnitTest     # run the pure-JVM core tests (BindingEngineTest)
+```
+
+CI does exactly this on `ubuntu-latest` with JDK 21 + the Android SDK.
 
 ## Layout
 
@@ -21,6 +36,24 @@ android/
       core/     JsonValue, Models, BindingEngine, SduiParser
       runtime/  ActionInterpreter
       render/   Theme, ComponentRegistry, Builtins, SduiModifiers, SduiScreen
+  app/                                   # the demo/playground application
+    build.gradle.kts                     # (Android sibling of ios/Examples/DemoApp)
+    src/main/java/dev/sdui/demo/         # MainActivity + catalog browser
+```
+
+## Demo app (`:app`)
+
+The `:app` module is the Android twin of the iOS demo. It renders the **same**
+bundled catalog and screens (`catalog.json` + `screens/*.json` + `tokens.json`)
+through the Compose renderer — the concrete proof of "one contract, two native
+apps". The content is authored once (with the iOS demo) and copied into the app's
+assets at build time by the `syncPlaygroundContent` Gradle task, so there is no
+committed duplicate. Screens that use components not yet ported to Android (see
+parity note below) degrade gracefully rather than crashing.
+
+```bash
+./gradlew :app:assembleDebug     # build the demo APK
+./gradlew :app:installDebug      # install on a running emulator/device
 ```
 
 ## How it mirrors iOS

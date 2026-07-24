@@ -26,3 +26,6 @@ dependencyResolutionManagement {
 rootProject.name = "sdui-android"
 
 include(":sdui")
+// The demo/playground application — the Android sibling of ios/Examples/DemoApp.
+// Renders the SAME bundled catalog + screens through the Compose renderer.
+include(":app")

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      A minimal, dependency-free activity theme (no AppCompat / Material XML lib
+      needed — the UI is 100% Compose). NoActionBar because the catalog draws its
+      own chrome; the actual light/dark palette is chosen by Compose MaterialTheme
+      and each SDUI screen resolves its own tokens via $env.theme.
+    -->
+    <style name="Theme.SduiDemo" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
