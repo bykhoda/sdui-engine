@@ -47,7 +47,7 @@ const header = {
   type: 'vstack', alignment: 'leading', spacing: XS,
   modifiers: { padding: { leading: LG, trailing: LG, top: MD } },
   children: [
-    text('OPEN-SOURCE · SERVER-DRIVEN UI', '$token.typography.caption', '$token.color.primary'),
+    text('SERVER-DRIVEN UI', '$token.typography.caption', '$token.color.primary'),
     text('SDUI', '$token.typography.hero', '$token.color.textPrimary'),
     text('Every screen here is JSON — rendered natively on iOS, Android and Aurora.',
       '$token.typography.subheadline', '$token.color.textSecondary'),
@@ -92,31 +92,45 @@ const storyRail = {
     children: STORIES.map((s, i) => storyCircle(s, i)) },
 };
 
-// ── 3. Hero: one focal card per fold — tonal gradient + scrim + overlaid copy ─
-const hero = {
+// ── 3. Hero: a swipeable collection of full-bleed banners (peek of the next) ──
+const HERO_W = 330;
+const HERO_H = 220;
+const BANNERS = [
+  { eyebrow: 'FEATURED', title: 'Ship whole screens from JSON',
+    subtitle: 'One contract, three native apps — no release.',
+    colors: ['#5B5BF0', '#7C4DFF', '#FF6B9D'], shadow: '#5B5BF033', to: 'discover' },
+  { eyebrow: 'ONE CONTRACT', title: 'iOS · Android · Aurora',
+    subtitle: 'The same JSON renders natively on all three.',
+    colors: ['#00B89E', '#0A84FF'], shadow: '#00B89E33', to: 'figma' },
+  { eyebrow: 'LIVE THEMING', title: 'Re-theme the whole app',
+    subtitle: 'Design tokens ship over the wire, instantly.',
+    colors: ['#FA8C30', '#D94D4D'], shadow: '#FA8C3033', to: 'materials' },
+];
+const banner = (b) => ({
   type: 'zstack', alignment: 'bottomLeading',
-  modifiers: { padding: { horizontal: LG }, onTap: nav('discover') },
+  modifiers: { size: { width: { mode: 'fixed', value: HERO_W } }, onTap: nav(b.to) },
   children: [
-    { type: 'gradient', colors: ['#5B5BF0', '#7C4DFF', '#FF6B9D'], direction: 'diagonal',
-      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: 220 } },
-        cornerRadius: '$token.radius.lg', shadow: { radius: 20, y: 12, color: '#5B5BF033' } } },
+    { type: 'gradient', colors: b.colors, direction: 'diagonal',
+      modifiers: { size: { width: { mode: 'fixed', value: HERO_W }, height: { mode: 'fixed', value: HERO_H } },
+        cornerRadius: '$token.radius.lg', shadow: { radius: 20, y: 12, color: b.shadow } } },
     { type: 'gradient', colors: ['#00000000', '#00000066'], direction: 'vertical',
-      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: 220 } },
+      modifiers: { size: { width: { mode: 'fixed', value: HERO_W }, height: { mode: 'fixed', value: HERO_H } },
         cornerRadius: '$token.radius.lg' } },
     { type: 'vstack', alignment: 'leading', spacing: XS, modifiers: { padding: LG },
       children: [
-        text('FEATURED', '$token.typography.caption', '#FFFFFFCC'),
-        text('Ship whole screens from JSON', '$token.typography.title2', '#FFFFFF'),
-        text('One contract, three native apps — no app-store release.',
-          '$token.typography.subheadline', '#FFFFFFCC'),
+        text(b.eyebrow, '$token.typography.caption', '#FFFFFFCC'),
+        text(b.title, '$token.typography.title2', '#FFFFFF'),
+        text(b.subtitle, '$token.typography.subheadline', '#FFFFFFCC'),
         text('Explore  →', '$token.typography.subheadline', '$token.color.primary', {
-          modifiers: {
-            padding: { leading: MD, trailing: MD, top: XS, bottom: XS },
-            background: '#FFFFFF', cornerRadius: '$token.radius.pill',
-          },
-        }),
+          modifiers: { padding: { leading: MD, trailing: MD, top: XS, bottom: XS },
+            background: '#FFFFFF', cornerRadius: '$token.radius.pill' } }),
       ] },
   ],
+});
+const heroRail = {
+  type: 'scroll', axis: 'horizontal', showsIndicators: false,
+  child: { type: 'hstack', spacing: MD, modifiers: { padding: { horizontal: LG } },
+    children: BANNERS.map(banner) },
 };
 
 // ── 4. Per-category horizontal rails (peek of the next card) ─────────────────
@@ -164,7 +178,7 @@ const doc = {
       child: {
         type: 'vstack', alignment: 'leading', spacing: '$token.spacing.xl',
         modifiers: { padding: { top: SM, bottom: '$token.spacing.xl' }, size: { width: { mode: 'fill' } } },
-        children: [header, storyRail, hero, ...catalog.categories.map(railSection)],
+        children: [header, storyRail, heroRail, ...catalog.categories.map(railSection)],
       },
     },
   },

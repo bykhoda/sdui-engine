@@ -34,7 +34,7 @@
             "children": [
               {
                 "type": "text",
-                "value": "OPEN-SOURCE · SERVER-DRIVEN UI",
+                "value": "SERVER-DRIVEN UI",
                 "style": "$token.typography.caption",
                 "color": "$token.color.primary"
               },
@@ -473,110 +473,351 @@
             }
           },
           {
-            "type": "zstack",
-            "alignment": "bottomLeading",
-            "modifiers": {
-              "padding": {
-                "horizontal": "$token.spacing.lg"
-              },
-              "onTap": {
-                "action": "navigate",
-                "to": "discover",
-                "transition": "push"
-              }
-            },
-            "children": [
-              {
-                "type": "gradient",
-                "colors": [
-                  "#5B5BF0",
-                  "#7C4DFF",
-                  "#FF6B9D"
-                ],
-                "direction": "diagonal",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 220
-                    }
-                  },
-                  "cornerRadius": "$token.radius.lg",
-                  "shadow": {
-                    "radius": 20,
-                    "y": 12,
-                    "color": "#5B5BF033"
-                  }
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.md",
+              "modifiers": {
+                "padding": {
+                  "horizontal": "$token.spacing.lg"
                 }
               },
-              {
-                "type": "gradient",
-                "colors": [
-                  "#00000000",
-                  "#00000066"
-                ],
-                "direction": "vertical",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
+              "children": [
+                {
+                  "type": "zstack",
+                  "alignment": "bottomLeading",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 330
+                      }
                     },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 220
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "discover",
+                      "transition": "push"
                     }
                   },
-                  "cornerRadius": "$token.radius.lg"
-                }
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": "$token.spacing.xs",
-                "modifiers": {
-                  "padding": "$token.spacing.lg"
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "FEATURED",
-                    "style": "$token.typography.caption",
-                    "color": "#FFFFFFCC"
-                  },
-                  {
-                    "type": "text",
-                    "value": "Ship whole screens from JSON",
-                    "style": "$token.typography.title2",
-                    "color": "#FFFFFF"
-                  },
-                  {
-                    "type": "text",
-                    "value": "One contract, three native apps — no app-store release.",
-                    "style": "$token.typography.subheadline",
-                    "color": "#FFFFFFCC"
-                  },
-                  {
-                    "type": "text",
-                    "value": "Explore  →",
-                    "style": "$token.typography.subheadline",
-                    "color": "$token.color.primary",
-                    "modifiers": {
-                      "padding": {
-                        "leading": "$token.spacing.md",
-                        "trailing": "$token.spacing.md",
-                        "top": "$token.spacing.xs",
-                        "bottom": "$token.spacing.xs"
+                  "children": [
+                    {
+                      "type": "gradient",
+                      "colors": [
+                        "#5B5BF0",
+                        "#7C4DFF",
+                        "#FF6B9D"
+                      ],
+                      "direction": "diagonal",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 330
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 220
+                          }
+                        },
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 20,
+                          "y": 12,
+                          "color": "#5B5BF033"
+                        }
+                      }
+                    },
+                    {
+                      "type": "gradient",
+                      "colors": [
+                        "#00000000",
+                        "#00000066"
+                      ],
+                      "direction": "vertical",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 330
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 220
+                          }
+                        },
+                        "cornerRadius": "$token.radius.lg"
+                      }
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "padding": "$token.spacing.lg"
                       },
-                      "background": "#FFFFFF",
-                      "cornerRadius": "$token.radius.pill"
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "FEATURED",
+                          "style": "$token.typography.caption",
+                          "color": "#FFFFFFCC"
+                        },
+                        {
+                          "type": "text",
+                          "value": "Ship whole screens from JSON",
+                          "style": "$token.typography.title2",
+                          "color": "#FFFFFF"
+                        },
+                        {
+                          "type": "text",
+                          "value": "One contract, three native apps — no release.",
+                          "style": "$token.typography.subheadline",
+                          "color": "#FFFFFFCC"
+                        },
+                        {
+                          "type": "text",
+                          "value": "Explore  →",
+                          "style": "$token.typography.subheadline",
+                          "color": "$token.color.primary",
+                          "modifiers": {
+                            "padding": {
+                              "leading": "$token.spacing.md",
+                              "trailing": "$token.spacing.md",
+                              "top": "$token.spacing.xs",
+                              "bottom": "$token.spacing.xs"
+                            },
+                            "background": "#FFFFFF",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        }
+                      ]
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                },
+                {
+                  "type": "zstack",
+                  "alignment": "bottomLeading",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 330
+                      }
+                    },
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "figma",
+                      "transition": "push"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "gradient",
+                      "colors": [
+                        "#00B89E",
+                        "#0A84FF"
+                      ],
+                      "direction": "diagonal",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 330
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 220
+                          }
+                        },
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 20,
+                          "y": 12,
+                          "color": "#00B89E33"
+                        }
+                      }
+                    },
+                    {
+                      "type": "gradient",
+                      "colors": [
+                        "#00000000",
+                        "#00000066"
+                      ],
+                      "direction": "vertical",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 330
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 220
+                          }
+                        },
+                        "cornerRadius": "$token.radius.lg"
+                      }
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "padding": "$token.spacing.lg"
+                      },
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "ONE CONTRACT",
+                          "style": "$token.typography.caption",
+                          "color": "#FFFFFFCC"
+                        },
+                        {
+                          "type": "text",
+                          "value": "iOS · Android · Aurora",
+                          "style": "$token.typography.title2",
+                          "color": "#FFFFFF"
+                        },
+                        {
+                          "type": "text",
+                          "value": "The same JSON renders natively on all three.",
+                          "style": "$token.typography.subheadline",
+                          "color": "#FFFFFFCC"
+                        },
+                        {
+                          "type": "text",
+                          "value": "Explore  →",
+                          "style": "$token.typography.subheadline",
+                          "color": "$token.color.primary",
+                          "modifiers": {
+                            "padding": {
+                              "leading": "$token.spacing.md",
+                              "trailing": "$token.spacing.md",
+                              "top": "$token.spacing.xs",
+                              "bottom": "$token.spacing.xs"
+                            },
+                            "background": "#FFFFFF",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "zstack",
+                  "alignment": "bottomLeading",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 330
+                      }
+                    },
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "materials",
+                      "transition": "push"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "gradient",
+                      "colors": [
+                        "#FA8C30",
+                        "#D94D4D"
+                      ],
+                      "direction": "diagonal",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 330
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 220
+                          }
+                        },
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 20,
+                          "y": 12,
+                          "color": "#FA8C3033"
+                        }
+                      }
+                    },
+                    {
+                      "type": "gradient",
+                      "colors": [
+                        "#00000000",
+                        "#00000066"
+                      ],
+                      "direction": "vertical",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 330
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 220
+                          }
+                        },
+                        "cornerRadius": "$token.radius.lg"
+                      }
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "padding": "$token.spacing.lg"
+                      },
+                      "children": [
+                        {
+                          "type": "text",
+                          "value": "LIVE THEMING",
+                          "style": "$token.typography.caption",
+                          "color": "#FFFFFFCC"
+                        },
+                        {
+                          "type": "text",
+                          "value": "Re-theme the whole app",
+                          "style": "$token.typography.title2",
+                          "color": "#FFFFFF"
+                        },
+                        {
+                          "type": "text",
+                          "value": "Design tokens ship over the wire, instantly.",
+                          "style": "$token.typography.subheadline",
+                          "color": "#FFFFFFCC"
+                        },
+                        {
+                          "type": "text",
+                          "value": "Explore  →",
+                          "style": "$token.typography.subheadline",
+                          "color": "$token.color.primary",
+                          "modifiers": {
+                            "padding": {
+                              "leading": "$token.spacing.md",
+                              "trailing": "$token.spacing.md",
+                              "top": "$token.spacing.xs",
+                              "bottom": "$token.spacing.xs"
+                            },
+                            "background": "#FFFFFF",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "type": "vstack",
