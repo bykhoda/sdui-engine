@@ -1,0 +1,99 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "signup_submit",
+    "title": "Create account",
+    "analytics": { "screenName": "auth.signup" },
+    "state": { "email": "", "password": "", "agree": false, "error": "" },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": { "padding": "$token.spacing.lg" },
+        "children": [
+          { "type": "text", "value": "Create your account", "style": "$token.typography.largeTitle" },
+          {
+            "type": "textfield",
+            "bind": "email",
+            "placeholder": "Email",
+            "label": "Email",
+            "keyboardType": "email",
+            "textContentType": "email",
+            "icon": "envelope",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "accessibility": { "label": "Email" } }
+          },
+          {
+            "type": "textfield",
+            "bind": "password",
+            "placeholder": "Password",
+            "label": "Password",
+            "secure": true,
+            "textContentType": "newPassword",
+            "icon": "lock",
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "accessibility": { "label": "Password" } }
+          },
+          { "type": "toggle", "bind": "agree", "title": "I agree to the Terms & Privacy Policy" },
+          {
+            "type": "text",
+            "id": "signup_error",
+            "value": "$state.error",
+            "style": "$token.typography.caption",
+            "color": "$token.color.error",
+            "visibleWhen": { "exists": "$state.error" }
+          },
+          {
+            "type": "button",
+            "title": "Create account",
+            "style": "$token.button.primary",
+            "enabledWhen": {
+              "and": [
+                { "exists": "$state.email" },
+                { "exists": "$state.password" },
+                { "equals": ["$state.agree", "true"] }
+              ]
+            },
+            "modifiers": { "size": { "width": { "mode": "fill" } }, "accessibility": { "role": "button", "label": "Create account" } },
+            "onTap": {
+              "action": "sequence",
+              "actions": [
+                { "action": "haptic", "style": "medium" },
+                { "action": "setState", "key": "error", "value": "" },
+                {
+                  "action": "request",
+                  "source": {
+                    "id": "signup",
+                    "service": "auth",
+                    "path": "/signup",
+                    "method": "POST",
+                    "body": {
+                      "email": "$state.email",
+                      "password": "$state.password",
+                      "agree": "$state.agree"
+                    },
+                    "policy": "networkOnly"
+                  },
+                  "onSuccess": {
+                    "action": "navigate",
+                    "to": "signup_success",
+                    "params": { "email": "$state.email" },
+                    "transition": "push",
+                    "analytics": { "event": "signup_success" }
+                  },
+                  "onError": {
+                    "action": "sequence",
+                    "actions": [
+                      { "action": "haptic", "style": "error" },
+                      { "action": "setState", "key": "error", "value": "We couldn't create your account. Check your details and try again." }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

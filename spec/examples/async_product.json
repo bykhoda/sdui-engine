@@ -1,0 +1,69 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "async_product",
+    "title": "Product",
+    "analytics": { "screenName": "product.async" },
+    "content": {
+      "type": "async",
+      "source": {
+        "id": "product",
+        "service": "catalog",
+        "path": "/products/{productId}",
+        "method": "GET",
+        "query": { "lang": "$env.locale" },
+        "policy": "cacheThenNetwork"
+      },
+      "loading": {
+        "type": "vstack",
+        "alignment": "center",
+        "modifiers": { "padding": "$token.spacing.xl", "size": { "width": { "mode": "fill" } } },
+        "children": [
+          { "type": "spinner", "color": "$token.color.primary", "scale": 1.2 }
+        ]
+      },
+      "content": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": { "padding": "$token.spacing.lg" },
+        "children": [
+          {
+            "type": "image",
+            "source": "$data.product.imageUrl",
+            "loader": { "placeholder": "skeleton", "aspectRatio": 1.6, "contentMode": "fill" },
+            "modifiers": { "cornerRadius": "$token.radius.lg", "size": { "width": { "mode": "fill" } } }
+          },
+          {
+            "type": "text",
+            "value": "$data.product.title",
+            "style": "$token.typography.title2",
+            "color": "$token.color.textPrimary"
+          },
+          {
+            "type": "text",
+            "value": "$data.product.price",
+            "style": "$token.typography.headline",
+            "color": "$token.color.primary"
+          }
+        ]
+      },
+      "error": {
+        "type": "vstack",
+        "alignment": "center",
+        "spacing": "$token.spacing.sm",
+        "modifiers": { "padding": "$token.spacing.xl", "size": { "width": { "mode": "fill" } } },
+        "children": [
+          { "type": "icon", "name": "exclamationmark.triangle", "color": "$token.color.error", "size": 28 },
+          {
+            "type": "text",
+            "value": "Couldn't load this product. Pull to try again.",
+            "style": "$token.typography.body",
+            "color": "$token.color.textSecondary",
+            "alignment": "center"
+          }
+        ]
+      }
+    }
+  }
+}

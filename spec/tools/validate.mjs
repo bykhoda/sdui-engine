@@ -10,34 +10,56 @@
 //         node spec/tools/validate.mjs spec/examples/*.json
 
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
-const KNOWN_COMPONENTS = new Set([
-  'vstack', 'hstack', 'zstack', 'scroll', 'list', 'grid', 'spacer', 'divider',
-  'text', 'icon', 'image', 'button', 'textfield', 'toggle', 'picker', 'progress',
-  'chart', 'gradient', 'rings', 'spinner', 'async', 'slider', 'roadmap', 'disclosure', 'ticker',
-  'datepicker', 'filecell', 'calendar', 'clips',
-]);
-const KNOWN_ACTIONS = new Set([
-  'navigate', 'dismiss', 'dismissRoot', 'openURL', 'openDeepLink', 'setState',
-  'refresh', 'request', 'sequence', 'parallel', 'condition', 'delay', 'showToast', 'scrollTo',
-  'haptic', 'share', 'log', 'analytics', 'custom', 'increment',
-]);
-const REQUIRED_COMPONENT_FIELDS = {
-  vstack: ['children'], hstack: ['children'], zstack: ['children'],
-  scroll: ['child'], text: ['value'], image: ['source'], button: ['onTap'],
-  icon: ['name'], textfield: ['bind'], toggle: ['bind'], picker: ['bind', 'options'],
-  slider: ['bind'], disclosure: ['title'], ticker: ['bind'], datepicker: ['bind'],
-  calendar: ['mode'],
-  clips: ['pages'],
-};
-const REQUIRED_ACTION_FIELDS = {
-  navigate: ['to'], openURL: ['url'], openDeepLink: ['url'], setState: ['key'],
-  request: ['source'], sequence: ['actions'], parallel: ['actions'],
-  condition: ['if', 'then'], showToast: ['message'], scrollTo: ['target'], custom: ['name'],
-};
+// ── The contract IS the single source of truth ──────────────────────────────
+// Everything below is DERIVED from spec/schema/sdui.schema.json at load time —
+// component & action vocabularies, their required fields, and every enum / numeric
+// / shape constraint. Nothing is hand-listed, so the validator (and, through its
+// exports, the MCP server) can never drift from the schema. Add a component or an
+// action to the schema and it is enforced here automatically.
+const SCHEMA = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'schema', 'sdui.schema.json'), 'utf8'),
+);
+const DEFS = SCHEMA.$defs;
+// Resolve a one-level `$ref` into #/$defs; returns the node unchanged otherwise.
+const deref = (node) => (node && node.$ref ? DEFS[node.$ref.split('/').pop()] : node);
 
-class Validator {
-  constructor() { this.errors = []; this.sourceIds = new Set(); this.dataRefs = []; }
+// Component vocabulary + per-type props schema, from the Component discriminator's
+// `allOf` branches (`if type == "x" then <XProps>`).
+export const KNOWN_COMPONENTS = new Set();
+export const REQUIRED_COMPONENT_FIELDS = {};
+const COMPONENT_PROPS = {};   // type → resolved *Props schema (for strict checks)
+for (const branch of DEFS.Component.allOf ?? []) {
+  const type = branch.if?.properties?.type?.const;
+  if (!type) continue;
+  KNOWN_COMPONENTS.add(type);
+  const props = deref(branch.then);
+  COMPONENT_PROPS[type] = props ?? null;
+  if (props?.required?.length) REQUIRED_COMPONENT_FIELDS[type] = props.required;
+}
+
+// Action vocabulary from the Action enum; required fields + props schema from the
+// Action's `allOf` branches (their `then` blocks are inline, not $refs).
+export const KNOWN_ACTIONS = new Set(DEFS.Action.properties.action.enum);
+export const REQUIRED_ACTION_FIELDS = {};
+const ACTION_THEN = {};       // action kind → its inline `then` schema
+for (const branch of DEFS.Action.allOf ?? []) {
+  const kind = branch.if?.properties?.action?.const;
+  if (!kind) continue;
+  ACTION_THEN[kind] = branch.then ?? null;
+  if (branch.then?.required?.length) REQUIRED_ACTION_FIELDS[kind] = branch.then.required;
+}
+
+export class Validator {
+  // `tokenPaths` (optional): a Set of every valid "$token.<path>" tail (both group
+  // and leaf paths) from a tokens file. When supplied, token refs are checked so a
+  // typo like `$token.spacing.mdd` fails in CI instead of silently rendering empty.
+  constructor(tokenPaths = null) {
+    this.errors = []; this.sourceIds = new Set(); this.dataRefs = []; this.tokenRefs = [];
+    this.tokenPaths = tokenPaths;
+  }
   err(path, msg) { this.errors.push(`${path}: ${msg}`); }
 
   validate(doc) {
@@ -66,6 +88,13 @@ class Validator {
         this.err(path, `binding "$data.${id}" has no matching data source (declared: ${[...this.sourceIds].join(', ') || 'none'})`);
       }
     }
+    // Token cross-reference (only when a tokens file was supplied).
+    if (this.tokenPaths) {
+      for (const { ref, path } of this.tokenRefs) {
+        const tail = ref.slice('$token.'.length);
+        if (!this.tokenPaths.has(tail)) this.err(path, `token "${ref}" is not defined in the tokens file`);
+      }
+    }
     return this.errors;
   }
 
@@ -76,9 +105,10 @@ class Validator {
     if (!KNOWN_COMPONENTS.has(type) && !type.startsWith('custom.')) {
       this.err(`${path}.type`, `unknown component "${type}" (use one of ${[...KNOWN_COMPONENTS].join(', ')} or custom.*)`);
     }
-    for (const f of REQUIRED_COMPONENT_FIELDS[type] ?? []) {
-      if (node[f] === undefined) this.err(`${path}.${f}`, `required for "${type}"`);
-    }
+    // Strict, schema-derived shape check: required fields, enum membership, numeric
+    // types & ranges — for this component's props and for its modifiers.
+    this.checkShape(node, COMPONENT_PROPS[type], path);
+    if (node.modifiers !== undefined) this.checkShape(node.modifiers, DEFS.Modifiers, `${path}.modifiers`);
     if (node.modifiers?.onTap) this.walkAction(node.modifiers.onTap, `${path}.modifiers.onTap`);
     if (node.modifiers?.onLongPress) this.walkAction(node.modifiers.onLongPress, `${path}.modifiers.onLongPress`);
     (node.modifiers?.contextMenu ?? []).forEach((m, i) => m.action && this.walkAction(m.action, `${path}.modifiers.contextMenu[${i}].action`));
@@ -93,10 +123,12 @@ class Validator {
     // `async` declares its data source inline and renders slot components; register
     // the source id so `$data.<id>` bindings inside `content` resolve.
     if (type === 'async') {
+      // `source`/`content` required-ness is enforced by checkShape above; here we
+      // add the async-specific rule (the source needs an id — it becomes the $data
+      // key) and walk the slot components.
+      if (node.source && node.source.id === undefined) this.err(`${path}.source.id`, 'required — it becomes the $data.<id> key inside content');
       if (node.source?.id) this.sourceIds.add(node.source.id);
-      else this.err(`${path}.source`, 'required for "async" (with an id)');
       if (node.content) this.walkComponent(node.content, `${path}.content`);
-      else this.err(`${path}.content`, 'required for "async"');
       if (node.loading) this.walkComponent(node.loading, `${path}.loading`);
       if (node.error) this.walkComponent(node.error, `${path}.error`);
     }
@@ -106,11 +138,59 @@ class Validator {
     if (typeof node !== 'object' || node === null) return this.err(path, 'action must be an object');
     if (!node.action) return this.err(`${path}.action`, 'required');
     if (!KNOWN_ACTIONS.has(node.action)) this.err(`${path}.action`, `unknown action "${node.action}"`);
-    for (const f of REQUIRED_ACTION_FIELDS[node.action] ?? []) {
-      if (node[f] === undefined) this.err(`${path}.${f}`, `required for action "${node.action}"`);
-    }
+    // Strict, schema-derived check of this action kind's own fields (required +
+    // enums like transition/haptic style). Nested child actions are walked below.
+    this.checkShape(node, ACTION_THEN[node.action], path);
     (node.actions ?? []).forEach((a, i) => this.walkAction(a, `${path}.actions[${i}]`));
     ['then', 'else', 'onSuccess', 'onError'].forEach((k) => node[k] && this.walkAction(node[k], `${path}.${k}`));
+  }
+
+  // Conservative, schema-driven shape check. It only ever fires on unambiguous
+  // authoring mistakes, because it deliberately bows out of anything ambiguous:
+  //  • a binding ("$state.x", "$data…", "$token…") skips every scalar rule;
+  //  • $ref types (Color/Dimension/BindableString/Component/Action/…) and
+  //    oneOf/anyOf unions are skipped — they're intentionally flexible;
+  //  • unknown keys are left alone (no additionalProperties enforcement here).
+  // What remains is real: a mistyped enum, a string where a number belongs, an
+  // out-of-range value, or a missing nested-required field.
+  checkShape(val, spec, path) {
+    if (!spec || typeof spec !== 'object') return;
+    if (spec.$ref || spec.oneOf || spec.anyOf || spec.allOf) return;
+    if (typeof val === 'string' && val.startsWith('$')) return;   // a binding — not a literal
+    if (spec.enum) {
+      if (typeof val === 'string' && !spec.enum.includes(val)) {
+        this.err(path, `"${val}" is not a valid value (expected one of: ${spec.enum.join(' | ')})`);
+      }
+      return;
+    }
+    const t = spec.type;
+    if (t === 'object' || (!t && (spec.properties || spec.required))) {
+      if (!val || typeof val !== 'object' || Array.isArray(val)) return;
+      for (const r of spec.required ?? []) {
+        if (val[r] === undefined) this.err(`${path}.${r}`, 'required');
+      }
+      if (spec.properties) {
+        for (const [k, s] of Object.entries(spec.properties)) {
+          if (k in val) this.checkShape(val[k], s, `${path}.${k}`);
+        }
+      }
+      return;
+    }
+    if (t === 'array') {
+      if (Array.isArray(val) && spec.items) val.forEach((v, i) => this.checkShape(v, spec.items, `${path}[${i}]`));
+      return;
+    }
+    if (t === 'boolean') {
+      if (typeof val !== 'boolean') this.err(path, 'must be true or false');
+    } else if (t === 'number' || t === 'integer') {
+      if (typeof val !== 'number') { this.err(path, 'must be a number'); return; }
+      if (t === 'integer' && !Number.isInteger(val)) this.err(path, 'must be a whole number');
+      if (spec.minimum !== undefined && val < spec.minimum) this.err(path, `must be ≥ ${spec.minimum}`);
+      if (spec.maximum !== undefined && val > spec.maximum) this.err(path, `must be ≤ ${spec.maximum}`);
+      if (spec.exclusiveMinimum !== undefined && val <= spec.exclusiveMinimum) this.err(path, `must be greater than ${spec.exclusiveMinimum}`);
+    } else if (t === 'string') {
+      if (typeof val !== 'string') this.err(path, 'must be a string');
+    }
   }
 
   // Collect every "$data.<id>..." string in the tree for cross-referencing.
@@ -118,6 +198,8 @@ class Validator {
     if (typeof obj === 'string') {
       const m = obj.match(/\$data\.[A-Za-z0-9_.]+/g);
       if (m) m.forEach((ref) => this.dataRefs.push({ ref, path }));
+      const t = obj.match(/\$token\.[A-Za-z0-9_.]+/g);
+      if (t) t.forEach((ref) => this.tokenRefs.push({ ref, path }));
     } else if (Array.isArray(obj)) {
       obj.forEach((v, i) => this.collectBindings(v, `${path}[${i}]`));
     } else if (obj && typeof obj === 'object') {
@@ -126,12 +208,45 @@ class Validator {
   }
 }
 
+// Flatten a tokens object to the set of every "$token.<tail>" a payload may use —
+// both group paths (color, spacing) and leaf paths (color.primary). Skips $comment*
+// and the top-level version so those never look like tokens.
+export function flattenTokenPaths(obj, prefix = '', out = new Set()) {
+  for (const [k, v] of Object.entries(obj)) {
+    if (k.startsWith('$comment') || (prefix === '' && k === 'version')) continue;
+    const path = prefix ? `${prefix}.${k}` : k;
+    out.add(path);
+    if (v && typeof v === 'object' && !Array.isArray(v)) flattenTokenPaths(v, path, out);
+  }
+  return out;
+}
+
+// CLI entry — skipped when this module is imported (e.g. by the mock server).
+if (import.meta.url === `file://${process.argv[1]}`) runCli();
+
+function runCli() {
+// Args: [--tokens <file>] <payload.json> [...]
+const args = process.argv.slice(2);
+let tokenPaths = null;
+const files = [];
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === '--tokens') {
+    const f = args[++i];
+    try { tokenPaths = flattenTokenPaths(JSON.parse(readFileSync(f, 'utf8'))); }
+    catch (e) { console.error(`✗ --tokens ${f}: ${e.message}`); process.exit(2); }
+  } else { files.push(args[i]); }
+}
+if (files.length === 0) {
+  console.error('usage: node validate.mjs [--tokens <tokens.json>] <payload.json> [...]');
+  process.exit(2);
+}
+
 let failed = 0;
-for (const file of process.argv.slice(2)) {
+for (const file of files) {
   let doc;
   try { doc = JSON.parse(readFileSync(file, 'utf8')); }
   catch (e) { console.error(`✗ ${file}: invalid JSON — ${e.message}`); failed++; continue; }
-  const errors = new Validator().validate(doc);
+  const errors = new Validator(tokenPaths).validate(doc);
   if (errors.length === 0) {
     console.log(`✓ ${file}`);
   } else {
@@ -140,5 +255,5 @@ for (const file of process.argv.slice(2)) {
     errors.forEach((e) => console.error(`    ${e}`));
   }
 }
-if (process.argv.length <= 2) { console.error('usage: node validate.mjs <payload.json> [...]'); process.exit(2); }
 process.exit(failed ? 1 : 0);
+}

@@ -469,7 +469,7 @@
       "properties": {
         "padding": { "$ref": "#/$defs/EdgeInsets" },
         "background": { "$ref": "#/$defs/Color" },
-        "material": { "enum": ["glass", "regular"], "description": "Translucent material behind the node (visionOS-style frosted glass). Renders natively on iOS/Android/Aurora." },
+        "material": { "enum": ["ultraThin", "thin", "regular", "thick", "bar", "glass"], "description": "Translucent system material behind the node. 'ultraThin'…'thick' are the four native blur tiers, 'bar' matches the toolbar material, and 'glass' is the visionOS-style frosted pane (material + hairline gradient stroke). Renders natively on iOS/Android/Aurora." },
         "cornerRadius": { "$ref": "#/$defs/Dimension" },
         "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
         "scale": { "oneOf": [ { "type": "number" }, { "type": "string" } ], "description": "Uniform scale — a number or a $state binding. Pair with animation for a spring scale on state change." },
@@ -593,10 +593,11 @@
         "action": {
           "enum": [
             "navigate", "dismiss", "dismissRoot", "openURL", "openDeepLink",
-            "setState", "refresh", "request", "sequence", "parallel", "condition",
-            "delay", "showToast", "scrollTo", "haptic", "share", "saveFile", "log", "analytics", "custom"
+            "setState", "increment", "refresh", "request", "sequence", "parallel", "condition",
+            "delay", "showToast", "scrollTo", "haptic", "share", "saveFile", "preview",
+            "log", "analytics", "requireVersion", "requestPermission", "custom"
           ],
-          "description": "Action kind. See spec/docs/actions.md for the full field set of each."
+          "description": "Action kind. Kept in lockstep with the engines' ActionInterpreter — every kind here is one a client accepts. See spec/docs/authoring.md for each kind's field set."
         },
         "analytics": { "$ref": "#/$defs/AnalyticsTag", "description": "Optional analytics event emitted when this action fires." }
       },

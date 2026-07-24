@@ -1,0 +1,194 @@
+openapi: 3.1.0
+info:
+  title: SDUI Screen API
+  version: "0.1"
+  description: |
+    The server contract for a Server-Driven UI app. Your backend returns a **screen
+    document** as JSON; the native iOS/Android engine renders it — no app release.
+
+    This spec is the language-neutral surface for the whole contract: open it in
+    Swagger UI to explore every endpoint, or feed it to `openapi-generator` /
+    `quicktype` to generate a typed client in Go, Python, Kotlin, TypeScript, Java…
+
+    The shape of a screen document (components, modifiers, actions, bindings) is
+    defined once in `spec/schema/sdui.schema.json` (JSON Schema 2020-12) and reused
+    here by `$ref`, so the API contract and the payload contract never drift.
+
+    Bindings a payload may use: `$data.<id>.<path>` (from a data source),
+    `$state.<key>` (screen-local state), `$env.<key>` (locale/theme/platform),
+    `$token.<group>.<name>` (design tokens), `$params.<key>` (navigation params),
+    `$item.<path>` (inside a list/grid template).
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:8787
+    description: Local mock server (`node spec/tools/serve.mjs`)
+tags:
+  - name: screens
+    description: Fetch the UI to render
+  - name: tokens
+    description: Design tokens (theme)
+  - name: actions
+    description: Endpoints a screen's `request` actions POST to (forms, mutations)
+paths:
+  /screens/{id}:
+    get:
+      tags: [screens]
+      summary: Fetch a screen document to render
+      description: |
+        Returns one screen document. The client sends its supported contract version
+        in `v`; the server returns the newest screen ≤ that version. Unknown component
+        or action types degrade gracefully on-device, so a newer server can serve new
+        UI to an older client without a crash.
+      operationId: getScreen
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Screen identifier.
+          schema:
+            type: string
+            examples: [feed, product_detail, login_form, signup_submit, async_product]
+        - name: v
+          in: query
+          required: false
+          description: The client's supported contract version, e.g. `0.1`.
+          schema:
+            type: string
+            pattern: '^\d+\.\d+$'
+            default: "0.1"
+        - name: params
+          in: query
+          required: false
+          description: Opaque navigation params forwarded from the client (JSON-encoded), surfaced to the payload as `$params.*`.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A screen document.
+          content:
+            application/json:
+              schema:
+                $ref: "./schema/sdui.schema.json"
+              examples:
+                feed:
+                  summary: A paginated list bound to a data source
+                  externalValue: ./examples/feed.json
+                product_detail:
+                  summary: Data loading + image + button sequences
+                  externalValue: ./examples/product_detail.json
+                signup_submit:
+                  summary: A form that POSTs via a request action
+                  externalValue: ./examples/signup_submit.json
+                async_product:
+                  summary: An async node with loading/content/error slots
+                  externalValue: ./examples/async_product.json
+        "404":
+          description: No such screen.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /tokens:
+    get:
+      tags: [tokens]
+      summary: Fetch design tokens
+      description: |
+        The host app loads these once and every payload references them as
+        `$token.<group>.<name>`. When `theme=dark`, a `$token.color.X` ref resolves
+        to `colorDark.X` if present. Ship one token set per brand/theme.
+      operationId: getTokens
+      parameters:
+        - name: theme
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [light, dark]
+            default: light
+      responses:
+        "200":
+          description: A design-token set.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tokens"
+  /submit/{form}:
+    post:
+      tags: [actions]
+      summary: Generic form / mutation endpoint
+      description: |
+        A stand-in for the endpoints your screens' `request` actions POST to. The mock
+        accepts any JSON body and echoes success; a real backend validates and persists.
+        The `onSuccess` / `onError` branches of the action decide what UI happens next.
+      operationId: submitForm
+      parameters:
+        - name: form
+          in: path
+          required: true
+          schema:
+            type: string
+            examples: [signup, login]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              examples:
+                - { email: "ada@example.com", password: "hunter2", agree: true }
+      responses:
+        "200":
+          description: Accepted.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubmitResult"
+        "422":
+          description: Validation failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /healthz:
+    get:
+      summary: Liveness probe
+      operationId: health
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+components:
+  schemas:
+    # The full screen document — its shape is owned by the JSON Schema, reused verbatim.
+    SDUIDocument:
+      $ref: "./schema/sdui.schema.json"
+    Tokens:
+      type: object
+      description: Platform-neutral design tokens. Groups map to native styles on each platform.
+      properties:
+        version: { type: string }
+        color: { type: object, additionalProperties: { type: string } }
+        colorDark: { type: object, additionalProperties: { type: string } }
+        spacing: { type: object, additionalProperties: { type: number } }
+        radius: { type: object, additionalProperties: { type: number } }
+        typography: { type: object }
+      additionalProperties: true
+    SubmitResult:
+      type: object
+      properties:
+        ok: { type: boolean }
+        id: { type: string, description: Server-assigned id of the created resource. }
+      required: [ok]
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+        detail: { type: string }
+      required: [error]
