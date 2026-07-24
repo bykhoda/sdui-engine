@@ -18,7 +18,7 @@ import UIKit
 /// cards that SHOW each screen (a muted-tint icon chip + title + descriptor), and
 /// a closing wide "pipeline" card. One accent color; per-card tints are muted and
 /// desaturated. No rainbow gradients, no full-bleed banners, no badges.
-public struct AirbnbHomeView: View {
+public struct ShowcaseHomeView: View {
     private let categories: [PlaygroundCategory]
     private let tokens: JSONValue
 

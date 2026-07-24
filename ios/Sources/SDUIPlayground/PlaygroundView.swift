@@ -88,7 +88,7 @@ final class PlaygroundHost: ObservableObject, SDUIHostDelegate {
 
 // MARK: - Catalog (master)
 
-/// The Home tab. Its visual design lives in ``AirbnbHomeView`` (an Airbnb-Explore
+/// The Home tab. Its visual design lives in ``ShowcaseHomeView`` (an an editorial showcase
 /// -grade product showcase); this wrapper preserves the public
 /// `SDUIPlaygroundView` entry point and its initializer so call sites and the
 /// tab bar are unchanged. Card taps push the real SDUI screen through the same
@@ -104,7 +104,7 @@ public struct SDUIPlaygroundView: View {
     }
 
     public var body: some View {
-        AirbnbHomeView(categories: categories, tokens: tokens)
+        ShowcaseHomeView(categories: categories, tokens: tokens)
     }
 }
 

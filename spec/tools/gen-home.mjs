@@ -1,8 +1,10 @@
 #!/usr/bin/env node
-// Generates a premium `home` SDUI screen from catalog.json, so the app CHROME is
-// itself server-driven — rendered by the engine identically on iOS/Android/Aurora
-// (dogfooding the whole thesis). Single source of truth: the catalog categories.
-// Run:  node spec/tools/gen-home.mjs   (re-run after editing catalog.json)
+// Generates a PREMIUM `home` SDUI screen from catalog.json — the app chrome is
+// itself server-driven, so it renders identically on iOS/Android/Aurora and
+// dogfoods the engine. Design direction is our own (a developer-facing SDUI
+// showcase), NOT a travel-photo clone: tonal gradients carry colour, bold type
+// carries hierarchy, one accent, horizontal rails with peek + section rhythm.
+// Single source of truth: the catalog categories. Run: node spec/tools/gen-home.mjs
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -11,76 +13,126 @@ import { dirname, join } from 'node:path';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CATALOG = 'ios/Sources/SDUIPlayground/Content/catalog.json';
 const OUT = 'ios/Sources/SDUIPlayground/Content/screens/home.json';
-
 const catalog = JSON.parse(readFileSync(join(ROOT, CATALOG), 'utf8'));
 
-const text = (value, style, color) => ({ type: 'text', value, style, color });
+const LG = '$token.spacing.lg';
+const MD = '$token.spacing.md';
+const SM = '$token.spacing.sm';
+const XS = '$token.spacing.xs';
+const text = (value, style, color, extra = {}) => ({ type: 'text', value, style, color, ...extra });
 const pretty = (id) =>
   id.replace(/^\d+[-_]?/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+const nav = (to) => ({ action: 'navigate', to, transition: 'push' });
 
-// One tappable catalog card: gradient chip (category identity) + title + subtitle,
-// firing a server-driven navigate to the target screen.
-const card = (entry, colors) => ({
-  type: 'vstack',
-  alignment: 'leading',
-  spacing: '$token.spacing.sm',
-  modifiers: {
-    padding: '$token.spacing.md',
-    background: '$token.color.surfaceElevated',
-    cornerRadius: '$token.radius.lg',
-    shadow: { radius: 10, y: 4, color: '#0E0E1214' },
-    size: { width: { mode: 'fill' } },
-    onTap: { action: 'navigate', to: entry.id, transition: 'push' },
-  },
-  children: [
-    {
-      type: 'gradient',
-      colors,
-      direction: 'diagonal',
-      modifiers: {
-        size: { width: { mode: 'fixed', value: 40 }, height: { mode: 'fixed', value: 40 } },
-        cornerRadius: '$token.radius.md',
-      },
-    },
-    text(pretty(entry.id), '$token.typography.headline', '$token.color.textPrimary'),
-    { ...text(entry.subtitle, '$token.typography.caption', '$token.color.textSecondary'), lineLimit: 2 },
-  ],
-});
+// A soft, single-tier shadow (premium apps cap elevation at one subtle tier).
+const softShadow = { radius: 12, y: 6, color: '#0E0E1216' };
 
-const section = (cat) => [
-  text(cat.name.toUpperCase(), '$token.typography.caption', '$token.color.primary'),
-  { type: 'grid', columns: 2, spacing: '$token.spacing.md', children: cat.screens.map((s) => card(s, cat.colors)) },
-];
-
+// ── 1. Header: eyebrow + big bold wordmark + one quiet subline ───────────────
 const header = {
-  type: 'vstack',
-  alignment: 'leading',
-  spacing: '$token.spacing.xs',
+  type: 'vstack', alignment: 'leading', spacing: XS,
+  modifiers: { padding: { leading: LG, trailing: LG, top: MD } },
   children: [
-    text('SERVER-DRIVEN UI', '$token.typography.caption', '$token.color.primary'),
+    text('OPEN-SOURCE · SERVER-DRIVEN UI', '$token.typography.caption', '$token.color.primary'),
     text('SDUI', '$token.typography.hero', '$token.color.textPrimary'),
-    text('Ship whole screens from JSON — one contract, three native apps.',
+    text('Every screen here is JSON — rendered natively on iOS, Android and Aurora.',
       '$token.typography.subheadline', '$token.color.textSecondary'),
   ],
 };
+
+// ── 2. Story rail: capability circles (the engine's pitch, tappable) ─────────
+const STORIES = [
+  { label: 'Server-driven', icon: 'bolt.fill', colors: ['#5AC8FA', '#0A84FF'], to: 'actions' },
+  { label: 'One contract', icon: 'square.on.square', colors: ['#5B5BF0', '#4338CA'], to: 'figma' },
+  { label: 'Live theming', icon: 'paintpalette.fill', colors: ['#FF9F0A', '#FF6B00'], to: 'materials' },
+  { label: 'Components', icon: 'square.grid.2x2.fill', colors: ['#FF375F', '#C9184A'], to: 'components' },
+  { label: 'Interactions', icon: 'hand.tap.fill', colors: ['#A259FF', '#6E44FF'], to: 'gestures' },
+  { label: 'Live data', icon: 'waveform.path.ecg', colors: ['#30D158', '#0A84FF'], to: 'stocks' },
+];
+const storyCircle = (s) => ({
+  type: 'vstack', alignment: 'center', spacing: XS,
+  modifiers: { size: { width: { mode: 'fixed', value: 76 } }, onTap: nav(s.to) },
+  children: [
+    { type: 'zstack', alignment: 'center', children: [
+      { type: 'gradient', colors: s.colors, direction: 'diagonal',
+        modifiers: { size: { width: { mode: 'fixed', value: 64 }, height: { mode: 'fixed', value: 64 } },
+          cornerRadius: '$token.radius.pill' } },
+      { type: 'icon', name: s.icon, color: '#FFFFFF', size: 24 },
+    ] },
+    text(s.label, '$token.typography.caption', '$token.color.textSecondary', { alignment: 'center', lineLimit: 1 }),
+  ],
+});
+const storyRail = {
+  type: 'scroll', axis: 'horizontal', showsIndicators: false,
+  child: { type: 'hstack', spacing: MD, modifiers: { padding: { horizontal: LG } },
+    children: STORIES.map(storyCircle) },
+};
+
+// ── 3. Hero: one focal card per fold — tonal gradient + scrim + overlaid copy ─
+const hero = {
+  type: 'zstack', alignment: 'bottomLeading',
+  modifiers: { padding: { horizontal: LG }, onTap: nav('discover') },
+  children: [
+    { type: 'gradient', colors: ['#5B5BF0', '#7C4DFF', '#FF6B9D'], direction: 'diagonal',
+      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: 220 } },
+        cornerRadius: '$token.radius.lg', shadow: { radius: 20, y: 12, color: '#5B5BF033' } } },
+    { type: 'gradient', colors: ['#00000000', '#00000066'], direction: 'vertical',
+      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: 220 } },
+        cornerRadius: '$token.radius.lg' } },
+    { type: 'vstack', alignment: 'leading', spacing: XS, modifiers: { padding: LG },
+      children: [
+        text('FEATURED', '$token.typography.caption', '#FFFFFFCC'),
+        text('Ship whole screens from JSON', '$token.typography.title2', '#FFFFFF'),
+        text('One contract, three native apps — no app-store release.',
+          '$token.typography.subheadline', '#FFFFFFCC'),
+      ] },
+  ],
+};
+
+// ── 4. Per-category horizontal rails (peek of the next card) ─────────────────
+const railCard = (entry, colors) => ({
+  type: 'vstack', alignment: 'leading', spacing: SM,
+  modifiers: {
+    size: { width: { mode: 'fixed', value: 172 } },
+    padding: MD, background: '$token.color.surfaceElevated',
+    cornerRadius: '$token.radius.lg', shadow: softShadow,
+    onTap: nav(entry.id),
+  },
+  children: [
+    { type: 'gradient', colors, direction: 'diagonal',
+      modifiers: { size: { width: { mode: 'fill' }, height: { mode: 'fixed', value: 92 } },
+        cornerRadius: '$token.radius.md' } },
+    text(pretty(entry.id), '$token.typography.headline', '$token.color.textPrimary', { lineLimit: 1 }),
+    text(entry.subtitle, '$token.typography.caption', '$token.color.textSecondary', { lineLimit: 2 }),
+  ],
+});
+const railSection = (cat) => ({
+  type: 'vstack', alignment: 'leading', spacing: SM,
+  children: [
+    { type: 'hstack', modifiers: { padding: { horizontal: LG } }, children: [
+      text(cat.name, '$token.typography.title2', '$token.color.textPrimary'),
+      { type: 'spacer' },
+      text('See all', '$token.typography.subheadline', '$token.color.primary'),
+    ] },
+    { type: 'scroll', axis: 'horizontal', showsIndicators: false,
+      child: { type: 'hstack', spacing: MD, modifiers: { padding: { horizontal: LG } },
+        children: cat.screens.map((s) => railCard(s, cat.colors)) } },
+  ],
+});
 
 const doc = {
   version: '0.1',
   screen: {
     id: 'home',
-    title: 'SDUI',
     content: {
       type: 'scroll',
       child: {
-        type: 'vstack',
-        alignment: 'leading',
-        spacing: '$token.spacing.lg',
-        modifiers: { padding: '$token.spacing.lg', size: { width: { mode: 'fill' } } },
-        children: [header, ...catalog.categories.flatMap(section)],
+        type: 'vstack', alignment: 'leading', spacing: '$token.spacing.xl',
+        modifiers: { padding: { top: SM, bottom: '$token.spacing.xl' }, size: { width: { mode: 'fill' } } },
+        children: [header, storyRail, hero, ...catalog.categories.map(railSection)],
       },
     },
   },
 };
 
 writeFileSync(join(ROOT, OUT), JSON.stringify(doc, null, 2) + '\n');
-console.log(`wrote ${OUT} (${catalog.categories.length} categories, ${catalog.categories.reduce((n, c) => n + c.screens.length, 0)} cards)`);
+console.log(`wrote ${OUT} (${catalog.categories.length} rails, ${catalog.categories.reduce((n, c) => n + c.screens.length, 0)} cards)`);
