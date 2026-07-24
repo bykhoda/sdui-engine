@@ -2,6 +2,8 @@ package dev.sdui.render
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -361,12 +363,12 @@ internal fun SliderView(component: Component, ctx: RenderContext) {
                 .fillMaxWidth()
                 .height(rowH.dp)
                 .pointerInput(key) {
-                    androidx.compose.foundation.gestures.detectHorizontalDragGestures { change, _ ->
+                    detectHorizontalDragGestures { change, _ ->
                         write((change.position.x / size.width))
                     }
                 }
                 .pointerInput(key) {
-                    androidx.compose.foundation.gestures.detectTapGestures { pos -> write(pos.x / size.width) }
+                    detectTapGestures { pos -> write(pos.x / size.width) }
                 },
         ) {
             val h = trackH.dp.toPx()

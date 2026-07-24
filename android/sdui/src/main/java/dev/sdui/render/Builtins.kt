@@ -39,6 +39,7 @@ import dev.sdui.core.BindingEngine
 import dev.sdui.core.Component
 import dev.sdui.core.Condition
 import dev.sdui.core.Dimension
+import dev.sdui.core.JsonValue
 import dev.sdui.core.evaluate
 
 /**
