@@ -191,6 +191,9 @@ private struct ScrollContainer: View {
     @Environment(\.sduiScrollBehavior) private var behavior
     /// The screen title, used to synthesize the large collapsing header.
     @Environment(\.sduiScreenTitle) private var screenTitle
+    /// Honor the system "Reduce Motion" setting — the elastic rubber-band stretch on the
+    /// collapsing title is a decorative motion, so it's dropped when the user opts out.
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// Content offset (0 at rest, grows as you scroll down). Drives the collapse.
     @State private var offset: CGFloat = 0
     /// Rest-position of the scroll tracker, captured on first layout, so `offset`
@@ -652,7 +655,7 @@ private struct ScrollContainer: View {
         let progress = linear * linear * (3 - 2 * linear)
         // Rubber-band: a pull at the top gently enlarges the title (capped), giving
         // the elastic feel of Apple's large title without distorting layout.
-        let stretch = 1 + min(overscroll, 120) * 0.0016
+        let stretch = reduceMotion ? 1 : 1 + min(overscroll, 120) * 0.0016
         let scale = (1 - (1 - minScale) * progress) * stretch
         // The large title holds, then fades over the last third; the reserved height
         // collapses on the full eased curve so content rises smoothly to meet the bar.
