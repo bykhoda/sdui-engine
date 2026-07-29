@@ -17,34 +17,86 @@
 //   GET  /openapi.yaml       the spec  (plus /schema/* and /examples/* for $ref resolution)
 
 import { createServer } from 'node:http';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, extname } from 'node:path';
 import { Validator, flattenTokenPaths } from './validate.mjs';
 import * as T from '../mcp/tools.mjs';
 
 const SPEC_DIR = join(dirname(fileURLToPath(import.meta.url)), '..');   // .../spec
+// The real premium app screens + their tokens live in the iOS playground, one level
+// up from spec/. The mock server dogfoods them alongside the 5 canonical examples so
+// the visual composer can open and edit the actual product screens, not just demos.
+const IOS_CONTENT = join(SPEC_DIR, '..', 'ios', 'Sources', 'SDUIPlayground', 'Content');
 const PORT = Number(process.env.PORT ?? 8787);
 const read = (rel) => readFileSync(join(SPEC_DIR, rel), 'utf8');
 const readJSON = (rel) => JSON.parse(read(rel));
+const readJSONAbs = (abs) => JSON.parse(readFileSync(abs, 'utf8'));
+
+// --- Design tokens: two contracts, one served set --------------------------------
+// The 5 spec examples reference spec/schema/tokens.example.json; the 23 app screens
+// reference the iOS tokens.json. The iOS set is nearly a superset but the two are NOT
+// interchangeable: the spec examples use 3 paths absent from iOS (color.background,
+// colorDark.background, spacing.xxl), and ~30 shared leaves hold DIFFERENT values
+// (e.g. color.primary #0A84FF vs #5B5BF0, spacing.lg 24 vs 22). So we:
+//   • validate each family against ITS OWN token file (below) — dogfooding stays strict
+//     and a typo'd $token still 404s the offending screen; and
+//   • serve, at GET /tokens, a deep-merge where iOS values WIN. That renders the real
+//     app screens correctly in the composer (the primary goal of loading them) while
+//     still resolving every $token the 5 examples use, so they render too.
+const specTokens = readJSON('schema/tokens.example.json');
+const specTokenPaths = flattenTokenPaths(specTokens);
+const appTokens = readJSONAbs(join(IOS_CONTENT, 'tokens.json'));
+const appTokenPaths = flattenTokenPaths(appTokens);
+const deepMerge = (base, over) => {
+  const out = Array.isArray(base) ? [...base] : { ...base };
+  for (const [k, v] of Object.entries(over)) {
+    out[k] = v && typeof v === 'object' && !Array.isArray(v) && base[k] && typeof base[k] === 'object' && !Array.isArray(base[k])
+      ? deepMerge(base[k], v) : v;
+  }
+  return out;
+};
+const tokens = deepMerge(specTokens, appTokens);   // union of paths; iOS values win on conflicts
 
 // --- Load + validate the screen store at boot (dogfood the validator) -------------
-const tokens = readJSON('schema/tokens.example.json');
-const tokenPaths = flattenTokenPaths(tokens);
+// `screens` maps id → doc for GET /screens/:id. `appExamples` collects catalog metadata
+// for the real app screens (the 5 examples' metadata comes from T.listExamples()).
 const screens = new Map();
+const appExamples = [];
 let boas = 0;
-console.log('SDUI mock server — validating screens:');
-for (const file of readdirSync(join(SPEC_DIR, 'examples')).filter((f) => f.endsWith('.json'))) {
-  const doc = readJSON(`examples/${file}`);
-  const errors = new Validator(tokenPaths).validate(doc);
-  const id = doc?.screen?.id ?? file.replace(/\.json$/, '');
+// Register one validated doc under its id; returns the id actually used. A rare id
+// collision (the example `feed` and the app screen feed.json share an id) is resolved
+// by namespacing the later app screen as `app.<id>` so BOTH stay reachable.
+function register(doc, fallbackFile, group, tokenPathSet) {
+  const errors = new Validator(tokenPathSet).validate(doc);
+  const baseId = doc?.screen?.id ?? fallbackFile.replace(/\.json$/, '');
+  const id = (group === 'app' && screens.has(baseId)) ? `app.${baseId}` : baseId;
   if (errors.length) {
     boas++;
-    console.log(`  ✗ ${id.padEnd(16)} (${file})`);
+    console.log(`  ✗ ${id.padEnd(16)} (${fallbackFile})`);
     errors.forEach((e) => console.log(`      ${e}`));
-  } else {
-    screens.set(id, doc);
-    console.log(`  ✓ ${id.padEnd(16)} (${file})`);
+    return null;
+  }
+  screens.set(id, doc);
+  console.log(`  ✓ ${id.padEnd(16)} (${fallbackFile})`);
+  return id;
+}
+
+console.log('SDUI mock server — validating screens:');
+console.log('  spec examples:');
+for (const file of readdirSync(join(SPEC_DIR, 'examples')).filter((f) => f.endsWith('.json'))) {
+  register(readJSON(`examples/${file}`), file, 'example', specTokenPaths);
+}
+// Real premium app screens (Content/screens/*.json) + navigation stacks (Content/nav/*.json),
+// validated against the iOS tokens they reference.
+console.log('  app screens:');
+for (const [sub, label] of [['screens', 'screens'], ['nav', 'nav']]) {
+  const dir = join(IOS_CONTENT, sub);
+  if (!existsSync(dir)) continue;
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+    const doc = readJSONAbs(join(dir, file));
+    const id = register(doc, file, 'app', appTokenPaths);
+    if (id) appExamples.push({ id, title: doc?.screen?.title ?? '', file: `ios/${sub}/${file}`, group: 'app' });
   }
 }
 if (boas) console.log(`  ${boas} screen(s) failed validation and will 404.`);
@@ -100,7 +152,11 @@ const server = createServer(async (req, res) => {
   // --- Visual composer: build a screen by hand and get valid contract JSON ---------
   if (path === '/compose') return send(res, 200, read('compose/index.html'), 'text/html');
   if (path === '/catalog' && req.method === 'GET') {
-    return send(res, 200, { components: T.listComponents(), actions: T.listActions(), tokens: T.listTokens(), examples: T.listExamples(), modifiers: T.modifierFields() });
+    // examples = 5 canonical spec examples (group:"example") + the real app screens
+    // (group:"app"). The composer reads only `e.id`; `group`/`title` are additive so
+    // the two families stay distinguishable in richer UIs.
+    const examples = [...T.listExamples(), ...appExamples];
+    return send(res, 200, { components: T.listComponents(), actions: T.listActions(), tokens: T.listTokens(), examples, modifiers: T.modifierFields() });
   }
   if (path === '/validate' && req.method === 'POST') {
     const raw = await readBody(req);

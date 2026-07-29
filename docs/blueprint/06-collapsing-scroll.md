@@ -176,6 +176,17 @@ modifiers.
 
 ### P0 — Correctness (do first; these are bugs, not polish)
 
+> **P0.1 DONE 2026-07-29** (build + 28 tests green; simulator visual check still
+> pending). Gated `useBehavior` (Builtins.swift) so the in-scroll synthesized title
+> renders ONLY when it adds what native can't (`revealOnPull` search or a subtitle);
+> plain default screens now use `plainBody` + the native large title. Mirrored the
+> gate in `SDUIScrollHeaderChrome` (ScrollHeader.swift) so `.large` is applied only
+> when NOT synthesizing — the two title systems are now mutually exclusive.
+> **Also fixed** a pre-existing macOS build break: `Pager.swift`'s
+> `.tabViewStyle(.page(indexDisplayMode:))` is unavailable on macOS and had only a
+> `canImport(SwiftUI)` guard, so `swift build`/`swift test` (and the `ios` CI job)
+> were red since the pager landed — added a `sduiPageTabStyle()` platform shim.
+
 1. **Kill the double-title.** In `ScrollContainer` (**Builtins.swift:293**) change
    `useBehavior` to fire **only when `largeTitle == false`**
    (`(behavior?.largeTitle == false)`), so the synthesized title never coexists with

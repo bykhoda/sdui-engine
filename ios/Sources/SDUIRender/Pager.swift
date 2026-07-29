@@ -40,7 +40,7 @@ struct PagerView: View {
                         .tag(i)
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .sduiPageTabStyle()
             .frame(height: pageHeight)
 
             if showDots && pages.count > 1 {
@@ -58,6 +58,20 @@ struct PagerView: View {
             guard autoMs > 0, !reduceMotion, pages.count > 1 else { return }
             withAnimation(.easeInOut(duration: 0.5)) { index = (index + 1) % pages.count }
         }
+    }
+}
+
+private extension View {
+    /// The swipe-paged `TabView` style. `PageTabViewStyle` is iOS/tvOS/watchOS-only;
+    /// on the macOS build host (used for `swift build`/`swift test`, not the real UI)
+    /// it's unavailable, so fall back to the default `TabView` there — keeps the
+    /// package compiling cross-platform without a hack.
+    @ViewBuilder func sduiPageTabStyle() -> some View {
+        #if os(iOS) || os(tvOS) || os(watchOS)
+        self.tabViewStyle(.page(indexDisplayMode: .never))
+        #else
+        self
+        #endif
     }
 }
 #endif

@@ -97,12 +97,15 @@ export function listTokens() {
   return { groups, valid: [...tokenPaths].sort() };
 }
 
+// The 5 canonical spec examples. Each entry carries `group: 'example'` so callers
+// (e.g. the /catalog handler) can keep them distinct from the real app screens the
+// mock server also loads. The field is additive — existing readers use only `id`.
 export function listExamples() {
   return readdirSync(join(SPEC_DIR, 'examples'))
     .filter((f) => f.endsWith('.json'))
     .map((f) => {
       const doc = readJSON(`examples/${f}`);
-      return { id: doc?.screen?.id ?? f.replace(/\.json$/, ''), title: doc?.screen?.title ?? '', file: `examples/${f}` };
+      return { id: doc?.screen?.id ?? f.replace(/\.json$/, ''), title: doc?.screen?.title ?? '', file: `examples/${f}`, group: 'example' };
     });
 }
 

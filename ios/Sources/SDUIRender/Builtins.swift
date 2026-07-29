@@ -290,8 +290,14 @@ private struct ScrollContainer: View {
         // A screen-level `scrollBehavior` synthesizes the collapsing large title
         // from the screen's own title — no hand-authored header per screen. An
         // explicit `collapsingHeader` (bespoke expanded/compact views) still wins.
+        // Only synthesize an in-scroll large title when it does something the native
+        // large title can't: pull-to-reveal search, or a subtitle under the big title.
+        // Otherwise hand the collapse to the OS (buttery, Dynamic-Type-correct, 120Hz)
+        // via plainBody + a native large title — this also kills the old double-title
+        // (synthesized + native large both rendering) on every plain default screen.
+        let synthesize = behavior?.revealOnPull != nil || !((behavior?.subtitle ?? "").isEmpty)
         let useBehavior = header == nil && pinned == nil && sections == nil && !horizontal
-            && behavior != nil && (behavior?.largeTitle ?? true) && !screenTitle.isEmpty
+            && behavior != nil && (behavior?.largeTitle ?? true) && !screenTitle.isEmpty && synthesize
 
         Group {
             if header != nil {

@@ -54,7 +54,14 @@ struct SDUIScrollHeaderChrome: ViewModifier {
     @Binding var progress: CGFloat
 
     func body(content: Content) -> some View {
-        if let behavior, behavior.largeTitle ?? true {
+        // Mirror ScrollContainer's `synthesize`: when the scroll body draws its OWN
+        // large title (revealOnPull search, or a subtitle under the big title), the
+        // nav bar must NOT also show a native large title — otherwise TWO titles
+        // render. So the native `.large` path is used only for the plain default; the
+        // synthesized case gets an inline bar (with the weather-style subtitle
+        // cross-fade when a subtitle exists).
+        let synthesize = behavior?.revealOnPull != nil || !((behavior?.subtitle ?? "").isEmpty)
+        if let behavior, behavior.largeTitle ?? true, !synthesize {
             // Native iOS large title — the OS COLLAPSES it into the nav bar on scroll,
             // reliably and smoothly (the real "collapsable header"). `largeTitle:false`
             // opts a screen out and keeps a plain inline title.

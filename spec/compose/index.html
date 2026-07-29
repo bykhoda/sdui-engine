@@ -104,6 +104,31 @@
   .pv{cursor:pointer}
   .selhint{outline:2px solid var(--accent);outline-offset:1px;border-radius:6px;box-shadow:0 0 0 4px var(--accent-wash)}
   .hint{color:var(--sub);font-size:11.5px;max-width:320px;text-align:center;line-height:1.5;margin:0}
+  /* canvas direct-manipulation overlay (Figma-like) — never mutates previewed nodes' own styles */
+  .overlay{position:absolute;pointer-events:none;z-index:4;overflow:hidden}
+  .overlay.nohit *{pointer-events:none!important}
+  .ov{position:absolute;pointer-events:none;box-sizing:border-box}
+  .ov-hover{border:1px solid var(--accent);opacity:.55;border-radius:4px;display:none}
+  .ov-sel{border:2px solid var(--accent);border-radius:5px;box-shadow:0 0 0 3px var(--accent-wash);display:none}
+  .ov-pad{border-style:solid;border-color:rgba(59,158,255,.18);background:transparent;display:none}
+  .ov-badge{background:var(--accent);color:#04121F;font:600 10px/1 var(--mono);padding:3px 5px;border-radius:4px;white-space:nowrap;letter-spacing:.02em;display:none}
+  .ov-size{background:#04121F;color:var(--accent-ink);border:1px solid var(--accent)}
+  .ov-drop{position:absolute;pointer-events:none;background:var(--accent);border-radius:2px;box-shadow:0 0 7px var(--accent);display:none;z-index:6}
+  .ov-drop.into{background:transparent;border:2px solid var(--accent);box-shadow:0 0 0 3px var(--accent-wash);border-radius:6px}
+  .ov-drag{z-index:7;transform:translate(11px,11px);opacity:.95}
+  .ov-h{position:absolute;pointer-events:auto;background:var(--accent);border:1.5px solid #fff;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,.45);display:none;z-index:6}
+  .ov-h.pad{width:11px;height:11px;margin:-5.5px 0 0 -5.5px}
+  .ov-h.pad.tb{cursor:ns-resize}.ov-h.pad.lr{cursor:ew-resize}
+  .ov-h.space{width:14px;height:14px;border-radius:50%;margin:-7px 0 0 -7px;cursor:grab}
+  .ov-sw{position:absolute;pointer-events:auto;width:18px;height:18px;border-radius:5px;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.5);display:none;z-index:6;cursor:pointer}
+  .ov-live{position:absolute;pointer-events:none;background:#04121F;color:var(--accent-ink);border:1px solid var(--accent);font:600 10px/1 var(--mono);padding:3px 5px;border-radius:4px;display:none;z-index:8;white-space:nowrap}
+  .ov-pop{position:absolute;pointer-events:auto;z-index:9;background:var(--rail-2);border:1px solid var(--line);border-radius:10px;padding:10px;box-shadow:0 20px 50px -16px rgba(0,0,0,.7);width:204px;display:none}
+  .ov-pop .hyb{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+  .ov-pop input.cpick{width:30px;height:30px;padding:0;border:1px solid var(--field-line);border-radius:6px;background:none;cursor:pointer;flex:none}
+  .ov-pop input.hex{flex:1;min-width:0;font:inherit;font-size:12px;border:1px solid var(--field-line);border-radius:6px;padding:6px;background:var(--field);color:var(--ink)}
+  .ov-pop select{width:100%;font:inherit;font-size:12px;border:1px solid var(--field-line);border-radius:6px;padding:6px;background:var(--field);color:var(--ink)}
+  .ov-pop .recent{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+  body.dragging,body.dragging *{cursor:grabbing!important}
   /* inspector */
   .insp-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
   .insp-type{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--accent-wash);color:var(--accent-ink);padding:4px 9px;border-radius:6px}
@@ -329,8 +354,8 @@ function newScreen(){if(!confirm('Start a new blank screen? This clears your cur
 
 // render
 const $=s=>document.querySelector(s);
-function render(){syncMeta();renderTree();renderInspector();renderPreview();renderJSON();validate();commit();persist();}
-function touch(){syncMeta();renderTree();renderPreview();renderJSON();validate();commit();persist();}
+function render(){syncMeta();renderTree();renderInspector();renderPreview();renderJSON();validate();commit();persist();if(OV){if(H.pop)H.pop.style.display='none';syncOverlay();}}
+function touch(){syncMeta();renderTree();renderPreview();renderJSON();validate();commit();persist();if(OV)syncOverlay();}
 function syncMeta(){doc.screen.id=$('#scr-id').value||'screen';}
 
 let dragId=null;
@@ -586,7 +611,7 @@ function applyMods(e,m){if(!m)return;
   if(typeof m.opacity==='number')e.style.opacity=m.opacity;
 }
 const ALIGN={leading:'flex-start',center:'center',trailing:'flex-end',top:'flex-start',bottom:'flex-end'};
-function el(n){const e=document.createElement('div');e.className='pv';e.onclick=ev=>{ev.stopPropagation();selId=n.__id;render();};if(n.__id===selId)e.classList.add('selhint');applyMods(e,n.modifiers);
+function el(n){const e=document.createElement('div');e.className='pv';e.dataset.id=n.__id;e.onclick=ev=>{ev.stopPropagation();selId=n.__id;render();};applyMods(e,n.modifiers);
   switch(n.type){
     case 'vstack':e.style.cssText+=';display:flex;flex-direction:column;gap:'+px(n.spacing,8)+';align-items:'+(ALIGN[n.alignment]||'stretch');kids(e,n);break;
     case 'hstack':e.style.cssText+=';display:flex;flex-direction:row;gap:'+px(n.spacing,8)+';align-items:center;justify-content:'+(ALIGN[n.alignment]||'flex-start');kids(e,n);break;
@@ -632,6 +657,203 @@ function validate(){clearTimeout(vt);vt=setTimeout(async()=>{try{
   if(ok){pill.className='pill ok';pill.textContent='Valid';errs.innerHTML='';}else{pill.className='pill bad';pill.textContent=errors.length+' issue'+(errors.length>1?'s':'');errs.innerHTML=errors.map(e=>`<div>${esc(e)}</div>`).join('');}
 }catch(e){}},160);}
 
+// ============================================================================
+// CANVAS DIRECT-MANIPULATION OVERLAY — Figma/Photoshop-style editing on the canvas.
+// An absolutely-positioned layer over the device screen holds persistent (reused)
+// chrome elements: selection outline, hover highlight, type/size badges, a padding
+// band, drag drop-indicator, resize handles, a colour swatch + popover. Nothing here
+// mutates the previewed nodes' own styles — geometry comes from getBoundingClientRect,
+// so it survives scroll/resize. Reusing (not recreating) elements means an in-flight
+// pointer-capture drag is never destroyed by a re-render. All model writes funnel
+// through the node model + touch()/render() so undo + JSON sync keep working.
+// ----------------------------------------------------------------------------
+let OV=null;const H={};
+let nodeDragging=false,handleDragging=false,justDragged=false;
+let dragCand=null,lastDragEvt=null,dragMoveRAF=0,dropInfo=null,hoverRAF=0;
+const place=(el,x,y,w,h)=>{el.style.left=x+'px';el.style.top=y+'px';el.style.width=w+'px';el.style.height=h+'px';};
+const hide=(...els)=>els.forEach(e=>e&&(e.style.display='none'));
+const ovRect=()=>OV.getBoundingClientRect();
+const nodeEl=id=>$('#preview [data-id="'+id+'"]');
+function rectIn(el){const o=ovRect(),r=el.getBoundingClientRect();return{x:r.left-o.left,y:r.top-o.top,w:r.width,h:r.height};}
+// Resolve a dimension value (raw number or $token) to px; fall back when unresolved.
+function dimVal(v,fb){if(typeof v==='number')return v;const t=tok(v);return typeof t==='number'?t:fb;}
+// Snap a px value to the 4px grid, or to a nearby token (within 3px) — token wins so
+// authored JSON stays token-clean; otherwise a rounded raw number.
+function snapDim(v,groups){let best=null,bd=1e9;for(const g of groups)for(const k in(TOKENS[g]||{})){const tv=TOKENS[g][k];if(typeof tv!=='number')continue;const d=Math.abs(tv-v);if(d<bd){bd=d;best='$token.'+g+'.'+k;}}
+  if(best&&bd<=3)return best;return Math.max(0,Math.round(v/4)*4);}
+function labelDim(v){return typeof v==='string'?v.split('.').pop():v+'px';}
+function setPadding(n,val){n.modifiers=n.modifiers||{};if(val===0){delete n.modifiers.padding;if(!Object.keys(n.modifiers).length)delete n.modifiers;}else n.modifiers.padding=val;}
+
+function initOverlay(){
+  const devEl=$('.device');if(!devEl)return;
+  OV=document.createElement('div');OV.className='overlay';
+  const add=cls=>{const d=document.createElement('div');d.className=cls;OV.appendChild(d);return d;};
+  H.hover=add('ov ov-hover');H.pad=add('ov ov-pad');H.sel=add('ov ov-sel');
+  H.label=add('ov ov-badge ov-label');H.size=add('ov ov-badge ov-size');
+  H.drop=add('ov-drop');H.drag=add('ov ov-badge ov-drag');H.live=add('ov-live');
+  H.padH={};['t','r','b','l'].forEach(s=>{const h=add('ov-h pad '+((s==='t'||s==='b')?'tb':'lr'));h.dataset.side=s;H.padH[s]=h;wirePadHandle(h,s);});
+  H.space=add('ov-h space');wireSpaceHandle(H.space);
+  H.sw=add('ov-sw');H.sw.onclick=openColorPop;
+  buildColorPop();
+  devEl.appendChild(OV);
+  const pv=$('#preview');
+  pv.addEventListener('scroll',syncOverlay,{passive:true});
+  window.addEventListener('resize',syncOverlay);
+  pv.addEventListener('pointermove',onCanvasHover);
+  pv.addEventListener('pointerleave',()=>{if(!nodeDragging)H.hover.style.display='none';});
+  pv.addEventListener('pointerdown',onCanvasPointerDown);
+  // Suppress the click that follows a real drag (so a drag never re-selects on release).
+  pv.addEventListener('click',e=>{if(justDragged){e.stopPropagation();e.preventDefault();justDragged=false;}},true);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(nodeDragging)cancelDrag();if(H.pop&&H.pop.style.display!=='none')H.pop.style.display='none';}});
+  document.addEventListener('pointerdown',e=>{if(H.pop&&H.pop.style.display!=='none'&&!H.pop.contains(e.target)&&e.target!==H.sw)H.pop.style.display='none';},true);
+}
+function positionOverlay(){const sc=$('#preview');if(!OV||!sc)return;
+  OV.style.left=sc.offsetLeft+'px';OV.style.top=sc.offsetTop+'px';OV.style.width=sc.offsetWidth+'px';OV.style.height=sc.offsetHeight+'px';}
+function syncOverlay(){if(!OV)return;positionOverlay();if(nodeDragging)return;drawSelection();}
+function hideSelection(){hide(H.sel,H.label,H.size,H.pad,H.sw,H.space,H.padH.t,H.padH.r,H.padH.b,H.padH.l);}
+
+// ---- 1. selection chrome (outline · type label · size badge · padding band) + handles ----
+function drawSelection(){
+  const n=(selId&&selId!==SCREEN)?find(selId):null;
+  const selE=n?nodeEl(n.__id):null;
+  if(!selE){hideSelection();return;}
+  const b=rectIn(selE);
+  place(H.sel,b.x,b.y,b.w,b.h);H.sel.style.display='block';
+  H.label.textContent=n.type;H.label.style.left=b.x+'px';H.label.style.top=Math.max(0,b.y-17)+'px';H.label.style.display='block';
+  H.size.textContent=Math.round(b.w)+'×'+Math.round(b.h);H.size.style.display='block';
+  H.size.style.left=Math.max(0,b.x+b.w-H.size.offsetWidth-2)+'px';H.size.style.top=Math.max(0,b.y+b.h-16)+'px';
+  const isC=isContainer(n.type),pad=isC?dimVal(n.modifiers?.padding,0):0;
+  if(isC&&pad>0){place(H.pad,b.x,b.y,b.w,b.h);H.pad.style.borderWidth=pad+'px';H.pad.style.display='block';}else H.pad.style.display='none';
+  if(isC){                                                        // padding drag-handles at the content edges
+    const sh=(s,x,y)=>{const h=H.padH[s];h.style.left=x+'px';h.style.top=y+'px';h.style.display='block';};
+    sh('t',b.x+b.w/2,b.y+pad);sh('b',b.x+b.w/2,b.y+b.h-pad);sh('l',b.x+pad,b.y+b.h/2);sh('r',b.x+b.w-pad,b.y+b.h/2);
+  }else hide(H.padH.t,H.padH.r,H.padH.b,H.padH.l);
+  if((n.type==='vstack'||n.type==='hstack')&&(n.children||[]).length>=2){   // spacing handle in the first gap
+    const c0=nodeEl(n.children[0].__id),c1=nodeEl(n.children[1].__id);
+    if(c0&&c1){const r0=rectIn(c0),r1=rectIn(c1),vert=n.type==='vstack';
+      H.space.style.left=(vert?b.x+b.w/2:(r0.x+r0.w+r1.x)/2)+'px';
+      H.space.style.top=(vert?(r0.y+r0.h+r1.y)/2:b.y+b.h/2)+'px';
+      H.space.style.cursor=vert?'ns-resize':'ew-resize';H.space.style.display='block';
+    }else H.space.style.display='none';
+  }else H.space.style.display='none';
+  const bg=n.modifiers&&n.modifiers.background,isText=(n.type==='text'||n.type==='icon');
+  if(bg||isText){const c=bg?n.modifiers.background:n.color;H.sw.style.background=tok(c)||hexOnly(c);
+    H.sw.style.left=(b.x+b.w-22)+'px';H.sw.style.top=(b.y+4)+'px';H.sw.style.display='block';}else H.sw.style.display='none';
+}
+function onCanvasHover(e){
+  if(nodeDragging||handleDragging)return;
+  if(hoverRAF)return;hoverRAF=requestAnimationFrame(()=>{hoverRAF=0;
+    const t=e.target.closest?e.target.closest('.pv[data-id]'):null;
+    if(!t||t.dataset.id===selId){H.hover.style.display='none';return;}
+    const b=rectIn(t);place(H.hover,b.x,b.y,b.w,b.h);H.hover.style.display='block';});
+}
+
+// ---- 2. on-canvas drag to move / reorder / reparent (mirrors the Layers-tree logic) ----
+function onCanvasPointerDown(e){
+  justDragged=false;                                     // stale suppression flag never survives into a fresh gesture
+  if(e.button!==0)return;
+  const t=e.target.closest('.pv[data-id]');if(!t)return;
+  if(t.dataset.id===ROOT())return;                       // root can't be reparented; leave click=select
+  dragCand={id:t.dataset.id,x:e.clientX,y:e.clientY};
+  window.addEventListener('pointermove',onDragMove);
+  window.addEventListener('pointerup',onDragUp);
+}
+function onDragMove(e){
+  if(!dragCand)return;
+  if(!nodeDragging){if(Math.hypot(e.clientX-dragCand.x,e.clientY-dragCand.y)<5)return;startNodeDrag();}
+  lastDragEvt=e;if(dragMoveRAF)return;dragMoveRAF=requestAnimationFrame(()=>{dragMoveRAF=0;updateDrag();});
+}
+function startNodeDrag(){
+  nodeDragging=true;selId=dragCand.id;
+  document.body.classList.add('dragging');OV.classList.add('nohit');
+  hideSelection();H.hover.style.display='none';         // no render() here — avoids a mid-gesture reflow; reparent()/render() redraw on drop
+}
+// Topmost .pv under the cursor that is NOT the dragged node or one of its descendants.
+function elUnder(cx,cy){const dn=find(dragCand.id);
+  for(const el of document.elementsFromPoint(cx,cy)){const p=el.closest&&el.closest('.pv[data-id]');if(!p)continue;
+    if(dn&&subtreeHas(dn,p.dataset.id))continue;return p;}
+  return null;}
+function updateDrag(){
+  const e=lastDragEvt;if(!e)return;const o=ovRect();
+  H.drag.textContent=find(dragCand.id)?.type||'';H.drag.style.left=(e.clientX-o.left)+'px';H.drag.style.top=(e.clientY-o.top)+'px';H.drag.style.display='block';
+  const tEl=elUnder(e.clientX,e.clientY);
+  if(!tEl){dropInfo=null;H.drop.style.display='none';return;}
+  const tid=tEl.dataset.id,tn=find(tid),tp=parentOf(tid),b=rectIn(tEl);
+  const bx=(e.clientX-o.left-b.x)/(b.w||1),by=(e.clientY-o.top-b.y)/(b.h||1);
+  let pos;
+  if(isContainer(tn.type)&&acceptsChild(tn)&&bx>0.25&&bx<0.75&&by>0.25&&by<0.75)pos='inside';
+  else if(tp&&tp.type==='hstack')pos=bx<0.5?'before':'after';
+  else pos=by<0.5?'before':'after';
+  if(tid===ROOT()&&pos!=='inside')pos='inside';         // root has no siblings
+  if(pos!=='inside'&&(!tp||REG[tp.type]?.kind!=='multi')){   // before/after only valid inside a multi container; else drop inside the target, or reject
+    if(isContainer(tn.type)&&acceptsChild(tn))pos='inside';
+    else{dropInfo=null;H.drop.style.display='none';return;}}
+  dropInfo={id:dragCand.id,tid,pos};
+  H.drop.className='ov-drop';
+  if(pos==='inside'){H.drop.classList.add('into');place(H.drop,b.x-1,b.y-1,b.w+2,b.h+2);}
+  else{const horiz=tp&&tp.type==='hstack';
+    if(horiz)place(H.drop,(pos==='before'?b.x-1:b.x+b.w-1),b.y,3,b.h);
+    else place(H.drop,b.x,(pos==='before'?b.y-1:b.y+b.h-1),b.w,3);}
+  H.drop.style.display='block';
+}
+function cleanupDrag(){nodeDragging=false;dropInfo=null;lastDragEvt=null;dragMoveRAF&&cancelAnimationFrame(dragMoveRAF);dragMoveRAF=0;
+  document.body.classList.remove('dragging');if(OV){OV.classList.remove('nohit');H.drop.style.display='none';H.drop.className='ov-drop';H.drag.style.display='none';}}
+function onDragUp(){
+  window.removeEventListener('pointermove',onDragMove);window.removeEventListener('pointerup',onDragUp);
+  const was=nodeDragging,info=dropInfo;cleanupDrag();dragCand=null;
+  if(was){justDragged=true;if(info)reparent(info.id,info.tid,info.pos);else render();}   // reparent()/render() re-draw chrome
+}
+function cancelDrag(){
+  window.removeEventListener('pointermove',onDragMove);window.removeEventListener('pointerup',onDragUp);
+  const was=nodeDragging;cleanupDrag();dragCand=null;if(was)render();
+}
+
+// ---- 3. visual spacing & padding drag-handles (live px badge, snap to grid/token) ----
+function startHandleDrag(h,e,apply){
+  handleDragging=true;try{h.setPointerCapture(e.pointerId);}catch{}
+  const sx=e.clientX,sy=e.clientY;let raf=0,last=e;
+  const mv=ev=>{last=ev;if(raf)return;raf=requestAnimationFrame(()=>{raf=0;
+    const txt=apply(last.clientX-sx,last.clientY-sy);
+    renderPreview();renderJSON();validate();drawSelection();     // live update — but no commit() until pointerup
+    if(txt){H.live.textContent=txt;H.live.style.display='block';H.live.style.left=((parseFloat(h.style.left)||0)+12)+'px';H.live.style.top=((parseFloat(h.style.top)||0)-8)+'px';}});};
+  const up=()=>{try{h.releasePointerCapture(e.pointerId);}catch{}h.removeEventListener('pointermove',mv);h.removeEventListener('pointerup',up);h.removeEventListener('pointercancel',up);
+    handleDragging=false;H.live.style.display='none';commit(true);persist();syncOverlay();};
+  h.addEventListener('pointermove',mv);h.addEventListener('pointerup',up);h.addEventListener('pointercancel',up);
+}
+function wirePadHandle(h,side){h.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();
+  const n=find(selId);if(!n||!isContainer(n.type))return;const base=dimVal(n.modifiers?.padding,0);
+  startHandleDrag(h,e,(dx,dy)=>{const d=side==='t'?dy:side==='b'?-dy:side==='l'?dx:-dx;
+    const v=snapDim(Math.max(0,base+d),['spacing']);setPadding(n,v);return labelDim(v);});});}
+function wireSpaceHandle(h){h.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();
+  const n=find(selId);if(!n||(n.type!=='vstack'&&n.type!=='hstack'))return;const vert=n.type==='vstack',base=dimVal(n.spacing,8);
+  startHandleDrag(h,e,(dx,dy)=>{const v=snapDim(Math.max(0,base+(vert?dy:dx)),['spacing']);n.spacing=v;return labelDim(v);});});}
+
+// ---- 4. inline on-canvas colour editing (swatch → compact popover) ----
+function buildColorPop(){
+  H.pop=document.createElement('div');H.pop.className='ov-pop';H.pop._mode='bg';
+  H.pop.innerHTML='<div class="hyb"><input type="color" class="cpick"><input class="hex" placeholder="#hex or token"></div><select></select><div class="recent"></div>';
+  OV.appendChild(H.pop);
+  const cp=H.pop.querySelector('.cpick'),hex=H.pop.querySelector('.hex'),selc=H.pop.querySelector('select'),rec=H.pop.querySelector('.recent');
+  selc.innerHTML=tokPickOpts(['color']);
+  const setCol=v=>{const n=find(selId);if(!n)return;
+    if(H.pop._mode==='bg'){n.modifiers=n.modifiers||{};if(v)n.modifiers.background=v;else{delete n.modifiers.background;if(!Object.keys(n.modifiers).length)delete n.modifiers;}}
+    else{if(v)n.color=v;else delete n.color;}touch();};
+  const curVal=()=>{const n=find(selId);if(!n)return'';return H.pop._mode==='bg'?((n.modifiers&&n.modifiers.background)||''):(n.color||'');};
+  const renderRec=()=>{rec.innerHTML='';getRecent().forEach(c=>{const s=document.createElement('button');s.className='rsw';s.style.cssText='width:20px;height:20px;border-radius:5px;border:1px solid var(--field-line);cursor:pointer;padding:0';s.style.background=c;s.title=c;s.onclick=()=>{hex.value=c;cp.value=c;setCol(c);};rec.appendChild(s);});};
+  H.pop._sync=()=>{const c=curVal();hex.value=typeof c==='string'?c:'';cp.value=hexOnly(c);renderRec();};
+  cp.oninput=()=>{hex.value=cp.value;setCol(cp.value);};
+  hex.oninput=()=>{setCol(hex.value);if(/^#[0-9a-fA-F]{6}$/.test(hex.value))cp.value=hex.value;};
+  hex.onchange=()=>{if(/^#[0-9a-fA-F]{6}$/.test(hex.value)){addRecent(hex.value);renderRec();}};
+  selc.onchange=()=>{if(selc.value){hex.value=selc.value;cp.value=hexOnly(selc.value);setCol(selc.value);selc.value='';}};
+}
+function openColorPop(e){
+  e&&e.stopPropagation();const n=find(selId);if(!n)return;
+  H.pop._mode=(n.modifiers&&n.modifiers.background)?'bg':((n.type==='text'||n.type==='icon')?'color':'bg');
+  const l=parseFloat(H.sw.style.left)||0,t=parseFloat(H.sw.style.top)||0;
+  H.pop.style.left=Math.max(4,Math.min(OV.clientWidth-208,l-182))+'px';H.pop.style.top=(t+24)+'px';
+  H.pop.style.display='block';H.pop._sync();
+}
+
 // ---- device presets + preview theme ----
 // Real device specs — logical points, platform, and camera cutout style.
 const DEV={
@@ -649,6 +871,7 @@ function applyDevice(){
   renderChrome();
   [...document.querySelectorAll('#devbar [data-dev]')].forEach(b=>b.classList.toggle('on',b.dataset.dev===dev));
   $('#devbar [data-rot]')?.classList.toggle('on',land);$('#devbar [data-th]')?.classList.toggle('on',THEME==='dark');
+  syncOverlay();
 }
 // Draw the frame chrome from the real spec: island only on iPhones (moves to the
 // short edge in landscape), punch-hole on Android, none on iPad/SE; status bar +
@@ -671,7 +894,7 @@ function buildDevbar(){
   Object.entries(DEV).forEach(([k,v])=>{const b=document.createElement('button');b.dataset.dev=k;b.textContent=v.label;b.onclick=()=>{dev=k;applyDevice();};bar.appendChild(b);});
   const sp=document.createElement('span');sp.className='sep';bar.appendChild(sp);
   const rot=document.createElement('button');rot.dataset.rot='1';rot.textContent='⟲ Rotate';rot.onclick=()=>{land=!land;applyDevice();};bar.appendChild(rot);
-  const th=document.createElement('button');th.dataset.th='1';th.textContent='☾ Dark';th.onclick=()=>{THEME=THEME==='dark'?'light':'dark';applyDevice();renderPreview();};bar.appendChild(th);
+  const th=document.createElement('button');th.dataset.th='1';th.textContent='☾ Dark';th.onclick=()=>{THEME=THEME==='dark'?'light':'dark';applyDevice();renderPreview();syncOverlay();};bar.appendChild(th);
 }
 async function boot(){
   CATALOG=await (await fetch('/catalog')).json().catch(()=>({}));
@@ -701,6 +924,7 @@ async function boot(){
     if((e.key==='Delete')&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&selId&&selId!==ROOT()&&selId!==SCREEN){e.preventDefault();remove(selId);}
   });
   buildDevbar();
+  initOverlay();
   // Restore in-progress work from a previous session, if any; otherwise the blank default.
   if(restoreWip()){$('#scr-id').value=doc.screen.id||'my_screen';}
   render();applyDevice();resetHistory();

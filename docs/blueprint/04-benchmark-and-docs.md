@@ -55,7 +55,41 @@ semantics on iOS, Android, Aurora**. Design questions to resolve:
 `docs/blueprint/offline-cache-spec.md` defining keys/policies/TTL, then three
 implementations behind one test suite. *Study DivKit/Beagle caching first (§A).*
 
+**Screen resolution chain (incl. bundled fallback).** The full order a renderer
+tries when loading a screen: **network → local cache (last-good) → bundled fallback
+(shipped in the app) → generic error stub.** The **bundled fallback** is structured
+SDUI JSON shipped in the app bundle at a known path, keyed by `screen.id` — so a
+screen renders offline even on **first launch** (empty cache). This is the standard
+enterprise "known-good floor" (the clean form of the "hardcode a JSON in the device
+filesystem" pattern — still contract JSON, never native hardcode). Distinct from the
+cache (dynamic, last successful response) — the fallback is static, shipped with the
+release. Contract-driven + configurable: `screen.fallback` (a bundled screen id or
+inline screen) + an optional global fallback registry; per-screen override. Renderers
+also expose an `$env.offline` binding so a fallback/skeleton can say so. Design this
+alongside the cache spec.
+
 ---
+
+## B2 · Networking conventions — idempotency, retry, timeouts (MISSING)
+
+Confirmed gap 2026-07-29: `grep` finds **zero** `idempotency/retry/backoff/timeout/
+etag/if-match` in the schema or any renderer. The `request` action (mutations) is in
+the schema but **unimplemented on all three platforms**; `saveFile` too. `DataSource`
+has only a cache `policy`. For a world-facing enterprise repo this must meet standard
+conventions — designed once in the contract, implemented identically everywhere:
+- **Idempotency-Key** header on every mutating `request` (client-generated UUID,
+  stable across retries) so a retried POST never double-charges/double-submits.
+- **Retry with exponential backoff + jitter**, capped attempts, only for idempotent
+  ops / safe status classes; surface a typed error otherwise.
+- **Timeouts** (connect + overall) per source, configurable in the contract.
+- **Conditional requests / ETag + If-None-Match / If-Match** for GET revalidation
+  (304) and optimistic-concurrency writes (412) — ties into the Beagle-style content
+  hash in [04a](04a-techniques-ledger.md) §B.
+- Contract additions: `request { source, idempotencyKey?, retry{max,backoff}, onSuccess,
+  onError }`, and per-`DataSource` `{ timeoutMs, retry, revalidate }`.
+- **Deliverable:** a `docs/blueprint/networking-spec.md` + schema fields + one shared
+  test suite (mock server drives retry/idempotency/304/412 scenarios) so all three
+  renderers behave identically. Implement `request`/`saveFile` as part of this.
 
 ## C · Embedded platform docs (the reference pillar)
 
