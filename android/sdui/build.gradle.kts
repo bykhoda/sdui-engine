@@ -58,6 +58,9 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.runtime:runtime")
+    // Activity Result APIs (rememberLauncherForActivityResult) back the `filecell`
+    // system file picker — the Compose analogue of the iOS `.fileImporter`.
+    implementation("androidx.activity:activity-compose:1.9.2")
 
     // JSON contract decoding.
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")

@@ -92,6 +92,12 @@ object Builtins {
         registry.register("disclosure") { c, ctx -> DisclosureView(c, ctx) }
         registry.register("ticker") { c, ctx -> TickerView(c, ctx) }
         registry.register("pager") { c, ctx -> PagerView(c, ctx) }
+        registry.register("picker") { c, ctx -> PickerView(c, ctx) }
+        registry.register("datepicker") { c, ctx -> DatePickerView(c, ctx) }
+        registry.register("calendar") { c, ctx -> CalendarGridView(c, ctx) }
+        registry.register("roadmap") { c, ctx -> RoadmapView(c, ctx) }
+        registry.register("filecell") { c, ctx -> FileCellView(c, ctx) }
+        registry.register("clips") { c, ctx -> ClipsView(c, ctx) }
     }
 }
 

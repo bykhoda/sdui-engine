@@ -14,41 +14,41 @@
 |---|---|---|---|
 | `async` | ✅ | ✅ | — |
 | `button` | ✅ | ✅ | ✅ |
-| `calendar` | ✅ | — | — |
-| `chart` | ✅ | ✅ | — |
-| `clips` | ✅ | — | — |
-| `datepicker` | ✅ | — | — |
-| `disclosure` | ✅ | ✅ | — |
+| `calendar` | ✅ | ✅ | — |
+| `chart` | ✅ | ✅ | ✅ |
+| `clips` | ✅ | ✅ | — |
+| `datepicker` | ✅ | ✅ | — |
+| `disclosure` | ✅ | ✅ | ✅ |
 | `divider` | ✅ | ✅ | ✅ |
-| `filecell` | ✅ | — | — |
+| `filecell` | ✅ | ✅ | — |
 | `gradient` | ✅ | ✅ | ✅ |
 | `grid` | ✅ | ✅ | ✅ |
 | `hstack` | ✅ | ✅ | ✅ |
 | `icon` | ✅ | ✅ | ✅ |
 | `image` | ✅ | ✅ | ✅ |
-| `list` | ✅ | ✅ | — |
+| `list` | ✅ | ✅ | ✅ |
 | `pager` | ✅ | ✅ | — |
-| `picker` | ✅ | — | — |
-| `progress` | ✅ | ✅ | — |
-| `rings` | ✅ | ✅ | — |
-| `roadmap` | ✅ | — | — |
+| `picker` | ✅ | ✅ | — |
+| `progress` | ✅ | ✅ | ✅ |
+| `rings` | ✅ | ✅ | ✅ |
+| `roadmap` | ✅ | ✅ | — |
 | `scroll` | ✅ | ✅ | ✅ |
-| `slider` | ✅ | ✅ | — |
+| `slider` | ✅ | ✅ | ✅ |
 | `spacer` | ✅ | ✅ | ✅ |
-| `spinner` | ✅ | ✅ | — |
+| `spinner` | ✅ | ✅ | ✅ |
 | `text` | ✅ | ✅ | ✅ |
 | `textfield` | ✅ | ✅ | ✅ |
-| `ticker` | ✅ | ✅ | — |
+| `ticker` | ✅ | ✅ | ✅ |
 | `toggle` | ✅ | ✅ | ✅ |
 | `vstack` | ✅ | ✅ | ✅ |
 | `zstack` | ✅ | ✅ | ✅ |
-| **supported** | **30/30** | **24/30** | **14/30** |
+| **supported** | **30/30** | **30/30** | **22/30** |
 
 ### Gaps — components
 
 - **iOS** missing 0: _none — full parity_
-- **Android** missing 6: `calendar`, `clips`, `datepicker`, `filecell`, `picker`, `roadmap`
-- **Aurora** missing 16: `async`, `calendar`, `chart`, `clips`, `datepicker`, `disclosure`, `filecell`, `list`, `pager`, `picker`, `progress`, `rings`, `roadmap`, `slider`, `spinner`, `ticker`
+- **Android** missing 0: _none — full parity_
+- **Aurora** missing 8: `async`, `calendar`, `clips`, `datepicker`, `filecell`, `pager`, `picker`, `roadmap`
 
 ## Actions
 
@@ -56,37 +56,36 @@
 
 | Action | iOS | Android | Aurora |
 |---|---|---|---|
-| `analytics` | ✅ | ✅ | — |
-| `condition` | ✅ | ✅ | — |
-| `custom` | ✅ | ✅ | — |
-| `delay` | ✅ | ✅ | — |
-| `dismiss` | ✅ | ✅ | — |
-| `dismissRoot` | ✅ | ✅ | — |
-| `haptic` | ✅ | ✅ | — |
-| `increment` | ✅ | ✅ | — |
-| `log` | ✅ | ✅ | — |
-| `navigate` | ✅ | ✅ | — |
-| `openDeepLink` | ✅ | ✅ | — |
-| `openURL` | ✅ | ✅ | — |
-| `parallel` | ✅ | ✅ | — |
+| `analytics` | ✅ | ✅ | ✅ |
+| `condition` | ✅ | ✅ | ✅ |
+| `custom` | ✅ | ✅ | ✅ |
+| `delay` | ✅ | ✅ | ✅ |
+| `dismiss` | ✅ | ✅ | ✅ |
+| `dismissRoot` | ✅ | ✅ | ✅ |
+| `haptic` | ✅ | ✅ | ✅ |
+| `increment` | ✅ | ✅ | ✅ |
+| `log` | ✅ | ✅ | ✅ |
+| `navigate` | ✅ | ✅ | ✅ |
+| `openDeepLink` | ✅ | ✅ | ✅ |
+| `openURL` | ✅ | ✅ | ✅ |
+| `parallel` | ✅ | ✅ | ✅ |
 | `preview` | ✅ | — | — |
-| `refresh` | ✅ | ✅ | — |
+| `refresh` | ✅ | ✅ | ✅ |
 | `request` | — | — | — |
 | `requestPermission` | ✅ | — | — |
 | `requireVersion` | ✅ | — | — |
 | `saveFile` | — | — | — |
-| `scrollTo` | ✅ | ✅ | — |
-| `sequence` | ✅ | ✅ | — |
-| `setState` | ✅ | ✅ | — |
-| `share` | ✅ | ✅ | — |
-| `showToast` | ✅ | ✅ | — |
-| **supported** | **22/24** | **19/24** | **0/24** |
+| `scrollTo` | ✅ | ✅ | ✅ |
+| `sequence` | ✅ | ✅ | ✅ |
+| `setState` | ✅ | ✅ | ✅ |
+| `share` | ✅ | ✅ | ✅ |
+| `showToast` | ✅ | ✅ | ✅ |
+| **supported** | **22/24** | **19/24** | **19/24** |
 
 ### Gaps — actions
 
 - **iOS** missing 2: `request`, `saveFile`
 - **Android** missing 5: `preview`, `request`, `requestPermission`, `requireVersion`, `saveFile`
-- **Aurora** missing 24: `analytics`, `condition`, `custom`, `delay`, `dismiss`, `dismissRoot`, `haptic`, `increment`, `log`, `navigate`, `openDeepLink`, `openURL`, `parallel`, `preview`, `refresh`, `request`, `requestPermission`, `requireVersion`, `saveFile`, `scrollTo`, `sequence`, `setState`, `share`, `showToast`
+- **Aurora** missing 5: `preview`, `request`, `requestPermission`, `requireVersion`, `saveFile`
 
-_Aurora has no action runtime yet — porting it is the top Aurora parity task._
 

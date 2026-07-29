@@ -21,6 +21,7 @@ const src = {
   auroraComp: read('aurora/qml/sdui/SduiRenderer.qml'),
   iosAct:     read('ios/Sources/SDUIRuntime/ActionInterpreter.swift'),
   andAct:     read('android/sdui/src/main/java/dev/sdui/runtime/ActionInterpreter.kt'),
+  auroraAct:  read('aurora/qml/SduiPlayground.qml'),
 };
 
 // A component is "supported" where the renderer registers/dispatches its type.
@@ -29,12 +30,11 @@ const componentSupport = (t) => ({
   Android: src.andComp.includes(`register("${t}")`),
   Aurora:  new RegExp(`case\\s+"${t}"`).test(src.auroraComp),
 });
-// An action is "supported" where its kind literal appears in the interpreter.
-// Aurora has no action runtime yet, so every action is unsupported there.
+// An action is "supported" where its kind literal appears in the interpreter/dispatcher.
 const actionSupport = (a) => ({
   iOS:     new RegExp(`"${a}"`).test(src.iosAct),
   Android: new RegExp(`"${a}"`).test(src.andAct),
-  Aurora:  false,
+  Aurora:  new RegExp(`"${a}"`).test(src.auroraAct),
 });
 
 const mark = (b) => (b ? '✅' : '—');
@@ -86,7 +86,6 @@ const doc = [
   '',
   table('Actions', actions, actionSupport),
   gaps('actions', actions, actionSupport),
-  '_Aurora has no action runtime yet — porting it is the top Aurora parity task._',
   '',
 ].join('\n');
 

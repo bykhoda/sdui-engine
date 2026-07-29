@@ -39,7 +39,14 @@ Page {
         data: {},
         env: { locale: "en", theme: "light", platform: "aurora" },
         item: null,
-        dispatch: function (action) { if (page.dispatch) page.dispatch(action, page); }
+        dispatch: function (action) { if (page.dispatch) page.dispatch(action, page); },
+        // Direct, continuous state hooks for two-way controls (slider drag, the
+        // ticker heartbeat). They route straight to THIS page's mutable state so
+        // the same $state a label/color/binding reads is written back — the
+        // Aurora counterpart of iOS `ctx.doubleBinding(key)`. A key may carry a
+        // leading "$state." (setStateValue normalizes it away).
+        setState: function (key, value) { page.setStateValue(key, value); },
+        getState: function (key) { return page.stateValue(key); }
     })
 
     // Shallow-clone the authored initial state so it becomes our own mutable map.
