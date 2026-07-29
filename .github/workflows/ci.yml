@@ -102,6 +102,10 @@ jobs:
           --tokens ios/Sources/SDUIPlayground/Content/tokens.json
           ios/Sources/SDUIPlayground/Content/screens/*.json
           ios/Sources/SDUIPlayground/Content/nav/*.json
+      # The shared conformance corpus (Level A). The native platforms will run these same
+      # fixtures in their own languages — this is the JS reference leg. See doc 09.
+      - name: Conformance corpus (Level-A reference)
+        run: node spec/conformance/check.mjs
       - name: Types are regenerated from the schema (no drift)
         run: |
           node spec/tools/codegen.mjs

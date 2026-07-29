@@ -1,0 +1,3 @@
+{ "validation": { "valid": true },
+  "steps": [ { "dispatchOnTapOf": "content" } ],
+  "effects": [ { "type": "showToast", "message": "Hi", "style": "info" } ] }

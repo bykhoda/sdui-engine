@@ -1,0 +1,3 @@
+{ "version": "1.0", "screen": { "id": "cf_toast", "title": "CF",
+  "content": { "type": "text", "value": "Tap me",
+    "modifiers": { "onTap": { "action": "showToast", "message": "Hi", "style": "info" } } } } }

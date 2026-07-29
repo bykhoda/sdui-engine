@@ -1,0 +1,2 @@
+{ "version": "1.0", "screen": { "id": "cf_badtoken", "title": "CF",
+  "content": { "type": "text", "value": "Hi", "modifiers": { "background": "$token.color.doesnotexist" } } } }
