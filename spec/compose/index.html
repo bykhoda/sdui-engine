@@ -319,6 +319,11 @@ function cleanDoc(){const s=doc.screen,out={version:doc.version,screen:{id:s.id}
   if(s.scrollBehavior)out.screen.scrollBehavior=s.scrollBehavior;if(s.chrome)out.screen.chrome=s.chrome;if(s.state)out.screen.state=s.state;if(s.data)out.screen.data=s.data;
   out.screen.content=cleanNode(s.content);return out;}
 function ingestNode(n){n.__id=uid();const k=REG[n.type]?.kind;if(k==='single'&&n.child){n.children=[n.child];delete n.child;}if(k==='list'&&n.template){n.children=[n.template];delete n.template;}(n.children||[]).forEach(ingestNode);return n;}
+// Repair-in-place: guarantee every node has a UNIQUE __id, minting a fresh one only for
+// a missing OR duplicate id (valid ids are preserved, keeping selection/undo stable).
+// find()/data-id/tree-DnD all assume uniqueness — a WIP doc saved with a dup id (seen in
+// the wild) silently corrupts targeting without this.
+function ensureIds(root){const seen=new Set();walk(root,n=>{if(!n.__id||seen.has(n.__id))n.__id=uid();seen.add(n.__id);});return root;}
 function loadDoc(d){const c=structuredClone(d);if(!c.screen||!c.screen.content)throw new Error('missing screen.content');ingestNode(c.screen.content);doc=c;selId=SCREEN;document.getElementById('scr-id').value=doc.screen.id||'screen';render();resetHistory();}
 
 // ---- undo / redo + work-in-progress persistence -------------------------------
@@ -348,7 +353,7 @@ function redo(){if(hi>=hist.length-1)return;hi++;restoreSnap(hist[hi]);}
 let persistTimer=null;
 function persist(){clearTimeout(persistTimer);persistTimer=setTimeout(()=>{try{localStorage.setItem(DOCKEY,JSON.stringify(doc));}catch{}},400);}
 function restoreWip(){let raw;try{raw=localStorage.getItem(DOCKEY);}catch{return false;}if(!raw)return false;
-  try{const d=JSON.parse(raw);if(!d?.screen?.content)return false;if(!d.screen.content.__id)ingestNode(d.screen.content);doc=d;selId=doc.screen.content.__id;return true;}catch{return false;}}
+  try{const d=JSON.parse(raw);if(!d?.screen?.content)return false;if(!d.screen.content.__id)ingestNode(d.screen.content);else ensureIds(d.screen.content);doc=d;selId=doc.screen.content.__id;return true;}catch{return false;}}
 function newScreen(){if(!confirm('Start a new blank screen? This clears your current work.'))return;
   doc=blankDoc();selId=doc.screen.content.__id;$('#scr-id').value=doc.screen.id;try{localStorage.removeItem(DOCKEY);}catch{}render();resetHistory();}
 

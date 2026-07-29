@@ -59,6 +59,11 @@ Regenerate the hard numbers with `node spec/tools/parity.mjs > PARITY.md`.
 | [04a-techniques-ledger.md](04a-techniques-ledger.md) | **DivKit/Beagle deep-dive** + cache design + techniques ledger (cited) |
 | [05-roadmap.md](05-roadmap.md) | Prioritized sequence to "ideal", with milestones |
 | [06-collapsing-scroll.md](06-collapsing-scroll.md) | **Collapsing/parallax scroll** — gap analysis vs best-practice + world-class rebuild plan |
+| [08-composer-direct-manipulation.md](08-composer-direct-manipulation.md) | Figma-like direct-manipulation composer — build spec (cited) |
+| [09-conformance-fixtures.md](09-conformance-fixtures.md) | **#1 lever** — shared corpus that makes "identical everywhere" provable |
+| [10-capability-matrix.md](10-capability-matrix.md) | Capability × platform × status — measures "maximal universalization" |
+| [11-offline-cache-spec.md](11-offline-cache-spec.md) | Offline cache + resolution chain + bundled fallback |
+| [12-networking-spec.md](12-networking-spec.md) | Idempotency / retry+backoff / timeout / revalidation; implement request+saveFile |
 
 ## Working agreement
 - **Contract-first, validation-before-render.** No renderer feature without a
