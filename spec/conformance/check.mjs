@@ -21,6 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { Validator, flattenTokenPaths } from '../tools/validate.mjs';
 import { resolveString, evalCondition } from './binding.mjs';
+import { runAction } from './action.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIXTURES = join(HERE, 'fixtures');
@@ -29,8 +30,16 @@ const DEFAULT_TOKENS = join(HERE, '..', 'schema', 'tokens.example.json');
 const readJSON = (p) => JSON.parse(readFileSync(p, 'utf8'));
 
 // Aspects declared in expect.json that the harness can't yet check (never silently
-// claim coverage): binding + condition are now implemented; effect/render are staged.
-const PENDING_KEYS = ['effects', 'render'];
+// claim coverage): validation/bindings/conditions/effects implemented; render is staged.
+const PENDING_KEYS = ['render'];
+
+// Ordered subset match: expected effect's keys must all deep-equal the actual effect's
+// (actual may carry extra keys); same length + same order required.
+function eq(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
+function matchEffect(exp, act) {
+  if (!act) return false;
+  return Object.keys(exp).every((k) => eq(exp[k], act[k]));
+}
 
 // Build the binding context for a fixture: tokens (nested, from tokens.json or the
 // default set) + state/data/env/params/item from an optional state.json.
@@ -81,6 +90,24 @@ function runConditions(dir, expect) {
   return { ok: true, msg: `${expect.conditions.length} condition(s)` };
 }
 
+function runEffects(dir, expect) {
+  if (expect.effects === undefined) return null;
+  if (!existsSync(join(dir, 'action.json'))) return { ok: false, msg: 'expect.effects needs an action.json to interpret' };
+  const ctx = loadCtx(dir);
+  const { effects, state } = runAction(readJSON(join(dir, 'action.json')), ctx);
+  if (effects.length !== expect.effects.length)
+    return { ok: false, msg: `got ${effects.length} effect(s), expected ${expect.effects.length}: ${JSON.stringify(effects)}` };
+  for (let i = 0; i < expect.effects.length; i++) {
+    if (!matchEffect(expect.effects[i], effects[i]))
+      return { ok: false, msg: `effect[${i}] = ${JSON.stringify(effects[i])}, expected ⊇ ${JSON.stringify(expect.effects[i])}` };
+  }
+  if (expect.stateAfter) {
+    for (const [k, v] of Object.entries(expect.stateAfter))
+      if (!eq(state[k], v)) return { ok: false, msg: `stateAfter.${k} = ${JSON.stringify(state[k])}, expected ${JSON.stringify(v)}` };
+  }
+  return { ok: true, msg: `${effects.length} effect(s)` };
+}
+
 function main() {
   if (!existsSync(FIXTURES)) { console.error(`✗ no fixtures dir at ${FIXTURES}`); process.exit(2); }
   const want = process.argv.slice(2);
@@ -96,7 +123,7 @@ function main() {
     catch (e) { console.error(`✗ ${id}: bad/missing expect.json — ${e.message}`); failed++; continue; }
 
     let results;
-    try { results = [runValidation(dir, expect), runBindings(dir, expect), runConditions(dir, expect)].filter(Boolean); }
+    try { results = [runValidation(dir, expect), runBindings(dir, expect), runConditions(dir, expect), runEffects(dir, expect)].filter(Boolean); }
     catch (e) { console.error(`✗ ${id}: harness error — ${e.message}`); failed++; continue; }
 
     const pending = PENDING_KEYS.filter(k => expect[k] !== undefined);
@@ -110,7 +137,7 @@ function main() {
   }
 
   console.log(`\n${ids.length} fixture(s), ${failed} failed` +
-    (pendingCount ? `, ${pendingCount} aspect(s) pending a reference runner (effect/render — see doc 09)` : ''));
+    (pendingCount ? `, ${pendingCount} aspect(s) pending a reference runner (render — see doc 09)` : ''));
   process.exit(failed ? 1 : 0);
 }
 

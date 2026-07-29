@@ -131,10 +131,14 @@ aurora/tests/conformance     # (Qt Test / a QML harness)
 ## 7. Sequence to build (small, incremental)
 
 1. ✅ **DONE 2026-07-29** — `check.mjs` (Level A) running in the `contract` CI job with
-   6 seed fixtures. Implemented aspects: **validation** (reuses the production
-   `Validator`), **bindings** and **conditions** (via `binding.mjs`, a faithful port of
-   `BindingEngine`/`Condition`). `effects` + `render` still declared-but-pending. Next:
-   `expect.schema.json`, grow the corpus, then the effect (action-interpreter) runner.
+   7 seed fixtures, all green. **All four core Level-A aspects implemented:**
+   **validation** (reuses the production `Validator`), **bindings** + **conditions**
+   (`binding.mjs`, a faithful port of `BindingEngine`/`Condition`), and **effects**
+   (`action.mjs`, a faithful port of `ActionInterpreter` — analytics-first ordering,
+   sequence/parallel, condition branching, setState/increment state mutation, navigate/
+   toast/etc. as ordered effects). Only `render` (Level B) remains. Next: `expect.schema.json`,
+   grow the corpus to full per-component/modifier/action coverage + the coverage gate,
+   then port these same fixtures into the iOS/Android/Aurora test targets.
 2. iOS `ConformanceTests` running Level A against the same fixtures (proves parity of
    the Swift interpreter). Then Android, then Aurora.
 3. Grow the corpus to full per-component/modifier/action coverage + the coverage gate.

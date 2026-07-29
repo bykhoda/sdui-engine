@@ -1,3 +1,4 @@
-{ "validation": { "valid": true },
-  "steps": [ { "dispatchOnTapOf": "content" } ],
-  "effects": [ { "type": "showToast", "message": "Hi", "style": "info" } ] }
+{ "effects": [
+    { "type": "analytics", "event": "cta_tap" },
+    { "type": "showToast", "message": "Hi Ann", "style": "info" }
+  ] }

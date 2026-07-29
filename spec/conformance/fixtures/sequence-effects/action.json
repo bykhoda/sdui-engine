@@ -1,0 +1,9 @@
+{ "action": "sequence", "actions": [
+  { "action": "setState", "key": "open", "value": true },
+  { "action": "increment", "key": "$state.count", "by": 3 },
+  { "action": "condition",
+    "if": { "equals": ["$state.open", "true"] },
+    "then": { "action": "showToast", "message": "opened" },
+    "else": { "action": "log", "message": "nope" } },
+  { "action": "navigate", "to": "detail", "transition": "push" }
+] }
