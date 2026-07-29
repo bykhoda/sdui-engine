@@ -151,7 +151,16 @@ aurora/tests/conformance     # (Qt Test / a QML harness)
    into a later condition in the same sequence). Reference corrected to match native.
    **Design note:** whether `setState` *should* feed forward within one action run is a
    real product question — but all engines currently agree it doesn't, which is what
-   conformance enforces. Next: Android, then Aurora, run the same fixtures.
+   conformance enforces.
+3. **Android/Aurora native legs — blocked on 2 gaps found while scaffolding them
+   (2026-07-29), NOT yet written** (would be blind/unverifiable + would fail). The prep
+   surfaced real parity gaps: **Android `BindingContext` has no `params`** (so `$params.*`
+   can't resolve — the `binding-edge` fixture needs it) and **Android `ActionHost` has no
+   `preview`** (the `actions-delay-preview` fixture needs it; Aurora likewise lacks some).
+   Close those first (add `params` to the Kotlin `BindingContext` + `$params` branch;
+   add `preview` to `ActionHost`), THEN write the Android/Aurora `Conformance` test
+   targets mirroring `SDUIConformanceTests` and verify on a real build. Until then the
+   JS reference + the iOS native leg are the gates.
 3. Grow the corpus to full per-component/modifier/action coverage + the coverage gate.
 4. Level B render-facts on iOS first (reference renderer), then Android/Aurora.
 5. Tie the **composer preview** to the same corpus so "the composer looks like the
