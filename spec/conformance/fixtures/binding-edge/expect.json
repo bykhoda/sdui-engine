@@ -1,0 +1,12 @@
+{ "bindings": {
+    "$state.ref": "Ann",
+    "$state.n.deep.v": "7",
+    "$data.u.profile.city": "Kyiv",
+    "$env.platform": "ios",
+    "$params.id": "42",
+    "$item.label": "Row",
+    "$item.tags": "",
+    "$state.missing.deep": "",
+    "@ $data.u.profile.city on $env.platform": "@ Kyiv on ios",
+    "id-$params.id-$state.name": "id-42-Ann"
+  } }

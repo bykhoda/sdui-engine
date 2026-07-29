@@ -1,0 +1,5 @@
+{ "conditions": [
+    { "expr": { "and": [ { "or": [ { "equals": ["$state.role","admin"] }, { "exists": "$state.flag" } ] }, { "not": { "exists": "$state.flag" } } ] }, "value": true },
+    { "expr": { "or": [ { "and": [ { "equals": ["$state.role","guest"] }, { "exists": "$state.seats" } ] }, { "not": { "equals": ["$state.role","admin"] } } ] }, "value": false },
+    { "expr": { "exists": "$state.seats" }, "value": true }
+  ] }

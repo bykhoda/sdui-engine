@@ -1,0 +1,5 @@
+{ "effects": [
+  { "type": "setState", "key": "n", "value": 6 },
+  { "type": "setState", "key": "greeting", "value": "Hi Ann" },
+  { "type": "showToast", "message": "not bob", "style": "success" }
+] }

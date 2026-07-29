@@ -1,0 +1,6 @@
+{ "action": "sequence", "actions": [
+  { "action": "increment", "key": "n" },
+  { "action": "setState", "key": "greeting", "value": "Hi $state.name" },
+  { "action": "condition", "if": { "notEquals": ["$state.name","Bob"] },
+    "then": { "action": "showToast", "message": "not bob", "style": "success" } }
+] }

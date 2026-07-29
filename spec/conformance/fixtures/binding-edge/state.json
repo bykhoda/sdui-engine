@@ -1,0 +1,5 @@
+{ "state": { "name": "Ann", "ref": "$state.name", "n": { "deep": { "v": 7 } } },
+  "data": { "u": { "profile": { "city": "Kyiv" } } },
+  "env": { "platform": "ios" },
+  "params": { "id": "42" },
+  "item": { "label": "Row", "tags": ["a", "b"] } }
