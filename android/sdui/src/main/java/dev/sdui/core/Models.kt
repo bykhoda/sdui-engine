@@ -169,6 +169,8 @@ data class Modifiers(
     val onLongPress: Action? = null,
     /** Menu items shown on long-press. */
     val contextMenu: List<ContextMenuItem>? = null,
+    /** Swipe-to-reveal row actions (leading / trailing). */
+    val swipe: SwipeConfig? = null,
     /** Animation applied when this node's inputs change. */
     val animation: AnimationSpec? = null,
 ) {
@@ -210,6 +212,30 @@ data class Modifiers(
         val title: String,
         val icon: String? = null,
         val role: String? = null,
+        val action: Action,
+    )
+
+    /** Swipe-to-reveal actions on a row/card (Telegram-style; the drag-revealed
+     *  "custom" style works on any surface, matching the iOS CustomSwipeModifier). */
+    @Serializable
+    data class SwipeConfig(
+        val leading: List<SwipeAction>? = null,
+        val trailing: List<SwipeAction>? = null,
+        /** "native" (list-only on iOS) or "custom" (drag-reveal, any surface). Android always drag-reveals. */
+        val style: String? = null,
+        /** A long drag past the threshold fires the edge-most action on release. Default true. */
+        val fullSwipe: Boolean? = null,
+        /** Width (points) reserved per action button. Default 74. */
+        val actionWidth: Double? = null,
+    )
+
+    /** One swipe action button. */
+    @Serializable
+    data class SwipeAction(
+        val title: String? = null,
+        val icon: String? = null,
+        val role: String? = null,
+        val tint: String? = null,
         val action: Action,
     )
 

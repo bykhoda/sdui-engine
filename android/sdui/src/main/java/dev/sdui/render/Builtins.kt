@@ -113,8 +113,13 @@ internal fun Primitive(
     ctx: RenderContext,
     content: @Composable (Modifier) -> Unit,
 ) {
+    val swipe = component.modifiers?.swipe
     contextMenuHost(component.modifiers, ctx) {
-        content(Modifier.sduiModifiers(component.modifiers, ctx))
+        if (swipe != null && (!swipe.leading.isNullOrEmpty() || !swipe.trailing.isNullOrEmpty())) {
+            SwipeReveal(swipe, ctx) { content(Modifier.sduiModifiers(component.modifiers, ctx)) }
+        } else {
+            content(Modifier.sduiModifiers(component.modifiers, ctx))
+        }
     }
 }
 
