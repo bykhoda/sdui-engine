@@ -405,9 +405,30 @@ private fun DividerView(component: Component, ctx: RenderContext) {
 // MARK: - Content primitives
 
 @Composable
+/** Optional value formatting (mirrors iOS `formatted`): `elapsed`/`remaining` turn a 0…1
+ *  progress into a clock string, `total` = length in seconds — so a ticking `$state`
+ *  reads out as `1:14` / `-2:49` instead of a raw `0.356…`. No format → the string as-is. */
+private fun sduiFormat(raw: String, format: String?, total: Double): String {
+    if (format == null) return raw
+    val progress = raw.toDoubleOrNull() ?: 0.0
+    fun clock(seconds: Double): String {
+        val s = maxOf(0, Math.round(seconds).toInt())
+        return "%d:%02d".format(s / 60, s % 60)
+    }
+    return when (format) {
+        "elapsed" -> clock(progress * total)
+        "remaining" -> "-" + clock(maxOf(0.0, total - progress * total))
+        else -> raw
+    }
+}
+
 private fun TextView(component: Component, ctx: RenderContext) {
     val value = component.prop("value")?.stringValue ?: ""
-    val text = BindingEngine.resolveString(value, ctx.binding)
+    val text = sduiFormat(
+        BindingEngine.resolveString(value, ctx.binding),
+        component.prop("format")?.stringValue,
+        component.prop("total")?.doubleValue ?: 0.0,
+    )
     val style = Theme.textStyle(component.prop("style")?.stringValue, ctx.binding)
     val color = Theme.color(component.prop("color")?.stringValue, ctx.binding)
     val lineLimit = component.prop("lineLimit")?.doubleValue?.toInt()
