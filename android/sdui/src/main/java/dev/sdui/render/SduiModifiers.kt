@@ -238,7 +238,7 @@ private fun backgroundModifier(color: String?, material: String?, radius: Dimens
     val frost = materialFrost(material, shape)
     if (frost != null) {
         // An explicit background colour sits *under* the translucent frosting.
-        var m = frost
+        var m: Modifier = frost
         Theme.color(color, ctx.binding)?.let { m = Modifier.background(it, shape).then(m) }
         return m.clip(shape)
     }
@@ -359,6 +359,7 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
  * stops re-insetting — the Compose analogue of SwiftUI `.ignoresSafeArea()`. The host
  * still enables edge-to-edge at the window level (see `Screen.chrome == "immersive"`).
  */
+@Composable
 private fun safeAreaModifier(ignores: Boolean?): Modifier =
     if (ignores == true) Modifier.consumeWindowInsets(WindowInsets.safeDrawing) else Modifier
 
