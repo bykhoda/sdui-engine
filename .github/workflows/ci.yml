@@ -110,6 +110,10 @@ jobs:
       # at least one fixture. Adding one to the schema without a fixture fails here.
       - name: Conformance coverage gate (100% of the contract surface)
         run: node spec/conformance/coverage.mjs --strict
+      # The human reference is generated from the schema — regenerate and fail if the
+      # committed docs drift from it (same discipline as the generated TS types).
+      - name: Reference docs are in sync with the schema
+        run: node spec/tools/gen-reference.mjs && git diff --exit-code docs/reference
       - name: Types are regenerated from the schema (no drift)
         run: |
           node spec/tools/codegen.mjs
