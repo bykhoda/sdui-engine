@@ -35,6 +35,10 @@ let package = Package(
         // Runnable macOS host so `swift run SDUIPlaygroundApp` opens the sandbox.
         .executableTarget(name: "SDUIPlaygroundApp", dependencies: ["SDUIPlayground"]),
         .testTarget(name: "SDUICoreTests", dependencies: ["SDUICore"]),
-        .testTarget(name: "SDUIPlaygroundTests", dependencies: ["SDUIPlayground"])
+        .testTarget(name: "SDUIPlaygroundTests", dependencies: ["SDUIPlayground"]),
+        // Runs the SHARED conformance corpus (spec/conformance/fixtures) through the
+        // native engine, proving the Swift BindingEngine/Condition/ActionInterpreter
+        // agree with the JS reference (check.mjs) — the "identical everywhere" gate.
+        .testTarget(name: "SDUIConformanceTests", dependencies: ["SDUICore", "SDUIRuntime"])
     ]
 )

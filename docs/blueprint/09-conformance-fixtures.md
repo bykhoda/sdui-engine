@@ -139,8 +139,15 @@ aurora/tests/conformance     # (Qt Test / a QML harness)
    toast/etc. as ordered effects). Only `render` (Level B) remains. Next: `expect.schema.json`,
    grow the corpus to full per-component/modifier/action coverage + the coverage gate,
    then port these same fixtures into the iOS/Android/Aurora test targets.
-2. iOS `ConformanceTests` running Level A against the same fixtures (proves parity of
-   the Swift interpreter). Then Android, then Aurora.
+2. ✅ **iOS DONE 2026-07-29** — `SDUIConformanceTests` runs bindings/conditions/effects
+   against the SAME fixtures through the real `BindingEngine`/`Condition`/`ActionInterpreter`
+   (via a recording `ActionHost`); green in `swift test` (31 tests total). **This already
+   paid off:** it caught a bug in the JS reference — `action.mjs` was mutating `ctx` on
+   `setState`/`increment`, but iOS runs against a *snapshot* (a write doesn't feed forward
+   into a later condition in the same sequence). Reference corrected to match native.
+   **Design note:** whether `setState` *should* feed forward within one action run is a
+   real product question — but all engines currently agree it doesn't, which is what
+   conformance enforces. Next: Android, then Aurora, run the same fixtures.
 3. Grow the corpus to full per-component/modifier/action coverage + the coverage gate.
 4. Level B render-facts on iOS first (reference renderer), then Android/Aurora.
 5. Tie the **composer preview** to the same corpus so "the composer looks like the

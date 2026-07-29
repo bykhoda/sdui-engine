@@ -1,7 +1,7 @@
 { "effects": [
     { "type": "setState", "key": "open", "value": true },
     { "type": "setState", "key": "count", "value": 5 },
-    { "type": "showToast", "message": "opened" },
+    { "type": "log", "message": "nope" },
     { "type": "navigate", "to": "detail", "transition": "push" }
   ],
   "stateAfter": { "open": true, "count": 5 } }

@@ -45,17 +45,19 @@ export function interpret(action, ctx, effects) {
 
     case 'setState': {
       if (action.key === undefined) break;
-      const value = resolvedValue(action.value, ctx);
-      ctx.state[action.key] = value;
-      effects.push({ type: 'setState', key: action.key, value });
+      // NOTE: like iOS, we do NOT feed the write back into `ctx` — the interpreter runs
+      // against a snapshot, so later bindings/conditions in the same sequence still see
+      // the pre-run state. The write reaches the host (recorded as an effect); the host's
+      // re-render is a separate pass. (Conformance caught a JS-reference bug here.)
+      effects.push({ type: 'setState', key: action.key, value: resolvedValue(action.value, ctx) });
       break;
     }
     case 'increment': {
       if (action.key === undefined) break;
       const by = action.by !== undefined ? Number(action.by) : 1;
       const bare = action.key.startsWith('$state.') ? action.key.slice('$state.'.length) : action.key;
+      // Reads the SNAPSHOT ctx (not a running total) — matches iOS exactly.
       const next = numberOf(ctx.state[bare]) + (isNaN(by) ? 1 : by);
-      ctx.state[bare] = next;
       effects.push({ type: 'setState', key: bare, value: next });
       break;
     }
@@ -90,9 +92,13 @@ export function interpret(action, ctx, effects) {
   return effects;
 }
 
-// Convenience: run an action against a fresh-ish ctx, return { effects, state }.
+// Run an action, returning the ordered effects plus the resulting host state — derived by
+// folding the setState effects over the initial state (what the host ends up holding),
+// NOT by mutating the run's ctx (which stays a snapshot, matching iOS).
 export function runAction(action, ctx) {
   const effects = [];
   interpret(action, ctx, effects);
-  return { effects, state: ctx.state };
+  const state = { ...ctx.state };
+  for (const e of effects) if (e.type === 'setState') state[e.key] = e.value;
+  return { effects, state };
 }
