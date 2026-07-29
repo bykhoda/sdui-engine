@@ -5,6 +5,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
@@ -226,41 +227,132 @@ internal fun ChartView(component: Component, ctx: RenderContext) {
 // Maps an SF-Symbol-style contract icon name to a Material icon, so the same
 // JSON that draws SF Symbols on iOS draws real glyphs on Android (not the name
 // as text). A host `iconResolver` still wins when provided.
+// Maps Apple SF Symbol names (the contract's icon vocabulary, authored against the iOS
+// reference) to the closest Material icon. Covers everything the shipped content uses;
+// the family-strip (".fill" etc.) folds to one Material glyph. Unknown names fall back to
+// a neutral dot — never the old four-square "widgets" glyph that read as broken.
 private fun materialIcon(sf: String): ImageVector = when (sf) {
-    "arrow.triangle.2.circlepath" -> Icons.Filled.Autorenew
-    "square.on.square" -> Icons.Filled.FilterNone
-    "paintpalette.fill" -> Icons.Filled.Palette
-    "square.grid.2x2.fill", "square.grid.3x3.fill" -> Icons.Filled.GridView
-    "figure.run" -> Icons.Filled.DirectionsRun
-    "music.note" -> Icons.Filled.MusicNote
-    "chart.line.uptrend.xyaxis" -> Icons.Filled.ShowChart
-    "cloud.sun.fill" -> Icons.Filled.WbSunny
-    "cart.fill" -> Icons.Filled.ShoppingCart
-    "bubble.left.and.bubble.right.fill", "exclamationmark.bubble.fill" -> Icons.Filled.Forum
-    "square.stack.fill", "rectangle.stack.fill" -> Icons.Filled.Layers
-    "play.rectangle.fill" -> Icons.Filled.SmartDisplay
-    "checklist", "list.bullet" -> Icons.Filled.Checklist
-    "crown.fill" -> Icons.Filled.WorkspacePremium
-    "shippingbox.fill" -> Icons.Filled.Inventory2
-    "dumbbell.fill" -> Icons.Filled.FitnessCenter
-    "sparkles", "wand.and.stars", "wand.and.rays" -> Icons.Filled.AutoAwesome
-    "tag.fill" -> Icons.Filled.Sell
-    "tray.fill" -> Icons.Filled.Inbox
+    // playback / media
+    "play.fill", "play.circle.fill", "play.rectangle.fill" -> Icons.Filled.PlayArrow
+    "pause.fill", "pause.circle.fill" -> Icons.Filled.Pause
+    "backward.fill", "backward.end.fill" -> Icons.Filled.SkipPrevious
+    "forward.fill", "forward.end.fill" -> Icons.Filled.SkipNext
+    "shuffle" -> Icons.Filled.Shuffle
+    "repeat", "repeat.1" -> Icons.Filled.Repeat
+    "speaker.fill", "speaker.wave.1.fill", "speaker.wave.2.fill", "speaker.wave.3.fill" -> Icons.Filled.VolumeUp
+    "speaker.slash.fill" -> Icons.Filled.VolumeOff
+    "music.note", "music.note.list" -> Icons.Filled.MusicNote
+    "film.fill" -> Icons.Filled.Movie
+    // hearts / stars / ratings
+    "heart" -> Icons.Filled.FavoriteBorder
+    "heart.fill" -> Icons.Filled.Favorite
+    "star" -> Icons.Filled.StarBorder
+    "star.fill" -> Icons.Filled.Star
+    "star.leadinghalf.filled" -> Icons.Filled.StarHalf
+    // checks / marks / close
+    "checkmark", "checkmark.seal", "checkmark.seal.fill" -> Icons.Filled.Check
+    "checkmark.circle.fill" -> Icons.Filled.CheckCircle
+    "xmark" -> Icons.Filled.Close
+    "xmark.circle.fill" -> Icons.Filled.Cancel
+    "plus" -> Icons.Filled.Add
+    "plus.circle.fill" -> Icons.Filled.AddCircle
+    "minus.circle.fill" -> Icons.Filled.RemoveCircle
+    // people / comms
+    "person", "person.fill", "person.crop.circle" -> Icons.Filled.Person
+    "person.2.fill" -> Icons.Filled.Group
     "person.crop.circle.badge.plus" -> Icons.Filled.PersonAdd
-    "gearshape.fill" -> Icons.Filled.Settings
+    "person.crop.circle.badge.questionmark" -> Icons.Filled.PersonSearch
+    "phone", "phone.fill" -> Icons.Filled.Call
+    "message", "message.fill" -> Icons.Filled.ChatBubble
+    "bubble.left.and.bubble.right.fill", "exclamationmark.bubble.fill" -> Icons.Filled.Forum
+    "envelope" -> Icons.Filled.Email
+    "envelope.open.fill" -> Icons.Filled.Drafts
+    "paperplane.fill", "paperplane" -> Icons.Filled.Send
+    "bell.fill" -> Icons.Filled.Notifications
+    "bell.badge.fill" -> Icons.Filled.NotificationsActive
+    "bell.slash.fill" -> Icons.Filled.NotificationsOff
+    "hand.thumbsup.fill" -> Icons.Filled.ThumbUp
+    "hand.raised.slash.fill" -> Icons.Filled.PanToolAlt
+    // nav / chevrons / arrows
+    "chevron.right" -> Icons.Filled.ChevronRight
+    "chevron.left" -> Icons.Filled.ChevronLeft
+    "ellipsis" -> Icons.Filled.MoreHoriz
+    "line.3.horizontal" -> Icons.Filled.Menu
+    "magnifyingglass" -> Icons.Filled.Search
+    "arrow.up" -> Icons.Filled.ArrowUpward
+    "arrow.down" -> Icons.Filled.ArrowDownward
+    "arrow.up.arrow.down" -> Icons.Filled.SwapVert
+    "arrow.left.arrow.right" -> Icons.Filled.SwapHoriz
+    "arrow.counterclockwise", "arrow.triangle.2.circlepath" -> Icons.Filled.Autorenew
+    "arrow.up.left.and.arrow.down.right" -> Icons.Filled.OpenInFull
+    "arrow.down.right.and.arrow.up.left" -> Icons.Filled.CloseFullscreen
+    "arrow.up.circle.fill" -> Icons.Filled.ArrowCircleUp
+    "arrow.down.circle.fill" -> Icons.Filled.ArrowCircleDown
+    "arrow.up.doc.fill", "square.and.arrow.up" -> Icons.Filled.UploadFile
+    "square.and.arrow.down" -> Icons.Filled.Download
+    "arrowshape.turn.up.left" -> Icons.Filled.Reply
+    "arrow.triangle.branch" -> Icons.Filled.CallSplit
+    // status / system
+    "wifi" -> Icons.Filled.Wifi
+    "wifi.slash" -> Icons.Filled.WifiOff
+    "lock", "lock.fill" -> Icons.Filled.Lock
+    "lock.open.fill" -> Icons.Filled.LockOpen
+    "bolt.fill" -> Icons.Filled.Bolt
+    "bolt.shield.fill" -> Icons.Filled.Security
+    "flame.fill" -> Icons.Filled.LocalFireDepartment
+    "leaf.fill" -> Icons.Filled.Eco
+    "drop.fill" -> Icons.Filled.WaterDrop
+    "gift.fill" -> Icons.Filled.CardGiftcard
+    "crown.fill" -> Icons.Filled.WorkspacePremium
+    "flag.fill" -> Icons.Filled.Flag
+    "pin.fill" -> Icons.Filled.PushPin
+    "bookmark.fill" -> Icons.Filled.Bookmark
+    "tag.fill" -> Icons.Filled.Sell
+    "bag.fill" -> Icons.Filled.ShoppingBag
+    "cart.fill" -> Icons.Filled.ShoppingCart
+    "archivebox.fill" -> Icons.Filled.Archive
+    "tray.fill" -> Icons.Filled.Inbox
+    "trash", "trash.fill" -> Icons.Filled.Delete
+    "map" -> Icons.Filled.Map
+    "safari" -> Icons.Filled.Public
+    "link" -> Icons.Filled.Link
+    "qrcode" -> Icons.Filled.QrCode2
+    "apple.logo" -> Icons.Filled.PhoneIphone
+    "dollarsign.circle" -> Icons.Filled.MonetizationOn
+    // docs / files / photos
+    "doc.fill", "doc.text.fill", "doc.richtext.fill" -> Icons.Filled.Description
+    "doc.on.doc" -> Icons.Filled.FileCopy
+    "photo.fill" -> Icons.Filled.Photo
+    "photo.on.rectangle.angled" -> Icons.Filled.PhotoLibrary
+    "square.on.square" -> Icons.Filled.FilterNone
+    "square.stack.fill", "rectangle.stack.fill" -> Icons.Filled.Layers
+    "tablecells.fill" -> Icons.Filled.TableChart
+    "calendar" -> Icons.Filled.CalendarMonth
+    // tools / editing
+    "pencil" -> Icons.Filled.Edit
+    "pencil.and.ruler.fill" -> Icons.Filled.DesignServices
+    "hammer.fill" -> Icons.Filled.Build
+    "slider.horizontal.3", "switch.2" -> Icons.Filled.Tune
     "textformat", "character.cursor.ibeam" -> Icons.Filled.TextFields
     "capsule.fill" -> Icons.Filled.SmartButton
-    "switch.2" -> Icons.Filled.Tune
-    "arrow.up.doc.fill" -> Icons.Filled.UploadFile
-    "calendar" -> Icons.Filled.CalendarMonth
-    "drop.fill" -> Icons.Filled.WaterDrop
-    "bolt.shield.fill" -> Icons.Filled.Security
-    "hand.draw.fill", "hand.tap.fill" -> Icons.Filled.TouchApp
-    "tablecells.fill" -> Icons.Filled.TableChart
-    "doc.text.fill" -> Icons.Filled.Description
-    "bolt.fill" -> Icons.Filled.Bolt
-    "arrow.up.arrow.down" -> Icons.Filled.SwapVert
-    else -> Icons.Filled.Widgets
+    "cursorarrow.rays", "hand.draw.fill", "hand.tap.fill" -> Icons.Filled.TouchApp
+    "wand.and.stars", "wand.and.rays", "sparkles" -> Icons.Filled.AutoAwesome
+    "paintpalette", "paintpalette.fill" -> Icons.Filled.Palette
+    "gearshape.fill" -> Icons.Filled.Settings
+    "door.left.hand.closed", "rectangle.portrait.and.arrow.right" -> Icons.Filled.Logout
+    "rectangle.portrait.bottomhalf.inset.filled" -> Icons.Filled.Wallpaper
+    // numbered / misc from earlier
+    "1.circle.fill" -> Icons.Filled.LooksOne
+    "2.circle.fill" -> Icons.Filled.LooksTwo
+    "3.circle.fill" -> Icons.Filled.Looks3
+    "square.grid.2x2.fill", "square.grid.3x3.fill" -> Icons.Filled.GridView
+    "figure.run" -> Icons.Filled.DirectionsRun
+    "chart.line.uptrend.xyaxis" -> Icons.Filled.ShowChart
+    "cloud.sun.fill" -> Icons.Filled.WbSunny
+    "checklist", "list.bullet" -> Icons.Filled.Checklist
+    "shippingbox.fill" -> Icons.Filled.Inventory2
+    "dumbbell.fill" -> Icons.Filled.FitnessCenter
+    else -> Icons.Filled.Circle
 }
 
 @Composable
