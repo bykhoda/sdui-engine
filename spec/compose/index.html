@@ -564,7 +564,17 @@ function renderScreen(box){
 }
 
 // ---- preview ----
-const TYPO={largeTitle:[34,700],title2:[22,700],title3:[20,600],headline:[17,600],body:[17,400],subheadline:[15,400],footnote:[13,400],caption:[12,500]};
+// Typography resolved straight from tokens.json ($token.typography.*), so every style
+// renders at the EXACT size/weight the native renderers produce (Theme.font on iOS,
+// Theme.textStyle on Android). Weight names → CSS numeric mirror both fontWeight maps.
+const WEIGHT={ultralight:100,thin:200,light:300,regular:400,medium:500,semibold:600,bold:700,heavy:800,black:900};
+function typo(styleRef){const key=(typeof styleRef==='string'?styleRef:'').split('.').pop();
+  const t=(TOKENS.typography||{});const d=t[key]||t.body||{size:17,weight:'regular'};   // no style → body default
+  return [d.size||17,WEIGHT[d.weight]||400];}
+// Platform of the currently-selected device drives iOS vs Material styling.
+const isAndroid=()=>DEV[dev]?.plat==='android';
+const FONT_IOS='-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif';
+const FONT_AND='Roboto,"Noto Sans","Helvetica Neue",system-ui,sans-serif';
 function tok(v){if(typeof v!=='string'||!v.startsWith('$token.'))return v;const[,g,k]=v.split('.');
   if(THEME==='dark'&&g==='color'&&TOKENS.colorDark&&TOKENS.colorDark[k]!=null)return TOKENS.colorDark[k];   // dark palette
   return (TOKENS[g]||{})[k];}
@@ -602,13 +612,36 @@ function resolveText(v){
 }
 // Resolve an image source: real URL passes through; a binding gets a sample photo.
 function resolveImg(v,seed){if(typeof v!=='string'||!v)return '';if(isBinding(v))return SAMPLE_IMG[(seed||0)%SAMPLE_IMG.length];return v;}
+// iOS system-material tiers → [backdrop-blur px, light bg alpha, dark bg alpha]. These
+// approximate SwiftUI's .ultraThinMaterial…thickMaterial / .bar frosted fills
+// (Modifiers.swift materialView) as a translucent backdrop-filter pane.
+const MATERIAL={ultraThin:[20,.55,.5],thin:[22,.68,.6],regular:[26,.82,.72],thick:[30,.92,.84],bar:[22,.8,.8]};
 function applyMods(e,m){if(!m)return;
   const w=m.size?.width;if(w){if(w.mode==='fill'){e.style.width='100%';e.style.alignSelf='stretch';}else if(w.mode==='fixed'){e.style.width=(w.value||0)+'px';}else if(w.mode==='weight'){e.style.flex=(w.value||1)+' 1 0';}}
   const h=m.size?.height;if(h){if(h.mode==='fixed')e.style.height=(h.value||0)+'px';else if(h.mode==='fill')e.style.minHeight='100%';}
   if(m.padding)e.style.padding=px(m.padding,0);
-  if(m.background)e.style.background=tok(m.background)||'';
+  // material frosts what's behind the node (backdrop-filter); background is a plain fill.
+  if(m.material){const dark=THEME==='dark';
+    if(m.material==='glass'){                                   // engine's bespoke visionOS pane: frost + white wash + top-lit rim
+      e.style.background=dark?'rgba(40,40,48,.35)':'rgba(255,255,255,.16)';
+      e.style.backdropFilter=e.style.webkitBackdropFilter='blur(20px) saturate(180%)';
+      e.style.border='1px solid '+(dark?'rgba(255,255,255,.14)':'rgba(255,255,255,.55)');
+    }else{const t=MATERIAL[m.material]||MATERIAL.regular;
+      e.style.background=dark?`rgba(28,28,32,${t[2]})`:`rgba(250,250,252,${t[1]})`;
+      e.style.backdropFilter=e.style.webkitBackdropFilter=`blur(${t[0]}px) saturate(180%)`;}
+  }else if(m.background)e.style.background=tok(m.background)||'';
   if(m.cornerRadius)e.style.borderRadius=px(m.cornerRadius,0);
   if(typeof m.opacity==='number')e.style.opacity=m.opacity;
+  if(typeof m.blur==='number'&&m.blur>0)e.style.filter=`blur(${m.blur}px)`;   // blurs the node's OWN content (Modifiers.swift BlurModifier)
+  // shadow — native defaults (Modifiers.swift ShadowModifier): color black@0.15, radius 4, x 0, y 2.
+  if(m.shadow){const s=m.shadow,col=tok(s.color)||'rgba(0,0,0,.15)';
+    e.style.boxShadow=`${s.x||0}px ${s.y??2}px ${s.radius??4}px ${col}`;}
+  // rotation (deg) + scale compose into one transform (Modifiers.swift Rotation/ScaleModifier).
+  const tr=[];const rot=(typeof m.rotation==='number')?m.rotation:(typeof m.rotation==='string'?parseFloat(m.rotation):null);
+  if(rot!=null&&!isNaN(rot))tr.push(`rotate(${rot}deg)`);
+  const sc=(typeof m.scale==='number')?m.scale:(typeof m.scale==='string'?parseFloat(m.scale):null);
+  if(sc!=null&&!isNaN(sc))tr.push(`scale(${sc})`);
+  if(tr.length)e.style.transform=tr.join(' ');
 }
 const ALIGN={leading:'flex-start',center:'center',trailing:'flex-end',top:'flex-start',bottom:'flex-end'};
 function el(n){const e=document.createElement('div');e.className='pv';e.dataset.id=n.__id;e.onclick=ev=>{ev.stopPropagation();selId=n.__id;render();};applyMods(e,n.modifiers);
@@ -619,33 +652,81 @@ function el(n){const e=document.createElement('div');e.className='pv';e.dataset.
     case 'grid':e.style.cssText+=';display:grid;grid-template-columns:repeat('+(n.columns||2)+',1fr);gap:'+px(n.spacing,8);kids(e,n);break;
     case 'scroll':e.style.cssText+=';display:flex;flex-direction:column';kids(e,n);break;
     case 'list':{const t=n.children?.[0];e.style.cssText+=';display:flex;flex-direction:column;gap:8px';if(t){for(let i=0;i<3;i++){const w=el(t);if(i)w.style.pointerEvents='none';e.appendChild(w);}}else e.appendChild(ph('list template'));break;}
-    case 'text':{const[fs,fw]=TYPO[(n.style||'').split('.').pop()]||[17,400];e.textContent=resolveText(n.value)||'';e.style.fontSize=fs+'px';e.style.fontWeight=fw;e.style.color=tok(n.color)||(THEME==='dark'?'#fff':'#0E1420');break;}
-    case 'button':{const b=document.createElement('div');b.textContent=resolveText(n.title)||'Button';const tinted=(n.style||'').includes('tinted'),plain=(n.style||'').includes('plain'),ac=tok('$token.color.primary')||'#0A84FF';b.style.cssText='padding:11px 16px;border-radius:12px;text-align:center;font-weight:600;font-size:16px;'+(plain?'color:'+ac:tinted?'background:'+ac+'22;color:'+ac:'background:'+ac+';color:#fff');e.appendChild(b);break;}
+    case 'text':{const[fs,fw]=typo(n.style);e.textContent=resolveText(n.value)||'';e.style.fontSize=fs+'px';e.style.fontWeight=fw;e.style.lineHeight='1.25';e.style.color=tok(n.color)||tok('$token.color.textPrimary')||(THEME==='dark'?'#F6F6F8':'#0E0E12');break;}
+    case 'button':{const b=document.createElement('div');b.textContent=resolveText(n.title)||'Button';
+      // Metrics ported from tokens.json button.* (radius 16, paddingV 15, paddingH 24) and
+      // resolved through the token table like iOS ButtonView / android ButtonView.
+      const variant=(typeof n.style==='string'?n.style:'').split('.').pop();
+      const bt=(TOKENS.button||{})[variant];const ac=tok('$token.color.primary')||'#5B5BF0';
+      const and=isAndroid();const wm=n.modifiers?.size?.width?.mode,wide=wm==='fill'||wm==='weight';
+      if(!bt&&/plain/.test(variant)){                          // text-only button (no token backing)
+        b.style.cssText=`display:inline-flex;align-items:center;justify-content:center;font-weight:${and?500:600};color:${ac};font-size:${and?14:17}px`+(and?';letter-spacing:.02em':'');
+      }else{
+        const bg=bt?(tok(bt.background)||bt.background):ac,fg=bt?(tok(bt.foreground)||bt.foreground):'#fff';
+        const rad=and?20:(bt?.radius??16),pv=and?10:(bt?.paddingV??15),ph=and?24:(bt?.paddingH??24);
+        b.style.cssText=`display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:${pv}px ${ph}px;border-radius:${rad}px;text-align:center;font-weight:600;background:${bg};color:${fg};`+
+          (and?'font-size:14px;letter-spacing:.02em;box-shadow:0 1px 3px rgba(0,0,0,.3),0 1px 2px rgba(0,0,0,.15);':'font-size:17px;')+(wide?'width:100%;':'');
+      }
+      e.appendChild(b);break;}
     case 'image':{e.style.cssText+=';min-height:120px;border-radius:'+px(n.modifiers?.cornerRadius,12)+';background:#E7EAF0 center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#8A93A1;font-size:12px';const src=resolveImg(n.source,n.__id?.charCodeAt(1));if(src){e.style.backgroundImage=`url("${src}")`;e.textContent='';}else e.textContent='image';break;}
-    case 'icon':e.textContent='◈';e.style.cssText+=';color:'+(tok(n.color)||'#0A84FF')+';font-size:22px';break;
-    case 'textfield':e.innerHTML=`<div style="font-size:11px;color:#727C8A;margin-bottom:4px">${esc(resolveText(n.label)||'')}</div><div style="border:1px solid #E5E9EF;border-radius:9px;padding:9px 11px;color:#8A93A1;font-size:14px">${esc(n.placeholder?resolveText(n.placeholder):'Type here…')}</div>`;break;
-    case 'toggle':e.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:15px">${esc(n.label||'')}</span><div style="width:40px;height:24px;background:#34C759;border-radius:99px;position:relative"><div style="width:20px;height:20px;background:#fff;border-radius:99px;position:absolute;top:2px;right:2px"></div></div></div>`;break;
-    case 'progress':{const v=Math.max(0,Math.min(1,(n.value||0)/(n.total||1)));e.innerHTML=`<div style="height:6px;border-radius:99px;background:#E7EAF0"><div style="height:6px;border-radius:99px;width:${v*100}%;background:${tok('$token.color.primary')||'#0A84FF'}"></div></div>`;break;}
-    case 'divider':e.style.cssText+=';height:1px;background:#E5E9EF;margin:2px 0';break;
+    case 'icon':{const sz=typeof n.size==='number'?n.size:(isAndroid()?24:20);   // iOS body-ish glyph vs Material 24dp
+      e.textContent='◈';e.style.cssText+=';display:inline-flex;align-items:center;justify-content:center;line-height:1;color:'+(tok(n.color)||tok('$token.color.primary')||'#5B5BF0')+';font-size:'+sz+'px';break;}
+    case 'textfield':{const lab=esc(resolveText(n.label)||''),ph=esc(n.placeholder?resolveText(n.placeholder):''),and=isAndroid();
+      const sepC=tok('$token.color.separator')||'#E7E7EC',sec=tok('$token.color.textSecondary')||'#71717A',acc=tok('$token.color.primary')||'#5B5BF0';
+      if(and){                                                 // Material OutlinedTextField: radius-4 notched outline, floating label, 56dp min
+        const surf=THEME==='dark'?(tok('$token.color.surface')||'#151518'):'#fff';
+        e.innerHTML=`<div style="position:relative;border:1px solid ${sepC};border-radius:4px;min-height:56px;padding:16px;color:${sec};font-size:16px;display:flex;align-items:center">${ph||' '}`+
+          (lab?`<span style="position:absolute;top:-8px;left:12px;background:${surf};padding:0 4px;font-size:12px;color:${acc}">${lab}</span>`:'')+`</div>`;
+      }else{                                                   // iOS plain field (Builtins.swift TextFieldView): 15/13 padding, primary@0.05 fill, radius 12
+        const fill=THEME==='dark'?'rgba(255,255,255,.06)':'rgba(0,0,0,.05)',line=THEME==='dark'?'rgba(255,255,255,.12)':'rgba(0,0,0,.09)';
+        e.innerHTML=(lab?`<div style="font-size:12px;font-weight:600;color:${sec};margin-bottom:6px">${lab}</div>`:'')+
+          `<div style="border:1px solid ${line};background:${fill};border-radius:12px;padding:13px 15px;color:${sec};font-size:17px">${ph||'Type here…'}</div>`;
+      }break;}
+    case 'toggle':{const lab=esc(resolveText(n.label)||''),and=isAndroid();
+      // iOS UISwitch is 51×31 (green when on); Material 3 Switch is 52×32 tinted by the primary.
+      const track=and?`width:52px;height:32px;background:${tok('$token.color.primary')||'#5B5BF0'}`:'width:51px;height:31px;background:#34C759';
+      const knob=and?'width:24px;height:24px;top:4px;right:4px':'width:27px;height:27px;top:2px;right:2px';
+      e.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:${and?16:17}px">${lab}</span><div style="position:relative;border-radius:16px;flex:none;${track}"><div style="position:absolute;background:#fff;border-radius:99px;box-shadow:0 1px 3px rgba(0,0,0,.3);${knob}"></div></div></div>`;break;}
+    case 'progress':{const ac=tok('$token.color.primary')||'#5B5BF0',v=Math.max(0,Math.min(1,(n.value||0)/(n.total||1)));   // height 6, track = tint@~16% (Builtins.swift ProgressBarView)
+      e.innerHTML=`<div style="height:6px;border-radius:99px;background:${ac}29"><div style="height:6px;border-radius:99px;width:${v*100}%;background:${ac}"></div></div>`;break;}
+    case 'divider':e.style.cssText+=';height:1px;align-self:stretch;background:'+(tok(n.color)||tok('$token.color.separator')||'#E7E7EC')+';margin:2px 0';break;
     case 'spacer':e.style.cssText+=';flex:1;min-height:12px';break;
     case 'gradient':{const c=n.colors||['#ccc','#999'],d={vertical:'to bottom',horizontal:'to right',diagonal:'135deg'}[n.direction]||'to bottom';e.style.cssText+=';min-height:'+(n.modifiers?.size?.height?.value||120)+'px;background:linear-gradient('+d+','+c.join(',')+')';break;}
-    case 'rings':{const cols=[tok('$token.color.primary')||'#0A84FF','#FF375F','#34C759'];e.style.cssText+=';display:flex;justify-content:center;padding:6px';let h='<div style="position:relative;width:92px;height:92px">';cols.forEach((c,i)=>{const inset=i*13;h+=`<div style="position:absolute;inset:${inset}px;border-radius:50%;border:9px solid #E7EAF0"></div><div style="position:absolute;inset:${inset}px;border-radius:50%;border:9px solid ${c};border-right-color:transparent;border-bottom-color:transparent;transform:rotate(${45+i*40}deg)"></div>`;});e.innerHTML=h+'</div>';break;}
-    case 'ticker':e.innerHTML=`<div style="display:flex;align-items:baseline;gap:7px"><span style="font-size:30px;font-weight:760;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:${tok(n.color)||'inherit'}">1,248</span><span style="color:#34C759;font-size:13px;font-weight:600">▲ 2.4%</span></div>`;break;
+    case 'rings':{                                             // concentric activity rings — driven by n.values (0…1) & n.colors (Builtins.swift RingsView)
+      let vals=Array.isArray(n.values)?n.values.map(Number).filter(x=>!isNaN(x)):null;if(!vals||!vals.length)vals=[0.85,0.6,0.9];
+      const pal=(Array.isArray(n.colors)&&n.colors.length)?n.colors.map(c=>tok(c)||c):[tok('$token.color.primary')||'#5B5BF0','#FF375F','#34C759'];
+      const lw=9,gap=6,size=104,mask=`radial-gradient(farthest-side,transparent calc(100% - ${lw}px),#000 calc(100% - ${lw}px))`;
+      e.style.cssText+=';display:flex;justify-content:center;padding:6px';let h=`<div style="position:relative;width:${size}px;height:${size}px">`;
+      vals.forEach((v,i)=>{const inset=i*(lw+gap),col=pal[i%pal.length],vv=Math.max(0,Math.min(1,v));
+        h+=`<div style="position:absolute;inset:${inset}px;border-radius:50%;background:${col};opacity:.16;-webkit-mask:${mask};mask:${mask}"></div>`+
+           `<div style="position:absolute;inset:${inset}px;border-radius:50%;background:conic-gradient(${col} ${vv*360}deg,transparent 0);-webkit-mask:${mask};mask:${mask}"></div>`;});
+      e.innerHTML=h+'</div>';break;}
+    case 'ticker':{let val='1,248';const raw=n.value;                    // reflect the bound value; sample when it's a binding
+      if(typeof raw==='number')val=raw.toLocaleString();else if(typeof raw==='string'&&raw&&!isBinding(raw))val=raw;
+      e.innerHTML=`<div style="display:flex;align-items:baseline;gap:7px"><span style="font-size:30px;font-weight:760;font-variant-numeric:tabular-nums;letter-spacing:-.02em;color:${tok(n.color)||'inherit'}">${esc(val)}</span><span style="color:${tok('$token.color.success')||'#10B981'};font-size:13px;font-weight:600">▲ 2.4%</span></div>`;break;}
     case 'spinner':e.style.cssText+=';display:flex;justify-content:center;padding:12px';e.innerHTML=`<div class="spin" style="width:26px;height:26px;border:3px solid #E5E9EF;border-top-color:${tok('$token.color.primary')||'#0A84FF'};border-radius:50%"></div>`;break;
     case 'slider':{const ac=tok('$token.color.primary')||'#0A84FF';e.innerHTML=`<div style="display:flex;align-items:center;padding:4px 0"><div style="flex:1;height:4px;border-radius:9px;background:linear-gradient(90deg,${ac} 45%,#E5E9EF 45%)"></div><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.3);margin-left:-11px"></div></div>`;break;}
     case 'picker':e.innerHTML=`<div style="display:flex;background:#EDEFF3;border-radius:9px;padding:3px">${['One','Two','Three'].map((o,i)=>`<div style="flex:1;text-align:center;padding:6px;font-size:13px;border-radius:7px;${i===0?'background:#fff;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)':'color:#6E7684'}">${o}</div>`).join('')}</div>`;break;
     case 'disclosure':e.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 2px;border-bottom:1px solid #EEF1F5"><span style="font-weight:600;font-size:15px">${esc(resolveText(n.title)||'Details')}</span><span style="color:#8A93A1;font-size:18px">⌄</span></div>`;break;
-    case 'chart':{const bars=[42,68,50,88,60,95,72],ac=tok('$token.color.primary')||'#0A84FF';e.style.cssText+=';display:flex;align-items:flex-end;gap:6px;height:92px;padding-top:8px';e.innerHTML=bars.map(b=>`<div style="flex:1;height:${b}%;background:${ac};opacity:.85;border-radius:4px 4px 0 0"></div>`).join('');break;}
+    case 'chart':{                                             // plot from n.values / n.data (numbers or {value|y|amount}); sample bars when unbound
+      const src=n.values||n.data;let vals=Array.isArray(src)?src.map(x=>typeof x==='number'?x:(x&&typeof x==='object'?(x.value??x.y??x.amount??0):(parseFloat(x)||0))):null;
+      if(!vals||!vals.length)vals=[42,68,50,88,60,95,72];const mx=Math.max(...vals,1),ac=tok('$token.color.primary')||'#5B5BF0';
+      e.style.cssText+=';display:flex;align-items:flex-end;gap:6px;height:92px;padding-top:8px';
+      e.innerHTML=vals.map(b=>`<div style="flex:1;height:${Math.max(4,(b/mx)*100)}%;background:${ac};opacity:.85;border-radius:4px 4px 0 0"></div>`).join('');break;}
     default:{e.style.cssText+=';padding:14px;border:1px dashed #C9D0DA;border-radius:10px;text-align:center;background:#F6F8FA';e.innerHTML=`<div style="font-family:var(--mono);font-size:12px;color:#3B4453;font-weight:600">${n.type}</div>`+(PURPOSE[n.type]?`<div style="font-size:10.5px;color:#8A93A1;margin-top:5px;line-height:1.4">${esc(PURPOSE[n.type])}</div>`:'');break;}
   }return e;}
 function kids(e,n){if((n.children||[]).length)n.children.forEach(c=>e.appendChild(el(c)));else e.appendChild(ph(n.type+' — empty'));}
 function ph(t){const d=document.createElement('div');d.textContent=t;d.style.cssText='color:#A6AEBB;font-size:11px;font-family:var(--mono);padding:10px;border:1px dashed #D7DCE4;border-radius:8px;text-align:center;width:100%';return d;}
 function renderPreview(){const p=$('#preview');p.innerHTML='';const s=doc.screen;
+  p.style.fontFamily=isAndroid()?FONT_AND:FONT_IOS;                                   // SF on iOS, Roboto on Material
   p.style.background=THEME==='dark'?(TOKENS.colorDark?.background||'#000'):'#fff';
   p.style.color=THEME==='dark'?(TOKENS.colorDark?.textPrimary||'#fff'):'#0E1420';
   const hm=$('#home');if(hm)hm.style.background=THEME==='dark'?'rgba(255,255,255,.85)':'#05070A';
   if(s.chrome!=='immersive'&&s.title){const large=s.scrollBehavior?(s.scrollBehavior.largeTitle!==false):true;
-    if(large){const nb=document.createElement('div');nb.className='navbar-lg';nb.textContent=resolveText(s.title);p.appendChild(nb);}
+    if(large){const nb=document.createElement('div');nb.className='navbar-lg';nb.textContent=resolveText(s.title);
+      // iOS large title is 34pt bold; Material's large top-app-bar title is ~24sp medium, left-aligned.
+      if(isAndroid())nb.style.cssText='padding:14px 16px 8px;font-size:24px;font-weight:500;letter-spacing:0';else nb.style.fontSize='34px';
+      p.appendChild(nb);}
     else{const nb=document.createElement('div');nb.className='navbar-in';nb.innerHTML=`<div class="t">${esc(resolveText(s.title))}</div>`+(s.scrollBehavior?.subtitle?`<div class="s">${esc(s.scrollBehavior.subtitle)}</div>`:'');p.appendChild(nb);}}
   p.appendChild(el(s.content));}
 function renderJSON(){$('#json').textContent=JSON.stringify(cleanDoc(),null,2);}
@@ -871,7 +952,7 @@ function applyDevice(){
   renderChrome();
   [...document.querySelectorAll('#devbar [data-dev]')].forEach(b=>b.classList.toggle('on',b.dataset.dev===dev));
   $('#devbar [data-rot]')?.classList.toggle('on',land);$('#devbar [data-th]')?.classList.toggle('on',THEME==='dark');
-  syncOverlay();
+  renderPreview();syncOverlay();                                 // re-render so iOS↔Material styling follows the selected device
 }
 // Draw the frame chrome from the real spec: island only on iPhones (moves to the
 // short edge in landscape), punch-hole on Android, none on iPad/SE; status bar +
