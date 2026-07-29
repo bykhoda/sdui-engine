@@ -74,10 +74,14 @@ import dev.sdui.core.Modifiers
 fun Modifier.sduiModifiers(modifiers: Modifiers?, ctx: RenderContext): Modifier {
     val m = modifiers ?: return this
     return this
-        .then(paddingModifier(m.padding, ctx))
         .then(sizeModifier(m.size))
         .then(frameModifier(m.frame, ctx))
         .then(backgroundModifier(m.background, m.material, m.cornerRadius, ctx))
+        // Padding is applied AFTER the background+clip so content is inset WITHIN the
+        // filled shape — the SwiftUI `.padding().background()` visual. (In Compose the
+        // same order would instead shrink the background inside the padding, which made
+        // rounded bubbles clip their first character.)
+        .then(paddingModifier(m.padding, ctx))
         .then(blurModifier(m.blur))
         .then(shadowModifier(m.shadow, m.cornerRadius, ctx))
         .then(transformModifier(m.scale, m.rotation, m.opacity, m.animation, ctx))
