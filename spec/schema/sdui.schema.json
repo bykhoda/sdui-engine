@@ -482,9 +482,15 @@
         "padding": { "$ref": "#/$defs/EdgeInsets" },
         "background": { "$ref": "#/$defs/Color" },
         "material": { "enum": ["ultraThin", "thin", "regular", "thick", "bar", "glass"], "description": "Translucent system material behind the node. 'ultraThin'…'thick' are the four native blur tiers, 'bar' matches the toolbar material, and 'glass' is the visionOS-style frosted pane (material + hairline gradient stroke). Renders natively on iOS/Android/Aurora." },
+        "blur": { "type": "number", "minimum": 0, "description": "Gaussian blur radius (points) applied to the node itself — distinct from 'material', which frosts what is behind the node. e.g. a blurred hero image behind a sheet. 0 = no blur." },
         "cornerRadius": { "$ref": "#/$defs/Dimension" },
         "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
         "scale": { "oneOf": [ { "type": "number" }, { "type": "string" } ], "description": "Uniform scale — a number or a $state binding. Pair with animation for a spring scale on state change." },
+        "rotation": { "oneOf": [ { "type": "number" }, { "type": "string" } ], "description": "Rotation in degrees — a constant or a $state binding. Pairs with 'animation' for a spinning / flipping element." },
+        "pulse": { "oneOf": [ { "type": "string" }, { "type": "object", "properties": { "while": { "type": "string" }, "scale": { "type": "number" }, "interval": { "type": "number" } }, "additionalProperties": false } ], "description": "A rhythmic auto-reversing scale 'heartbeat' — a bool $state key (pulses while true) or an object { while, scale, interval }. e.g. album art beating to music, or a live dot." },
+        "zoomable": { "type": "boolean", "description": "Make the element interactively pinch-to-zoom, two-finger-rotate and drag, double-tap to reset — a photo-viewer gesture from one flag." },
+        "presentWhen": { "type": "string", "description": "Present this subtree as a modal when the given bool $state key is true. It shares the screen's state, so a filter sheet drives the same list." },
+        "presentStyle": { "enum": ["fullScreen", "sheet"], "default": "fullScreen", "description": "How a 'presentWhen' subtree is presented." },
         "ignoresSafeArea": { "type": "boolean", "description": "Extend this node under the safe area (edge-to-edge) — for immersive backgrounds." },
         "frame": {
           "type": "object",
@@ -527,6 +533,8 @@
           "additionalProperties": false
         },
         "onTap": { "$ref": "#/$defs/Action", "description": "Tap gesture on the whole component." },
+        "onDoubleTap": { "$ref": "#/$defs/Action", "description": "Double-tap gesture on the whole component (e.g. like-to-favourite)." },
+        "hitSlop": { "type": "number", "minimum": 0, "description": "Extra invisible tap padding (points) so small controls stay comfortably tappable." },
         "onLongPress": { "$ref": "#/$defs/Action", "description": "Long-press gesture; commonly opens a context menu." },
         "contextMenu": {
           "type": "array",

@@ -64,6 +64,44 @@ function num(value, ctx, fallback) {
     return fallback;
 }
 
+// Evaluate a Condition (spec/schema Condition) against the render context — the
+// QML/ES5 counterpart of iOS `Condition.evaluate(in:)` / Android
+// `Condition.evaluate(ctx)`. Exactly one operator key is expected; unknown or
+// empty conditions are false. `equals`/`notEquals` compare the two sides'
+// resolved string forms; `exists` treats missing / null / empty-string /
+// empty-array as false (numbers, bools and objects count as present — matching
+// iOS, where a number's stringValue is non-empty).
+function evalCondition(cond, ctx) {
+    if (!cond || typeof cond !== 'object') return false;
+    if (cond.equals !== undefined && cond.equals !== null) {
+        return str(cond.equals[0], ctx) === str(cond.equals[1], ctx);
+    }
+    if (cond.notEquals !== undefined && cond.notEquals !== null) {
+        return str(cond.notEquals[0], ctx) !== str(cond.notEquals[1], ctx);
+    }
+    if (cond.exists !== undefined && cond.exists !== null) {
+        var v = resolve(cond.exists, ctx);
+        if (v === undefined || v === null) return false;
+        if (typeof v === 'string') return v.length > 0;
+        if (Object.prototype.toString.call(v) === '[object Array]') return v.length > 0;
+        return true;
+    }
+    if (cond.not !== undefined && cond.not !== null) return !evalCondition(cond.not, ctx);
+    if (cond.and !== undefined && cond.and !== null) {
+        for (var i = 0; i < cond.and.length; i++) {
+            if (!evalCondition(cond.and[i], ctx)) return false;
+        }
+        return true;
+    }
+    if (cond.or !== undefined && cond.or !== null) {
+        for (var j = 0; j < cond.or.length; j++) {
+            if (evalCondition(cond.or[j], ctx)) return true;
+        }
+        return false;
+    }
+    return false;
+}
+
 // Map a typography ref ("$token.typography.title2") to a pixel size — a v0
 // heuristic on the leaf name. TODO: resolve from the tokens file's typography
 // table once its shape is wired through.

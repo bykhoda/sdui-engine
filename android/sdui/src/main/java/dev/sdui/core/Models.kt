@@ -126,8 +126,18 @@ data class Modifiers(
     val padding: EdgeInsets? = null,
     /** Background colour token/hex ref. */
     val background: String? = null,
-    /** Translucent material behind the node: `"glass"` / `"regular"`. */
+    /**
+     * Translucent system material behind the node: one of
+     * `"ultraThin" | "thin" | "regular" | "thick" | "bar"` (the native blur tiers)
+     * or `"glass"` (the engine's frosted, visionOS-style pane). Absent = no material.
+     */
     val material: String? = null,
+    /**
+     * A raw Gaussian blur radius in points applied to the node itself (distinct
+     * from `material`, which frosts what is *behind* the node) — e.g. a blurred hero
+     * behind a sheet. Absent / `0` = no blur.
+     */
+    val blur: Double? = null,
     /** Corner radius applied to the background and clip. */
     val cornerRadius: Dimension? = null,
     /** Opacity in the range `0..1`. */
@@ -140,7 +150,18 @@ data class Modifiers(
     val shadow: Shadow? = null,
     /** Uniform scale — a number or a `$state` binding; pair with `animation`. */
     val scale: JsonValue? = null,
-    /** Extend under the safe area (edge-to-edge). Host-level on Android. */
+    /**
+     * Rotation in degrees — a constant or a `$state` binding (pairs with
+     * `animation` for a spinning / flipping element).
+     */
+    val rotation: JsonValue? = null,
+    /**
+     * A rhythmic auto-reversing scale "heartbeat" — a bool `$state` key (pulses
+     * while true) or an object `{ "while": "$state.playing", "scale": 1.04,
+     * "interval": 0.5 }`. Perfect for album art beating to music or a live dot.
+     */
+    val pulse: JsonValue? = null,
+    /** Extend under the safe area (edge-to-edge) — for immersive backgrounds. */
     val ignoresSafeArea: Boolean? = null,
     /** Tap gesture over the whole component. */
     val onTap: Action? = null,

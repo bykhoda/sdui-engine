@@ -1,5 +1,11 @@
 package dev.sdui.render
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
@@ -7,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -22,7 +29,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,10 +44,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.SubcomposeAsyncImage
 import dev.sdui.core.Action
 import dev.sdui.core.BindingEngine
 import dev.sdui.core.Component
@@ -409,18 +424,94 @@ private fun ImageView(component: Component, ctx: RenderContext) {
     val source = BindingEngine.resolveString(component.prop("source")?.stringValue ?: "", ctx.binding)
     val loader = component.prop("loader")
     val aspectRatio = loader?.get("aspectRatio")?.doubleValue
+    // `contentMode`: fill → crop to fill the frame, fit → letterbox inside it.
+    val fill = (loader?.get("contentMode")?.stringValue ?: "fill") == "fill"
+    val placeholder = loader?.get("placeholder")?.stringValue ?: "skeleton"
+    // Round the image itself: a bare `cornerRadius` modifier does not clip on
+    // Android unless a background is set, so honour it here as iOS does.
+    val radius = component.modifiers?.cornerRadius?.let { Theme.dp(it, ctx.binding) } ?: 0.dp
+    val shape = RoundedCornerShape(radius)
 
-    // No third-party image loader is bundled. We reserve the declared aspect ratio
-    // with a neutral placeholder Box so lists do not jump while loading.
-    // TODO: plug in an image loader (e.g. Coil) to fetch `source` when non-empty.
     Primitive(component, ctx) { modifier ->
         var box = modifier
-            .clip(RoundedCornerShape(0.dp))
-            .background(Color(0f, 0f, 0f, 0.06f))
         if (aspectRatio != null && aspectRatio > 0) {
             box = box.fillMaxWidth().aspectRatio(aspectRatio.toFloat())
         }
-        Box(modifier = box)
+        box = box.clip(shape)
+        Box(modifier = box) {
+            if (source.isNotEmpty()) {
+                // Coil's SubcomposeAsyncImage caches (memory + disk) so scrolling a
+                // list never re-fetches or flickers — the iOS `RemoteImage` analogue.
+                SubcomposeAsyncImage(
+                    model = source,
+                    contentDescription = null,
+                    contentScale = if (fill) ContentScale.Crop else ContentScale.Fit,
+                    modifier = Modifier.fillMaxSize(),
+                    loading = { ImagePlaceholder(placeholder) },
+                    error = { ImageFailure() },
+                )
+            } else {
+                ImagePlaceholder(placeholder)
+            }
+        }
+    }
+}
+
+/** The loading state for an image: shimmer skeleton, spinner or nothing. */
+@Composable
+private fun ImagePlaceholder(kind: String) {
+    when (kind) {
+        "spinner" -> Box(
+            modifier = Modifier.fillMaxSize().background(Color(0f, 0f, 0f, 0.06f)),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(strokeWidth = 2.dp, modifier = Modifier.size(22.dp))
+        }
+        "none" -> Unit
+        else -> SkeletonBox()
+    }
+}
+
+/** A shimmering grey skeleton — a soft highlight sweeping across a greybox. */
+@Composable
+private fun SkeletonBox() {
+    val transition = rememberInfiniteTransition(label = "sdui-image-skeleton")
+    val progress by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(1200, easing = LinearEasing), RepeatMode.Restart),
+        label = "sdui-image-skeleton-progress",
+    )
+    val base = Color(0f, 0f, 0f, 0.06f)
+    Box(
+        modifier = Modifier.fillMaxSize().drawBehind {
+            drawRect(base)
+            val sweep = size.width * 0.5f
+            val startX = -sweep + progress * (size.width + sweep)
+            drawRect(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(Color.Transparent, Color(1f, 1f, 1f, 0.30f), Color.Transparent),
+                    startX = startX,
+                    endX = startX + sweep,
+                ),
+            )
+        },
+    )
+}
+
+/** Shown when an image fails to load — a subtle greybox with a photo glyph. */
+@Composable
+private fun ImageFailure() {
+    Box(
+        modifier = Modifier.fillMaxSize().background(Color(0f, 0f, 0f, 0.08f)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Image,
+            contentDescription = null,
+            tint = Color(0f, 0f, 0f, 0.30f),
+            modifier = Modifier.size(28.dp),
+        )
     }
 }
 

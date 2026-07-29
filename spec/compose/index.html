@@ -166,6 +166,10 @@
   <input class="ctl id" id="scr-id" value="my_screen" spellcheck="false" title="screen.id">
   <select class="ctl" id="open" title="Open an example to edit"><option value="">Open example…</option></select>
   <button class="btn" id="import">Import JSON</button>
+  <button class="btn ghost" id="new" title="New blank screen — clears saved work">New</button>
+  <div class="vr"></div>
+  <button class="btn ghost" id="undo" title="Undo (⌘Z)">↺</button>
+  <button class="btn ghost" id="redo" title="Redo (⌘⇧Z)">↻</button>
   <span id="valid" class="pill ok">Valid</span>
   <div class="grow"></div>
   <button class="btn" id="copy">Copy JSON</button>
@@ -262,8 +266,9 @@ const FIELDS={
   gradient:[['direction','sel',['vertical','horizontal','diagonal']]],
 };
 
-let doc={version:'0.1',screen:{id:'my_screen',title:'My Screen',
-  content:{__id:uid(),type:'vstack',alignment:'leading',spacing:'$token.spacing.md',modifiers:{padding:'$token.spacing.lg',size:{width:{mode:'fill'}}},children:[]}}};
+const blankDoc=()=>({version:'0.1',screen:{id:'my_screen',title:'My Screen',
+  content:{__id:uid(),type:'vstack',alignment:'leading',spacing:'$token.spacing.md',modifiers:{padding:'$token.spacing.lg',size:{width:{mode:'fill'}}},children:[]}}});
+let doc=blankDoc();
 let selId=doc.screen.content.__id;
 
 function walk(n,fn,p){fn(n,p);(n.children||[]).forEach(c=>walk(c,fn,n));}
@@ -289,12 +294,43 @@ function cleanDoc(){const s=doc.screen,out={version:doc.version,screen:{id:s.id}
   if(s.scrollBehavior)out.screen.scrollBehavior=s.scrollBehavior;if(s.chrome)out.screen.chrome=s.chrome;if(s.state)out.screen.state=s.state;if(s.data)out.screen.data=s.data;
   out.screen.content=cleanNode(s.content);return out;}
 function ingestNode(n){n.__id=uid();const k=REG[n.type]?.kind;if(k==='single'&&n.child){n.children=[n.child];delete n.child;}if(k==='list'&&n.template){n.children=[n.template];delete n.template;}(n.children||[]).forEach(ingestNode);return n;}
-function loadDoc(d){const c=structuredClone(d);if(!c.screen||!c.screen.content)throw new Error('missing screen.content');ingestNode(c.screen.content);doc=c;selId=SCREEN;document.getElementById('scr-id').value=doc.screen.id||'screen';render();}
+function loadDoc(d){const c=structuredClone(d);if(!c.screen||!c.screen.content)throw new Error('missing screen.content');ingestNode(c.screen.content);doc=c;selId=SCREEN;document.getElementById('scr-id').value=doc.screen.id||'screen';render();resetHistory();}
+
+// ---- undo / redo + work-in-progress persistence -------------------------------
+// A ring of full-doc snapshots. We serialize `doc` and push only when it actually
+// changed, so pure selection changes (which also call render) never enter history.
+// touch()/render() are the two mutation funnels, so committing in both covers every
+// add/remove/duplicate/move/reparent and every inspector edit.
+let hist=[],hi=-1,histTimer=null,lastSnap=null;
+const HIST_CAP=100,DOCKEY='sdui_wip';
+function commit(immediate){
+  clearTimeout(histTimer);
+  const run=()=>{histTimer=null;const cur=JSON.stringify(doc);if(cur===lastSnap)return;
+    if(hi<hist.length-1)hist=hist.slice(0,hi+1);
+    hist.push({d:cur,sel:selId});while(hist.length>HIST_CAP)hist.shift();
+    hi=hist.length-1;lastSnap=cur;};
+  if(immediate){histTimer=null;run();}else histTimer=setTimeout(run,350);
+}
+function flush(){if(histTimer)commit(true);}                 // land a pending edit before navigating history
+function resetHistory(){hist=[];hi=-1;lastSnap=null;commit(true);}
+function restoreSnap(entry){
+  doc=JSON.parse(entry.d);lastSnap=entry.d;                  // set lastSnap first so render()'s commit no-ops
+  selId=entry.sel;if(selId!==SCREEN&&!find(selId))selId=ROOT();
+  $('#scr-id').value=doc.screen.id||'';render();
+}
+function undo(){flush();if(hi<=0)return;hi--;restoreSnap(hist[hi]);}
+function redo(){if(hi>=hist.length-1)return;hi++;restoreSnap(hist[hi]);}
+let persistTimer=null;
+function persist(){clearTimeout(persistTimer);persistTimer=setTimeout(()=>{try{localStorage.setItem(DOCKEY,JSON.stringify(doc));}catch{}},400);}
+function restoreWip(){let raw;try{raw=localStorage.getItem(DOCKEY);}catch{return false;}if(!raw)return false;
+  try{const d=JSON.parse(raw);if(!d?.screen?.content)return false;if(!d.screen.content.__id)ingestNode(d.screen.content);doc=d;selId=doc.screen.content.__id;return true;}catch{return false;}}
+function newScreen(){if(!confirm('Start a new blank screen? This clears your current work.'))return;
+  doc=blankDoc();selId=doc.screen.content.__id;$('#scr-id').value=doc.screen.id;try{localStorage.removeItem(DOCKEY);}catch{}render();resetHistory();}
 
 // render
 const $=s=>document.querySelector(s);
-function render(){syncMeta();renderTree();renderInspector();renderPreview();renderJSON();validate();}
-function touch(){syncMeta();renderTree();renderPreview();renderJSON();validate();}
+function render(){syncMeta();renderTree();renderInspector();renderPreview();renderJSON();validate();commit();persist();}
+function touch(){syncMeta();renderTree();renderPreview();renderJSON();validate();commit();persist();}
 function syncMeta(){doc.screen.id=$('#scr-id').value||'screen';}
 
 let dragId=null;
@@ -323,7 +359,7 @@ function tokenOpts(g,val,none){const o=Object.keys(TOKENS[g]||{}).map(k=>`$token
 function subhead(t){const d=document.createElement('div');d.className='subhead';d.textContent=t;return d;}
 // Collapsible section (Figma-style). State persists across re-selects so the user's
 // open/closed choices stick. Advanced things start collapsed to cut the noise.
-const COL={frame:true,style:true,more:true,adv:true};   // component's own props stay up front; generic sections collapsed
+const COL={frame:true,style:true,more:true,adv:true,ontapraw:true};   // component's own props stay up front; generic sections collapsed
 const COMMON_MODS=new Set(['padding','background','cornerRadius','opacity','material']);
 function section(box,title,key,build){
   const h=document.createElement('div');h.className='subhead sec'+(COL[key]?' col':'');
@@ -432,12 +468,57 @@ function advanced(n,get,apply){
   const note=document.createElement('div');note.style.cssText='font-size:10.5px;color:var(--sub);margin-top:-4px';note.textContent='Edit any contract field directly. Applies on blur. (children are managed in Layers.)';wrap.appendChild(note);
   return wrap;
 }
-function ontapEditor(n){const wrap=document.createElement('div');const a=n.onTap||(n.onTap={action:'showToast',message:'Tapped'});const kinds=['showToast','navigate','openURL','setState'];const pk={showToast:'message',navigate:'to',openURL:'url',setState:'key'}[a.action]||'message';
-  wrap.appendChild(field('onTap action',`<select>${kinds.map(k=>`<option ${k===a.action?'selected':''}>${k}</option>`).join('')}</select>`));
-  wrap.appendChild(field(pk,`<input value="${esc(a[pk]??'')}">`));
-  const sel=wrap.querySelector('select'),inp=wrap.querySelector('input');
-  sel.onchange=e=>{const k=e.target.value,npk={showToast:'message',navigate:'to',openURL:'url',setState:'key'}[k];n.onTap={action:k,[npk]:''};render();};
-  inp.oninput=e=>{a[pk]=e.target.value;touch();};return wrap;}
+// Every action the contract defines, each with its editable parameters. The catalog
+// (CATALOG.actions) supplies the vocabulary + which fields are `required`, but not the
+// per-field control kinds — so we keep this map. Structural params (nested actions,
+// arrays, objects, conditions) use the 'raw' JSON control; scalars get typed controls.
+const AFIELDS={
+  navigate:[{key:'to',kind:'text',desc:'Target screen id or route path.'},{key:'transition',kind:'enum',options:['push','sheet','fullScreenCover','replace']},{key:'params',kind:'raw',desc:'Route params object.'}],
+  dismiss:[],
+  dismissRoot:[],
+  openURL:[{key:'url',kind:'text',desc:'External URL (http/https/mailto…).'}],
+  openDeepLink:[{key:'url',kind:'text',desc:'In-app deep link URL.'}],
+  setState:[{key:'key',kind:'text',desc:'State key to write, e.g. $state.count.'},{key:'value',kind:'raw',desc:'Literal, binding, or JSON value.'}],
+  increment:[{key:'key',kind:'text',desc:'State key to increment.'},{key:'by',kind:'number',desc:'Delta (default 1).'}],
+  refresh:[{key:'sources',kind:'raw',desc:'Array of data-source ids to reload; omit for all.'}],
+  request:[{key:'source',kind:'raw',desc:'DataSource object to fetch/POST.'},{key:'onSuccess',kind:'raw',desc:'Action to run on success.'},{key:'onError',kind:'raw',desc:'Action to run on error.'}],
+  sequence:[{key:'actions',kind:'raw',desc:'Array of actions, run in order.'}],
+  parallel:[{key:'actions',kind:'raw',desc:'Array of actions, run together.'}],
+  condition:[{key:'if',kind:'raw',desc:'Condition object.'},{key:'then',kind:'raw',desc:'Action when true.'},{key:'else',kind:'raw',desc:'Action when false.'}],
+  delay:[{key:'ms',kind:'number',desc:'Delay in milliseconds.'},{key:'then',kind:'raw',desc:'Action to run after the delay.'}],
+  showToast:[{key:'message',kind:'text',desc:'Toast text (bindable).'},{key:'style',kind:'enum',options:['info','success','error']}],
+  scrollTo:[{key:'to',kind:'text',desc:'Anchor/component id to scroll to.'}],
+  haptic:[{key:'style',kind:'enum',options:['light','medium','heavy','success','warning','error']}],
+  share:[{key:'text',kind:'text',desc:'Text to share (bindable).'},{key:'url',kind:'text',desc:'URL to share (bindable).'}],
+  saveFile:[{key:'name',kind:'text',desc:'Suggested file name.'},{key:'url',kind:'text',desc:'Source URL to save.'},{key:'data',kind:'raw',desc:'Inline data payload.'}],
+  preview:[{key:'screen',kind:'raw',desc:'Inline screen document to preview.'}],
+  log:[{key:'message',kind:'text',desc:'Message to log.'}],
+  analytics:[{key:'name',kind:'text',desc:'Event name.'},{key:'params',kind:'raw',desc:'Event properties object.'}],
+  requireVersion:[{key:'min',kind:'text',desc:'Minimum app version, e.g. 2.4.0.'},{key:'then',kind:'raw',desc:'Action when satisfied.'},{key:'else',kind:'raw',desc:'Action when too old.'}],
+  requestPermission:[{key:'type',kind:'text',desc:'Permission type, e.g. camera, notifications.'},{key:'onGranted',kind:'raw',desc:'Action when granted.'},{key:'onDenied',kind:'raw',desc:'Action when denied.'}],
+  custom:[{key:'name',kind:'text',desc:'Host-defined action name.'},{key:'payload',kind:'raw',desc:'Arbitrary payload.'}],
+};
+const actionKinds=()=>{const c=(CATALOG.actions||[]).map(a=>a.kind);return c.length?c:Object.keys(AFIELDS);};
+const actionReq=k=>new Set(((CATALOG.actions||[]).find(a=>a.kind===k)?.required)||[]);
+// Fields for an action kind: map entries, with `required` overlaid from the catalog.
+// Any catalog-required field missing from the map is added as a text control so the
+// editor can never omit a mandatory param.
+function actionFields(k){const req=actionReq(k),out=(AFIELDS[k]||[]).map(f=>({...f,required:req.has(f.key)||!!f.required}));
+  for(const rk of req)if(!out.some(f=>f.key===rk))out.unshift({key:rk,kind:'text',required:true});return out;}
+function newAction(k){const a={action:k};for(const f of actionFields(k))if(f.required)a[f.key]=f.kind==='number'?0:f.kind==='enum'?f.options[0]:f.kind==='raw'?(f.key==='actions'?[]:{}):'';return a;}
+function ontapEditor(n){
+  const wrap=document.createElement('div');
+  if(n.onTap==null||typeof n.onTap!=='object'||Array.isArray(n.onTap))n.onTap={action:'showToast',message:'Tapped'};
+  const a=n.onTap;const kinds=actionKinds().slice();if(a.action&&!kinds.includes(a.action))kinds.unshift(a.action);
+  const sf=field('onTap action',`<select>${kinds.map(k=>`<option ${k===a.action?'selected':''}>${esc(k)}</option>`).join('')}</select>`);
+  wrap.appendChild(sf);
+  sf.querySelector('select').onchange=e=>{n.onTap=newAction(e.target.value);render();};
+  for(const f of actionFields(a.action))
+    wrap.appendChild(control(f,()=>a[f.key],v=>{if(v===undefined)delete a[f.key];else a[f.key]=v;},true));
+  // Raw escape hatch — edit the whole onTap action as JSON (sequence/condition/etc).
+  section(wrap,'onTap · raw','ontapraw',b=>b.appendChild(advanced(n,()=>n.onTap||{},p=>{n.onTap=p;})));
+  return wrap;
+}
 
 function renderScreen(box){
   const s=doc.screen;
@@ -463,6 +544,39 @@ function tok(v){if(typeof v!=='string'||!v.startsWith('$token.'))return v;const[
   if(THEME==='dark'&&g==='color'&&TOKENS.colorDark&&TOKENS.colorDark[k]!=null)return TOKENS.colorDark[k];   // dark palette
   return (TOKENS[g]||{})[k];}
 function px(v,fb){const t=tok(v);return (typeof t==='number'?t:fb)+'px';}
+// --- binding resolution for the structural preview -------------------------------
+// Tokens resolve exactly. $data/$state/$item/$env bindings have no server in the
+// composer, so we synthesise a realistic sample from the binding's leaf key — the
+// canvas then reads like a real screen instead of a wall of "$data.*" strings.
+// Premium, never childish. Keyed samples first, then a Title-Cased fallback.
+const SAMPLE_TEXT={
+  title:'Aurora Pro Headphones',name:'Alex Morgan',firstname:'Alex',lastname:'Morgan',fullname:'Alex Morgan',
+  subtitle:'Wireless · 40-hour battery',headline:'Sound, perfected',caption:'2 min ago',date:'Today',time:'9:41',
+  price:'$249',total:'$1,248',amount:'$1,248',balance:'$12,480.50',cost:'$249',
+  description:'Adaptive noise cancellation and all-day comfort in a design built to last.',
+  body:'Adaptive noise cancellation and all-day comfort.',summary:'Everything you need, nothing you don’t.',
+  email:'alex@example.com',username:'@alexmorgan',phone:'+1 415 555 0142',location:'San Francisco, CA',city:'San Francisco',
+  label:'Label',status:'Active',category:'Audio',brand:'Aurora',rating:'4.9',reviews:'2,481 reviews',
+  message:'Thanks — see you there!',author:'Alex Morgan',role:'Product Designer',company:'Aurora Labs',
+  count:'128',quantity:'2',id:'SKU-4821',sku:'SKU-4821',tag:'New',badge:'Pro',cta:'Continue',button:'Continue',
+  greeting:'Good morning',welcome:'Welcome back',
+};
+const SAMPLE_IMG=['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80','https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80'];
+function titleCase(k){return k.replace(/([a-z0-9])([A-Z])/g,'$1 $2').replace(/[_-]+/g,' ').replace(/^\w/,c=>c.toUpperCase());}
+function leafKey(binding){const parts=binding.split('.');let k=parts[parts.length-1];if(/^\d+$/.test(k)&&parts.length>1)k=parts[parts.length-2];return k.toLowerCase();}
+function isBinding(v){return typeof v==='string'&&/^\$(data|state|item|env)\b/.test(v);}
+// Resolve any value that may be a binding, for TEXT display.
+function resolveText(v){
+  if(typeof v!=='string')return v;
+  if(v.startsWith('$token.'))return tok(v);
+  if(!isBinding(v))return v;
+  const key=leafKey(v);
+  if(SAMPLE_TEXT[key]!=null)return SAMPLE_TEXT[key];
+  for(const k in SAMPLE_TEXT)if(key.includes(k))return SAMPLE_TEXT[k];   // e.g. productTitle → title
+  return titleCase(key);
+}
+// Resolve an image source: real URL passes through; a binding gets a sample photo.
+function resolveImg(v,seed){if(typeof v!=='string'||!v)return '';if(isBinding(v))return SAMPLE_IMG[(seed||0)%SAMPLE_IMG.length];return v;}
 function applyMods(e,m){if(!m)return;
   const w=m.size?.width;if(w){if(w.mode==='fill'){e.style.width='100%';e.style.alignSelf='stretch';}else if(w.mode==='fixed'){e.style.width=(w.value||0)+'px';}else if(w.mode==='weight'){e.style.flex=(w.value||1)+' 1 0';}}
   const h=m.size?.height;if(h){if(h.mode==='fixed')e.style.height=(h.value||0)+'px';else if(h.mode==='fill')e.style.minHeight='100%';}
@@ -480,11 +594,11 @@ function el(n){const e=document.createElement('div');e.className='pv';e.onclick=
     case 'grid':e.style.cssText+=';display:grid;grid-template-columns:repeat('+(n.columns||2)+',1fr);gap:'+px(n.spacing,8);kids(e,n);break;
     case 'scroll':e.style.cssText+=';display:flex;flex-direction:column';kids(e,n);break;
     case 'list':{const t=n.children?.[0];e.style.cssText+=';display:flex;flex-direction:column;gap:8px';if(t){for(let i=0;i<3;i++){const w=el(t);if(i)w.style.pointerEvents='none';e.appendChild(w);}}else e.appendChild(ph('list template'));break;}
-    case 'text':{const[fs,fw]=TYPO[(n.style||'').split('.').pop()]||[17,400];e.textContent=n.value||'';e.style.fontSize=fs+'px';e.style.fontWeight=fw;e.style.color=tok(n.color)||(THEME==='dark'?'#fff':'#0E1420');break;}
-    case 'button':{const b=document.createElement('div');b.textContent=n.title||'Button';const tinted=(n.style||'').includes('tinted'),plain=(n.style||'').includes('plain'),ac=tok('$token.color.primary')||'#0A84FF';b.style.cssText='padding:11px 16px;border-radius:12px;text-align:center;font-weight:600;font-size:16px;'+(plain?'color:'+ac:tinted?'background:'+ac+'22;color:'+ac:'background:'+ac+';color:#fff');e.appendChild(b);break;}
-    case 'image':{e.style.cssText+=';min-height:120px;border-radius:'+px(n.modifiers?.cornerRadius,12)+';background:#E7EAF0 center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#8A93A1;font-size:12px';if(n.source){e.style.backgroundImage=`url("${n.source}")`;e.textContent='';}else e.textContent='image';break;}
+    case 'text':{const[fs,fw]=TYPO[(n.style||'').split('.').pop()]||[17,400];e.textContent=resolveText(n.value)||'';e.style.fontSize=fs+'px';e.style.fontWeight=fw;e.style.color=tok(n.color)||(THEME==='dark'?'#fff':'#0E1420');break;}
+    case 'button':{const b=document.createElement('div');b.textContent=resolveText(n.title)||'Button';const tinted=(n.style||'').includes('tinted'),plain=(n.style||'').includes('plain'),ac=tok('$token.color.primary')||'#0A84FF';b.style.cssText='padding:11px 16px;border-radius:12px;text-align:center;font-weight:600;font-size:16px;'+(plain?'color:'+ac:tinted?'background:'+ac+'22;color:'+ac:'background:'+ac+';color:#fff');e.appendChild(b);break;}
+    case 'image':{e.style.cssText+=';min-height:120px;border-radius:'+px(n.modifiers?.cornerRadius,12)+';background:#E7EAF0 center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#8A93A1;font-size:12px';const src=resolveImg(n.source,n.__id?.charCodeAt(1));if(src){e.style.backgroundImage=`url("${src}")`;e.textContent='';}else e.textContent='image';break;}
     case 'icon':e.textContent='◈';e.style.cssText+=';color:'+(tok(n.color)||'#0A84FF')+';font-size:22px';break;
-    case 'textfield':e.innerHTML=`<div style="font-size:11px;color:#727C8A;margin-bottom:4px">${esc(n.label||'')}</div><div style="border:1px solid #E5E9EF;border-radius:9px;padding:9px 11px;color:#8A93A1;font-size:14px">${esc(n.bind||'')}</div>`;break;
+    case 'textfield':e.innerHTML=`<div style="font-size:11px;color:#727C8A;margin-bottom:4px">${esc(resolveText(n.label)||'')}</div><div style="border:1px solid #E5E9EF;border-radius:9px;padding:9px 11px;color:#8A93A1;font-size:14px">${esc(n.placeholder?resolveText(n.placeholder):'Type here…')}</div>`;break;
     case 'toggle':e.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:15px">${esc(n.label||'')}</span><div style="width:40px;height:24px;background:#34C759;border-radius:99px;position:relative"><div style="width:20px;height:20px;background:#fff;border-radius:99px;position:absolute;top:2px;right:2px"></div></div></div>`;break;
     case 'progress':{const v=Math.max(0,Math.min(1,(n.value||0)/(n.total||1)));e.innerHTML=`<div style="height:6px;border-radius:99px;background:#E7EAF0"><div style="height:6px;border-radius:99px;width:${v*100}%;background:${tok('$token.color.primary')||'#0A84FF'}"></div></div>`;break;}
     case 'divider':e.style.cssText+=';height:1px;background:#E5E9EF;margin:2px 0';break;
@@ -495,7 +609,7 @@ function el(n){const e=document.createElement('div');e.className='pv';e.onclick=
     case 'spinner':e.style.cssText+=';display:flex;justify-content:center;padding:12px';e.innerHTML=`<div class="spin" style="width:26px;height:26px;border:3px solid #E5E9EF;border-top-color:${tok('$token.color.primary')||'#0A84FF'};border-radius:50%"></div>`;break;
     case 'slider':{const ac=tok('$token.color.primary')||'#0A84FF';e.innerHTML=`<div style="display:flex;align-items:center;padding:4px 0"><div style="flex:1;height:4px;border-radius:9px;background:linear-gradient(90deg,${ac} 45%,#E5E9EF 45%)"></div><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.3);margin-left:-11px"></div></div>`;break;}
     case 'picker':e.innerHTML=`<div style="display:flex;background:#EDEFF3;border-radius:9px;padding:3px">${['One','Two','Three'].map((o,i)=>`<div style="flex:1;text-align:center;padding:6px;font-size:13px;border-radius:7px;${i===0?'background:#fff;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)':'color:#6E7684'}">${o}</div>`).join('')}</div>`;break;
-    case 'disclosure':e.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 2px;border-bottom:1px solid #EEF1F5"><span style="font-weight:600;font-size:15px">${esc(n.title||'Details')}</span><span style="color:#8A93A1;font-size:18px">⌄</span></div>`;break;
+    case 'disclosure':e.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 2px;border-bottom:1px solid #EEF1F5"><span style="font-weight:600;font-size:15px">${esc(resolveText(n.title)||'Details')}</span><span style="color:#8A93A1;font-size:18px">⌄</span></div>`;break;
     case 'chart':{const bars=[42,68,50,88,60,95,72],ac=tok('$token.color.primary')||'#0A84FF';e.style.cssText+=';display:flex;align-items:flex-end;gap:6px;height:92px;padding-top:8px';e.innerHTML=bars.map(b=>`<div style="flex:1;height:${b}%;background:${ac};opacity:.85;border-radius:4px 4px 0 0"></div>`).join('');break;}
     default:{e.style.cssText+=';padding:14px;border:1px dashed #C9D0DA;border-radius:10px;text-align:center;background:#F6F8FA';e.innerHTML=`<div style="font-family:var(--mono);font-size:12px;color:#3B4453;font-weight:600">${n.type}</div>`+(PURPOSE[n.type]?`<div style="font-size:10.5px;color:#8A93A1;margin-top:5px;line-height:1.4">${esc(PURPOSE[n.type])}</div>`:'');break;}
   }return e;}
@@ -506,8 +620,8 @@ function renderPreview(){const p=$('#preview');p.innerHTML='';const s=doc.screen
   p.style.color=THEME==='dark'?(TOKENS.colorDark?.textPrimary||'#fff'):'#0E1420';
   const hm=$('#home');if(hm)hm.style.background=THEME==='dark'?'rgba(255,255,255,.85)':'#05070A';
   if(s.chrome!=='immersive'&&s.title){const large=s.scrollBehavior?(s.scrollBehavior.largeTitle!==false):true;
-    if(large){const nb=document.createElement('div');nb.className='navbar-lg';nb.textContent=s.title;p.appendChild(nb);}
-    else{const nb=document.createElement('div');nb.className='navbar-in';nb.innerHTML=`<div class="t">${esc(s.title)}</div>`+(s.scrollBehavior?.subtitle?`<div class="s">${esc(s.scrollBehavior.subtitle)}</div>`:'');p.appendChild(nb);}}
+    if(large){const nb=document.createElement('div');nb.className='navbar-lg';nb.textContent=resolveText(s.title);p.appendChild(nb);}
+    else{const nb=document.createElement('div');nb.className='navbar-in';nb.innerHTML=`<div class="t">${esc(resolveText(s.title))}</div>`+(s.scrollBehavior?.subtitle?`<div class="s">${esc(s.scrollBehavior.subtitle)}</div>`:'');p.appendChild(nb);}}
   p.appendChild(el(s.content));}
 function renderJSON(){$('#json').textContent=JSON.stringify(cleanDoc(),null,2);}
 
@@ -577,9 +691,19 @@ async function boot(){
   $('#import-cancel').onclick=()=>scrim.classList.remove('on');
   scrim.onclick=e=>{if(e.target===scrim)scrim.classList.remove('on');};
   $('#import-load').onclick=()=>{try{loadDoc(JSON.parse($('#import-ta').value));scrim.classList.remove('on');}catch(e){$('#import-msg').textContent=e.message;}};
-  document.addEventListener('keydown',e=>{if((e.key==='Delete')&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&selId&&selId!==ROOT()&&selId!==SCREEN){e.preventDefault();remove(selId);}});
+  $('#new').onclick=newScreen;
+  $('#undo').onclick=undo;
+  $('#redo').onclick=redo;
+  document.addEventListener('keydown',e=>{
+    const mod=e.metaKey||e.ctrlKey;
+    if(mod&&(e.key==='z'||e.key==='Z')){e.preventDefault();e.shiftKey?redo():undo();return;}
+    if(mod&&(e.key==='y'||e.key==='Y')){e.preventDefault();redo();return;}
+    if((e.key==='Delete')&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)&&selId&&selId!==ROOT()&&selId!==SCREEN){e.preventDefault();remove(selId);}
+  });
   buildDevbar();
-  render();applyDevice();
+  // Restore in-progress work from a previous session, if any; otherwise the blank default.
+  if(restoreWip()){$('#scr-id').value=doc.screen.id||'my_screen';}
+  render();applyDevice();resetHistory();
 }
 boot();
 </script>

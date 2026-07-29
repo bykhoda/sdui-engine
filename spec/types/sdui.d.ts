@@ -453,22 +453,44 @@ export interface Modifiers {
   /** Animation applied when this node's inputs change. */
   animation?: { curve?: "linear" | "easeIn" | "easeOut" | "easeInOut" | "spring"; duration?: number; };
   background?: Color;
+  /**
+   * Gaussian blur radius (points) applied to the node itself — distinct from 'material', which frosts what is behind the node. e.g. a blurred hero image behind a sheet. 0 = no blur.
+   */
+  blur?: number;
   /** Menu items shown on long-press. */
   contextMenu?: ({ action: Action; icon?: string; role?: "default" | "destructive"; title: BindableString; })[];
   cornerRadius?: Dimension;
   frame?: { height?: Dimension; maxWidth?: (Dimension | "infinity"); width?: Dimension; };
+  /** Extra invisible tap padding (points) so small controls stay comfortably tappable. */
+  hitSlop?: number;
   /** Extend this node under the safe area (edge-to-edge) — for immersive backgrounds. */
   ignoresSafeArea?: boolean;
   /**
    * Translucent system material behind the node. 'ultraThin'…'thick' are the four native blur tiers, 'bar' matches the toolbar material, and 'glass' is the visionOS-style frosted pane (material + hairline gradient stroke). Renders natively on iOS/Android/Aurora.
    */
   material?: "ultraThin" | "thin" | "regular" | "thick" | "bar" | "glass";
+  /** Double-tap gesture on the whole component (e.g. like-to-favourite). */
+  onDoubleTap?: Action;
   /** Long-press gesture; commonly opens a context menu. */
   onLongPress?: Action;
   /** Tap gesture on the whole component. */
   onTap?: Action;
   opacity?: number;
   padding?: EdgeInsets;
+  /** How a 'presentWhen' subtree is presented. */
+  presentStyle?: "fullScreen" | "sheet";
+  /**
+   * Present this subtree as a modal when the given bool $state key is true. It shares the screen's state, so a filter sheet drives the same list.
+   */
+  presentWhen?: string;
+  /**
+   * A rhythmic auto-reversing scale 'heartbeat' — a bool $state key (pulses while true) or an object { while, scale, interval }. e.g. album art beating to music, or a live dot.
+   */
+  pulse?: (string | { interval?: number; scale?: number; while?: string; });
+  /**
+   * Rotation in degrees — a constant or a $state binding. Pairs with 'animation' for a spinning / flipping element.
+   */
+  rotation?: (number | string);
   /**
    * Uniform scale — a number or a $state binding. Pair with animation for a spring scale on state change.
    */
@@ -482,6 +504,10 @@ export interface Modifiers {
    * Swipe-to-reveal actions. 'leading' reveals on a left-to-right swipe, 'trailing' on a right-to-left swipe.
    */
   swipe?: { leading?: SwipeAction[]; trailing?: SwipeAction[]; };
+  /**
+   * Make the element interactively pinch-to-zoom, two-finger-rotate and drag, double-tap to reset — a photo-viewer gesture from one flag.
+   */
+  zoomable?: boolean;
 }
 
 /**

@@ -1,10 +1,10 @@
 // The `:sdui` library module — the Compose renderer for the SDUI contract.
 //
-// It intentionally depends on nothing beyond Kotlin, Jetpack Compose and
-// kotlinx.serialization: no image loader, no networking client. Async images use
-// a placeholder Box and networking is left as a `DataLoader` interface the host
-// implements, exactly mirroring how the iOS `SDUIRender` module stays free of a
-// concrete network stack.
+// Its only third-party dependencies are Kotlin, Jetpack Compose,
+// kotlinx.serialization and Coil (the de-facto Compose image loader, used for the
+// `image` primitive — the counterpart of the iOS `AsyncImage`/`RemoteImage`).
+// Networking is still left as a `DataLoader` interface the host implements, so the
+// module stays free of a concrete network stack, exactly like iOS `SDUIRender`.
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -59,8 +59,13 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.runtime:runtime")
 
-    // JSON contract decoding. This is the ONLY third-party dependency in the SDK.
+    // JSON contract decoding.
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    // Image loading for the `image` primitive: memory + disk cached async images,
+    // the Compose-native analogue of the iOS `RemoteImage`. Backdrop-blur is host
+    // territory; this only fetches/decodes/caches, keeping the SDK network-agnostic.
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     // Coroutines back the async action interpreter and data-loading interface.
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")

@@ -27,6 +27,7 @@
     <file alias="content/screens/fitness.json">../ios/Sources/SDUIPlayground/Content/screens/fitness.json</file>
     <file alias="content/screens/gestures.json">../ios/Sources/SDUIPlayground/Content/screens/gestures.json</file>
     <file alias="content/screens/gym.json">../ios/Sources/SDUIPlayground/Content/screens/gym.json</file>
+    <file alias="content/screens/home.json">../ios/Sources/SDUIPlayground/Content/screens/home.json</file>
     <file alias="content/screens/inputs.json">../ios/Sources/SDUIPlayground/Content/screens/inputs.json</file>
     <file alias="content/screens/layout.json">../ios/Sources/SDUIPlayground/Content/screens/layout.json</file>
     <file alias="content/screens/lists.json">../ios/Sources/SDUIPlayground/Content/screens/lists.json</file>

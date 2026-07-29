@@ -64,6 +64,25 @@ jobs:
         working-directory: android
         run: ./gradlew :sdui:assembleRelease :app:assembleDebug :sdui:testDebugUnitTest --stacktrace
 
+  aurora:
+    name: Aurora content bundle is current
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The Aurora app can only present screens that gen_qrc.sh has bundled into
+      # resources.qrc + content-manifest.json. A stale bundle (the exact bug that
+      # made the app launch blank) is caught here: regenerate and fail on any diff.
+      - name: Regenerate the Aurora content bundle
+        run: sh aurora/tools/gen_qrc.sh
+      - name: Bundle is up to date (no drift vs the shared content)
+        run: |
+          git diff --exit-code aurora/resources.qrc aurora/content-manifest.json \
+            || (echo "::error::aurora/resources.qrc or content-manifest.json is stale — run 'sh aurora/tools/gen_qrc.sh' and commit." && exit 1)
+      - name: The home entry screen is bundled (app roots at it)
+        run: |
+          grep -q 'content/screens/home.json' aurora/resources.qrc \
+            || (echo "::error::home.json is not in the Aurora bundle — the app would launch blank." && exit 1)
+
   contract:
     name: Validate contract & examples
     runs-on: ubuntu-latest
@@ -74,6 +93,15 @@ jobs:
           node-version: 20
       - name: Validate example payloads (strict — checks token refs too)
         run: node spec/tools/validate.mjs --tokens spec/schema/tokens.example.json spec/examples/*.json
+      # The 25 shared content screens are what all three demos actually ship — validate
+      # them too, so the schema stays a true superset of what renders (this is how a
+      # renderer-only modifier like `pulse` that the schema forgot gets caught).
+      - name: Validate the shared app content (all screens + nav) against the schema
+        run: >
+          node spec/tools/validate.mjs
+          --tokens ios/Sources/SDUIPlayground/Content/tokens.json
+          ios/Sources/SDUIPlayground/Content/screens/*.json
+          ios/Sources/SDUIPlayground/Content/nav/*.json
       - name: Types are regenerated from the schema (no drift)
         run: |
           node spec/tools/codegen.mjs
