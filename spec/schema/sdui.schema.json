@@ -556,7 +556,10 @@
           "description": "Swipe-to-reveal actions. 'leading' reveals on a left-to-right swipe, 'trailing' on a right-to-left swipe.",
           "properties": {
             "leading": { "type": "array", "items": { "$ref": "#/$defs/SwipeAction" } },
-            "trailing": { "type": "array", "items": { "$ref": "#/$defs/SwipeAction" } }
+            "trailing": { "type": "array", "items": { "$ref": "#/$defs/SwipeAction" } },
+            "style": { "enum": ["native", "custom"], "default": "native", "description": "'native' = system swipe actions (only inside a list). 'custom' = a drag-revealed, fully stylable Telegram-style swipe that works on any row/card." },
+            "fullSwipe": { "type": "boolean", "default": true, "description": "Custom style only: a long drag past the threshold expands the edge-most action and fires it on release. false = require an explicit button tap." },
+            "actionWidth": { "type": "number", "exclusiveMinimum": 0, "description": "Custom style only: width (points) reserved per action button. Default 74." }
           },
           "additionalProperties": false
         },

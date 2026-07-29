@@ -503,7 +503,7 @@ export interface Modifiers {
   /**
    * Swipe-to-reveal actions. 'leading' reveals on a left-to-right swipe, 'trailing' on a right-to-left swipe.
    */
-  swipe?: { leading?: SwipeAction[]; trailing?: SwipeAction[]; };
+  swipe?: { actionWidth?: number; fullSwipe?: boolean; leading?: SwipeAction[]; style?: "native" | "custom"; trailing?: SwipeAction[]; };
   /**
    * Make the element interactively pinch-to-zoom, two-finger-rotate and drag, double-tap to reset — a photo-viewer gesture from one flag.
    */
