@@ -1,0 +1,42 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "uploader",
+    "title": "File Uploader",
+    "scrollBehavior": { "subtitle": "Every state an upload needs — pick a real file up top, or read the catalogue below." },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": { "padding": "$token.spacing.lg", "size": { "width": { "mode": "fill" } } },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "TRY IT", "style": "$token.typography.caption", "color": "$token.color.primary" },
+              { "type": "filecell", "title": "Choose a file", "maxSizeKB": 30720, "viewLabel": "View", "color": "$token.color.primary", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "STATES", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+              { "type": "filecell", "state": "success", "title": "File.pdf", "size": "5 MB", "viewLabel": "View", "previewURL": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", "color": "$token.color.primary", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+              { "type": "filecell", "state": "loading", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+              { "type": "filecell", "state": "warning", "title": "File.pdf", "size": "5 MB", "limitText": "Attach a file no larger than 30 MB", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+              { "type": "filecell", "state": "error", "title": "File.pdf", "size": "5 MB", "errorText": "Upload failed", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

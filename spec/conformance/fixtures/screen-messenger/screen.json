@@ -1,0 +1,499 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "messenger",
+    "state": {
+      "draft": "",
+      "typing": false,
+      "liked": false
+    },
+    "content": {
+      "type": "vstack",
+      "spacing": 0,
+      "modifiers": {
+        "size": {
+          "width": {
+            "mode": "fill"
+          },
+          "height": {
+            "mode": "fill"
+          }
+        }
+      },
+      "children": [
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "spacing": "$token.spacing.md",
+          "modifiers": {
+            "size": {
+              "width": {
+                "mode": "fill"
+              }
+            },
+            "padding": "$token.spacing.md",
+            "background": "$token.color.surfaceElevated"
+          },
+          "children": [
+            {
+              "type": "zstack",
+              "alignment": "center",
+              "modifiers": {
+                "size": {
+                  "width": {
+                    "mode": "fixed",
+                    "value": 42
+                  },
+                  "height": {
+                    "mode": "fixed",
+                    "value": 42
+                  }
+                },
+                "cornerRadius": 21
+              },
+              "children": [
+                {
+                  "type": "gradient",
+                  "colors": [
+                    "#5B8DEF",
+                    "#3B5BDB"
+                  ],
+                  "direction": "diagonal",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fill"
+                      },
+                      "height": {
+                        "mode": "fill"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": "A",
+                  "style": "$token.typography.headline",
+                  "color": "#FFFFFF"
+                }
+              ]
+            },
+            {
+              "type": "vstack",
+              "alignment": "leading",
+              "spacing": 1,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Aizhan",
+                  "style": "$token.typography.headline",
+                  "color": "$token.color.textPrimary"
+                },
+                {
+                  "type": "text",
+                  "value": "online",
+                  "style": "$token.typography.caption",
+                  "color": "$token.color.success"
+                }
+              ]
+            },
+            {
+              "type": "spacer"
+            },
+            {
+              "type": "icon",
+              "name": "phone.fill",
+              "color": "$token.color.primary",
+              "size": 19,
+              "modifiers": {
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "light"
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "Calling Aizhan…"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "icon",
+              "name": "video.fill",
+              "color": "$token.color.primary",
+              "size": 19,
+              "modifiers": {
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "light"
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "Starting video call…"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "divider",
+          "color": "$token.color.separator"
+        },
+        {
+            "type": "vstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "leading",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md"
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "Today",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "bottom": "$token.spacing.xs"
+                  }
+                }
+              },
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Hey! Did the new build land?",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "modifiers": {
+                      "padding": "$token.spacing.md",
+                      "background": "$token.color.surface",
+                      "cornerRadius": 20
+                    }
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Just pushed it — server-driven, no App Store wait",
+                    "style": "$token.typography.body",
+                    "color": "#FFFFFF",
+                    "modifiers": {
+                      "padding": "$token.spacing.md",
+                      "background": "$token.color.primary",
+                      "cornerRadius": 20
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Wait, you changed the screen from the backend?",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "modifiers": {
+                      "padding": "$token.spacing.md",
+                      "background": "$token.color.surface",
+                      "cornerRadius": 20
+                    }
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "One JSON. It re-rendered on your phone instantly.",
+                    "style": "$token.typography.body",
+                    "color": "#FFFFFF",
+                    "modifiers": {
+                      "padding": "$token.spacing.md",
+                      "background": "$token.color.primary",
+                      "cornerRadius": 20
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "That's wild. Ship it to the team?",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "modifiers": {
+                      "padding": "$token.spacing.md",
+                      "background": "$token.color.surface",
+                      "cornerRadius": 20
+                    }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "heart",
+                    "color": "$token.color.textTertiary",
+                    "size": 16,
+                    "visibleWhen": { "equals": ["$state.liked", "false"] },
+                    "modifiers": { "hitSlop": 8, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "liked", "value": true }, { "action": "haptic", "style": "light" } ] } }
+                  },
+                  {
+                    "type": "icon",
+                    "name": "heart.fill",
+                    "color": "$token.color.error",
+                    "size": 16,
+                    "symbolEffect": "bounce",
+                    "visibleWhen": { "equals": ["$state.liked", "true"] },
+                    "modifiers": { "hitSlop": 8, "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "liked", "value": false }, { "action": "haptic", "style": "light" } ] } }
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.xs",
+                "alignment": "center",
+                "visibleWhen": { "equals": ["$state.typing", "true"] },
+                "modifiers": { "animation": { "curve": "spring" } },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": 5,
+                    "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": 20 },
+                    "children": [
+                      { "type": "icon", "name": "ellipsis", "color": "$token.color.textTertiary", "size": 18, "symbolEffect": "pulse" }
+                    ]
+                  },
+                  { "type": "spacer" }
+                ]
+              },
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Already did.",
+                    "style": "$token.typography.body",
+                    "color": "#FFFFFF",
+                    "modifiers": {
+                      "padding": "$token.spacing.md",
+                      "background": "$token.color.primary",
+                      "cornerRadius": 20
+                    }
+                  }
+                ]
+              }
+            ]
+        },
+        { "type": "spacer" },
+        {
+          "type": "divider",
+          "color": "$token.color.separator"
+        },
+        {
+          "type": "scroll",
+          "axis": "horizontal",
+          "showsIndicators": false,
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "child": {
+            "type": "hstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "center",
+            "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" } },
+            "children": [
+              {
+                "type": "hstack", "alignment": "center", "spacing": 5,
+                "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Reacted" } ] } },
+                "children": [ { "type": "icon", "name": "hand.thumbsup.fill", "color": "$token.color.primary", "size": 15 }, { "type": "text", "value": "Nice", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary" } ]
+              },
+              {
+                "type": "text", "value": "On it", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Sent · On it" } ] } }
+              },
+              {
+                "type": "text", "value": "Thanks", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Sent · Thanks" } ] } }
+              },
+              {
+                "type": "text", "value": "Show typing", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary",
+                "visibleWhen": { "equals": ["$state.typing", "false"] },
+                "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "typing", "value": true }, { "action": "haptic", "style": "light" } ] } }
+              },
+              {
+                "type": "text", "value": "Hide typing", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary",
+                "visibleWhen": { "equals": ["$state.typing", "true"] },
+                "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "sequence", "actions": [ { "action": "setState", "key": "typing", "value": false }, { "action": "haptic", "style": "light" } ] } }
+              }
+            ]
+          }
+        },
+        {
+          "type": "divider",
+          "color": "$token.color.separator"
+        },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "spacing": "$token.spacing.sm",
+          "modifiers": {
+            "size": {
+              "width": {
+                "mode": "fill"
+              }
+            },
+            "padding": "$token.spacing.md",
+            "background": "$token.color.surfaceElevated"
+          },
+          "children": [
+            {
+              "type": "icon",
+              "name": "plus.circle.fill",
+              "color": "$token.color.textTertiary",
+              "size": 26,
+              "modifiers": {
+                "onTap": {
+                  "action": "haptic",
+                  "style": "light"
+                }
+              }
+            },
+            {
+              "type": "textfield",
+              "bind": "draft",
+              "placeholder": "Message",
+              "modifiers": {
+                "size": {
+                  "width": {
+                    "mode": "fill"
+                  }
+                },
+                "padding": {
+                  "leading": "$token.spacing.md",
+                  "trailing": "$token.spacing.md",
+                  "top": "$token.spacing.sm",
+                  "bottom": "$token.spacing.sm"
+                },
+                "background": "$token.color.surface",
+                "cornerRadius": 20
+              }
+            },
+            {
+              "type": "icon",
+              "name": "arrow.up.circle.fill",
+              "color": "$token.color.primary",
+              "size": 30,
+              "symbolEffect": "bounce",
+              "modifiers": {
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "light"
+                    },
+                    {
+                      "action": "setState",
+                      "key": "draft",
+                      "value": ""
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "Sent"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

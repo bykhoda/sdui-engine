@@ -1,0 +1,5 @@
+{ "effects": [
+  { "type": "showToast", "message": "a" },
+  { "type": "log", "message": "b" },
+  { "type": "haptic" }
+] }

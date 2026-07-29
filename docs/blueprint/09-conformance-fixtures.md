@@ -105,7 +105,11 @@ aurora/tests/conformance     # (Qt Test / a QML harness)
 - **CI gate:** a fixture failing on ANY platform (or the JS reference) is red. Adding a
   component/modifier/action WITHOUT a fixture is also flagged (coverage check vs the
   schema enum — every `Action` kind, every `Modifiers` key, every component type must
-  have ≥1 fixture).
+  have ≥1 fixture). ✅ **LIVE 2026-07-29:** `coverage.mjs --strict` runs in CI at **100%
+  coverage** — 30/30 components, 24/24 modifiers, 20/20 Level-A actions (35 fixtures).
+  The 4 non-Level-A actions are tiered: `requireVersion`/`requestPermission` are
+  host-outcome (integration/Level B); `request`/`saveFile` aren't implemented in any
+  engine yet ([doc 12](12-networking-spec.md)).
 
 ## 5. Seed corpus (first pass)
 

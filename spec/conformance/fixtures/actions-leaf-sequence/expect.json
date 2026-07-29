@@ -1,0 +1,13 @@
+{ "effects": [
+  { "type": "analytics", "event": "seq_begin" },
+  { "type": "log", "message": "start" },
+  { "type": "openURL", "url": "https://x.io" },
+  { "type": "openURL", "url": "myapp://cart" },
+  { "type": "scrollTo", "target": "top" },
+  { "type": "haptic", "style": "medium" },
+  { "type": "share", "text": "Check hats", "url": "https://x.io" },
+  { "type": "refresh", "sources": ["cart", "feed"] },
+  { "type": "custom", "name": "confetti", "payload": { "n": 3 } },
+  { "type": "dismiss" },
+  { "type": "dismissRoot" }
+] }

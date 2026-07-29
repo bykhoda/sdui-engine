@@ -1,0 +1,417 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "gestures",
+    "teach": {
+      "title": "Gestures",
+      "task": "Tap, double-tap, then long-press the cards to feel each gesture."
+    },
+    "title": "Gestures",
+    "scrollBehavior": { "subtitle": "Tap, double-tap, and long-press, all declared" },
+    "state": {
+      "taps": 0,
+      "liked": false,
+      "flipped": false
+    },
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.md",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg"
+        },
+        "children": [
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "modifiers": {
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "animation": { "curve": "spring" },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "increment",
+                    "key": "taps",
+                    "by": 1
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "hand.tap.fill",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": " Tap this card",
+                "style": "$token.typography.headline",
+                "color": "$token.color.textPrimary"
+              },
+              { "type": "spacer" },
+              {
+                "type": "text",
+                "value": "$state.taps",
+                "style": "$token.typography.title2",
+                "color": "$token.color.primary",
+                "alignment": "center",
+                "modifiers": {
+                  "size": { "width": { "mode": "fixed", "value": 44 }, "height": { "mode": "fixed", "value": 44 } },
+                  "background": "$token.color.primarySoft",
+                  "cornerRadius": "$token.radius.pill"
+                }
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "modifiers": {
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "animation": { "curve": "spring" },
+              "onDoubleTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "medium"
+                  },
+                  {
+                    "action": "condition",
+                    "if": { "equals": ["$state.liked", "true"] },
+                    "then": { "action": "setState", "key": "liked", "value": false },
+                    "else": { "action": "setState", "key": "liked", "value": true }
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "heart",
+                "color": "$token.color.textSecondary",
+                "visibleWhen": { "equals": ["$state.liked", "false"] }
+              },
+              {
+                "type": "icon",
+                "name": "heart.fill",
+                "color": "#FF375F",
+                "symbolEffect": "bounce",
+                "visibleWhen": { "equals": ["$state.liked", "true"] }
+              },
+              {
+                "type": "text",
+                "value": " Double-tap to like",
+                "style": "$token.typography.headline",
+                "color": "$token.color.textPrimary"
+              },
+              { "type": "spacer" },
+              { "type": "text", "value": "Liked", "style": "$token.typography.subheadline", "color": "#FF375F", "visibleWhen": { "equals": ["$state.liked", "true"] } }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "visibleWhen": { "equals": ["$state.flipped", "true"] },
+            "modifiers": {
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.primarySoft",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "animation": { "curve": "spring" },
+              "onLongPress": {
+                "action": "sequence",
+                "actions": [
+                  { "action": "haptic", "style": "heavy" },
+                  { "action": "setState", "key": "flipped", "value": false }
+                ]
+              }
+            },
+            "children": [
+              { "type": "icon", "name": "lock.open.fill", "color": "$token.color.primary" },
+              { "type": "text", "value": " Unlocked — long-press again", "style": "$token.typography.headline", "color": "$token.color.textPrimary" }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "visibleWhen": { "equals": ["$state.flipped", "false"] },
+            "modifiers": {
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "animation": { "curve": "spring" },
+              "onLongPress": {
+                "action": "sequence",
+                "actions": [
+                  { "action": "haptic", "style": "heavy" },
+                  { "action": "setState", "key": "flipped", "value": true }
+                ]
+              }
+            },
+            "children": [
+              { "type": "icon", "name": "lock.fill", "color": "$token.color.textSecondary" },
+              { "type": "text", "value": " Long-press to unlock", "style": "$token.typography.headline", "color": "$token.color.textPrimary" }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "modifiers": {
+              "padding": "$token.spacing.lg",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "onLongPress": {
+                "action": "haptic",
+                "style": "heavy"
+              },
+              "contextMenu": [
+                {
+                  "title": "Copy",
+                  "icon": "doc.on.doc",
+                  "action": {
+                    "action": "showToast",
+                    "message": "Copied"
+                  }
+                },
+                {
+                  "title": "Favorite",
+                  "icon": "star",
+                  "action": {
+                    "action": "showToast",
+                    "message": "Favorited",
+                    "style": "success"
+                  }
+                },
+                {
+                  "title": "Delete",
+                  "icon": "trash",
+                  "role": "destructive",
+                  "action": {
+                    "action": "showToast",
+                    "message": "Deleted",
+                    "style": "error"
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "hand.point.up.left.fill",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": " Long-press for a menu",
+                "style": "$token.typography.headline",
+                "color": "$token.color.textPrimary"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "Pinch to zoom, twist to rotate, double-tap to reset",
+            "style": "$token.typography.headline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "zstack",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                },
+                "height": {
+                  "mode": "fixed",
+                  "value": 200
+                }
+              },
+              "cornerRadius": "$token.radius.lg",
+              "zoomable": true
+            },
+            "children": [
+              {
+                "type": "gradient",
+                "colors": [
+                  "#6E6EF7",
+                  "#DD2476"
+                ],
+                "direction": "diagonal",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fill"
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg"
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "photo.fill",
+                    "color": "#FFFFFF",
+                    "size": 40
+                  },
+                  {
+                    "type": "text",
+                    "value": "Pinch me",
+                    "style": "$token.typography.headline",
+                    "color": "#FFFFFF"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "Swipe the rows below",
+            "style": "$token.typography.headline",
+            "color": "$token.color.textSecondary"
+          },
+          {
+            "type": "list",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "height": {
+                  "mode": "fixed",
+                  "value": 220
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "modifiers": {
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.md",
+                  "swipe": {
+                    "leading": [
+                      {
+                        "title": "Pin",
+                        "icon": "pin.fill",
+                        "tint": "#FF9F0A",
+                        "action": {
+                          "action": "showToast",
+                          "message": "Pinned"
+                        }
+                      }
+                    ],
+                    "trailing": [
+                      {
+                        "title": "Delete",
+                        "icon": "trash.fill",
+                        "role": "destructive",
+                        "action": {
+                          "action": "showToast",
+                          "message": "Deleted",
+                          "style": "error"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "tray.fill",
+                    "color": "$token.color.primary"
+                  },
+                  {
+                    "type": "text",
+                    "value": " Swipe me left or right",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "modifiers": {
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.md",
+                  "swipe": {
+                    "trailing": [
+                      {
+                        "title": "Archive",
+                        "icon": "archivebox.fill",
+                        "tint": "$token.color.primary",
+                        "action": {
+                          "action": "showToast",
+                          "message": "Archived"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "tray.full.fill",
+                    "color": "$token.color.primary"
+                  },
+                  {
+                    "type": "text",
+                    "value": " Trailing action only",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

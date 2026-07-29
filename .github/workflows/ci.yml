@@ -106,6 +106,10 @@ jobs:
       # fixtures in their own languages — this is the JS reference leg. See doc 09.
       - name: Conformance corpus (Level-A reference)
         run: node spec/conformance/check.mjs
+      # Coverage gate: every component, every modifier, and every Level-A action must have
+      # at least one fixture. Adding one to the schema without a fixture fails here.
+      - name: Conformance coverage gate (100% of the contract surface)
+        run: node spec/conformance/coverage.mjs --strict
       - name: Types are regenerated from the schema (no drift)
         run: |
           node spec/tools/codegen.mjs

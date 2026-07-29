@@ -1,0 +1,5 @@
+{ "effects": [
+  { "type": "log", "message": "before" },
+  { "type": "preview", "urls": ["a.pdf", "b.pdf"], "index": 1 },
+  { "type": "log", "message": "after" }
+] }

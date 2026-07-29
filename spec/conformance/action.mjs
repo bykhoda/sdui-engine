@@ -79,6 +79,13 @@ export function interpret(action, ctx, effects) {
       break;
     }
     case 'log': effects.push({ type: 'log', message: resolveString(action.message, ctx) }); break;
+    case 'preview': {
+      let urls;
+      if (Array.isArray(action.urls)) urls = action.urls.map((u) => resolveString(u, ctx));
+      else { const s = resolveString(action.url, ctx); urls = s ? [s] : []; }
+      effects.push({ type: 'preview', urls, index: action.index !== undefined ? Math.trunc(Number(action.index)) : 0 });
+      break;
+    }
     case 'analytics': break; // already emitted via action.analytics
     case 'custom': {
       if (action.name === undefined) break;

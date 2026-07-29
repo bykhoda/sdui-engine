@@ -1,0 +1,5 @@
+{ "action": "parallel", "actions": [
+  { "action": "showToast", "message": "a" },
+  { "action": "log", "message": "b" },
+  { "action": "haptic" }
+] }

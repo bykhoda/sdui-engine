@@ -1,0 +1,12 @@
+{ "action": "sequence", "actions": [
+  { "action": "log", "message": "start", "analytics": { "event": "seq_begin" } },
+  { "action": "openURL", "url": "$state.url" },
+  { "action": "openDeepLink", "url": "myapp://cart" },
+  { "action": "scrollTo", "target": "top" },
+  { "action": "haptic", "style": "medium" },
+  { "action": "share", "text": "Check $state.q", "url": "https://x.io" },
+  { "action": "refresh", "sources": ["cart", "feed"] },
+  { "action": "custom", "name": "confetti", "payload": { "n": 3 } },
+  { "action": "dismiss" },
+  { "action": "dismissRoot" }
+] }

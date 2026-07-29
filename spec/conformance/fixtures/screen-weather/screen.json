@@ -1,0 +1,1215 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "weather",
+    "title": "Cupertino",
+    "scrollBehavior": {
+      "largeTitle": false,
+      "subtitle": "72°  ·  Mostly Sunny",
+      "range": 210
+    },
+    "content": {
+      "type": "zstack",
+      "alignment": "top",
+      "children": [
+        {
+          "type": "gradient",
+          "colors": [
+            "#0B3D91",
+            "#2A6FC9",
+            "#7FB8E8"
+          ],
+          "direction": "vertical",
+          "modifiers": {
+            "size": {
+              "width": {
+                "mode": "fill"
+              },
+              "height": {
+                "mode": "fill"
+              }
+            },
+            "ignoresSafeArea": true
+          }
+        },
+        {
+          "type": "scroll",
+          "child": {
+            "type": "vstack",
+            "spacing": "$token.spacing.lg",
+            "alignment": "center",
+            "modifiers": {
+              "padding": "$token.spacing.lg",
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "padding": {
+                    "top": "$token.spacing.md"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Cupertino",
+                    "style": "$token.typography.title2",
+                    "color": "#FFFFFF"
+                  },
+                  {
+                    "type": "text",
+                    "value": "72°",
+                    "style": "$token.typography.hero",
+                    "color": "#FFFFFF"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Mostly Sunny",
+                    "style": "$token.typography.body",
+                    "color": "#FFFFFFDD"
+                  },
+                  {
+                    "type": "text",
+                    "value": "H:75° L:61°",
+                    "style": "$token.typography.subheadline",
+                    "color": "#FFFFFFCC"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "#FFFFFF26",
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "HOURLY FORECAST",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFFAA"
+                  },
+                  {
+                    "type": "scroll",
+                    "axis": "horizontal",
+                    "showsIndicators": false,
+                    "child": {
+                      "type": "hstack",
+                      "spacing": "$token.spacing.lg",
+                      "children": [
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "Now",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFF"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "72°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "1PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "74°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "2PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "75°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "3PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "75°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "4PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.sun.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "74°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "5PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.sun.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "73°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "6PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.sun.fill",
+                              "color": "#FFCC66"
+                            },
+                            {
+                              "type": "text",
+                              "value": "71°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "7PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sunset.fill",
+                              "color": "#FF9F0A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "69°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "8PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.sun.fill",
+                              "color": "#FFCC66"
+                            },
+                            {
+                              "type": "text",
+                              "value": "67°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "9PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "moon.stars.fill",
+                              "color": "#EAF0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "65°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "10PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "moon.stars.fill",
+                              "color": "#EAF0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "64°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "11PM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "moon.stars.fill",
+                              "color": "#EAF0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "62°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "12AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "moon.stars.fill",
+                              "color": "#EAF0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "61°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "1AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "moon.stars.fill",
+                              "color": "#EAF0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "60°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "2AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.moon.fill",
+                              "color": "#CFE0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "59°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "3AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.moon.fill",
+                              "color": "#CFE0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "58°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "4AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.moon.fill",
+                              "color": "#CFE0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "57°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "5AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.moon.fill",
+                              "color": "#CFE0FF"
+                            },
+                            {
+                              "type": "text",
+                              "value": "57°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "6AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sunrise.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "58°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "7AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.sun.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "61°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "8AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "64°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "9AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "67°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "10AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "70°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "center",
+                          "spacing": "$token.spacing.sm",
+                          "children": [
+                            {
+                              "type": "text",
+                              "value": "11AM",
+                              "style": "$token.typography.subheadline",
+                              "color": "#FFFFFFCC"
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sun.max.fill",
+                              "color": "#FFD60A"
+                            },
+                            {
+                              "type": "text",
+                              "value": "72°",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "#FFFFFF26",
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "TEMPERATURE",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFFAA"
+                  },
+                  {
+                    "type": "chart",
+                    "style": "line",
+                    "color": "#FFFFFF",
+                    "values": [
+                      63,
+                      64,
+                      67,
+                      70,
+                      72,
+                      74,
+                      75,
+                      74,
+                      72,
+                      70,
+                      68,
+                      66
+                    ],
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 120
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "#FFFFFF26",
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "10-DAY FORECAST",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFFAA"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Today",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "sun.max.fill",
+                        "color": "#FFD60A"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "61°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 75°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Tue",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "cloud.sun.fill",
+                        "color": "#FFFFFF"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "60°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 73°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Wed",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "cloud.rain.fill",
+                        "color": "#9FD0FF"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "58°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 69°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Thu",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "sun.max.fill",
+                        "color": "#FFD60A"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "62°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 76°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Fri",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "cloud.sun.fill",
+                        "color": "#FFFFFF"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "59°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 72°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Sat",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "sun.max.fill",
+                        "color": "#FFD60A"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "63°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 78°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Sun",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "sun.max.fill",
+                        "color": "#FFD60A"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "64°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 79°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Mon",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "cloud.fill",
+                        "color": "#FFFFFF"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "60°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 71°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Tue",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "cloud.rain.fill",
+                        "color": "#9FD0FF"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "57°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 66°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "divider",
+                    "color": "#FFFFFF33"
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Wed",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 64
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "sun.max.fill",
+                        "color": "#FFD60A"
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "61°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF99"
+                      },
+                      {
+                        "type": "text",
+                        "value": " 74°",
+                        "style": "$token.typography.body",
+                        "color": "#FFFFFF"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "chrome": "immersive"
+  }
+}

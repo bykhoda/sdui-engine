@@ -1,0 +1,6 @@
+{ "action": "sequence", "actions": [
+  { "action": "log", "message": "before" },
+  { "action": "delay", "seconds": 0 },
+  { "action": "preview", "urls": ["a.pdf", "b.pdf"], "index": 1 },
+  { "action": "log", "message": "after" }
+] }

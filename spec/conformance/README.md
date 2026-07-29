@@ -6,7 +6,17 @@ Full design: [docs/blueprint/09-conformance-fixtures.md](../../docs/blueprint/09
 ```
 node spec/conformance/check.mjs          # run all fixtures (Level-A reference)
 node spec/conformance/check.mjs <id>     # run named fixtures
+node spec/conformance/coverage.mjs       # coverage report (which surface is exercised)
+node spec/conformance/coverage.mjs --strict   # CI gate: fail if anything is uncovered
 ```
+
+**Coverage (2026-07-29): 100%** of the contract surface is fixtured — every component
+(30/30), every modifier (24/24), and every Level-A pure-effect action (20/20). The
+remaining 4 actions are tiered honestly: `requireVersion`/`requestPermission` are
+host-outcome (integration/Level-B), and `request`/`saveFile` are not implemented in any
+engine yet (see [doc 12](../../docs/blueprint/12-networking-spec.md)). The `--strict`
+gate keeps it at 100% — adding a component/modifier/action to the schema without a
+fixture fails CI.
 
 Each `fixtures/<id>/` holds:
 - `screen.json` — a minimal SDUI screen exercising one thing

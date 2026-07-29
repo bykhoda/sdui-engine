@@ -1,0 +1,4125 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "home",
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "alignment": "leading",
+        "spacing": "$token.spacing.xl",
+        "modifiers": {
+          "padding": {
+            "top": "$token.spacing.sm",
+            "bottom": "$token.spacing.xl"
+          },
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "modifiers": {
+              "padding": {
+                "leading": "$token.spacing.lg",
+                "trailing": "$token.spacing.lg",
+                "top": "$token.spacing.md"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "SERVER-DRIVEN UI",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": "SDUI",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "Every screen here is JSON — native on iOS, Android and Aurora.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          },
+          {
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.md",
+              "modifiers": {
+                "padding": {
+                  "horizontal": "$token.spacing.lg"
+                }
+              },
+              "children": [
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 84
+                      }
+                    },
+                    "onTap": {
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 0
+                      }
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#6666F5",
+                            "#754AB5"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 72
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 72
+                              }
+                            },
+                            "cornerRadius": "$token.radius.pill",
+                            "pulse": {
+                              "scale": 1.06,
+                              "interval": 1.15
+                            }
+                          }
+                        },
+                        {
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "arrow.triangle.2.circlepath",
+                              "color": "#754AB5",
+                              "size": 24
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "Server",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "alignment": "center",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 84
+                      }
+                    },
+                    "onTap": {
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 1
+                      }
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#00B89E",
+                            "#00738C"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 72
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 72
+                              }
+                            },
+                            "cornerRadius": "$token.radius.pill",
+                            "pulse": {
+                              "scale": 1.06,
+                              "interval": 1.3199999999999998
+                            }
+                          }
+                        },
+                        {
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "square.on.square",
+                              "color": "#00738C",
+                              "size": 24
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "One JSON",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "alignment": "center",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 84
+                      }
+                    },
+                    "onTap": {
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 2
+                      }
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#FA8C30",
+                            "#D94D4D"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 72
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 72
+                              }
+                            },
+                            "cornerRadius": "$token.radius.pill",
+                            "pulse": {
+                              "scale": 1.06,
+                              "interval": 1.49
+                            }
+                          }
+                        },
+                        {
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "paintpalette.fill",
+                              "color": "#D94D4D",
+                              "size": 24
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "Theming",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "alignment": "center",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 84
+                      }
+                    },
+                    "onTap": {
+                      "action": "custom",
+                      "name": "story",
+                      "payload": {
+                        "index": 3
+                      }
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#C93DDB",
+                            "#8C2EB8"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 72
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 72
+                              }
+                            },
+                            "cornerRadius": "$token.radius.pill",
+                            "pulse": {
+                              "scale": 1.06,
+                              "interval": 1.66
+                            }
+                          }
+                        },
+                        {
+                          "type": "vstack",
+                          "children": [],
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 63
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 63
+                              }
+                            },
+                            "background": "$token.color.surface",
+                            "cornerRadius": "$token.radius.pill"
+                          }
+                        },
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 55
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 55
+                              }
+                            },
+                            "background": "$token.color.surfaceElevated",
+                            "cornerRadius": "$token.radius.pill"
+                          },
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "square.grid.2x2.fill",
+                              "color": "#8C2EB8",
+                              "size": 24
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "Components",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "alignment": "center",
+                      "lineLimit": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "pager",
+            "height": 220,
+            "autoAdvanceMs": 5000,
+            "indicator": "dots",
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "bottomLeading",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "onTap": {
+                    "action": "navigate",
+                    "to": "discover",
+                    "transition": "push"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#5B5BF0",
+                      "#7C4DFF",
+                      "#FF6B9D"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 220
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 8,
+                        "color": "#5B5BF033"
+                      }
+                    }
+                  },
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000066"
+                    ],
+                    "direction": "vertical",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 220
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "padding": "$token.spacing.lg"
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "FEATURED",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFFCC"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Ship whole screens from JSON",
+                        "style": "$token.typography.title2",
+                        "color": "#FFFFFF"
+                      },
+                      {
+                        "type": "text",
+                        "value": "One contract, three native apps — no release.",
+                        "style": "$token.typography.subheadline",
+                        "color": "#FFFFFFCC"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Explore  →",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.primary",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.md",
+                            "trailing": "$token.spacing.md",
+                            "top": "$token.spacing.xs",
+                            "bottom": "$token.spacing.xs"
+                          },
+                          "background": "#FFFFFF",
+                          "cornerRadius": "$token.radius.pill"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "zstack",
+                "alignment": "bottomLeading",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "onTap": {
+                    "action": "navigate",
+                    "to": "figma",
+                    "transition": "push"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#00B89E",
+                      "#0A84FF"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 220
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 8,
+                        "color": "#00B89E33"
+                      }
+                    }
+                  },
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000066"
+                    ],
+                    "direction": "vertical",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 220
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "padding": "$token.spacing.lg"
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "ONE CONTRACT",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFFCC"
+                      },
+                      {
+                        "type": "text",
+                        "value": "iOS · Android · Aurora",
+                        "style": "$token.typography.title2",
+                        "color": "#FFFFFF"
+                      },
+                      {
+                        "type": "text",
+                        "value": "The same JSON renders natively on all three.",
+                        "style": "$token.typography.subheadline",
+                        "color": "#FFFFFFCC"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Explore  →",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.primary",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.md",
+                            "trailing": "$token.spacing.md",
+                            "top": "$token.spacing.xs",
+                            "bottom": "$token.spacing.xs"
+                          },
+                          "background": "#FFFFFF",
+                          "cornerRadius": "$token.radius.pill"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "zstack",
+                "alignment": "bottomLeading",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "onTap": {
+                    "action": "navigate",
+                    "to": "materials",
+                    "transition": "push"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#FA8C30",
+                      "#D94D4D"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 220
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 8,
+                        "color": "#FA8C3033"
+                      }
+                    }
+                  },
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000066"
+                    ],
+                    "direction": "vertical",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 220
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "padding": "$token.spacing.lg"
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "LIVE THEMING",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFFCC"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Re-theme the whole app",
+                        "style": "$token.typography.title2",
+                        "color": "#FFFFFF"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Design tokens ship over the wire, instantly.",
+                        "style": "$token.typography.subheadline",
+                        "color": "#FFFFFFCC"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Explore  →",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.primary",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.md",
+                            "trailing": "$token.spacing.md",
+                            "top": "$token.spacing.xs",
+                            "bottom": "$token.spacing.xs"
+                          },
+                          "background": "#FFFFFF",
+                          "cornerRadius": "$token.radius.pill"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Live",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary"
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "fitness",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "figure.run",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Fitness",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Activity rings & live charts",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "music",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "music.note",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Music",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Immersive now-playing",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "stocks",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "chart.line.uptrend.xyaxis",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Stocks",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Live chart, ranges & stats",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "weather",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5AC8FA",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cloud.sun.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Weather",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Immersive gradient sky",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Real apps",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary"
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "cart",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "cart.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Cart",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Marketplace bag — remove, totals & checkout",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "messenger",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "bubble.left.and.bubble.right.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Messenger",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Chat thread — bubbles, avatar & composer",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "feed",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "square.stack.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Feed",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Social timeline of live posts",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "clips",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "play.rectangle.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Clips",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Vertical short-video feed — swipe, like, share",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "todo",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "checklist",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Todo",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "A living checklist you can swipe",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "paywall",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "crown.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Paywall",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Subscription paywall — plans & trial",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "delivery",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "shippingbox.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Delivery",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Courier tracking — status, tips & order",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "gym",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "dumbbell.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Gym",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Club membership & class booking",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "discover",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "sparkles",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Discover",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Store home — hero, rails & cards",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "product",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "tag.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Product",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Product page with rating & actions",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "inbox",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "tray.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Inbox",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Mail — swipe rows & context menus",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "signup",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "person.crop.circle.badge.plus",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Signup",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Onboarding with real validation",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "settings",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#5B5BF0",
+                                "#4338CA"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "gearshape.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Settings",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Preferences — toggles, pickers & sections",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Design System",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary"
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "typography",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "textformat",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Typography",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Type scale, colour & truncation",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "layout",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "square.grid.3x3.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Layout",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Stacks, overlays & the sizing model",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "buttons",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "capsule.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Buttons",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Styles, shapes, sizes & icons",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "inputs",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "character.cursor.ibeam",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Inputs",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Text fields — every state & keyboard",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "controls",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "switch.2",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Controls",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Segmented, select & switches",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "uploader",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "arrow.up.doc.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Uploader",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "File upload — every state, preview & remove",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "cards",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "rectangle.stack.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Cards",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Surface, elevated, selectable & media",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "components",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "square.grid.2x2.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Components",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Icons, badges, avatars & progress",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "feedback",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "exclamationmark.bubble.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Feedback",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Banners, alerts & loaders",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "calendar",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF9F0A",
+                                "#FF6B00"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "calendar",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Calendar",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Calendar, date range & file upload",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Native",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary"
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "materials",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#30D158",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "drop.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Materials",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "System frost materials & blur",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "capabilities",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#30D158",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "bolt.shield.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Capabilities",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Force-update, permissions & accessibility",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Interactions",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary"
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "swipe",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF375F",
+                                "#C9184A"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "hand.draw.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Swipe",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Custom swipe actions — Telegram/Outlook style",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "gestures",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF375F",
+                                "#C9184A"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "hand.tap.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Gestures",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Tap, double-tap, long-press & swipe",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "animation",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#FF375F",
+                                "#C9184A"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "wand.and.rays",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Animation",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "State springs & SF Symbol effects",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Engine",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary"
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "table",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "tablecells.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Table",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Search, filters, sort & pagination",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "document",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "doc.text.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Document",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Async fetch — skeleton → content + share",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "actions",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "bolt.fill",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Actions",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Toasts, state, conditions & haptics",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "lists",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "list.bullet",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Lists",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Data-bound lists and grids",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "reorder",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#32ADE6",
+                                "#0A84FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "arrow.up.arrow.down",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Reorder",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Drag rows to reorder, saved to state",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Figma & Tokens",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary"
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 172
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 212
+                          }
+                        },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1216"
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "figma",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "center",
+                          "children": [
+                            {
+                              "type": "gradient",
+                              "colors": [
+                                "#A259FF",
+                                "#6E44FF"
+                              ],
+                              "direction": "diagonal",
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 96
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "icon",
+                              "name": "wand.and.stars",
+                              "color": "#FFFFFF",
+                              "size": 30
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Figma",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "How Figma variables drive every screen",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

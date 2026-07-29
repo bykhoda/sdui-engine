@@ -1,0 +1,408 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "figma",
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "children": [
+              {
+                "type": "text",
+                "value": "Design tokens, live",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "Your design system lives in one tokens.json. Change it — or generate it from Figma — and every screen re-themes, on every platform. No code, no release.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          },
+          {
+            "type": "disclosure",
+            "title": "How it works",
+            "subtitle": "From Figma variables to a themed app, in four steps",
+            "icon": "map",
+            "accent": "$token.color.primary",
+            "expanded": false,
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "roadmap",
+                "accent": "$token.color.primary",
+                "steps": [
+                  {
+                    "title": "Export variables from Figma",
+                    "detail": "Use the built-in Variables export (W3C Design Tokens JSON) or the Tokens Studio plugin. Colors, spacing, radii and type all come across."
+                  },
+                  {
+                    "title": "Convert to tokens.json",
+                    "detail": "Run spec/tools/figma-tokens.mjs once. It resolves aliases, turns px into points, and maps Figma type styles to {size, weight}. Wire it into CI so every merge re-generates it."
+                  },
+                  {
+                    "title": "Serve it from your backend",
+                    "detail": "Return tokens.json (and your screen payloads) from your server. Now a designer's token change ships instantly — no app-store release."
+                  },
+                  {
+                    "title": "Every screen re-themes",
+                    "detail": "Screens only reference $token.*, so one change updates the whole product at once — the swatches and type below are rendered live from these tokens.",
+                    "done": true
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "disclosure",
+            "title": "Images & icons",
+            "subtitle": "Where to keep art, and how to bring your own views",
+            "icon": "photo.on.rectangle.angled",
+            "accent": "$token.color.primary",
+            "expanded": false,
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "externaldrive.badge.icloud",
+                    "color": "$token.color.success",
+                    "size": 20
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 1,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Keep images out of the app bundle",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Store them in your DB / object storage and return a URL. The image component loads any https URL, caches it, shows a placeholder while it loads. Swap art without shipping an update.",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "divider",
+                "color": "$token.color.separator",
+                "modifiers": {
+                  "padding": {
+                    "top": "$token.spacing.md",
+                    "bottom": "$token.spacing.md"
+                  }
+                }
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "square.grid.2x2",
+                    "color": "$token.color.primary",
+                    "size": 20
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 1,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Bring your own components",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Register a native view as custom.<name> and drive it from JSON like any built-in. Your Figma library maps to real components you already ship.",
+                        "style": "$token.typography.subheadline",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "disclosure",
+            "title": "Live from your tokens",
+            "subtitle": "These swatches and type are rendered from tokens.json",
+            "icon": "paintpalette",
+            "accent": "$token.color.primary",
+            "expanded": true,
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "COLOR",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "top": "$token.spacing.xs",
+                    "bottom": "$token.spacing.md"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "vstack",
+                        "children": [],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 52
+                            }
+                          },
+                          "background": "$token.color.primary",
+                          "cornerRadius": "$token.radius.md"
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "value": "primary",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "vstack",
+                        "children": [],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 52
+                            }
+                          },
+                          "background": "$token.color.success",
+                          "cornerRadius": "$token.radius.md"
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "value": "success",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "vstack",
+                        "children": [],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 52
+                            }
+                          },
+                          "background": "$token.color.warning",
+                          "cornerRadius": "$token.radius.md"
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "value": "warning",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "weight",
+                          "value": 1
+                        }
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "vstack",
+                        "children": [],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 52
+                            }
+                          },
+                          "background": "$token.color.error",
+                          "cornerRadius": "$token.radius.md"
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "value": "error",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "TYPE",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "padding": {
+                    "top": "$token.spacing.xs"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Title",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Headline — group labels",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Body — the everyday reading size for content and controls.",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "CAPTION — metadata",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

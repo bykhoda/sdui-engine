@@ -1,0 +1,9 @@
+{ "version": "1.0", "screen": { "id": "cf_coverage", "title": "CF",
+  "content": { "type": "vstack", "children": [
+    { "type": "spinner" },
+    { "type": "calendar", "mode": "single" },
+    { "type": "datepicker", "bind": "$state.date" },
+    { "type": "clips", "pages": [ { "type": "text", "value": "a" } ] },
+    { "type": "text", "value": "styled",
+      "modifiers": { "accessibility": { "label": "hi" }, "frame": { "height": 40 }, "opacity": 0.5, "rotation": 15 } }
+  ] } } }

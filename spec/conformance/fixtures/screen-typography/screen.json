@@ -1,0 +1,243 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "typography",
+    "title": "Typography",
+    "scrollBehavior": { "subtitle": "One type scale, tokens all the way down" },
+    "state": {
+      "sampleScale": "M",
+      "truncate": true
+    },
+    "content": {
+      "type": "scroll",
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.xl",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": { "width": { "mode": "fill" } }
+        },
+        "children": [
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "LIVE SAMPLE",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "alignment": "leading",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 },
+                  "animation": { "curve": "spring" }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.sm",
+                    "modifiers": { "size": { "width": { "mode": "fill" } } },
+                    "children": [
+                      { "type": "text", "value": "Scale", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+                      { "type": "spacer" },
+                      { "type": "text", "value": "S", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.sampleScale", "S"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                      { "type": "text", "value": "S", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.sampleScale", "S"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "sampleScale", "value": "S" } } },
+                      { "type": "text", "value": "M", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.sampleScale", "M"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                      { "type": "text", "value": "M", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.sampleScale", "M"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "sampleScale", "value": "M" } } },
+                      { "type": "text", "value": "L", "style": "$token.typography.subheadline", "color": "$token.color.onPrimary", "visibleWhen": { "equals": ["$state.sampleScale", "L"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.primary", "cornerRadius": "$token.radius.pill" } },
+                      { "type": "text", "value": "L", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "notEquals": ["$state.sampleScale", "L"] }, "modifiers": { "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" }, "background": "$token.color.surface", "cornerRadius": "$token.radius.pill", "onTap": { "action": "setState", "key": "sampleScale", "value": "L" } } }
+                    ]
+                  },
+                  { "type": "divider", "color": "$token.color.separator" },
+                  { "type": "text", "value": "The quick brown fox", "style": "$token.typography.subheadline", "color": "$token.color.textPrimary", "visibleWhen": { "equals": ["$state.sampleScale", "S"] } },
+                  { "type": "text", "value": "The quick brown fox", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "visibleWhen": { "equals": ["$state.sampleScale", "M"] } },
+                  { "type": "text", "value": "The quick brown fox", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary", "visibleWhen": { "equals": ["$state.sampleScale", "L"] } }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "TYPE SCALE",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "alignment": "leading",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Large Title",
+                    "style": "$token.typography.largeTitle",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Title 2",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Headline",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Body — the quick brown fox jumps over the lazy dog.",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Subheadline in a secondary color.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "CAPTION",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "SEMANTIC COLOR",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.sm",
+                "alignment": "leading",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Colors come from tokens",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Primary",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.primary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Success",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.success"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Error",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.error"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              {
+                "type": "text",
+                "value": "BEHAVIOR",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary"
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "alignment": "leading",
+                "modifiers": {
+                  "size": { "width": { "mode": "fill" } },
+                  "padding": "$token.spacing.lg",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": { "color": "#00000012", "radius": 14, "y": 6 },
+                  "animation": { "curve": "spring" }
+                },
+                "children": [
+                  {
+                    "type": "toggle",
+                    "bind": "truncate",
+                    "title": "Truncate"
+                  },
+                  {
+                    "type": "text",
+                    "value": "This paragraph is intentionally long to show how lineLimit truncates overflowing text with an ellipsis instead of pushing the layout around unexpectedly.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 2,
+                    "visibleWhen": { "equals": ["$state.truncate", "true"] }
+                  },
+                  {
+                    "type": "text",
+                    "value": "This paragraph is intentionally long to show how lineLimit truncates overflowing text with an ellipsis instead of pushing the layout around unexpectedly.",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "visibleWhen": { "equals": ["$state.truncate", "false"] }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Centered",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": { "width": { "mode": "fill" } }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

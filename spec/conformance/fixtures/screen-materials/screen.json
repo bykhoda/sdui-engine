@@ -1,0 +1,92 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "materials",
+    "chrome": "immersive",
+    "content": {
+      "type": "zstack",
+      "alignment": "top",
+      "children": [
+        {
+          "type": "gradient",
+          "colors": ["#5B5BF0", "#A259FF", "#FF6B9D", "#FF9F0A"],
+          "direction": "diagonal",
+          "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "ignoresSafeArea": true }
+        },
+        {
+          "type": "scroll",
+          "child": {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": { "padding": "$token.spacing.lg", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs", "modifiers": { "padding": { "top": "$token.spacing.md" } }, "children": [
+                { "type": "text", "value": "MATERIALS & BLUR", "style": "$token.typography.caption", "color": "#FFFFFFCC" },
+                { "type": "text", "value": "System frost", "style": "$token.typography.largeTitle", "color": "#FFFFFF" },
+                { "type": "text", "value": "One contract key — the native blur material floats over any background.", "style": "$token.typography.subheadline", "color": "#FFFFFFCC" }
+              ] },
+              { "type": "text", "value": "ultraThin", "style": "$token.typography.headline", "color": "#FFFFFF", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "material": "ultraThin", "cornerRadius": "$token.radius.lg" } },
+              { "type": "text", "value": "thin", "style": "$token.typography.headline", "color": "#FFFFFF", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "material": "thin", "cornerRadius": "$token.radius.lg" } },
+              { "type": "text", "value": "regular", "style": "$token.typography.headline", "color": "#FFFFFF", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "material": "regular", "cornerRadius": "$token.radius.lg" } },
+              { "type": "text", "value": "thick", "style": "$token.typography.headline", "color": "#FFFFFF", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "material": "thick", "cornerRadius": "$token.radius.lg" } },
+              { "type": "text", "value": "bar", "style": "$token.typography.headline", "color": "#FFFFFF", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "material": "bar", "cornerRadius": "$token.radius.lg" } },
+              { "type": "text", "value": "glass", "style": "$token.typography.headline", "color": "#FFFFFF", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg", "material": "glass", "cornerRadius": "$token.radius.lg" } },
+              {
+                "type": "hstack", "spacing": "$token.spacing.md", "alignment": "center",
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.sm" } },
+                "children": [
+                  {
+                    "type": "zstack", "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "weight", "value": 1 }, "height": { "mode": "fixed", "value": 120 } }, "cornerRadius": "$token.radius.lg" },
+                    "children": [
+                      { "type": "gradient", "colors": ["#5B5BF0", "#FF6B9D", "#FF9F0A"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+                      { "type": "vstack", "alignment": "center", "spacing": "$token.spacing.sm", "children": [
+                        { "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md", "children": [
+                          { "type": "icon", "name": "star.fill", "color": "#FFFFFF", "size": 26 },
+                          { "type": "icon", "name": "bolt.fill", "color": "#FFF6C4", "size": 26 },
+                          { "type": "icon", "name": "heart.fill", "color": "#FFFFFF", "size": 26 }
+                        ] },
+                        { "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md", "children": [
+                          { "type": "icon", "name": "leaf.fill", "color": "#DFFFE4", "size": 26 },
+                          { "type": "icon", "name": "flame.fill", "color": "#FFFFFF", "size": 26 },
+                          { "type": "icon", "name": "drop.fill", "color": "#DDEBFF", "size": 26 }
+                        ] }
+                      ] }
+                    ]
+                  },
+                  {
+                    "type": "zstack", "alignment": "center",
+                    "modifiers": { "size": { "width": { "mode": "weight", "value": 1 }, "height": { "mode": "fixed", "value": 120 } }, "cornerRadius": "$token.radius.lg" },
+                    "children": [
+                      {
+                        "type": "zstack", "alignment": "center",
+                        "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "blur": 8 },
+                        "children": [
+                          { "type": "gradient", "colors": ["#5B5BF0", "#FF6B9D", "#FF9F0A"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+                          { "type": "vstack", "alignment": "center", "spacing": "$token.spacing.sm", "children": [
+                            { "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md", "children": [
+                              { "type": "icon", "name": "star.fill", "color": "#FFFFFF", "size": 26 },
+                              { "type": "icon", "name": "bolt.fill", "color": "#FFF6C4", "size": 26 },
+                              { "type": "icon", "name": "heart.fill", "color": "#FFFFFF", "size": 26 }
+                            ] },
+                            { "type": "hstack", "alignment": "center", "spacing": "$token.spacing.md", "children": [
+                              { "type": "icon", "name": "leaf.fill", "color": "#DFFFE4", "size": 26 },
+                              { "type": "icon", "name": "flame.fill", "color": "#FFFFFF", "size": 26 },
+                              { "type": "icon", "name": "drop.fill", "color": "#DDEBFF", "size": 26 }
+                            ] }
+                          ] }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              { "type": "text", "value": "Left: sharp · Right: \"blur\": 8 — no network, no assets", "style": "$token.typography.caption", "color": "#FFFFFFAA", "alignment": "center", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

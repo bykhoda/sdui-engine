@@ -1,0 +1,465 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "document",
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "spacing": "$token.spacing.lg",
+        "alignment": "leading",
+        "modifiers": {
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          },
+          "animation": {
+            "curve": "spring"
+          }
+        },
+        "children": [
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.xs",
+            "children": [
+              {
+                "type": "text",
+                "value": "SERVER-DRIVEN",
+                "style": "$token.typography.caption",
+                "color": "$token.color.primary"
+              },
+              {
+                "type": "text",
+                "value": "Live Document",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary"
+              },
+              {
+                "type": "text",
+                "value": "Fetched over the network, then rendered from the response \u2014 a progress bar while it loads, content when it arrives.",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.textSecondary"
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "ATTACHMENTS", "style": "$token.typography.caption", "color": "$token.color.primary" },
+              { "type": "text", "value": "Tap any file to open it in the system previewer — photo, PDF and video, swipe between them.", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+              {
+                "type": "scroll", "axis": "horizontal",
+                "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": { "top": "$token.spacing.xs" } },
+                "child": {
+                  "type": "hstack", "spacing": "$token.spacing.md", "alignment": "center",
+                  "children": [
+                    {
+                      "type": "zstack", "alignment": "bottomLeading",
+                      "modifiers": {
+                        "size": { "width": { "mode": "fixed", "value": 150 }, "height": { "mode": "fixed", "value": 190 } },
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": { "radius": 10, "y": 4, "color": "#0E0E1216" },
+                        "onTap": { "action": "preview", "index": 0, "urls": [ "https://picsum.photos/seed/sduidoc/1400/1800", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", "https://download.samplelib.com/mp4/sample-5s.mp4" ] }
+                      },
+                      "children": [
+                        { "type": "image", "source": "https://picsum.photos/seed/sduidoc/1400/1800", "loader": { "placeholder": "skeleton", "aspectRatio": 0.79 }, "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "cornerRadius": "$token.radius.lg" } },
+                        { "type": "gradient", "colors": [ "#00000000", "#000000B0" ], "direction": "vertical", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 72 } }, "cornerRadius": "$token.radius.lg" } },
+                        {
+                          "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
+                          "modifiers": { "padding": "$token.spacing.md" },
+                          "children": [
+                            { "type": "icon", "name": "photo.fill", "color": "#FFFFFF", "size": 13 },
+                            { "type": "text", "value": "Photo", "style": "$token.typography.subheadline", "color": "#FFFFFF" }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack", "alignment": "center", "spacing": "$token.spacing.sm",
+                      "modifiers": {
+                        "size": { "width": { "mode": "fixed", "value": 150 }, "height": { "mode": "fixed", "value": 190 } },
+                        "padding": "$token.spacing.md",
+                        "background": "$token.color.surfaceElevated",
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": { "radius": 10, "y": 4, "color": "#0E0E1216" },
+                        "onTap": { "action": "preview", "index": 1, "urls": [ "https://picsum.photos/seed/sduidoc/1400/1800", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", "https://download.samplelib.com/mp4/sample-5s.mp4" ] }
+                      },
+                      "children": [
+                        { "type": "spacer" },
+                        { "type": "icon", "name": "doc.richtext.fill", "color": "$token.color.primary", "size": 46 },
+                        { "type": "spacer" },
+                        {
+                          "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
+                          "children": [
+                            { "type": "icon", "name": "doc.fill", "color": "$token.color.textSecondary", "size": 13 },
+                            { "type": "text", "value": "PDF", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "zstack", "alignment": "center",
+                      "modifiers": {
+                        "size": { "width": { "mode": "fixed", "value": 150 }, "height": { "mode": "fixed", "value": 190 } },
+                        "cornerRadius": "$token.radius.lg",
+                        "shadow": { "radius": 10, "y": 4, "color": "#0E0E1216" },
+                        "onTap": { "action": "preview", "index": 2, "urls": [ "https://picsum.photos/seed/sduidoc/1400/1800", "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf", "https://download.samplelib.com/mp4/sample-5s.mp4" ] }
+                      },
+                      "children": [
+                        { "type": "image", "source": "https://picsum.photos/seed/sduivideo/900/1200", "loader": { "placeholder": "skeleton", "aspectRatio": 0.79 }, "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "cornerRadius": "$token.radius.lg" } },
+                        { "type": "vstack", "children": [], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } }, "background": "#00000030", "cornerRadius": "$token.radius.lg" } },
+                        {
+                          "type": "zstack", "alignment": "bottomLeading",
+                          "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+                          "children": [
+                            { "type": "gradient", "colors": [ "#00000000", "#000000B0" ], "direction": "vertical", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 72 } }, "cornerRadius": "$token.radius.lg", "alignment": "bottom" } },
+                            {
+                              "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
+                              "modifiers": { "padding": "$token.spacing.md" },
+                              "children": [
+                                { "type": "icon", "name": "film.fill", "color": "#FFFFFF", "size": 13 },
+                                { "type": "text", "value": "Video", "style": "$token.typography.subheadline", "color": "#FFFFFF" }
+                              ]
+                            }
+                          ]
+                        },
+                        { "type": "icon", "name": "play.circle.fill", "color": "#FFFFFF", "size": 46, "modifiers": { "padding": { "bottom": 26 } } }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "title": "Load from server",
+            "style": "$token.button.primary",
+            "icon": "arrow.down.circle.fill",
+            "onTap": {
+              "action": "setState",
+              "key": "loadRequested",
+              "value": true
+            },
+            "visibleWhen": {
+              "equals": [
+                "$state.loadRequested",
+                "false"
+              ]
+            },
+            "modifiers": {
+              "padding": {
+                "top": "$token.spacing.sm"
+              }
+            }
+          },
+          {
+            "type": "async",
+            "source": {
+              "id": "doc",
+              "service": "demo",
+              "path": "/posts/1",
+              "method": "GET"
+            },
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "loading": {
+              "type": "vstack",
+              "alignment": "leading",
+              "spacing": "$token.spacing.lg",
+              "modifiers": {
+                "size": {
+                  "width": {
+                    "mode": "fill"
+                  }
+                },
+                "padding": "$token.spacing.lg",
+                "background": "$token.color.surfaceElevated",
+                "cornerRadius": "$token.radius.lg",
+                "shadow": {
+                  "radius": 16,
+                  "y": 6,
+                  "color": "#00000010"
+                }
+              },
+              "children": [
+                {
+                  "type": "hstack",
+                  "alignment": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "DESIGN SYSTEM",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textTertiary"
+                    },
+                    {
+                      "type": "spacer"
+                    },
+                    {
+                      "type": "text",
+                      "value": "Loading\u2026",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "progress",
+                  "color": "$token.color.primary"
+                },
+                {
+                  "type": "vstack",
+                  "children": [],
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fill"
+                      },
+                      "height": {
+                        "mode": "fixed",
+                        "value": 22
+                      }
+                    },
+                    "background": "$token.color.surface",
+                    "cornerRadius": "$token.radius.sm"
+                  }
+                },
+                {
+                  "type": "hstack",
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "children": [],
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "weight",
+                            "value": 0.7
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 22
+                          }
+                        },
+                        "background": "$token.color.surface",
+                        "cornerRadius": "$token.radius.sm"
+                      }
+                    },
+                    {
+                      "type": "spacer"
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "children": [],
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fill"
+                      },
+                      "height": {
+                        "mode": "fixed",
+                        "value": 14
+                      }
+                    },
+                    "background": "$token.color.surface",
+                    "cornerRadius": "$token.radius.sm"
+                  }
+                },
+                {
+                  "type": "vstack",
+                  "children": [],
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fill"
+                      },
+                      "height": {
+                        "mode": "fixed",
+                        "value": 14
+                      }
+                    },
+                    "background": "$token.color.surface",
+                    "cornerRadius": "$token.radius.sm"
+                  }
+                },
+                {
+                  "type": "hstack",
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "children": [],
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "weight",
+                            "value": 0.5
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 14
+                          }
+                        },
+                        "background": "$token.color.surface",
+                        "cornerRadius": "$token.radius.sm"
+                      }
+                    },
+                    {
+                      "type": "spacer"
+                    }
+                  ]
+                }
+              ]
+            },
+            "error": {
+              "type": "vstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.sm",
+              "modifiers": {
+                "size": {
+                  "width": {
+                    "mode": "fill"
+                  }
+                },
+                "padding": "$token.spacing.xl",
+                "background": "$token.color.surface",
+                "cornerRadius": "$token.radius.lg"
+              },
+              "children": [
+                {
+                  "type": "icon",
+                  "name": "exclamationmark.triangle.fill",
+                  "color": "$token.color.warning",
+                  "size": 28
+                },
+                {
+                  "type": "text",
+                  "value": "Couldn't load the document",
+                  "style": "$token.typography.headline",
+                  "color": "$token.color.textPrimary"
+                },
+                {
+                  "type": "text",
+                  "value": "Check your connection and try again.",
+                  "style": "$token.typography.subheadline",
+                  "color": "$token.color.textSecondary"
+                }
+              ]
+            },
+            "content": {
+              "type": "vstack",
+              "alignment": "leading",
+              "spacing": "$token.spacing.md",
+              "modifiers": {
+                "size": {
+                  "width": {
+                    "mode": "fill"
+                  }
+                },
+                "padding": "$token.spacing.lg",
+                "background": "$token.color.surfaceElevated",
+                "cornerRadius": "$token.radius.lg",
+                "shadow": {
+                  "radius": 16,
+                  "y": 6,
+                  "color": "#00000014"
+                }
+              },
+              "children": [
+                {
+                  "type": "hstack",
+                  "alignment": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "name": "doc.text.fill",
+                      "color": "$token.color.primary",
+                      "size": 18
+                    },
+                    {
+                      "type": "text",
+                      "value": "DESIGN SYSTEM",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary"
+                    },
+                    {
+                      "type": "spacer"
+                    },
+                    {
+                      "type": "button",
+                      "title": "Share",
+                      "style": "$token.button.tinted",
+                      "icon": "square.and.arrow.up",
+                      "onTap": {
+                        "action": "share",
+                        "text": "$data.doc.title",
+                        "url": "https://jsonplaceholder.typicode.com/posts/1"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "value": "$data.doc.title",
+                  "style": "$token.typography.title2",
+                  "color": "$token.color.textPrimary"
+                },
+                {
+                  "type": "text",
+                  "value": "$data.doc.body",
+                  "style": "$token.typography.body",
+                  "color": "$token.color.textSecondary"
+                },
+                {
+                  "type": "divider",
+                  "color": "$token.color.separator"
+                },
+                {
+                  "type": "hstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "name": "checkmark.seal.fill",
+                      "color": "$token.color.success",
+                      "size": 15
+                    },
+                    {
+                      "type": "text",
+                      "value": "Loaded live from the server",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary"
+                    }
+                  ]
+                }
+              ]
+            },
+            "visibleWhen": {
+              "equals": [
+                "$state.loadRequested",
+                "true"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "state": {
+      "loadRequested": false
+    }
+  }
+}
