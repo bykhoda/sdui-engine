@@ -72,4 +72,15 @@ for (const k of kinds) {
 }
 writeFileSync(join(OUT, 'actions.md'), act);
 
-console.log(`✓ wrote docs/reference/{components,modifiers,actions}.md — ${branches.length} components, ${Object.keys(D.Modifiers.properties).length} modifiers, ${kinds.length} actions`);
+// ---- Index ----
+const nMod = Object.keys(D.Modifiers.properties).length;
+writeFileSync(join(OUT, 'README.md'),
+  header('Contract reference', 'Generated from `spec/schema/sdui.schema.json`. The single source of truth for what a screen may contain; kept in sync by a CI drift gate.') +
+  `| Reference | Count |\n|---|:--:|\n` +
+  `| [Components](components.md) | ${branches.length} |\n` +
+  `| [Modifiers](modifiers.md) | ${nMod} |\n` +
+  `| [Actions](actions.md) | ${kinds.length} |\n\n` +
+  `Per-platform support for each is tracked in [PARITY.md](../../PARITY.md). ` +
+  `Regenerate with \`node spec/tools/gen-reference.mjs\`.\n`);
+
+console.log(`✓ wrote docs/reference/{README,components,modifiers,actions}.md — ${branches.length} components, ${nMod} modifiers, ${kinds.length} actions`);
