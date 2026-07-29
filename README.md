@@ -1,12 +1,15 @@
 # SDUI — Server-Driven UI engine for mobile
 
 Ship whole screens from your backend as JSON. One contract renders natively on
-**iOS (SwiftUI)** and **Android (Jetpack Compose)** — same payload, same
-requests, no client release to change a screen.
+**iOS (SwiftUI)**, **Android (Jetpack Compose)** and **Aurora OS (Qt/Silica)** —
+same payload, same requests, no client release to change a screen.
 
-> Status: **v0.1 — foundation.** Core contract, iOS renderer for the primitive
-> component set, declarative networking, and the action interpreter are
-> implemented and unit-tested. See the [roadmap](#roadmap).
+> Status: **30 components on all three renderers**, a closed 24-action runtime, a
+> visual composer, and a shared **conformance corpus** that proves the engines
+> interpret the contract identically — same fixtures, JS reference + native, red on
+> drift ([Conformance](#conformance--identical-everywhere)). iOS is the reference
+> (built + tested on every commit); the Android and Aurora renderers are implemented
+> and gated by CI / an Aurora build. Live matrix: [PARITY.md](PARITY.md).
 
 ## Why
 
@@ -49,16 +52,21 @@ spec/                         # THE SOURCE OF TRUTH (platform-neutral)
   schema/sdui.schema.json     # the contract — validates every payload
   schema/tokens.example.json  # shared design tokens
   examples/*.json             # reference screens
+  conformance/                # shared fixture corpus + JS reference runner (check.mjs)
+  compose/index.html          # the visual composer (direct-manipulation, /compose)
+  tools/                      # validate · codegen · parity · gen-reference · serve · mcp
   docs/*.md                   # protocol + AI authoring guide
 
-ios/                          # Swift Package (SwiftUI renderer)
-  Sources/SDUICore/           # models, decoding, binding engine, conditions
-  Sources/SDUINetwork/        # declarative networking (services, TaskGroup)
-  Sources/SDUIRuntime/        # action interpreter (sequence/parallel/condition)
-  Sources/SDUIRender/         # SwiftUI renderers + component registry
-  Tests/                      # unit tests (core is fully covered)
+ios/                          # Swift Package (SwiftUI renderer — the REFERENCE)
+  Sources/{SDUICore,SDUINetwork,SDUIRuntime,SDUIRender}/
+  Tests/                      # unit + the native conformance leg (SDUIConformanceTests)
 
-android/                      # Compose renderer (planned — same contract)
+android/                      # Jetpack Compose renderer (same contract)
+aurora/                       # Aurora OS — Qt/QML/Silica renderer (same contract)
+
+docs/blueprint/               # the working hub: audits, parity plans, cited specs
+docs/reference/               # component/modifier/action reference (generated)
+PARITY.md                     # generated renderer parity matrix
 ```
 
 ## Quick start (iOS)
@@ -135,7 +143,33 @@ The contract's `navigate` action drives `push` / `sheet` / `fullScreenCover`,
 
 The [`android/`](android) module renders the **same** contract with Jetpack
 Compose, mirroring the SwiftUI reference file-for-file. See
-[`android/README.md`](android/README.md).
+[`android/README.md`](android/README.md). A third renderer,
+[`aurora/`](aurora) (Aurora OS — Qt/QML/Silica), consumes the identical payload.
+
+## Conformance — "identical everywhere"
+
+"Renders the same on every platform" is a *test*, not a promise. A shared corpus of
+fixtures under [`spec/conformance/`](spec/conformance) runs through a JS reference
+(`check.mjs`) **and** the real native engine (iOS `SDUIConformanceTests`), asserting the
+same validation, binding resolution, condition evaluation and action effects in every
+language — so drift is a red build.
+
+```bash
+node spec/conformance/check.mjs        # JS reference — validation/bindings/conditions/effects
+node spec/conformance/coverage.mjs     # 100% of the contract surface is fixtured
+```
+
+Every component, modifier and pure-effect action has a fixture, enforced by a `--strict`
+CI gate. The native leg already earned its keep — it caught a real reference bug (context
+mutated mid-sequence where iOS runs a snapshot).
+
+## Visual composer
+
+A browser composer at `/compose` ([`spec/compose/index.html`](spec/compose/index.html))
+builds screens by direct manipulation — drag on the canvas, set spacing/padding with
+handles, edit colors in place — with a preview that resolves bindings and renders
+iOS- or Material-styled per selected device, and a live, validated JSON export. Run it
+with `node spec/tools/serve.mjs` (also serves the 47 reference + app screens to edit).
 
 ## Prior art & cross-platform design
 
@@ -145,12 +179,12 @@ text metrics, list identity, insets, accessibility). The rationale and the rules
 the contract follows are written up in
 [`docs/design-notes.md`](docs/design-notes.md).
 
-## How the same JSON drives Android
+## How the same JSON drives every platform
 
-The contract carries nothing SwiftUI-specific. The Compose renderer will consume
-the identical payload: `spec/schema/sdui.schema.json` generates the Kotlin models,
-`vstack`→`Column`, `hstack`→`Row`, the binding engine and action interpreter port
-1:1, and the token file is shared. Backends never branch per platform.
+The contract carries nothing SwiftUI-specific. Each renderer consumes the identical
+payload: `vstack`→`Column`/`ColumnLayout`, `hstack`→`Row`/`RowLayout`; the binding engine
+and action interpreter are ported 1:1 (and pinned identical by the conformance corpus);
+the token file is shared. Backends never branch per platform.
 
 ## Roadmap
 
