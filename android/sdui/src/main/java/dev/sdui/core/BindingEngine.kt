@@ -19,6 +19,9 @@ data class BindingContext(
     val env: Map<String, JsonValue> = emptyMap(),
     /** Client-local screen state. */
     val state: Map<String, JsonValue> = emptyMap(),
+    /** Navigation parameters passed to this screen, bindable as `$params.<key>`
+     *  (mirrors the iOS `BindingContext.params`). */
+    val params: Map<String, JsonValue> = emptyMap(),
     /** The current element inside a `list` template, exposed as `$item`. */
     val item: JsonValue? = null,
 ) {
@@ -149,6 +152,12 @@ object BindingEngine {
                 if (key == null) null
                 else ctx.state[key]?.valueAt(rest.drop(1))
                     ?: (if (rest.size == 1) ctx.state[key] else null)
+            }
+            "params" -> {
+                val key = rest.firstOrNull()
+                if (key == null) null
+                else ctx.params[key]?.valueAt(rest.drop(1))
+                    ?: (if (rest.size == 1) ctx.params[key] else null)
             }
             "item" -> ctx.item?.valueAt(rest) ?: (if (rest.isEmpty()) ctx.item else null)
             else -> return null

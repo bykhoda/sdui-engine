@@ -59,6 +59,10 @@ interface ActionHost {
 
     /** Handle a host-defined `custom` action. */
     suspend fun custom(name: String, payload: JsonValue?)
+
+    /** Present a quick-look/gallery of one or more urls (default no-op, like iOS's
+     *  default ActionHost) so a host that predates it keeps compiling. */
+    suspend fun preview(urls: List<String>, index: Int) {}
 }
 
 /**
@@ -134,6 +138,14 @@ class ActionInterpreter(private val host: ActionHost) {
                 )
 
             "log" -> host.log(resolvedString(action.field("message"), ctx))
+
+            "preview" -> {
+                // A single `url` or an array of `urls`, each binding-resolved, with an
+                // optional starting `index` — mirrors the iOS interpreter.
+                val urls = action.field("urls")?.arrayValue?.map { resolvedString(it, ctx) }
+                    ?: resolvedString(action.field("url"), ctx).let { if (it.isEmpty()) emptyList() else listOf(it) }
+                host.preview(urls, action.field("index")?.doubleValue?.toInt() ?: 0)
+            }
 
             // Already tracked above via action.analytics.
             "analytics" -> Unit
