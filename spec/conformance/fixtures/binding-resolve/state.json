@@ -1,0 +1,3 @@
+{ "state": { "name": "Ann", "count": 3 },
+  "data": { "product": { "title": "Pro Plan", "price": 9 } },
+  "item": { "label": "Row A" } }

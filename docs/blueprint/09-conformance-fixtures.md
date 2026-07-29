@@ -130,8 +130,11 @@ aurora/tests/conformance     # (Qt Test / a QML harness)
 
 ## 7. Sequence to build (small, incremental)
 
-1. `expect.schema.json` + `check.mjs` (Level A) + 10 seed fixtures (a few actions,
-   bindings, one screen). Wire into the `contract` CI job. **← start here; pure JS.**
+1. ✅ **DONE 2026-07-29** — `check.mjs` (Level A) running in the `contract` CI job with
+   6 seed fixtures. Implemented aspects: **validation** (reuses the production
+   `Validator`), **bindings** and **conditions** (via `binding.mjs`, a faithful port of
+   `BindingEngine`/`Condition`). `effects` + `render` still declared-but-pending. Next:
+   `expect.schema.json`, grow the corpus, then the effect (action-interpreter) runner.
 2. iOS `ConformanceTests` running Level A against the same fixtures (proves parity of
    the Swift interpreter). Then Android, then Aurora.
 3. Grow the corpus to full per-component/modifier/action coverage + the coverage gate.

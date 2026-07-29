@@ -1,0 +1,11 @@
+{ "validation": { "valid": true },
+  "bindings": {
+    "$state.name": "Ann",
+    "$state.count": "3",
+    "$state.missing": "",
+    "Hello, $state.name!": "Hello, Ann!",
+    "count=$state.count": "count=3",
+    "$data.product.title": "Pro Plan",
+    "$data.product.price": "9",
+    "$item.label": "Row A"
+  } }

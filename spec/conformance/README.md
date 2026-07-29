@@ -14,9 +14,14 @@ Each `fixtures/<id>/` holds:
 - `expect.json` — platform-neutral assertions
 
 `expect.json` keys:
-- `validation`: `{ "valid": true }` or `{ "valid": false, "errorContains": "…" }` — **implemented now** (reuses the production `Validator`).
-- `bindings` / `conditions` / `effects` / `render`: declared but reported as **pending**
-  until their reference runners land (staged in doc 09). The harness never claims coverage it doesn't have.
+- `validation`: `{ "valid": true }` or `{ "valid": false, "errorContains": "…" }` — reuses the production `Validator`.
+- `bindings`: `{ "<input>": "<expected resolveString>" }` — resolved by `binding.mjs`, a
+  faithful port of `BindingEngine` (whole-string + interpolation + all prefixes + indirection).
+- `conditions`: `[ { "expr": <Condition>, "value": true|false } ]` — evaluated by the same port.
+- Context for bindings/conditions comes from an optional `state.json`:
+  `{ "state": {…}, "data": {…}, "env": {…}, "params": {…}, "item": {…} }` (+ tokens from `tokens.json`/default).
+- `effects` / `render`: declared but reported as **pending** until their reference runners
+  land (staged in doc 09). The harness never claims coverage it doesn't have.
 
 **Contract:** each native platform will run these same fixtures in its own language, so a
 fixture failing anywhere (or in the JS reference) is a red build. Adding a component /

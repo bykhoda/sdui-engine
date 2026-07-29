@@ -1,0 +1,2 @@
+{ "version": "1.0", "screen": { "id": "cf_bind", "title": "CF",
+  "content": { "type": "text", "value": "$state.name" } } }

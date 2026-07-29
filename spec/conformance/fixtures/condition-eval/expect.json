@@ -1,0 +1,11 @@
+{ "conditions": [
+    { "expr": { "equals": ["$state.status", "active"] }, "value": true },
+    { "expr": { "equals": ["$state.status", "paused"] }, "value": false },
+    { "expr": { "notEquals": ["$state.status", "paused"] }, "value": true },
+    { "expr": { "exists": "$state.items" }, "value": true },
+    { "expr": { "exists": "$state.empty" }, "value": false },
+    { "expr": { "exists": "$state.missing" }, "value": false },
+    { "expr": { "not": { "exists": "$state.missing" } }, "value": true },
+    { "expr": { "and": [ { "equals": ["$state.status", "active"] }, { "exists": "$state.items" } ] }, "value": true },
+    { "expr": { "or": [ { "equals": ["$state.status", "paused"] }, { "exists": "$state.items" } ] }, "value": true }
+  ] }
