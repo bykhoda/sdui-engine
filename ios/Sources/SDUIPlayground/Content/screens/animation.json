@@ -47,12 +47,12 @@
               {
                 "type": "zstack",
                 "alignment": "center",
+                "visibleWhen": { "equals": ["$state.big", "true"] },
                 "modifiers": {
                   "size": { "width": { "mode": "fixed", "value": 64 }, "height": { "mode": "fixed", "value": 64 } },
                   "cornerRadius": "$token.radius.md",
                   "scale": 1.4,
                   "animation": { "curve": "spring" },
-                  "visibleWhen": { "equals": ["$state.big", "true"] },
                   "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "big", "value": false } ] }
                 },
                 "children": [
@@ -63,11 +63,11 @@
               {
                 "type": "zstack",
                 "alignment": "center",
+                "visibleWhen": { "equals": ["$state.big", "false"] },
                 "modifiers": {
                   "size": { "width": { "mode": "fixed", "value": 64 }, "height": { "mode": "fixed", "value": 64 } },
                   "cornerRadius": "$token.radius.md",
                   "animation": { "curve": "spring" },
-                  "visibleWhen": { "equals": ["$state.big", "false"] },
                   "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "big", "value": true } ] }
                 },
                 "children": [

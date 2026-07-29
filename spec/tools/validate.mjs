@@ -108,7 +108,18 @@ export class Validator {
     // Strict, schema-derived shape check: required fields, enum membership, numeric
     // types & ranges — for this component's props and for its modifiers.
     this.checkShape(node, COMPONENT_PROPS[type], path);
-    if (node.modifiers !== undefined) this.checkShape(node.modifiers, DEFS.Modifiers, `${path}.modifiers`);
+    if (node.modifiers !== undefined) {
+      this.checkShape(node.modifiers, DEFS.Modifiers, `${path}.modifiers`);
+      // The Modifiers object is a closed set (schema additionalProperties:false). Unlike a
+      // component node — which carries structural keys (type/children/modifiers) beyond its
+      // props — a modifiers map should ONLY hold known modifier keys, so a typo like
+      // "shadwo" or an invented "glow" is a real authoring bug, caught here.
+      if (node.modifiers && typeof node.modifiers === 'object' && !Array.isArray(node.modifiers)) {
+        for (const k of Object.keys(node.modifiers)) {
+          if (!(k in DEFS.Modifiers.properties)) this.err(`${path}.modifiers.${k}`, `unknown modifier "${k}"`);
+        }
+      }
+    }
     if (node.modifiers?.onTap) this.walkAction(node.modifiers.onTap, `${path}.modifiers.onTap`);
     if (node.modifiers?.onLongPress) this.walkAction(node.modifiers.onLongPress, `${path}.modifiers.onLongPress`);
     (node.modifiers?.contextMenu ?? []).forEach((m, i) => m.action && this.walkAction(m.action, `${path}.modifiers.contextMenu[${i}].action`));

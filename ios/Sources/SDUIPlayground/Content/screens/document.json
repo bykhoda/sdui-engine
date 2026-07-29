@@ -118,7 +118,7 @@
                           "type": "zstack", "alignment": "bottomLeading",
                           "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
                           "children": [
-                            { "type": "gradient", "colors": [ "#00000000", "#000000B0" ], "direction": "vertical", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 72 } }, "cornerRadius": "$token.radius.lg", "alignment": "bottom" } },
+                            { "type": "gradient", "colors": [ "#00000000", "#000000B0" ], "direction": "vertical", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 72 } }, "cornerRadius": "$token.radius.lg" } },
                             {
                               "type": "hstack", "alignment": "center", "spacing": "$token.spacing.xs",
                               "modifiers": { "padding": "$token.spacing.md" },
