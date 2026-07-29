@@ -12,26 +12,26 @@
 
 | Component | iOS | Android | Aurora |
 |---|---|---|---|
-| `async` | ✅ | ✅ | — |
+| `async` | ✅ | ✅ | ✅ |
 | `button` | ✅ | ✅ | ✅ |
-| `calendar` | ✅ | ✅ | — |
+| `calendar` | ✅ | ✅ | ✅ |
 | `chart` | ✅ | ✅ | ✅ |
-| `clips` | ✅ | ✅ | — |
-| `datepicker` | ✅ | ✅ | — |
+| `clips` | ✅ | ✅ | ✅ |
+| `datepicker` | ✅ | ✅ | ✅ |
 | `disclosure` | ✅ | ✅ | ✅ |
 | `divider` | ✅ | ✅ | ✅ |
-| `filecell` | ✅ | ✅ | — |
+| `filecell` | ✅ | ✅ | ✅ |
 | `gradient` | ✅ | ✅ | ✅ |
 | `grid` | ✅ | ✅ | ✅ |
 | `hstack` | ✅ | ✅ | ✅ |
 | `icon` | ✅ | ✅ | ✅ |
 | `image` | ✅ | ✅ | ✅ |
 | `list` | ✅ | ✅ | ✅ |
-| `pager` | ✅ | ✅ | — |
-| `picker` | ✅ | ✅ | — |
+| `pager` | ✅ | ✅ | ✅ |
+| `picker` | ✅ | ✅ | ✅ |
 | `progress` | ✅ | ✅ | ✅ |
 | `rings` | ✅ | ✅ | ✅ |
-| `roadmap` | ✅ | ✅ | — |
+| `roadmap` | ✅ | ✅ | ✅ |
 | `scroll` | ✅ | ✅ | ✅ |
 | `slider` | ✅ | ✅ | ✅ |
 | `spacer` | ✅ | ✅ | ✅ |
@@ -42,13 +42,13 @@
 | `toggle` | ✅ | ✅ | ✅ |
 | `vstack` | ✅ | ✅ | ✅ |
 | `zstack` | ✅ | ✅ | ✅ |
-| **supported** | **30/30** | **30/30** | **22/30** |
+| **supported** | **30/30** | **30/30** | **30/30** |
 
 ### Gaps — components
 
 - **iOS** missing 0: _none — full parity_
 - **Android** missing 0: _none — full parity_
-- **Aurora** missing 8: `async`, `calendar`, `clips`, `datepicker`, `filecell`, `pager`, `picker`, `roadmap`
+- **Aurora** missing 0: _none — full parity_
 
 ## Actions
 
