@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -106,10 +107,21 @@ private fun parseCategories(catalog: JsonValue?): List<Category> {
 private class PlaygroundHost(
     private val known: Set<String>,
     private val push: (String) -> Unit,
+    private val present: (String) -> Unit,
+    private val onDismiss: () -> Unit,
 ) : SduiHostDelegate {
     override fun navigate(screen: String, params: Map<String, JsonValue>, transition: String) {
-        if (screen in known) push(screen)
+        if (screen !in known) return
+        // `sheet` presents modally over the current screen — the Android twin of iOS's
+        // `.sheet(item:)` (Navigation.swift). Everything else pushes onto the tab's stack.
+        // `dismiss` closes the sheet if one is up, else pops the stack.
+        when (transition) {
+            "sheet" -> present(screen)
+            else -> push(screen)
+        }
     }
+
+    override fun dismiss() = onDismiss()
 }
 
 // ── UI ───────────────────────────────────────────────────────────────────────
@@ -125,6 +137,7 @@ private enum class Tab(val label: String, val root: String, val icon: ImageVecto
 
 private const val CATALOG = "__catalog"
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun PlaygroundApp() {
     val context = LocalContext.current
@@ -145,8 +158,16 @@ fun PlaygroundApp() {
     var selected by remember { mutableStateOf(Tab.HOME) }
     val stacks = remember { Tab.entries.associateWith { mutableStateListOf(it.root) } }
     val stack = stacks.getValue(selected)
+    // A single modal sheet presented over the whole app (comments, filters, repost…),
+    // driven by `navigate transition:"sheet"`; null when nothing is presented.
+    var sheetScreen by remember { mutableStateOf<String?>(null) }
     val host = remember(playground, selected) {
-        PlaygroundHost(playground.screensById.keys + CATALOG) { stack.add(it) }
+        PlaygroundHost(
+            known = playground.screensById.keys + CATALOG,
+            push = { stack.add(it) },
+            present = { sheetScreen = it },
+            onDismiss = { if (sheetScreen != null) sheetScreen = null else if (stack.size > 1) stack.removeAt(stack.lastIndex) },
+        )
     }
 
     MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
@@ -191,6 +212,24 @@ fun PlaygroundApp() {
                 }
             }
             BackHandler(enabled = stack.size > 1) { stack.removeAt(stack.lastIndex) }
+        }
+
+        // Modal presentation for `navigate transition:"sheet"`. Material3 `ModalBottomSheet`
+        // is the Android counterpart of SwiftUI's `.sheet` — a rounded, dismissible sheet with
+        // a drag handle and scrim. The presented screen is rendered by the SAME engine, so a
+        // comments/filters/repost modal is just an ordinary SDUI screen. See doc 19.
+        val presented = sheetScreen
+        if (presented != null) {
+            val doc = playground.screensById[presented]
+            ModalBottomSheet(onDismissRequest = { sheetScreen = null }) {
+                if (doc != null) {
+                    SduiScreen(document = doc, tokens = playground.tokens, env = env, delegate = host)
+                } else {
+                    Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
+                        Text("Screen \"$presented\" is not bundled")
+                    }
+                }
+            }
         }
     }
 }
