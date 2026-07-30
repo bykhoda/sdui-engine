@@ -247,7 +247,10 @@ internal fun ChartView(component: Component, ctx: RenderContext) {
 // reference) to the closest Material icon. Covers everything the shipped content uses;
 // the family-strip (".fill" etc.) folds to one Material glyph. Unknown names fall back to
 // a neutral dot — never the old four-square "widgets" glyph that read as broken.
-internal fun materialIcon(sf: String): ImageVector = when (sf) {
+/** Maps an SF-Symbol name to the closest Material icon, so a contract authored against
+ *  Apple's symbol set renders on Android too. Public so demo hosts (e.g. the stories
+ *  player) can reuse the single mapping instead of duplicating it. */
+fun materialIcon(sf: String): ImageVector = when (sf) {
     // playback / media
     "play.fill", "play.circle.fill", "play.rectangle.fill" -> Icons.Filled.PlayArrow
     "pause.fill", "pause.circle.fill" -> Icons.Filled.Pause

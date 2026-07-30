@@ -109,6 +109,7 @@ private class PlaygroundHost(
     private val push: (String) -> Unit,
     private val present: (String) -> Unit,
     private val onDismiss: () -> Unit,
+    private val openStory: (Int) -> Unit,
 ) : SduiHostDelegate {
     override fun navigate(screen: String, params: Map<String, JsonValue>, transition: String) {
         if (screen !in known) return
@@ -122,6 +123,17 @@ private class PlaygroundHost(
     }
 
     override fun dismiss() = onDismiss()
+
+    // The home story rings fire `custom {name:"story", payload:{index}}` — open the
+    // full-screen stories player, the Android twin of the iOS `fullScreenCover` path.
+    override fun custom(name: String, payload: JsonValue?) {
+        if (name == "story") {
+            val index = (payload as? JsonValue.Obj)?.value?.get("index")?.let {
+                (it as? JsonValue.Num)?.value?.toInt()
+            } ?: 0
+            openStory(index)
+        }
+    }
 }
 
 // ── UI ───────────────────────────────────────────────────────────────────────
@@ -161,12 +173,15 @@ fun PlaygroundApp() {
     // A single modal sheet presented over the whole app (comments, filters, repost…),
     // driven by `navigate transition:"sheet"`; null when nothing is presented.
     var sheetScreen by remember { mutableStateOf<String?>(null) }
+    // The index of the currently open full-screen stories player, or null when closed.
+    var openStoryIndex by remember { mutableStateOf<Int?>(null) }
     val host = remember(playground, selected) {
         PlaygroundHost(
             known = playground.screensById.keys + CATALOG,
             push = { stack.add(it) },
             present = { sheetScreen = it },
             onDismiss = { if (sheetScreen != null) sheetScreen = null else if (stack.size > 1) stack.removeAt(stack.lastIndex) },
+            openStory = { openStoryIndex = it },
         )
     }
 
@@ -230,6 +245,13 @@ fun PlaygroundApp() {
                     }
                 }
             }
+        }
+
+        // Full-screen stories player, presented above the whole app (tab bar included) —
+        // the Android twin of the iOS `fullScreenCover` opened from the home story rings.
+        openStoryIndex?.let { start ->
+            StoriesPlayer(stories = CapabilityStory.all, start = start, onClose = { openStoryIndex = null })
+            BackHandler { openStoryIndex = null }
         }
     }
 }
