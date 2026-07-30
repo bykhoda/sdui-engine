@@ -6,9 +6,15 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
@@ -252,24 +258,63 @@ private fun GridView(component: Component, ctx: RenderContext) {
 private fun DisclosureView(component: Component, ctx: RenderContext) {
     val title = BindingEngine.resolveString(component.prop("title")?.stringValue ?: "", ctx.binding)
     val subtitle = BindingEngine.resolveString(component.prop("subtitle")?.stringValue ?: "", ctx.binding)
+    val icon = component.prop("icon")?.stringValue
+    val accent = Theme.color(component.prop("accent")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
     var expanded by remember(component.id) { mutableStateOf(component.prop("expanded")?.boolValue ?: false) }
+    val haptic = LocalHapticFeedback.current
+    val colors = androidx.compose.material3.MaterialTheme.colorScheme
+    val surface = Theme.color("\$token.color.surfaceElevated", ctx.binding) ?: colors.surface
+    val hairline = colors.onSurface.copy(alpha = 0.06f)
+    val chevron by animateFloatAsState(if (expanded) 180f else 0f, label = "disclosure-chevron")
+
+    // A rounded card with a hairline border, a leading accent-tinted icon tile, a rotating
+    // chevron, and a header/content divider — the Android twin of the iOS DisclosureView
+    // (was bare rows with a "▾/▸" glyph; parity #30).
     Primitive(component, ctx) { modifier ->
-        Column(modifier.fillMaxWidth()) {
+        Column(
+            modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(surface)
+                .border(0.5.dp, hairline, RoundedCornerShape(16.dp)),
+        ) {
             Row(
-                modifier = Modifier.fillMaxWidth().clickable { expanded = !expanded }.padding(vertical = 12.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        expanded = !expanded
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    }
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column {
-                    Text(title, style = androidx.compose.material3.LocalTextStyle.current)
+                if (!icon.isNullOrEmpty()) {
+                    Box(
+                        Modifier.size(32.dp).clip(RoundedCornerShape(9.dp)).background(accent.copy(alpha = 0.14f)),
+                        contentAlignment = Alignment.Center,
+                    ) { Icon(materialIcon(icon), null, tint = accent, modifier = Modifier.size(17.dp)) }
+                    Spacer(Modifier.width(12.dp))
+                }
+                Column(Modifier.weight(1f)) {
+                    Text(title, fontWeight = FontWeight.SemiBold)
                     if (subtitle.isNotEmpty()) {
-                        Text(subtitle, style = androidx.compose.material3.MaterialTheme.typography.bodySmall)
+                        Text(subtitle, style = androidx.compose.material3.MaterialTheme.typography.bodyMedium, color = colors.onSurfaceVariant)
                     }
                 }
-                Text(if (expanded) "▾" else "▸")
+                Icon(
+                    Icons.Filled.KeyboardArrowDown,
+                    contentDescription = null,
+                    tint = colors.onSurfaceVariant,
+                    modifier = Modifier.graphicsLayer { rotationZ = chevron },
+                )
             }
             AnimatedVisibility(visible = expanded) {
-                Column { component.children.forEach { ctx.registry.Render(it, ctx) } }
+                Column {
+                    HorizontalDivider(color = hairline)
+                    Column(Modifier.padding(16.dp)) {
+                        component.children.forEach { ctx.registry.Render(it, ctx) }
+                    }
+                }
             }
         }
     }
