@@ -46,7 +46,7 @@ import java.util.TimeZone
 @Composable
 internal fun DatePickerView(component: Component, ctx: RenderContext) {
     val key = (component.prop("bind")?.stringValue ?: "").removePrefix("\$state.")
-    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Color(0xFF0A84FF)
+    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
     val graphical = (component.prop("style")?.stringValue ?: "graphical") == "graphical"
     val current = BindingEngine.resolve("\$state.$key", ctx.binding).stringValue ?: ""
 

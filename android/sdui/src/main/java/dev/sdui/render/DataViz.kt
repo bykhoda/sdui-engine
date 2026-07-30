@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.automirrored.filled.DirectionsBike
 import androidx.compose.material.icons.automirrored.filled.ListAlt
+import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
@@ -125,7 +126,7 @@ internal fun RingsView(component: Component, ctx: RenderContext) {
             val g = gap.dp.toPx()
             val side = minOf(size.width, size.height)
             values.forEachIndexed { index, value ->
-                val color = colors.getOrElse(index) { Color(0xFF0A84FF) }
+                val color = colors.getOrElse(index) { Theme.accent(ctx.binding) }
                 val inset = index * (lw + g) + lw / 2f
                 val diameter = side - inset * 2f
                 if (diameter <= 0f) return@forEachIndexed
@@ -162,7 +163,7 @@ internal fun RingsView(component: Component, ctx: RenderContext) {
 @Composable
 internal fun ChartView(component: Component, ctx: RenderContext) {
     val style = component.prop("style")?.stringValue ?: "line"
-    val color = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Color(0xFF0A84FF)
+    val color = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
 
     val points = (component.prop("points")?.arrayValue ?: emptyList()).mapNotNull { p ->
         val x = p["x"]?.doubleValue; val y = p["y"]?.doubleValue
@@ -431,7 +432,7 @@ fun materialIcon(sf: String): ImageVector = when (sf) {
     "tablecells" -> Icons.Filled.GridOn
     "play.rectangle.fill" -> Icons.Filled.SmartDisplay
     "cart.fill", "cart" -> Icons.Filled.ShoppingCart
-    "newspaper.fill" -> Icons.Filled.Article
+    "newspaper.fill" -> Icons.AutoMirrored.Filled.Article
     "sparkles", "wand.and.stars", "wand.and.rays" -> Icons.Filled.AutoAwesome
     "tag.fill" -> Icons.Filled.Sell
     "gearshape.fill", "gearshape" -> Icons.Filled.Settings
@@ -555,7 +556,7 @@ private fun DefaultAsyncError() {
  */
 @Composable
 internal fun ProgressBarView(component: Component, ctx: RenderContext) {
-    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Color(0xFF0A84FF)
+    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
     val height = (component.prop("height")?.doubleValue ?: 6.0)
     val value = component.prop("value")?.let { raw ->
         val s = raw.stringValue
@@ -604,7 +605,7 @@ internal fun ProgressBarView(component: Component, ctx: RenderContext) {
 @Composable
 internal fun SliderView(component: Component, ctx: RenderContext) {
     val key = component.prop("bind")?.stringValue ?: ""
-    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Color(0xFF0A84FF)
+    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
     val trackH = (component.prop("height")?.doubleValue ?: 6.0)
     val thumb = component.prop("thumb")?.boolValue ?: true
     val value = (BindingEngine.resolve("\$state.$key", ctx.binding).doubleValue ?: 0.0).coerceIn(0.0, 1.0)

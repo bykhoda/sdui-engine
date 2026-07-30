@@ -53,6 +53,14 @@ object Theme {
         return hexColor(resolved)
     }
 
+    /**
+     * The app's accent — the design token `color.primary`, resolved fresh so a live theme
+     * swap re-tints everything. This is the single fallback for every default a component
+     * needs where iOS draws with SwiftUI's `.accentColor`, replacing the scattered
+     * hardcoded blues/purples that diverged from the theme (parity #35).
+     */
+    fun accent(ctx: BindingContext): Color = color("\$token.color.primary", ctx) ?: Color(0xFF5B5BF0)
+
     /** Parses `#RRGGBB` or `#RRGGBBAA` into a [Color], or `null` when malformed. */
     fun hexColor(hex: String): Color? {
         val s = hex.trim()

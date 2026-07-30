@@ -165,6 +165,8 @@ data class Modifiers(
     val ignoresSafeArea: Boolean? = null,
     /** Tap gesture over the whole component. */
     val onTap: Action? = null,
+    /** Double-tap gesture (e.g. like-to-favourite). */
+    val onDoubleTap: Action? = null,
     /** Long-press gesture; commonly opens a context menu. */
     val onLongPress: Action? = null,
     /** Menu items shown on long-press. */

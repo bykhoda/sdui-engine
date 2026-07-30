@@ -135,7 +135,7 @@ private fun SwipeTray(
         for (a in actions) {
             val destructive = a.role == "destructive"
             val tint = Theme.color(a.tint, ctx.binding)
-                ?: if (destructive) Color(0xFFFF3B30) else Color(0xFF0A84FF)
+                ?: if (destructive) Color(0xFFFF3B30) else Theme.accent(ctx.binding)
             Box(
                 Modifier.weight(1f).fillMaxHeight().background(tint).clickable { onFire(a) },
                 contentAlignment = Alignment.Center,

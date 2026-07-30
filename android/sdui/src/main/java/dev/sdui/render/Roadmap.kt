@@ -37,7 +37,7 @@ import dev.sdui.core.Component
 @Composable
 internal fun RoadmapView(component: Component, ctx: RenderContext) {
     val accent = Theme.color(component.prop("accent")?.stringValue, ctx.binding)
-        ?: Color(0xFF5B5BF0)
+        ?: Theme.accent(ctx.binding)
     val rail = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.10f)
     val steps = parseRoadmapSteps(component, ctx)
 

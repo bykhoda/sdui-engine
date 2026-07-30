@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.Box
@@ -55,6 +56,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -168,15 +170,43 @@ private fun TextFieldView(component: Component, ctx: RenderContext) {
     val current = BindingEngine.resolve("\$state.$key", ctx.binding).stringValue ?: ""
     val label = BindingEngine.resolveString(component.prop("label")?.stringValue ?: "", ctx.binding)
     val placeholder = BindingEngine.resolveString(component.prop("placeholder")?.stringValue ?: "", ctx.binding)
+    val helper = BindingEngine.resolveString(component.prop("helper")?.stringValue ?: "", ctx.binding)
     val secure = component.prop("secure")?.boolValue ?: false
+    // status: error | success | disabled — drives isError / enabled / border colour, matching
+    // the iOS TextFieldView (parity #27). keyboardType maps to the native soft keyboard.
+    val status = component.prop("status")?.stringValue
+    val iconName = component.prop("icon")?.stringValue
+    val keyboard = when (component.prop("keyboardType")?.stringValue) {
+        "email", "emailAddress" -> KeyboardType.Email
+        "number", "numberPad" -> KeyboardType.Number
+        "decimal", "decimalPad" -> KeyboardType.Decimal
+        "phone", "phonePad" -> KeyboardType.Phone
+        "url", "URL" -> KeyboardType.Uri
+        else -> KeyboardType.Text
+    }
+    val success = Color(0xFF34C759)
     Primitive(component, ctx) { modifier ->
         androidx.compose.material3.OutlinedTextField(
             value = current,
             onValueChange = { ctx.setState?.invoke(key, JsonValue.Str(it)) },
             modifier = modifier.fillMaxWidth(),
+            enabled = status != "disabled",
+            isError = status == "error",
             label = if (label.isNotEmpty()) ({ Text(label) }) else null,
             placeholder = if (placeholder.isNotEmpty()) ({ Text(placeholder) }) else null,
+            leadingIcon = iconName?.let { { Icon(materialIcon(it), contentDescription = null) } },
+            supportingText = if (helper.isNotEmpty()) ({ Text(helper) }) else null,
             singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = keyboard),
+            colors = if (status == "success") {
+                androidx.compose.material3.OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = success,
+                    unfocusedBorderColor = success,
+                    focusedLabelColor = success,
+                )
+            } else {
+                androidx.compose.material3.OutlinedTextFieldDefaults.colors()
+            },
             visualTransformation =
                 if (secure) androidx.compose.ui.text.input.PasswordVisualTransformation()
                 else androidx.compose.ui.text.input.VisualTransformation.None,
@@ -278,7 +308,7 @@ private fun PagerView(component: Component, ctx: RenderContext) {
     val height = component.prop("height")?.doubleValue ?: 200.0
     val autoMs = (component.prop("autoAdvanceMs")?.doubleValue ?: 0.0).toLong()
     val showDots = (component.prop("indicator")?.stringValue ?: "dots") != "none"
-    val accent = Theme.color("\$token.color.primary", ctx.binding) ?: Color(0xFF5B5BF0)
+    val accent = Theme.color("\$token.color.primary", ctx.binding) ?: Theme.accent(ctx.binding)
     val state = rememberPagerState(pageCount = { pages.size })
 
     if (autoMs > 0 && pages.size > 1) {
@@ -752,7 +782,7 @@ private fun ButtonView(component: Component, ctx: RenderContext) {
     val enabled = component.prop("enabledWhen")?.decode<Condition>()?.evaluate(ctx.binding) ?: true
     val onTap = component.prop("onTap")?.decode<Action>()
 
-    val background = Theme.color(styleNode?.get("background")?.stringValue, ctx.binding) ?: Color(0xFF0A84FF)
+    val background = Theme.color(styleNode?.get("background")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
     val foreground = Theme.color(styleNode?.get("foreground")?.stringValue, ctx.binding) ?: Color.White
     val radius = styleNode?.get("radius")?.decode<Dimension>()?.let { Theme.dp(it, ctx.binding) } ?: 12.dp
     val paddingV = styleNode?.get("paddingV")?.decode<Dimension>()?.let { Theme.dp(it, ctx.binding) } ?: 12.dp

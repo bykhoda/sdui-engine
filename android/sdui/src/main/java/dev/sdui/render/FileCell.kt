@@ -32,7 +32,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.FolderZip
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.InsertDriveFile
+import androidx.compose.material.icons.automirrored.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.UploadFile
@@ -81,7 +81,7 @@ private data class PickedFile(val name: String, val ext: String, val bytes: Long
 @Composable
 internal fun FileCellView(component: Component, ctx: RenderContext) {
     val context = LocalContext.current
-    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Color(0xFF0A84FF)
+    val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
     val maxKB = component.prop("maxSizeKB")?.doubleValue
 
     // A pinned showcase state, if the contract fixes one (otherwise interactive).
@@ -347,7 +347,7 @@ private fun iconFor(ext: String): ImageVector = when (ext.lowercase()) {
     "mp4", "mov", "m4v" -> Icons.Filled.Movie
     "zip", "rar", "7z" -> Icons.Filled.FolderZip
     "json", "txt", "md", "csv" -> Icons.Filled.Description
-    else -> Icons.Filled.InsertDriveFile
+    else -> Icons.AutoMirrored.Filled.InsertDriveFile
 }
 
 /** Reads the display name and byte size of a content Uri via the resolver. */

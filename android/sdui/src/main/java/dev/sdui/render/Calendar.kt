@@ -64,7 +64,7 @@ internal fun CalendarGridView(component: Component, ctx: RenderContext) {
         component.prop("weekStart")?.stringValue ?: "sunday", ctx.binding,
     ) == "monday"
     val tint = Theme.color(component.prop("color")?.stringValue, ctx.binding)
-        ?: Color(0xFF5B5BF0)
+        ?: Theme.accent(ctx.binding)
     val mode = BindingEngine.resolveString(
         component.prop("mode")?.stringValue ?: "single", ctx.binding,
     )

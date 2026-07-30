@@ -343,12 +343,13 @@ private fun shadowModifier(shadow: Modifiers.Shadow?, radius: Dimension?, ctx: R
 @Composable
 private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier {
     val tap = modifiers.onTap
+    val doubleTap = modifiers.onDoubleTap
     val longPress = modifiers.onLongPress
     // A contextMenu on this node makes long-press OPEN THE MENU (contextMenu wins over
     // onLongPress) — routed through the shared owner so it can't be stolen by a second
     // detector. If there's no gesture at all, no modifier.
     val openMenu = LocalRequestContextMenu.current
-    if (tap == null && longPress == null && openMenu == null) return Modifier
+    if (tap == null && doubleTap == null && longPress == null && openMenu == null) return Modifier
 
     val haptics = LocalHapticFeedback.current
     var pressed by remember { mutableStateOf(false) }
@@ -370,7 +371,7 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
     } else {
         Modifier
     }
-    return press.pointerInput(tap, longPress, openMenu != null) {
+    return press.pointerInput(tap, doubleTap, longPress, openMenu != null) {
         detectTapGestures(
             onPress = {
                 if (feedback) {
@@ -381,6 +382,10 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
                 }
             },
             onTap = tap?.let { action -> { ctx.dispatch(action, ctx.binding) } },
+            onDoubleTap = doubleTap?.let { action -> { _ ->
+                haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                ctx.dispatch(action, ctx.binding)
+            } },
             // Single long-press owner: contextMenu (if any) wins, else onLongPress.
             onLongPress = if (openMenu != null || longPress != null) {
                 {
