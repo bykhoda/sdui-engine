@@ -1,0 +1,22 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_text",
+    "title": "text",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.sm",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "text — the type scale", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "text", "value": "Title", "style": "$token.typography.title", "color": "$token.color.textPrimary" },
+        { "type": "text", "value": "Headline — group labels", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+        { "type": "text", "value": "Body — the everyday reading size for content and controls.", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+        { "type": "text", "value": "Subheadline — secondary detail", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "text", "value": "CAPTION — metadata", "style": "$token.typography.caption", "color": "$token.color.textTertiary" },
+        { "type": "text", "value": "Truncation — a very long line that should ellipsize gracefully rather than wrap forever across the screen.", "style": "$token.typography.body", "color": "$token.color.textPrimary", "lineLimit": 1 }
+      ]
+    }
+  }
+}

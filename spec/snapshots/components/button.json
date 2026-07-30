@@ -1,0 +1,22 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_button",
+    "title": "button",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "button — styles, sizes, icon, disabled", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "button", "title": "Filled", "style": "$token.button.filled", "onTap": { "action": "haptic", "style": "light" } },
+        { "type": "button", "title": "Tinted", "style": "$token.button.tinted", "onTap": { "action": "haptic", "style": "light" } },
+        { "type": "button", "title": "Plain", "style": "$token.button.plain", "onTap": { "action": "haptic", "style": "light" } },
+        { "type": "button", "title": "With icon", "icon": "paperplane.fill", "style": "$token.button.filled", "onTap": { "action": "haptic", "style": "light" } },
+        { "type": "button", "title": "Disabled", "style": "$token.button.filled", "disabled": true, "onTap": { "action": "haptic", "style": "light" } },
+        { "type": "button", "title": "Full width", "style": "$token.button.filled", "modifiers": { "size": { "width": { "mode": "fill" } } }, "onTap": { "action": "haptic", "style": "light" } }
+      ]
+    }
+  }
+}

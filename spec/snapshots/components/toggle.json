@@ -1,0 +1,35 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_toggle",
+    "title": "toggle",
+    "state": { "on": true, "off": false },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "toggle — on & off", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "children": [
+            { "type": "text", "value": "Enabled", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "spacer" },
+            { "type": "toggle", "bind": "$state.on" }
+          ]
+        },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "children": [
+            { "type": "text", "value": "Disabled", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "spacer" },
+            { "type": "toggle", "bind": "$state.off" }
+          ]
+        }
+      ]
+    }
+  }
+}
