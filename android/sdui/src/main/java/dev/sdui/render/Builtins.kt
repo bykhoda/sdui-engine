@@ -101,6 +101,11 @@ object Builtins {
     }
 }
 
+/** True within a `scroll` subtree, so a nested `list` renders eagerly (a Column) instead
+ *  of a LazyColumn — a lazy list inside a verticalScroll crashes with an infinite-height
+ *  measure. Mirrors iOS flattening a matching-axis child into the scroll. */
+internal val LocalInScroll = androidx.compose.runtime.staticCompositionLocalOf { false }
+
 /**
  * The shared wrapper every primitive uses: it applies the long-press context menu
  * host and the `Modifiers` chain around [content]. Centralising it guarantees all
@@ -369,8 +374,13 @@ private fun ScrollView(component: Component, ctx: RenderContext) {
             modifier.verticalScroll(rememberScrollState())
         }
         // A scroll container is a single-child box; the axis modifier makes it scroll.
+        // Mark the subtree as "inside a scroll" so a nested `list` renders NON-lazily —
+        // a LazyColumn inside a verticalScroll crashes ("infinite max height"). This is
+        // the Compose equivalent of iOS's LazyScrollContent flattening.
         Box(modifier = scrollModifier) {
-            child?.let { ctx.registry.Render(it, ctx) }
+            androidx.compose.runtime.CompositionLocalProvider(LocalInScroll provides true) {
+                child?.let { ctx.registry.Render(it, ctx) }
+            }
         }
     }
 }
@@ -383,22 +393,27 @@ private fun ListView(component: Component, ctx: RenderContext) {
     val template = component.prop("template")?.decode<Component>()
 
     Primitive(component, ctx) { modifier ->
-        LazyColumn(
-            modifier = modifier,
-            verticalArrangement = Arrangement.spacedBy(gap),
-        ) {
-            if (itemsRef != null && template != null) {
-                // Data-bound list: resolve the array and render the template once
-                // per element with `$item` scoped in.
-                val items = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
-                itemsIndexed(items) { _, item ->
-                    ctx.registry.Render(template, ctx.withItem(item))
+        if (LocalInScroll.current) {
+            // Inside a scroll: render eagerly in a Column (the outer scroll handles
+            // scrolling). A nested LazyColumn here would crash with infinite height.
+            Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(gap)) {
+                if (itemsRef != null && template != null) {
+                    val items = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
+                    items.forEach { item -> ctx.registry.Render(template, ctx.withItem(item)) }
+                } else {
+                    component.children.forEach { child -> ctx.registry.Render(child, ctx) }
                 }
-            } else {
-                // Static list: render the declared children.
-                val children = component.children
-                itemsIndexed(children) { _, child ->
-                    ctx.registry.Render(child, ctx)
+            }
+        } else {
+            LazyColumn(
+                modifier = modifier,
+                verticalArrangement = Arrangement.spacedBy(gap),
+            ) {
+                if (itemsRef != null && template != null) {
+                    val items = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
+                    itemsIndexed(items) { _, item -> ctx.registry.Render(template, ctx.withItem(item)) }
+                } else {
+                    itemsIndexed(component.children) { _, child -> ctx.registry.Render(child, ctx) }
                 }
             }
         }
