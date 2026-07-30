@@ -121,7 +121,7 @@ struct ClipsView: View {
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture(count: 2) { likeBurst(i) }
+        .onTapGesture(count: 2) { likeBurst(p, i) }
     }
 
     /// The buffering state: the media dims, placeholder blocks shimmer where the
@@ -179,13 +179,13 @@ struct ClipsView: View {
     }
 
     private func overlay(_ p: JSONValue, i: Int) -> some View {
-        let isLiked = liked.contains(i)
+        let likedNow = isLiked(p, i)
         return VStack {
             Spacer()
             HStack(alignment: .bottom, spacing: 12) {
                 captionBlock(p)
                 Spacer(minLength: 8)
-                actionRail(p, i: i, isLiked: isLiked)
+                actionRail(p, i: i, isLiked: likedNow)
             }
             .padding(.horizontal, 18)
             .padding(.bottom, 54)
@@ -218,12 +218,12 @@ struct ClipsView: View {
 
     private func actionRail(_ p: JSONValue, i: Int, isLiked: Bool) -> some View {
         VStack(spacing: 24) {
-            railButton(isLiked ? "heart.fill" : "heart", p["likes"]?.stringValue ?? "0",
+            railButton(isLiked ? "heart.fill" : "heart", count(p["likes"]),
                        tint: isLiked ? Color(.sRGB, red: 1, green: 0.24, blue: 0.37, opacity: 1) : .white,
-                       bump: isLiked) { toggleLike(i) }
-            railButton("bubble.right.fill", p["comments"]?.stringValue ?? "0")
-            railButton("arrowshape.turn.up.right.fill", p["shares"]?.stringValue ?? "Share")
-            railButton("ellipsis", "")
+                       bump: isLiked) { fireLike(p, i) }
+            railButton("bubble.right.fill", count(p["comments"])) { dispatchField("onComment", p) }
+            railButton("arrowshape.turn.up.right.fill", count(p["shares"])) { dispatchField("onShare", p) }
+            railButton("ellipsis", "") { dispatchField("onMore", p) }
             // Spinning audio disc.
             ZStack {
                 Circle().fill(LinearGradient(colors: [.white.opacity(0.9), .gray], startPoint: .top, endPoint: .bottom))
@@ -252,19 +252,40 @@ struct ClipsView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: actions
+    // MARK: actions — contract-driven, with a local fallback for unwired pages
 
-    private func toggleLike(_ i: Int) {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.55)) {
-            if liked.contains(i) { liked.remove(i) } else { liked.insert(i) }
+    /// A page is "wired" when it carries an `onLike` action; then its heart reflects the
+    /// contract's bound `liked` state and a tap flows through setState/increment/request —
+    /// identical to the Android ClipsView. Unwired pages keep the local like set.
+    private func isLiked(_ p: JSONValue, _ i: Int) -> Bool {
+        if p["onLike"] != nil, let raw = p["liked"]?.stringValue {
+            return BindingEngine.resolve(raw, in: ctx.binding).boolValue ?? false
         }
-        #if os(iOS)
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        #endif
+        return liked.contains(i)
     }
 
-    private func likeBurst(_ i: Int) {
-        liked.insert(i)
+    private func fireLike(_ p: JSONValue, _ i: Int) {
+        if let onLike = p["onLike"]?.decode(Action.self) {
+            // onLike sets liked=true + increments; only fire while not already liked so a
+            // second tap can't double-count.
+            if !isLiked(p, i) { ctx.dispatch(onLike, ctx.binding) }
+        } else {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.55)) {
+                if liked.contains(i) { liked.remove(i) } else { liked.insert(i) }
+            }
+            #if os(iOS)
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            #endif
+        }
+    }
+
+    /// Dispatches an optional page action field (onComment/onShare/onMore) if present.
+    private func dispatchField(_ field: String, _ p: JSONValue) {
+        if let a = p[field]?.decode(Action.self) { ctx.dispatch(a, ctx.binding) }
+    }
+
+    private func likeBurst(_ p: JSONValue, _ i: Int) {
+        fireLike(p, i)
         withAnimation(.spring(response: 0.32, dampingFraction: 0.5)) { burst = i }
         #if os(iOS)
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -273,6 +294,29 @@ struct ClipsView: View {
             try? await Task.sleep(nanoseconds: 650_000_000)
             withAnimation(.easeOut(duration: 0.25)) { if burst == i { burst = nil } }
         }
+    }
+
+    /// Resolves a count field — a `$state` binding to a number, or a literal like `"1.2K"` —
+    /// and renders it compactly (12401 → "12.4K"), matching the Android rail formatting.
+    private func count(_ v: JSONValue?) -> String {
+        guard let v else { return "0" }
+        let resolved: JSONValue
+        if let s = v.stringValue, s.hasPrefix("$") { resolved = BindingEngine.resolve(s, in: ctx.binding) }
+        else { resolved = v }
+        if let n = resolved.doubleValue { return Self.shortNumber(n) }
+        if let s = resolved.stringValue { return s }
+        return "0"
+    }
+
+    private static func shortNumber(_ n: Double) -> String {
+        let x = Int(n)
+        if x >= 1_000_000 { return trimZero(Double(x) / 1_000_000) + "M" }
+        if x >= 1_000 { return trimZero(Double(x) / 1_000) + "K" }
+        return "\(x)"
+    }
+    private static func trimZero(_ d: Double) -> String {
+        let s = String(format: "%.1f", d)
+        return s.hasSuffix(".0") ? String(s.dropLast(2)) : s
     }
 }
 
