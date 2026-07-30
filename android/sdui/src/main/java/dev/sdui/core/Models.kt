@@ -188,6 +188,11 @@ data class Modifiers(
     val onLongPress: Action? = null,
     /** Menu items shown on long-press. */
     val contextMenu: List<ContextMenuItem>? = null,
+    /** When set, this subtree is presented as a modal while the named bool `$state` key is
+     *  true (rendering nothing inline), instead of laying out in place. */
+    val presentWhen: String? = null,
+    /** How `presentWhen` presents: `"sheet"` (default) → a bottom sheet. */
+    val presentStyle: String? = null,
     /** Swipe-to-reveal row actions (leading / trailing). */
     val swipe: SwipeConfig? = null,
     /** Animation applied when this node's inputs change. */

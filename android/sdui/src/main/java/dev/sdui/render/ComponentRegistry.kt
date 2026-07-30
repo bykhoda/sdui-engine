@@ -1,5 +1,6 @@
 package dev.sdui.render
 
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -7,6 +8,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.sp
 import dev.sdui.core.Action
 import dev.sdui.core.BindingContext
+import dev.sdui.core.BindingEngine
 import dev.sdui.core.Component
 import dev.sdui.core.JsonValue
 import dev.sdui.core.evaluate
@@ -91,12 +93,34 @@ class ComponentRegistry(registerBuiltins: Boolean = true) {
         // Respect visibleWhen before doing any work.
         component.visibleWhen?.let { if (!it.evaluate(ctx.binding)) return }
 
+        // `presentWhen` presents this subtree as a modal (nothing inline) — the Android twin
+        // of the iOS SDUIPresentation path (parity #6).
+        if (component.modifiers?.presentWhen != null) {
+            PresentModal(component, ctx)
+            return
+        }
+
         val builder = builders[component.type]
         if (builder == null) {
             UnknownComponent(component)
             return
         }
         builder(component, ctx)
+    }
+
+    /** Presents [component] in a bottom sheet while its `presentWhen` bool `$state` key is
+     *  true; dismissing (scrim/drag or a `setState … false`) closes it. Renders nothing
+     *  inline. The subtree is built by its own builder so its padding/background still apply. */
+    @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+    @Composable
+    private fun PresentModal(component: Component, ctx: RenderContext) {
+        val key = component.modifiers?.presentWhen ?: return
+        val bare = key.removePrefix("\$state.")
+        val open = BindingEngine.resolve("\$state.$bare", ctx.binding).boolValue ?: false
+        if (!open) return
+        ModalBottomSheet(onDismissRequest = { ctx.setState?.invoke(bare, JsonValue.Bool(false)) }) {
+            builders[component.type]?.invoke(component, ctx)
+        }
     }
 
     /**
