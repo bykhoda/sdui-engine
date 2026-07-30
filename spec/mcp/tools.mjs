@@ -10,6 +10,7 @@ import {
   Validator, flattenTokenPaths,
   KNOWN_COMPONENTS, KNOWN_ACTIONS, REQUIRED_COMPONENT_FIELDS, REQUIRED_ACTION_FIELDS,
 } from '../tools/validate.mjs';
+import { lint, RULES } from '../tools/lint.mjs';
 
 // The contract lives in spec/. By default we find it relative to this file, so the
 // server works no matter the cwd. `SDUI_SPEC_DIR` overrides it — point it at another
@@ -122,6 +123,28 @@ export function getGuide() { return read('docs/authoring.md'); }   // spec/docs/
 export function validateScreen(payload, { checkTokens = true } = {}) {
   const errors = new Validator(checkTokens ? tokenPaths : null).validate(payload);
   return { ok: errors.length === 0, errors };
+}
+
+// Design-lint a payload against the shared rule set (spec/tools/lint.mjs): off-token
+// literals, WCAG contrast, tap-target, dead buttons, layout-jumpy images, palette
+// cohesion. Returns the findings plus a severity summary so the model (or composer)
+// can reflect on the SAME diagnostics a designer sees inline. `minSeverity` filters
+// out lower-severity noise ('error' | 'warn' | 'info', default 'info' = everything).
+export function lintScreen(payload, { minSeverity = 'info', rules = null } = {}) {
+  const order = { error: 0, warn: 1, info: 2 };
+  const cutoff = order[minSeverity] ?? 2;
+  const wanted = rules ? new Set(rules) : null;
+  let { findings } = lint(payload, tokens);
+  findings = findings.filter((f) => order[f.severity] <= cutoff && (!wanted || wanted.has(f.rule)));
+  const summary = { error: 0, warn: 0, info: 0 };
+  for (const f of findings) summary[f.severity]++;
+  return { ok: summary.error === 0, summary, findings };
+}
+
+// The lint rule catalogue (id → default severity + one-line rationale). Lets a model
+// (or a composer settings pane) discover what lint_screen checks and why.
+export function listLintRules() {
+  return Object.entries(RULES).map(([rule, { severity, doc }]) => ({ rule, severity, description: doc }));
 }
 
 // Minimal, VALID starter screens by intent — a launch pad the model can flesh out.

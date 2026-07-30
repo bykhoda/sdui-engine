@@ -34,6 +34,24 @@ const TOOLS = {
     },
     run: (a) => T.validateScreen(a.payload, { checkTokens: a.checkTokens !== false }),
   },
+  lint_screen: {
+    description: 'Design-lint an SDUI screen (the guardrail ABOVE validation): off-token color/spacing/radius literals, WCAG AA text contrast, sub-44pt tap targets, dead buttons, layout-jumpy images, and palette cohesion. Returns findings [{rule, severity, path, message, fix?}] plus a severity summary. Run it after validate_screen and reflect on the findings — many carry a machine-applicable `fix` patch. Same engine the visual composer badges with, so the verdict never drifts.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        payload: { type: 'object', description: 'The full screen document: { version, screen }.' },
+        minSeverity: { type: 'string', enum: ['error', 'warn', 'info'], description: "Lowest severity to report (default 'info' = everything). Use 'error' to gate a ship." },
+        rules: { type: 'array', items: { type: 'string' }, description: 'Optional allow-list of rule ids to run (e.g. ["a11y/contrast"]). Omit to run all.' },
+      },
+      required: ['payload'],
+    },
+    run: (a) => T.lintScreen(a.payload, { minSeverity: a.minSeverity ?? 'info', rules: a.rules ?? null }),
+  },
+  list_lint_rules: {
+    description: 'List every design-lint rule lint_screen enforces, with its id, default severity, and rationale. Use this to see what "good" means before authoring, or to pick a `rules` filter.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => T.listLintRules(),
+  },
   list_components: {
     description: 'List every component type the engine renders, with its required fields and purpose. Use this instead of guessing component names.',
     inputSchema: { type: 'object', properties: {} },
