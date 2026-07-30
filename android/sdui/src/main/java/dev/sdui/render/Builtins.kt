@@ -540,6 +540,62 @@ private fun CollapsingScrollView(header: JsonValue, child: Component?, ctx: Rend
 private fun itemKey(item: JsonValue, index: Int): Any =
     ((item as? JsonValue.Obj)?.value?.get("id") as? JsonValue.Str)?.value ?: index
 
+/** The list's data pipeline — filter → sort → limit — mirroring the iOS ListView so a
+ *  bound query/chips/amount/limit narrow the same table identically (parity #8). */
+private fun listItems(component: Component, ctx: RenderContext, itemsRef: String): List<JsonValue> {
+    val raw = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
+    return applyListLimit(applyListSort(applyListFilter(raw, component, ctx), component, ctx), component, ctx)
+}
+
+private fun applyListFilter(items: List<JsonValue>, component: Component, ctx: RenderContext): List<JsonValue> {
+    val filter = component.prop("filter") ?: return items
+    var result = items
+    val query = BindingEngine.resolveString(filter["query"]?.stringValue ?: "", ctx.binding).trim().lowercase()
+    if (query.isNotEmpty()) {
+        val fields = filter["fields"]?.arrayValue?.mapNotNull { it.stringValue } ?: emptyList()
+        result = result.filter { item -> fields.any { (item[it]?.stringValue ?: "").lowercase().contains(query) } }
+    }
+    filter["equals"]?.let { eq ->
+        val field = eq["field"]?.stringValue
+        val value = BindingEngine.resolveString(eq["value"]?.stringValue ?: "", ctx.binding)
+        if (field != null && value.isNotEmpty() && value.lowercase() != "all") {
+            result = result.filter { (it[field]?.stringValue ?: "") == value }
+        }
+    }
+    filter["min"]?.let { mn ->
+        val field = mn["field"]?.stringValue
+        val v = BindingEngine.resolveString(mn["value"]?.stringValue ?: "", ctx.binding).toDoubleOrNull()
+        if (field != null && v != null && v > 0) result = result.filter { (it[field]?.doubleValue ?: 0.0) >= v }
+    }
+    filter["max"]?.let { mx ->
+        val field = mx["field"]?.stringValue
+        val v = BindingEngine.resolveString(mx["value"]?.stringValue ?: "", ctx.binding).toDoubleOrNull()
+        if (field != null && v != null && v > 0) result = result.filter { (it[field]?.doubleValue ?: 0.0) <= v }
+    }
+    return result
+}
+
+private fun applyListSort(items: List<JsonValue>, component: Component, ctx: RenderContext): List<JsonValue> {
+    val sort = component.prop("sort") ?: return items
+    val by = BindingEngine.resolveString(sort["by"]?.stringValue ?: "", ctx.binding)
+    if (by.isEmpty()) return items
+    val desc = BindingEngine.resolveString(sort["order"]?.stringValue ?: "asc", ctx.binding) == "desc"
+    // Numeric when both sides parse, else lexicographic — matching the iOS comparator.
+    val cmp = Comparator<JsonValue> { a, b ->
+        val ad = a[by]?.doubleValue; val bd = b[by]?.doubleValue
+        if (ad != null && bd != null) ad.compareTo(bd)
+        else (a[by]?.stringValue ?: "").compareTo(b[by]?.stringValue ?: "")
+    }
+    return if (desc) items.sortedWith(cmp.reversed()) else items.sortedWith(cmp)
+}
+
+private fun applyListLimit(items: List<JsonValue>, component: Component, ctx: RenderContext): List<JsonValue> {
+    val limitProp = component.prop("limit") ?: return items
+    val limit = limitProp.stringValue?.let { BindingEngine.resolveString(it, ctx.binding).toIntOrNull() }
+        ?: limitProp.doubleValue?.toInt() ?: return items
+    return if (limit > 0) items.take(limit) else items
+}
+
 @Composable
 private fun ListView(component: Component, ctx: RenderContext) {
     val spacing = component.prop("spacing")?.decode<Dimension>()
@@ -557,14 +613,18 @@ private fun ListView(component: Component, ctx: RenderContext) {
         return
     }
 
+    // An `empty` component shown when the (filtered) data list has no rows (parity #8).
+    val emptyComp = component.prop("empty")?.decode<Component>()
+
     Primitive(component, ctx) { modifier ->
         if (LocalInScroll.current) {
             // Inside a scroll: render eagerly in a Column (the outer scroll handles
             // scrolling). A nested LazyColumn here would crash with infinite height.
             Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(gap)) {
                 if (itemsRef != null && template != null) {
-                    val items = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
-                    items.forEach { item -> ctx.registry.Render(template, ctx.withItem(item)) }
+                    val items = listItems(component, ctx, itemsRef)
+                    if (items.isEmpty() && emptyComp != null) ctx.registry.Render(emptyComp, ctx)
+                    else items.forEach { item -> ctx.registry.Render(template, ctx.withItem(item)) }
                 } else {
                     component.children.forEach { child -> ctx.registry.Render(child, ctx) }
                 }
@@ -575,11 +635,15 @@ private fun ListView(component: Component, ctx: RenderContext) {
                 verticalArrangement = Arrangement.spacedBy(gap),
             ) {
                 if (itemsRef != null && template != null) {
-                    val items = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
-                    // Stable keys keep row identity across data changes, so Compose reuses
-                    // rows instead of recomposing the whole list (doc 22 anti-jank #1).
-                    itemsIndexed(items, key = { i, item -> itemKey(item, i) }) { _, item ->
-                        ctx.registry.Render(template, ctx.withItem(item))
+                    val items = listItems(component, ctx, itemsRef)
+                    if (items.isEmpty() && emptyComp != null) {
+                        item { ctx.registry.Render(emptyComp, ctx) }
+                    } else {
+                        // Stable keys keep row identity across data changes, so Compose reuses
+                        // rows instead of recomposing the whole list (doc 22 anti-jank #1).
+                        itemsIndexed(items, key = { i, item -> itemKey(item, i) }) { _, item ->
+                            ctx.registry.Render(template, ctx.withItem(item))
+                        }
                     }
                 } else {
                     itemsIndexed(component.children, key = { i, child -> child.id ?: i }) { _, child ->
