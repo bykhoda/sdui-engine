@@ -54,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.zIndex
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -333,7 +334,10 @@ private fun mainAxisWeight(child: Component, vertical: Boolean): Float? {
 @Composable
 private fun StackView(component: Component, ctx: RenderContext, vertical: Boolean) {
     val spacing = component.prop("spacing")?.decode<Dimension>()
-    val gap = spacing?.let { Theme.dp(it, ctx.binding) } ?: 0.dp
+    // Default to 8dp — SwiftUI's implicit VStack/HStack spacing, which iOS StackView
+    // inherits by passing `spacing: nil`. Android's old 0dp default made every
+    // un-spaced stack render tighter than iOS across the corpus (doc 21 parity #2).
+    val gap = spacing?.let { Theme.dp(it, ctx.binding) } ?: 8.dp
     val alignment = component.prop("alignment")?.stringValue
     Primitive(component, ctx) { modifier ->
         if (vertical) {
@@ -377,6 +381,13 @@ private fun ZStackView(component: Component, ctx: RenderContext) {
 private fun ScrollView(component: Component, ctx: RenderContext) {
     val horizontal = component.prop("axis")?.stringValue == "horizontal"
     val child = component.prop("child")?.decode<Component>()
+    // Apple-Weather-style collapsing hero (vertical only) — the Android twin of the iOS
+    // ScrollView `collapsingHeader` path. See docs/blueprint/06-collapsing-scroll.
+    val header = if (!horizontal) component.prop("collapsingHeader") else null
+    if (header != null) {
+        Primitive(component, ctx) { modifier -> CollapsingScrollView(header, child, ctx, modifier) }
+        return
+    }
     Primitive(component, ctx) { modifier ->
         val scrollModifier = if (horizontal) {
             modifier.horizontalScroll(rememberScrollState())
@@ -394,6 +405,57 @@ private fun ScrollView(component: Component, ctx: RenderContext) {
         }
     }
 }
+
+/**
+ * A collapsing-hero scroll — the Android counterpart of the iOS `collapsingHeader`.
+ * The `expanded` hero scrolls under a pinned `compact` bar: as the first `range` points
+ * scroll away it fades + shrinks slightly + parallaxes at half speed, while the compact
+ * bar cross-fades in on a material surface. All collapse maths run **inside
+ * `graphicsLayer`** (a deferred read of the scroll offset), so scrolling animates without
+ * recomposing the tree — the perf discipline from docs/blueprint/22-mobile-techniques.
+ */
+@Composable
+private fun CollapsingScrollView(header: JsonValue, child: Component?, ctx: RenderContext, modifier: Modifier) {
+    val scroll = rememberScrollState()
+    val rangePx = with(LocalDensity.current) { ((header["range"]?.doubleValue ?: 150.0).toFloat()).dp.toPx() }
+    val expanded = header["expanded"]?.decode<Component>()
+    val compact = header["compact"]?.decode<Component>()
+    val surface = Theme.color("\$token.color.surface", ctx.binding) ?: Color.White
+
+    Box(modifier) {
+        androidx.compose.runtime.CompositionLocalProvider(LocalInScroll provides true) {
+            Column(Modifier.fillMaxWidth().verticalScroll(scroll)) {
+                expanded?.let {
+                    Box(
+                        Modifier.graphicsLayer {
+                            val p = (scroll.value / rangePx).coerceIn(0f, 1f)
+                            translationY = scroll.value * 0.5f   // half-speed parallax
+                            alpha = 1f - p
+                            val s = 1f - p * 0.12f
+                            scaleX = s; scaleY = s
+                        },
+                    ) { ctx.registry.Render(it, ctx) }
+                }
+                child?.let { ctx.registry.Render(it, ctx) }
+            }
+        }
+        // Pinned compact bar, its material surface + content cross-fading in on collapse.
+        compact?.let {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopStart)
+                    .graphicsLayer { alpha = (scroll.value / rangePx).coerceIn(0f, 1f) }
+                    .background(surface),
+            ) { ctx.registry.Render(it, ctx) }
+        }
+    }
+}
+
+/** A stable list key — an item's `id` when present, else its index. Keeps row identity
+ *  across data changes so Compose reuses rows instead of recomposing (doc 22 anti-jank). */
+private fun itemKey(item: JsonValue, index: Int): Any =
+    ((item as? JsonValue.Obj)?.value?.get("id") as? JsonValue.Str)?.value ?: index
 
 @Composable
 private fun ListView(component: Component, ctx: RenderContext) {
@@ -431,9 +493,15 @@ private fun ListView(component: Component, ctx: RenderContext) {
             ) {
                 if (itemsRef != null && template != null) {
                     val items = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
-                    itemsIndexed(items) { _, item -> ctx.registry.Render(template, ctx.withItem(item)) }
+                    // Stable keys keep row identity across data changes, so Compose reuses
+                    // rows instead of recomposing the whole list (doc 22 anti-jank #1).
+                    itemsIndexed(items, key = { i, item -> itemKey(item, i) }) { _, item ->
+                        ctx.registry.Render(template, ctx.withItem(item))
+                    }
                 } else {
-                    itemsIndexed(component.children) { _, child -> ctx.registry.Render(child, ctx) }
+                    itemsIndexed(component.children, key = { i, child -> child.id ?: i }) { _, child ->
+                        ctx.registry.Render(child, ctx)
+                    }
                 }
             }
         }
