@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
@@ -194,23 +195,23 @@ fun PlaygroundApp() {
     }
 }
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 private fun NavBar(title: String, onBack: () -> Unit) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = 12.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            "‹  Back",
-            color = MaterialTheme.colorScheme.primary,
-            fontSize = 16.sp,
-            modifier = Modifier.clickable(onClick = onBack).padding(end = 12.dp),
-        )
-        Text(title, fontWeight = FontWeight.SemiBold, fontSize = 17.sp)
-    }
+    // iOS-style: a centered title with an icon-only chevron back button (not a left-aligned
+    // spelled-out "‹ Back title", not Material's ArrowBack).
+    androidx.compose.material3.CenterAlignedTopAppBar(
+        title = { Text(title, fontWeight = FontWeight.SemiBold, fontSize = 17.sp) },
+        navigationIcon = {
+            androidx.compose.material3.IconButton(onClick = onBack) {
+                Icon(
+                    Icons.Filled.KeyboardArrowLeft,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
+        },
+    )
 }
 
 @Composable
