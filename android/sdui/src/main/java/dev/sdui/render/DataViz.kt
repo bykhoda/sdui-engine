@@ -2,8 +2,14 @@ package dev.sdui.render
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.automirrored.filled.DirectionsBike
@@ -170,6 +176,8 @@ internal fun RingsView(component: Component, ctx: RenderContext) {
 internal fun ChartView(component: Component, ctx: RenderContext) {
     val style = component.prop("style")?.stringValue ?: "line"
     val color = Theme.color(component.prop("color")?.stringValue, ctx.binding) ?: Theme.accent(ctx.binding)
+    // Drag-to-scrub is on by default (gated by `interactive`), matching the iOS ChartView.
+    val interactive = component.prop("interactive")?.boolValue ?: true
 
     val points = (component.prop("points")?.arrayValue ?: emptyList()).mapNotNull { p ->
         val x = p["x"]?.doubleValue; val y = p["y"]?.doubleValue
@@ -179,8 +187,41 @@ internal fun ChartView(component: Component, ctx: RenderContext) {
     val xs = if (points.isNotEmpty()) points.map { it.first } else values.indices.map { it.toDouble() }
     val ys = if (points.isNotEmpty()) points.map { it.second } else values
 
+    // The scrubbed data-point index (null = not scrubbing). Drives the crosshair overlay
+    // and fires a selection haptic when the nearest point changes — the iOS scrub feel.
+    var selected by remember(xs.size) { mutableStateOf<Int?>(null) }
+    val haptic = LocalHapticFeedback.current
+    val padPx = 4f
+
     Primitive(component, ctx) { modifier ->
-        Canvas(modifier = modifier) {
+        val scrub = if (interactive && style != "bar" && xs.size > 1) {
+            Modifier.pointerInput(xs.size) {
+                fun nearest(tx: Float): Int {
+                    val minX = xs.min(); val xRange = (xs.max() - minX).let { if (it == 0.0) 1.0 else it }
+                    val w = size.width - padPx * 2
+                    var best = 0; var bd = Float.MAX_VALUE
+                    xs.forEachIndexed { i, x ->
+                        val cx = padPx + ((x - minX) / xRange).toFloat() * w
+                        val d = kotlin.math.abs(cx - tx)
+                        if (d < bd) { bd = d; best = i }
+                    }
+                    return best
+                }
+                fun pick(tx: Float) {
+                    val i = nearest(tx)
+                    if (selected != i) { selected = i; haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove) }
+                }
+                detectDragGestures(
+                    onDragStart = { pick(it.x) },
+                    onDragEnd = { selected = null },
+                    onDragCancel = { selected = null },
+                    onDrag = { change, _ -> change.consume(); pick(change.position.x) },
+                )
+            }
+        } else {
+            Modifier
+        }
+        Canvas(modifier = modifier.then(scrub)) {
             if (ys.isEmpty() || xs.isEmpty()) return@Canvas
             val minY = ys.minOrNull()!!; val maxY = ys.maxOrNull()!!
             val yRange = (maxY - minY).let { if (it == 0.0) 1.0 else it }
@@ -238,9 +279,40 @@ internal fun ChartView(component: Component, ctx: RenderContext) {
                 drawPath(fill, Brush.verticalGradient(listOf(color.copy(alpha = 0.35f), color.copy(alpha = 0f))))
             }
             drawPath(line, color, style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round))
+
+            // Scrub overlay — a dashed crosshair, the point dot, and a frosted value pill,
+            // the Android twin of the iOS ChartView RuleMark + value pill (parity #4).
+            selected?.let { si ->
+                if (si in xs.indices) {
+                    val cx = px(xs[si]); val cy = py(ys[si])
+                    drawLine(
+                        color.copy(alpha = 0.5f), Offset(cx, 0f), Offset(cx, size.height),
+                        strokeWidth = 1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f)),
+                    )
+                    drawCircle(Color.White, 6.dp.toPx(), Offset(cx, cy))
+                    drawCircle(color, 3.5.dp.toPx(), Offset(cx, cy))
+                    val label = formatChartValue(ys[si])
+                    val paint = android.graphics.Paint().apply {
+                        isAntiAlias = true; textSize = 11.dp.toPx()
+                        this.color = android.graphics.Color.WHITE
+                        typeface = android.graphics.Typeface.DEFAULT_BOLD
+                    }
+                    val padH = 8.dp.toPx(); val padV = 5.dp.toPx()
+                    val boxW = paint.measureText(label) + padH * 2; val boxH = paint.textSize + padV * 2
+                    val bx = (cx - boxW / 2f).coerceIn(2f, (size.width - boxW - 2f).coerceAtLeast(2f))
+                    val bg = android.graphics.Paint().apply { isAntiAlias = true; this.color = color.copy(alpha = 0.92f).toArgb() }
+                    drawContext.canvas.nativeCanvas.drawRoundRect(bx, 2f, bx + boxW, 2f + boxH, boxH / 2f, boxH / 2f, bg)
+                    drawContext.canvas.nativeCanvas.drawText(label, bx + padH, 2f + padV + paint.textSize * 0.82f, paint)
+                }
+            }
         }
     }
 }
+
+/** Formats a scrubbed chart value compactly: whole numbers drop the decimal (72.0 → "72"),
+ *  otherwise one decimal place (3.14159 → "3.1"). */
+private fun formatChartValue(y: Double): String =
+    if (y == y.toLong().toDouble()) y.toLong().toString() else String.format("%.1f", y)
 
 // MARK: - Icon
 
