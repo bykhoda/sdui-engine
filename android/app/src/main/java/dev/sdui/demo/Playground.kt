@@ -31,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.Color
@@ -246,7 +248,48 @@ fun PlaygroundApp() {
     }
 
     MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
+        val currentId = stack.lastOrNull() ?: selected.root
+        val screen = playground.screensById[currentId]?.screen
+        val immersive = screen?.chrome == "immersive"
+        val title = screen?.title
+        val hasBack = stack.size > 1
+        // Any pushed screen (so Back is always reachable) or any titled screen gets a bar;
+        // a non-immersive titled screen gets a COLLAPSING large title (the Android twin of
+        // the iOS large-title nav bar), immersive keeps a compact bar (doc 21 parity #1).
+        val showBar = currentId != CATALOG && (title != null || hasBack)
+        val large = showBar && !immersive && title != null && (screen?.scrollBehavior?.largeTitle ?: true)
+
+        val appBarScroll = androidx.compose.material3.TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+        // Reset the collapse when the screen changes, so each opens fully expanded.
+        LaunchedEffect(currentId) {
+            appBarScroll.state.heightOffset = 0f
+            appBarScroll.state.contentOffset = 0f
+        }
+
+        val back: @Composable () -> Unit = {
+            if (hasBack) {
+                androidx.compose.material3.IconButton(onClick = { stack.removeAt(stack.lastIndex) }) {
+                    Icon(Icons.Filled.KeyboardArrowLeft, "Back", tint = MaterialTheme.colorScheme.primary)
+                }
+            }
+        }
+
         Scaffold(
+            modifier = if (large) Modifier.nestedScroll(appBarScroll.nestedScrollConnection) else Modifier,
+            topBar = {
+                if (large) {
+                    androidx.compose.material3.LargeTopAppBar(
+                        title = { Text(title!!, fontWeight = FontWeight.Bold) },
+                        navigationIcon = back,
+                        scrollBehavior = appBarScroll,
+                    )
+                } else if (showBar) {
+                    androidx.compose.material3.CenterAlignedTopAppBar(
+                        title = { Text(title ?: currentId, fontWeight = FontWeight.SemiBold, fontSize = 17.sp) },
+                        navigationIcon = back,
+                    )
+                }
+            },
             bottomBar = {
                 NavigationBar {
                     for (tab in Tab.entries) {
@@ -260,33 +303,23 @@ fun PlaygroundApp() {
                 }
             },
         ) { insets ->
-            val currentId = stack.lastOrNull() ?: selected.root
-            Column(Modifier.fillMaxSize().padding(insets)) {
-                if (stack.size > 1) {
-                    val doc = playground.screensById[currentId]
-                    NavBar(
-                        title = doc?.screen?.title ?: currentId,
-                        onBack = { stack.removeAt(stack.lastIndex) },
-                    )
-                }
-                Box(Modifier.fillMaxWidth().weight(1f)) {
-                    when {
-                        currentId == CATALOG ->
-                            CatalogList(playground.categories) { stack.add(it) }
-                        else -> {
-                            val doc = playground.screensById[currentId]
-                            if (doc != null) {
-                                SduiScreen(document = doc, tokens = playground.tokens, env = env, loader = loader, delegate = host)
-                            } else {
-                                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                                    Text("Screen \"$currentId\" is not bundled")
-                                }
+            Box(Modifier.fillMaxSize().padding(insets)) {
+                when {
+                    currentId == CATALOG ->
+                        CatalogList(playground.categories) { stack.add(it) }
+                    else -> {
+                        val doc = playground.screensById[currentId]
+                        if (doc != null) {
+                            SduiScreen(document = doc, tokens = playground.tokens, env = env, loader = loader, delegate = host)
+                        } else {
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                Text("Screen \"$currentId\" is not bundled")
                             }
                         }
                     }
                 }
             }
-            BackHandler(enabled = stack.size > 1) { stack.removeAt(stack.lastIndex) }
+            BackHandler(enabled = hasBack) { stack.removeAt(stack.lastIndex) }
         }
 
         // Modal presentation for `navigate transition:"sheet"`. Material3 `ModalBottomSheet`
@@ -314,25 +347,6 @@ fun PlaygroundApp() {
             BackHandler { openStoryIndex = null }
         }
     }
-}
-
-@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
-@Composable
-private fun NavBar(title: String, onBack: () -> Unit) {
-    // iOS-style: a centered title with an icon-only chevron back button (not a left-aligned
-    // spelled-out "‹ Back title", not Material's ArrowBack).
-    androidx.compose.material3.CenterAlignedTopAppBar(
-        title = { Text(title, fontWeight = FontWeight.SemiBold, fontSize = 17.sp) },
-        navigationIcon = {
-            androidx.compose.material3.IconButton(onClick = onBack) {
-                Icon(
-                    Icons.Filled.KeyboardArrowLeft,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.primary,
-                )
-            }
-        },
-    )
 }
 
 @Composable

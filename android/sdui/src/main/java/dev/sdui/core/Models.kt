@@ -47,12 +47,29 @@ data class Screen(
     val refresh: RefreshConfig? = null,
     /** How the host frames the screen: `"immersive"` = edge-to-edge, no app bar. */
     val chrome: String? = null,
+    /** Collapsing large-title / scroll-driven nav-bar behaviour (see iOS `ScrollBehavior`). */
+    val scrollBehavior: ScrollBehavior? = null,
     /** The single root component of the view tree. */
     val content: Component,
 ) {
     /** Names the data sources a pull-to-refresh gesture reloads (empty = all). */
     @Serializable
     data class RefreshConfig(val sources: List<String>? = null)
+
+    /**
+     * Collapsing large-title behaviour, mirroring the iOS `ScrollBehavior`. On Android the
+     * host maps this to a Material3 `LargeTopAppBar` with an exit-until-collapsed scroll
+     * behaviour: a large title (from `Screen.title`) that folds into the bar on scroll.
+     */
+    @Serializable
+    data class ScrollBehavior(
+        /** Show the collapsing large title. Default true; false = a plain inline title. */
+        val largeTitle: Boolean? = null,
+        /** Optional one-line subtitle under the large title (bindable). */
+        val subtitle: String? = null,
+        /** Scroll distance (pt) over which the collapse completes; host-derived when null. */
+        val range: Double? = null,
+    )
 }
 
 /**
