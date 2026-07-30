@@ -1,6 +1,7 @@
 package dev.sdui.render
 
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -525,13 +526,60 @@ fun materialIcon(sf: String): ImageVector = when (sf) {
     else -> Icons.Filled.Circle
 }
 
+/**
+ * A repeating icon animation — the Android twin of the iOS SF-Symbol `symbolEffect`
+ * (parity #26): pulse (fade), bounce (a scale pop with a pause), rotate (spin) and
+ * wiggle (rock). Empty/unknown = no animation, so the same contract is safe everywhere.
+ */
+@Composable
+private fun symbolEffectModifier(effect: String?): Modifier {
+    if (effect.isNullOrEmpty()) return Modifier
+    val t = androidx.compose.animation.core.rememberInfiniteTransition(label = "symbol")
+    fun repeat(spec: androidx.compose.animation.core.DurationBasedAnimationSpec<Float>, mode: androidx.compose.animation.core.RepeatMode) =
+        androidx.compose.animation.core.infiniteRepeatable<Float>(spec, mode)
+    return when (effect) {
+        "pulse" -> {
+            val a by t.animateFloat(1f, 0.35f, repeat(androidx.compose.animation.core.tween(750), androidx.compose.animation.core.RepeatMode.Reverse), label = "pulse")
+            Modifier.graphicsLayer { alpha = a }
+        }
+        "rotate" -> {
+            val r by t.animateFloat(0f, 360f, repeat(androidx.compose.animation.core.tween(1800, easing = androidx.compose.animation.core.LinearEasing), androidx.compose.animation.core.RepeatMode.Restart), label = "rotate")
+            Modifier.graphicsLayer { rotationZ = r }
+        }
+        "wiggle" -> {
+            val r by t.animateFloat(-9f, 9f, repeat(androidx.compose.animation.core.tween(160, easing = androidx.compose.animation.core.FastOutSlowInEasing), androidx.compose.animation.core.RepeatMode.Reverse), label = "wiggle")
+            Modifier.graphicsLayer { rotationZ = r }
+        }
+        "bounce" -> {
+            val s by t.animateFloat(
+                1f, 1f,
+                repeat(
+                    androidx.compose.animation.core.keyframes {
+                        durationMillis = 1500
+                        1f at 0
+                        1.26f at 140 using androidx.compose.animation.core.FastOutSlowInEasing
+                        0.95f at 300
+                        1f at 440
+                        1f at 1500
+                    },
+                    androidx.compose.animation.core.RepeatMode.Restart,
+                ),
+                label = "bounce",
+            )
+            Modifier.graphicsLayer { scaleX = s; scaleY = s }
+        }
+        else -> Modifier
+    }
+}
+
 @Composable
 internal fun IconView(component: Component, ctx: RenderContext) {
     val name = BindingEngine.resolveString(component.prop("name")?.stringValue ?: "", ctx.binding)
     val color = Theme.color(component.prop("color")?.stringValue, ctx.binding)
     val size = component.prop("size")?.doubleValue
+    val effect = symbolEffectModifier(component.prop("symbolEffect")?.stringValue)
     Primitive(component, ctx) { modifier ->
-        val sized = if (size != null) modifier.size(size.dp) else modifier
+        val sized = (if (size != null) modifier.size(size.dp) else modifier).then(effect)
         val painter = ctx.iconResolver?.invoke(name)
         if (painter != null) {
             androidx.compose.foundation.Image(painter = painter, contentDescription = name, modifier = sized)
