@@ -53,6 +53,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -615,6 +617,11 @@ private fun ListView(component: Component, ctx: RenderContext) {
 
     // An `empty` component shown when the (filtered) data list has no rows (parity #8).
     val emptyComp = component.prop("empty")?.decode<Component>()
+    // Pagination: fire `onReachEnd` (or bump a `limit` binding) as the user nears the end.
+    val onReachEnd = component.prop("onReachEnd")?.decode<Action>()
+    val limitKey = component.prop("limit")?.stringValue?.takeIf { it.startsWith("\$state.") }?.removePrefix("\$state.")
+    val paginates = (onReachEnd != null || limitKey != null) &&
+        (component.prop("paginateOnScroll")?.boolValue ?: (onReachEnd != null))
 
     Primitive(component, ctx) { modifier ->
         if (LocalInScroll.current) {
@@ -630,19 +637,41 @@ private fun ListView(component: Component, ctx: RenderContext) {
                 }
             }
         } else {
+            val listState = rememberLazyListState()
+            val dataItems = if (itemsRef != null && template != null) listItems(component, ctx, itemsRef) else null
+
+            // Fire onReachEnd (or bump the limit) once per data size as the last rows appear.
+            if (paginates && dataItems != null) {
+                val count = dataItems.size
+                LaunchedEffect(listState, count) {
+                    snapshotFlow { (listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0) >= count - 3 }
+                        .distinctUntilChanged()
+                        .collect { nearEnd ->
+                            if (nearEnd && count > 0) {
+                                if (onReachEnd != null) {
+                                    ctx.dispatch(onReachEnd, ctx.binding)
+                                } else if (limitKey != null) {
+                                    val cur = BindingEngine.resolve("\$state.$limitKey", ctx.binding).doubleValue ?: 0.0
+                                    ctx.setState?.invoke(limitKey, JsonValue.Num(cur + 6))
+                                }
+                            }
+                        }
+                }
+            }
+
             LazyColumn(
+                state = listState,
                 modifier = modifier,
                 verticalArrangement = Arrangement.spacedBy(gap),
             ) {
-                if (itemsRef != null && template != null) {
-                    val items = listItems(component, ctx, itemsRef)
-                    if (items.isEmpty() && emptyComp != null) {
+                if (dataItems != null) {
+                    if (dataItems.isEmpty() && emptyComp != null) {
                         item { ctx.registry.Render(emptyComp, ctx) }
                     } else {
                         // Stable keys keep row identity across data changes, so Compose reuses
                         // rows instead of recomposing the whole list (doc 22 anti-jank #1).
-                        itemsIndexed(items, key = { i, item -> itemKey(item, i) }) { _, item ->
-                            ctx.registry.Render(template, ctx.withItem(item))
+                        itemsIndexed(dataItems, key = { i, item -> itemKey(item, i) }) { _, item ->
+                            ctx.registry.Render(template!!, ctx.withItem(item))
                         }
                     }
                 } else {
