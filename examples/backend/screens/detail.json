@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "screen": {
+    "id": "detail",
+    "title": "Detail",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "Detail screen", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary" },
+        { "type": "text", "value": "You navigated here from home via a `navigate` action in the JSON.", "color": "$token.color.textSecondary" },
+        { "type": "button", "title": "Back home", "style": "$token.button.primary", "onTap": { "action": "navigate", "to": "home" } }
+      ]
+    }
+  }
+}

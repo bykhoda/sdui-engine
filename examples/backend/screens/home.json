@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "screen": {
+    "id": "home",
+    "title": "Home",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "Welcome", "style": "$token.typography.largeTitle", "color": "$token.color.textPrimary" },
+        { "type": "text", "value": "This whole screen is JSON served by your backend — rendered natively on iOS and Android.", "color": "$token.color.textSecondary" },
+        {
+          "type": "vstack",
+          "spacing": "$token.spacing.sm",
+          "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md" },
+          "children": [
+            { "type": "text", "value": "A card", "style": "$token.typography.title2", "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Change this text on the server and it updates on every device — no app release.", "color": "$token.color.textSecondary" }
+          ]
+        },
+        { "type": "button", "title": "Open detail", "style": "$token.button.primary", "onTap": { "action": "navigate", "to": "detail" } }
+      ]
+    }
+  }
+}
