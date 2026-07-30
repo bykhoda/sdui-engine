@@ -49,8 +49,15 @@ object Theme {
      */
     fun color(raw: String?, ctx: BindingContext): Color? {
         if (raw.isNullOrEmpty()) return null
-        val resolved = BindingEngine.resolveString(raw, ctx)
-        return hexColor(resolved)
+        // Theme-aware: in dark mode a `$token.color.*` ref prefers its `$token.colorDark.*`
+        // counterpart when the token table defines one (the iOS Theme.color behaviour) —
+        // otherwise a light-mode text/surface colour stays dark and vanishes on a dark
+        // background. Falls back to the base colour when no dark variant exists.
+        if (ctx.env["theme"]?.stringValue == "dark" && raw.startsWith("\$token.color.")) {
+            val darkRef = raw.replaceFirst("\$token.color.", "\$token.colorDark.")
+            hexColor(BindingEngine.resolveString(darkRef, ctx))?.let { return it }
+        }
+        return hexColor(BindingEngine.resolveString(raw, ctx))
     }
 
     /**
