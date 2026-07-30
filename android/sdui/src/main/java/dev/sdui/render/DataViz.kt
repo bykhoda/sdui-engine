@@ -198,10 +198,26 @@ internal fun ChartView(component: Component, ctx: RenderContext) {
                 return@Canvas
             }
 
+            // Smooth the line with a Catmull-Rom spline expressed as cubic béziers
+            // (the technique behind MPAndroidChart/Vico's cubic mode) so the curve
+            // flows through every point instead of the old jagged straight segments.
+            val pts = xs.mapIndexed { i, x -> Offset(px(x), py(ys[i])) }
             val line = Path()
-            xs.forEachIndexed { i, x ->
-                val p = Offset(px(x), py(ys[i]))
-                if (i == 0) line.moveTo(p.x, p.y) else line.lineTo(p.x, p.y)
+            if (pts.isNotEmpty()) {
+                line.moveTo(pts[0].x, pts[0].y)
+                if (pts.size < 3) {
+                    for (i in 1 until pts.size) line.lineTo(pts[i].x, pts[i].y)
+                } else {
+                    for (i in 0 until pts.size - 1) {
+                        val p0 = pts[if (i == 0) 0 else i - 1]
+                        val p1 = pts[i]
+                        val p2 = pts[i + 1]
+                        val p3 = pts[if (i + 2 <= pts.size - 1) i + 2 else pts.size - 1]
+                        val c1 = Offset(p1.x + (p2.x - p0.x) / 6f, p1.y + (p2.y - p0.y) / 6f)
+                        val c2 = Offset(p2.x - (p3.x - p1.x) / 6f, p2.y - (p3.y - p1.y) / 6f)
+                        line.cubicTo(c1.x, c1.y, c2.x, c2.y, p2.x, p2.y)
+                    }
+                }
             }
             if (style == "area") {
                 val fill = Path().apply {

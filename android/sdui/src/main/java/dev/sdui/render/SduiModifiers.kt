@@ -355,7 +355,7 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
             onPress = {
                 if (feedback) {
                     pressed = true
-                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     tryAwaitRelease()
                     pressed = false
                 }

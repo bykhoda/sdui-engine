@@ -317,7 +317,16 @@ private fun StackView(component: Component, ctx: RenderContext, vertical: Boolea
                 verticalArrangement = Arrangement.spacedBy(gap),
                 horizontalAlignment = horizontalAlignment(alignment),
             ) {
-                component.children.forEach { ctx.registry.Render(it, ctx) }
+                component.children.forEach { child ->
+                    // A `spacer` is greedy on iOS (SwiftUI Spacer expands). In a Compose
+                    // Row/Column that means weight(1f): wrap it so it pushes siblings to
+                    // opposite ends (e.g. label … value) instead of sitting flush.
+                    if (child.type == "spacer") {
+                        Box(Modifier.weight(1f)) { ctx.registry.Render(child, ctx) }
+                    } else {
+                        ctx.registry.Render(child, ctx)
+                    }
+                }
             }
         } else {
             Row(
@@ -325,7 +334,16 @@ private fun StackView(component: Component, ctx: RenderContext, vertical: Boolea
                 horizontalArrangement = Arrangement.spacedBy(gap),
                 verticalAlignment = verticalAlignment(alignment),
             ) {
-                component.children.forEach { ctx.registry.Render(it, ctx) }
+                component.children.forEach { child ->
+                    // A `spacer` is greedy on iOS (SwiftUI Spacer expands). In a Compose
+                    // Row/Column that means weight(1f): wrap it so it pushes siblings to
+                    // opposite ends (e.g. label … value) instead of sitting flush.
+                    if (child.type == "spacer") {
+                        Box(Modifier.weight(1f)) { ctx.registry.Render(child, ctx) }
+                    } else {
+                        ctx.registry.Render(child, ctx)
+                    }
+                }
             }
         }
     }
@@ -475,7 +493,8 @@ private fun ImageView(component: Component, ctx: RenderContext) {
                 // Coil's SubcomposeAsyncImage caches (memory + disk) so scrolling a
                 // list never re-fetches or flickers — the iOS `RemoteImage` analogue.
                 SubcomposeAsyncImage(
-                    model = source,
+                    model = coil.request.ImageRequest.Builder(androidx.compose.ui.platform.LocalContext.current)
+                        .data(source).crossfade(true).build(),
                     contentDescription = null,
                     contentScale = if (fill) ContentScale.Crop else ContentScale.Fit,
                     modifier = Modifier.fillMaxSize(),
