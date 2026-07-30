@@ -36,6 +36,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -115,6 +116,10 @@ object Builtins {
  *  of a LazyColumn — a lazy list inside a verticalScroll crashes with an infinite-height
  *  measure. Mirrors iOS flattening a matching-axis child into the scroll. */
 internal val LocalInScroll = androidx.compose.runtime.staticCompositionLocalOf { false }
+
+/** True when the current subtree is a direct child of an `hstack`, so a `divider` renders
+ *  vertically (SwiftUI's `Divider()` is axis-adaptive; parity #19). */
+internal val LocalInHStack = androidx.compose.runtime.staticCompositionLocalOf { false }
 
 /**
  * The shared wrapper every primitive uses: it applies the long-press context menu
@@ -370,28 +375,31 @@ private fun StackView(component: Component, ctx: RenderContext, vertical: Boolea
     val gap = spacing?.let { Theme.dp(it, ctx.binding) } ?: 8.dp
     val alignment = component.prop("alignment")?.stringValue
     Primitive(component, ctx) { modifier ->
-        if (vertical) {
-            Column(
-                modifier = modifier,
-                verticalArrangement = Arrangement.spacedBy(gap),
-                horizontalAlignment = horizontalAlignment(alignment),
-            ) {
-                component.children.forEach { child ->
-                    val w = mainAxisWeight(child, vertical = true)
-                    if (w != null) Box(Modifier.weight(w)) { ctx.registry.Render(child, ctx) }
-                    else ctx.registry.Render(child, ctx)
+        // Publish the stack axis so a nested `divider` can render across it (parity #19).
+        androidx.compose.runtime.CompositionLocalProvider(LocalInHStack provides !vertical) {
+            if (vertical) {
+                Column(
+                    modifier = modifier,
+                    verticalArrangement = Arrangement.spacedBy(gap),
+                    horizontalAlignment = horizontalAlignment(alignment),
+                ) {
+                    component.children.forEach { child ->
+                        val w = mainAxisWeight(child, vertical = true)
+                        if (w != null) Box(Modifier.weight(w)) { ctx.registry.Render(child, ctx) }
+                        else ctx.registry.Render(child, ctx)
+                    }
                 }
-            }
-        } else {
-            Row(
-                modifier = modifier,
-                horizontalArrangement = Arrangement.spacedBy(gap),
-                verticalAlignment = verticalAlignment(alignment),
-            ) {
-                component.children.forEach { child ->
-                    val w = mainAxisWeight(child, vertical = false)
-                    if (w != null) Box(Modifier.weight(w)) { ctx.registry.Render(child, ctx) }
-                    else ctx.registry.Render(child, ctx)
+            } else {
+                Row(
+                    modifier = modifier,
+                    horizontalArrangement = Arrangement.spacedBy(gap),
+                    verticalAlignment = verticalAlignment(alignment),
+                ) {
+                    component.children.forEach { child ->
+                        val w = mainAxisWeight(child, vertical = false)
+                        if (w != null) Box(Modifier.weight(w)) { ctx.registry.Render(child, ctx) }
+                        else ctx.registry.Render(child, ctx)
+                    }
                 }
             }
         }
@@ -624,11 +632,13 @@ private fun SpacerView(component: Component, ctx: RenderContext) {
 @Composable
 private fun DividerView(component: Component, ctx: RenderContext) {
     val color = Theme.color(component.prop("color")?.stringValue, ctx.binding)
+    val vertical = LocalInHStack.current
     Primitive(component, ctx) { modifier ->
-        if (color != null) {
-            HorizontalDivider(modifier = modifier, color = color)
-        } else {
-            HorizontalDivider(modifier = modifier)
+        when {
+            vertical && color != null -> VerticalDivider(modifier = modifier, color = color)
+            vertical -> VerticalDivider(modifier = modifier)
+            color != null -> HorizontalDivider(modifier = modifier, color = color)
+            else -> HorizontalDivider(modifier = modifier)
         }
     }
 }

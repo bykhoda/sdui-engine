@@ -95,7 +95,13 @@ internal fun GradientView(component: Component, ctx: RenderContext) {
     val colors = (component.prop("colors")?.arrayValue ?: emptyList())
         .mapNotNull { Theme.color(it.stringValue, ctx.binding) }
     val direction = component.prop("direction")?.stringValue ?: "vertical"
-    val stops = if (colors.size >= 2) colors else listOf(Color(0xFF2A6FC9), Color(0xFF7FB8E8))
+    // A single colour renders as a solid fill (iOS honours a 1-colour gradient); only fall
+    // back to the default pair when none is given (parity — gradient defaults).
+    val stops = when {
+        colors.size >= 2 -> colors
+        colors.size == 1 -> listOf(colors[0], colors[0])
+        else -> listOf(Color(0xFF2A6FC9), Color(0xFF7FB8E8))
+    }
     val brush: Brush = when (direction) {
         "horizontal" -> Brush.horizontalGradient(stops)
         "diagonal" -> Brush.linearGradient(stops) // 0,0 → ∞,∞ = top-left to bottom-right
@@ -560,7 +566,13 @@ internal fun ProgressBarView(component: Component, ctx: RenderContext) {
     val height = (component.prop("height")?.doubleValue ?: 6.0)
     val value = component.prop("value")?.let { raw ->
         val s = raw.stringValue
-        if (s != null && s.startsWith("$")) BindingEngine.resolve(s, ctx.binding).doubleValue else raw.doubleValue
+        when {
+            // a binding ($state/$data), a literal number string ("0.5"), or a JSON number —
+            // all resolve to a determinate fill, matching iOS (parity — progress literal).
+            s != null && s.startsWith("$") -> BindingEngine.resolve(s, ctx.binding).doubleValue
+            s != null -> s.toDoubleOrNull()
+            else -> raw.doubleValue
+        }
     }
     val transition = androidx.compose.animation.core.rememberInfiniteTransition(label = "progress")
     val phase by transition.animateFloat(
