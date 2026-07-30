@@ -611,11 +611,14 @@ private fun ButtonView(component: Component, ctx: RenderContext) {
             ),
         ) {
             component.prop("icon")?.stringValue?.let { icon ->
-                // The shared contract uses SF Symbol / icon names the host maps to
-                // resources. Without an icon registry we surface the name as text
-                // so authoring intent is visible.
-                // TODO: map icon names to painterResource via a host icon registry.
-                Text(BindingEngine.resolveString(icon, ctx.binding))
+                // Map the SF-Symbol-style name to a real Material glyph (same table as
+                // IconView) — showing the raw name as text read as broken.
+                Icon(
+                    materialIcon(BindingEngine.resolveString(icon, ctx.binding)),
+                    contentDescription = null,
+                    tint = foreground,
+                    modifier = Modifier.size(18.dp),
+                )
                 Spacer(modifier = Modifier.width(6.dp))
             }
             Text(title)
