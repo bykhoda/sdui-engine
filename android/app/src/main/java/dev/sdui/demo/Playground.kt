@@ -14,18 +14,31 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -100,6 +113,17 @@ private class PlaygroundHost(
 
 // ── UI ───────────────────────────────────────────────────────────────────────
 
+/** Bottom-nav tabs — the Android twin of the iOS TabView (Home / Browse / Design / Settings).
+ *  Each is its own navigation stack rooted at a bundled screen (or the native catalog). */
+private enum class Tab(val label: String, val root: String, val icon: ImageVector) {
+    HOME("Home", "home", Icons.Filled.Home),
+    BROWSE("Browse", CATALOG, Icons.Filled.Search),
+    DESIGN("Design", "figma", Icons.Filled.Favorite),
+    SETTINGS("Settings", "settings", Icons.Filled.Settings),
+}
+
+private const val CATALOG = "__catalog"
+
 @Composable
 fun PlaygroundApp() {
     val context = LocalContext.current
@@ -113,32 +137,54 @@ fun PlaygroundApp() {
         )
     }
 
-    // A minimal push/pop stack: empty = root catalog, otherwise the top is the
-    // currently-shown screen id. Mirrors the iOS catalog's two-level navigation.
-    // The chrome is itself a server-driven screen: root at `home` (generated from
-    // catalog.json), rendered by the SAME engine as every other screen — so the
-    // whole app looks identical to iOS/Aurora. `navigate` pushes onto the stack.
-    val stack = remember { mutableStateListOf("home") }
-    val host = remember(playground) { PlaygroundHost(playground.screensById.keys) { stack.add(it) } }
+    // One push/pop stack PER TAB, so switching tabs preserves where you were — the
+    // standard bottom-navigation pattern. The top of the selected tab's stack is the
+    // screen shown; `navigate` pushes onto it. Each screen is rendered by the SAME engine
+    // as iOS/Aurora, so the whole app looks identical.
+    var selected by remember { mutableStateOf(Tab.HOME) }
+    val stacks = remember { Tab.entries.associateWith { mutableStateListOf(it.root) } }
+    val stack = stacks.getValue(selected)
+    val host = remember(playground, selected) {
+        PlaygroundHost(playground.screensById.keys + CATALOG) { stack.add(it) }
+    }
 
     MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
-        Surface(Modifier.fillMaxSize()) {
-            val currentId = stack.lastOrNull() ?: "home"
-            val doc = playground.screensById[currentId]
-            Column(Modifier.fillMaxSize()) {
-                // A back affordance only once we've navigated past the home root.
+        Scaffold(
+            bottomBar = {
+                NavigationBar {
+                    for (tab in Tab.entries) {
+                        NavigationBarItem(
+                            selected = tab == selected,
+                            onClick = { selected = tab },
+                            icon = { Icon(tab.icon, contentDescription = tab.label) },
+                            label = { Text(tab.label) },
+                        )
+                    }
+                }
+            },
+        ) { insets ->
+            val currentId = stack.lastOrNull() ?: selected.root
+            Column(Modifier.fillMaxSize().padding(insets)) {
                 if (stack.size > 1) {
+                    val doc = playground.screensById[currentId]
                     NavBar(
                         title = doc?.screen?.title ?: currentId,
                         onBack = { stack.removeAt(stack.lastIndex) },
                     )
                 }
                 Box(Modifier.fillMaxWidth().weight(1f)) {
-                    if (doc != null) {
-                        SduiScreen(document = doc, tokens = playground.tokens, env = env, delegate = host)
-                    } else {
-                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("Screen \"$currentId\" is not bundled")
+                    when {
+                        currentId == CATALOG ->
+                            CatalogList(playground.categories) { stack.add(it) }
+                        else -> {
+                            val doc = playground.screensById[currentId]
+                            if (doc != null) {
+                                SduiScreen(document = doc, tokens = playground.tokens, env = env, delegate = host)
+                            } else {
+                                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                    Text("Screen \"$currentId\" is not bundled")
+                                }
+                            }
                         }
                     }
                 }
