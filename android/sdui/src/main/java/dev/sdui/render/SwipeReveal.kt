@@ -62,30 +62,43 @@ internal fun SwipeReveal(swipe: Modifiers.SwipeConfig, ctx: RenderContext, conte
     val openTrail = trailing.size * slot
     val allowFull = swipe.fullSwipe ?: true
     val scope = rememberCoroutineScope()
+    // The settled/animated offset. During an active drag we bypass this and track the finger
+    // with a plain float (`drag`), so a moving finger never waits on a queued coroutine — the
+    // snapTo-per-frame launch was the source of the lag that made the row jump.
     val offset = remember { Animatable(0f) }
+    var drag by remember { mutableStateOf<Float?>(null) }
+    val shown = drag ?: offset.value
     var rowW by remember { mutableStateOf(0f) }
     val snap = spring<Float>(dampingRatio = 0.86f, stiffness = Spring.StiffnessMediumLow)
 
-    fun close() { scope.launch { offset.animateTo(0f, snap) } }
+    fun close() { drag = null; scope.launch { offset.animateTo(0f, snap) } }
     fun fire(a: Modifiers.SwipeAction) { ctx.dispatch(a.action, ctx.binding); close() }
 
     Box(Modifier.clipToBounds().onSizeChanged { rowW = it.width.toFloat() }) {
         if (leading.isNotEmpty()) {
-            SwipeTray(leading, offset.value.coerceAtLeast(0f), ctx, ::fire, Modifier.align(Alignment.CenterStart))
+            SwipeTray(leading, shown.coerceAtLeast(0f), ctx, ::fire, Modifier.align(Alignment.CenterStart))
         }
         if (trailing.isNotEmpty()) {
-            SwipeTray(trailing, (-offset.value).coerceAtLeast(0f), ctx, ::fire, Modifier.align(Alignment.CenterEnd))
+            SwipeTray(trailing, (-shown).coerceAtLeast(0f), ctx, ::fire, Modifier.align(Alignment.CenterEnd))
         }
         Box(
             Modifier
-                .offset { IntOffset(offset.value.roundToInt(), 0) }
-                .pointerInput(leading, trailing) {
+                .offset { IntOffset(shown.roundToInt(), 0) }
+                // Key on Unit — NOT on the leading/trailing lists, which are fresh List
+                // instances every recomposition and would restart the detector mid-drag
+                // (the jank the user saw). The tray contents can't change for a row's life.
+                .pointerInput(Unit) {
                     val trigger = { maxOf(rowW * 0.62f, slot + armPad) }
+                    val lo = { if (trailing.isEmpty()) 0f else -openTrail - slot * 0.5f }
+                    val hi = { if (leading.isEmpty()) 0f else openLead + slot * 0.5f }
                     detectHorizontalDragGestures(
+                        onDragStart = { drag = offset.value },
                         onDragEnd = {
-                            val o = offset.value
+                            val o = drag ?: offset.value
+                            drag = null
                             val t = trigger()
                             scope.launch {
+                                offset.snapTo(o)
                                 when {
                                     allowFull && leading.isNotEmpty() && o >= t -> { offset.animateTo(rowW, snap); fire(leading.first()) }
                                     allowFull && trailing.isNotEmpty() && -o >= t -> { offset.animateTo(-rowW, snap); fire(trailing.first()) }
@@ -98,9 +111,9 @@ internal fun SwipeReveal(swipe: Modifiers.SwipeConfig, ctx: RenderContext, conte
                         onDragCancel = { close() },
                         onHorizontalDrag = { change, dragAmount ->
                             change.consume()
-                            val lo = if (trailing.isEmpty()) 0f else -openTrail - slot * 0.5f
-                            val hi = if (leading.isEmpty()) 0f else openLead + slot * 0.5f
-                            scope.launch { offset.snapTo((offset.value + dragAmount).coerceIn(lo, hi)) }
+                            // Synchronous — no coroutine per frame. The finger and the row move
+                            // together, so the drag can never fall behind onto the next row.
+                            drag = ((drag ?: offset.value) + dragAmount).coerceIn(lo(), hi())
                         },
                     )
                 },

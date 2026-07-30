@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.aspectRatio
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -38,6 +40,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,7 +51,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.zIndex
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -310,6 +317,19 @@ private fun PagerView(component: Component, ctx: RenderContext) {
 
 // MARK: - Layout primitives
 
+/**
+ * The main-axis weight a stack child should claim, or null for an intrinsically-sized child.
+ * A `spacer` is greedy (weight 1, like a SwiftUI `Spacer`); a child whose `size.<mainAxis>.mode`
+ * is `"weight"` claims its `value` (default 1, e.g. two boxes at weight 1 / 2 split the row 1:2).
+ * The parent applies it because Compose's `Modifier.weight` is a Row/Column-scope modifier the
+ * child's own `sizeModifier` cannot reach — matching how iOS distributes `.frame` weight.
+ */
+private fun mainAxisWeight(child: Component, vertical: Boolean): Float? {
+    if (child.type == "spacer") return 1f
+    val axis = if (vertical) child.modifiers?.size?.height else child.modifiers?.size?.width
+    return if (axis?.mode == "weight") (axis.value ?: 1.0).toFloat().coerceAtLeast(0.0001f) else null
+}
+
 @Composable
 private fun StackView(component: Component, ctx: RenderContext, vertical: Boolean) {
     val spacing = component.prop("spacing")?.decode<Dimension>()
@@ -323,14 +343,9 @@ private fun StackView(component: Component, ctx: RenderContext, vertical: Boolea
                 horizontalAlignment = horizontalAlignment(alignment),
             ) {
                 component.children.forEach { child ->
-                    // A `spacer` is greedy on iOS (SwiftUI Spacer expands). In a Compose
-                    // Row/Column that means weight(1f): wrap it so it pushes siblings to
-                    // opposite ends (e.g. label … value) instead of sitting flush.
-                    if (child.type == "spacer") {
-                        Box(Modifier.weight(1f)) { ctx.registry.Render(child, ctx) }
-                    } else {
-                        ctx.registry.Render(child, ctx)
-                    }
+                    val w = mainAxisWeight(child, vertical = true)
+                    if (w != null) Box(Modifier.weight(w)) { ctx.registry.Render(child, ctx) }
+                    else ctx.registry.Render(child, ctx)
                 }
             }
         } else {
@@ -340,14 +355,9 @@ private fun StackView(component: Component, ctx: RenderContext, vertical: Boolea
                 verticalAlignment = verticalAlignment(alignment),
             ) {
                 component.children.forEach { child ->
-                    // A `spacer` is greedy on iOS (SwiftUI Spacer expands). In a Compose
-                    // Row/Column that means weight(1f): wrap it so it pushes siblings to
-                    // opposite ends (e.g. label … value) instead of sitting flush.
-                    if (child.type == "spacer") {
-                        Box(Modifier.weight(1f)) { ctx.registry.Render(child, ctx) }
-                    } else {
-                        ctx.registry.Render(child, ctx)
-                    }
+                    val w = mainAxisWeight(child, vertical = false)
+                    if (w != null) Box(Modifier.weight(w)) { ctx.registry.Render(child, ctx) }
+                    else ctx.registry.Render(child, ctx)
                 }
             }
         }
@@ -391,6 +401,16 @@ private fun ListView(component: Component, ctx: RenderContext) {
     val gap = spacing?.let { Theme.dp(it, ctx.binding) } ?: 0.dp
     val itemsRef = component.prop("items")?.stringValue
     val template = component.prop("template")?.decode<Component>()
+    val reorder = component.prop("reorder")?.boolValue == true
+
+    // Drag-to-reorder: only when `reorder` is set AND items bind to a `$state.<key>` array
+    // (the new order is written straight back to state, so it must be host-mutable) — the
+    // exact contract the iOS `.onMove` path honours. See reorder.json.
+    val stateKey = itemsRef?.takeIf { reorder && it.startsWith("\$state.") }?.removePrefix("\$state.")
+    if (stateKey != null && template != null && !LocalInScroll.current) {
+        Primitive(component, ctx) { modifier -> ReorderableList(stateKey, itemsRef, template, gap, ctx, modifier) }
+        return
+    }
 
     Primitive(component, ctx) { modifier ->
         if (LocalInScroll.current) {
@@ -416,6 +436,81 @@ private fun ListView(component: Component, ctx: RenderContext) {
                     itemsIndexed(component.children) { _, child -> ctx.registry.Render(child, ctx) }
                 }
             }
+        }
+    }
+}
+
+/**
+ * A long-press-and-drag reorderable list — the Android twin of the iOS `.onMove` reorder path.
+ * Rows are dragged by long-press; as the dragged row's centre crosses a neighbour the working
+ * copy swaps live (so the list animates under the finger), and on release the new order is
+ * written back to `$state.<stateKey>` via [RenderContext.setState] — identical semantics and
+ * identical state mutation to iOS. Built on the stable `detectDragGesturesAfterLongPress` +
+ * `LazyListState.layoutInfo` primitives, no third-party dependency (min-version friendly).
+ */
+@Composable
+private fun ReorderableList(
+    stateKey: String,
+    itemsRef: String,
+    template: Component,
+    gap: androidx.compose.ui.unit.Dp,
+    ctx: RenderContext,
+    modifier: Modifier,
+) {
+    val bound = BindingEngine.resolve(itemsRef, ctx.binding).arrayValue ?: emptyList()
+    // Working copy, re-synced whenever the bound array's *content* changes (e.g. Reset order).
+    // JsonValue is a data class, so `remember(bound)` compares structurally and survives the
+    // recompositions triggered during a drag (state itself is untouched until release).
+    val work = remember(bound) { mutableStateListOf<JsonValue>().apply { addAll(bound) } }
+    val listState = rememberLazyListState()
+    var dragIndex by remember { mutableStateOf<Int?>(null) }
+    var dragDelta by remember { mutableFloatStateOf(0f) }
+
+    LazyColumn(
+        state = listState,
+        verticalArrangement = Arrangement.spacedBy(gap),
+        modifier = modifier.pointerInput(Unit) {
+            detectDragGesturesAfterLongPress(
+                onDragStart = { off ->
+                    dragDelta = 0f
+                    dragIndex = listState.layoutInfo.visibleItemsInfo
+                        .firstOrNull { off.y.toInt() in it.offset..(it.offset + it.size) }?.index
+                },
+                onDragEnd = {
+                    dragIndex = null; dragDelta = 0f
+                    ctx.setState?.invoke(stateKey, JsonValue.Arr(work.toList()))
+                },
+                onDragCancel = { dragIndex = null; dragDelta = 0f },
+                onDrag = { change, amount ->
+                    change.consume()
+                    dragDelta += amount.y
+                    val cur = dragIndex ?: return@detectDragGesturesAfterLongPress
+                    val info = listState.layoutInfo.visibleItemsInfo
+                    val curInfo = info.firstOrNull { it.index == cur } ?: return@detectDragGesturesAfterLongPress
+                    val centre = curInfo.offset + curInfo.size / 2f + dragDelta
+                    val target = info.firstOrNull {
+                        it.index != cur && it.index in work.indices &&
+                            centre.toInt() in it.offset..(it.offset + it.size)
+                    } ?: return@detectDragGesturesAfterLongPress
+                    // Live swap; keep the row under the finger by re-basing the delta onto the
+                    // slot it just moved into (so it doesn't visually jump on the swap).
+                    work.add(target.index, work.removeAt(cur))
+                    dragDelta += curInfo.offset - target.offset
+                    dragIndex = target.index
+                },
+            )
+        },
+    ) {
+        itemsIndexed(work) { index, item ->
+            val dragging = index == dragIndex
+            Box(
+                Modifier
+                    .zIndex(if (dragging) 1f else 0f)
+                    .graphicsLayer {
+                        translationY = if (dragging) dragDelta else 0f
+                        if (dragging) { scaleX = 1.03f; scaleY = 1.03f; shadowElevation = 12f }
+                    },
+            ) { ctx.registry.Render(template, ctx.withItem(item)) }
         }
     }
 }

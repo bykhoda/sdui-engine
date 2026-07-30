@@ -218,11 +218,13 @@ private fun sizeModifier(size: Modifiers.Size?): Modifier {
     var m: Modifier = Modifier
     when (size.width?.mode) {
         "fixed" -> size.width.value?.let { m = m.width(it.toFloat().dp) }
-        "fill" -> m = m.fillMaxWidth()
+        // `weight` fills the slot the parent Row allocates (see StackView, which applies
+        // Modifier.weight); on its own it behaves like `fill`.
+        "fill", "weight" -> m = m.fillMaxWidth()
     }
     when (size.height?.mode) {
         "fixed" -> size.height.value?.let { m = m.height(it.toFloat().dp) }
-        "fill" -> m = m.fillMaxHeight()
+        "fill", "weight" -> m = m.fillMaxHeight()
     }
     return m
 }
