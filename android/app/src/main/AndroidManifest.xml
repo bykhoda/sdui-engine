@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Required by Coil/OkHttp to load remote images; without it any screen with a
+         network image (avatars, album art, product photos) crashed with a
+         SecurityException on the OkHttp dispatcher thread. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:label="SDUI Playground"
