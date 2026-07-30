@@ -1,5 +1,19 @@
 # 21 · Renderer Parity Audit — iOS (SwiftUI) vs Android (Compose)
 
+> **Status — 2026-07-31 (closed this session).** The following divergences are now
+> fixed and verified on the emulator/build. **P0:** #1 collapsing large-title chrome
+> (Android `LargeTopAppBar` + exit-until-collapsed), #2 8dp default stack gap, #3 SF-Symbol
+> map (70+ names) + catalog tile icons, #4 chart drag-to-scrub (crosshair/dot/pill/haptic),
+> #5 iOS clips wiring, #6 `presentWhen` subtree-as-modal. **P1/P2:** #9 iOS zstack
+> alignment, #13 `onDoubleTap`, #19 adaptive divider, #26 icon `symbolEffect`
+> (pulse/bounce/rotate/wiggle), #27 textfield rich props, #30 disclosure card chrome, #35
+> one accent token (`Theme.accent`), progress-literal value, single-colour gradient, plus
+> Android stable list keys + collapsing-hero `collapsingHeader`. **Still open:** #8 list
+> filter/sort/limit/pagination, #10 `requestPermission`/#9 `requireVersion` (host
+> plumbing), #16 iOS stack weight, #33/#34 calendar basis/prefix, and the P2 cosmetic tail.
+> A separate WCAG finding (from `spec/tools/lint.mjs`): `textSecondary #8E8E93` on
+> `surface #F2F2F7` is 2.92:1 — below AA; a token decision to make.
+
 > One JSON contract must render **identically** on iOS (`ios/Sources/SDUIRender` +
 > `SDUIRuntime` + `SDUICore`) and Android (`android/sdui/src/main/java/dev/sdui`).
 > This audit walks all **30 components**, all **24 modifier keys**, all **24 actions**,
