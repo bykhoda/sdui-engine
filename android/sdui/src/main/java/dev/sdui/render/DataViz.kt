@@ -6,6 +6,8 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.DirectionsBike
+import androidx.compose.material.icons.automirrored.filled.ListAlt
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
@@ -369,8 +371,78 @@ fun materialIcon(sf: String): ImageVector = when (sf) {
     "chart.line.uptrend.xyaxis" -> Icons.Filled.ShowChart
     "cloud.sun.fill" -> Icons.Filled.WbSunny
     "checklist", "list.bullet" -> Icons.Filled.Checklist
-    "shippingbox.fill" -> Icons.Filled.Inventory2
+    "shippingbox.fill", "shippingbox" -> Icons.Filled.Inventory2
     "dumbbell.fill" -> Icons.Filled.FitnessCenter
+    // weather
+    "cloud.fill", "icloud.fill" -> Icons.Filled.Cloud
+    "cloud.rain.fill" -> Icons.Filled.Grain
+    "cloud.moon.fill", "moon.stars.fill" -> Icons.Filled.NightsStay
+    "sun.max.fill" -> Icons.Filled.WbSunny
+    "sunrise.fill", "sunset.fill" -> Icons.Filled.WbTwilight
+    // people / places / comms
+    "person.crop.circle.fill" -> Icons.Filled.AccountCircle
+    "house", "house.fill" -> Icons.Filled.Home
+    "location.fill" -> Icons.Filled.LocationOn
+    "location.circle.fill" -> Icons.Filled.MyLocation
+    "bubble.left", "quote.bubble" -> Icons.Filled.ChatBubbleOutline
+    "headphones" -> Icons.Filled.Headphones
+    "hand.thumbsdown" -> Icons.Filled.ThumbDown
+    "hand.point.up.left.fill" -> Icons.Filled.TouchApp
+    // media / connectivity
+    "camera.fill" -> Icons.Filled.PhotoCamera
+    "video.fill" -> Icons.Filled.Videocam
+    "airplayaudio" -> Icons.Filled.Airplay
+    "cable.connector" -> Icons.Filled.Cable
+    "dot.radiowaves.left.and.right" -> Icons.Filled.Sensors
+    "externaldrive.badge.icloud" -> Icons.Filled.CloudSync
+    // status / marks
+    "info.circle.fill" -> Icons.Filled.Info
+    "exclamationmark.triangle.fill" -> Icons.Filled.Warning
+    "xmark.octagon.fill" -> Icons.Filled.Cancel
+    "flag" -> Icons.Filled.Flag
+    "bookmark" -> Icons.Filled.BookmarkBorder
+    "star.circle.fill" -> Icons.Filled.Stars
+    "shield.lefthalf.filled" -> Icons.Filled.Shield
+    // activity / motion
+    "figure.walk", "figure.walk.motion" -> Icons.Filled.DirectionsWalk
+    "figure.stairs" -> Icons.Filled.Stairs
+    "bicycle" -> Icons.AutoMirrored.Filled.DirectionsBike
+    "bolt.horizontal.circle.fill", "bolt.badge.checkmark.fill" -> Icons.Filled.OfflineBolt
+    // containers / layout
+    "tray", "tray.full", "tray.full.fill" -> Icons.Filled.Inbox
+    "square.grid.2x2" -> Icons.Filled.GridView
+    "square.stack.3d.up.fill" -> Icons.Filled.Layers
+    "ellipsis.circle" -> Icons.Filled.MoreHoriz
+    // text formatting
+    "bold" -> Icons.Filled.FormatBold
+    "textformat.size" -> Icons.Filled.FormatSize
+    // arrows / misc
+    "arrow.up.right" -> Icons.Filled.NorthEast
+    "arrow.2.squarepath" -> Icons.Filled.SyncAlt
+    "story" -> Icons.Filled.AutoStories
+    "circle" -> Icons.Filled.Circle
+    // catalog / section glyphs (mirror the iOS demo's screenIcon map)
+    "rectangle.3.group.fill", "rectangle.stack.fill" -> Icons.Filled.Dashboard
+    "cube.fill" -> Icons.Filled.Widgets
+    "switch.2" -> Icons.Filled.Tune
+    "character.cursor.ibeam", "textformat" -> Icons.Filled.TextFields
+    "list.bullet.rectangle.fill" -> Icons.AutoMirrored.Filled.ListAlt
+    "arrow.up.arrow.down" -> Icons.Filled.SwapVert
+    "tablecells" -> Icons.Filled.GridOn
+    "play.rectangle.fill" -> Icons.Filled.SmartDisplay
+    "cart.fill", "cart" -> Icons.Filled.ShoppingCart
+    "newspaper.fill" -> Icons.Filled.Article
+    "sparkles", "wand.and.stars", "wand.and.rays" -> Icons.Filled.AutoAwesome
+    "tag.fill" -> Icons.Filled.Sell
+    "gearshape.fill", "gearshape" -> Icons.Filled.Settings
+    "paintbrush.pointed.fill", "paintpalette", "paintpalette.fill" -> Icons.Filled.Palette
+    "crown.fill" -> Icons.Filled.WorkspacePremium
+    "photo.on.rectangle.angled" -> Icons.Filled.PhotoLibrary
+    "waveform" -> Icons.Filled.GraphicEq
+    "curlybraces" -> Icons.Filled.DataObject
+    "doc.fill", "doc.text.fill" -> Icons.Filled.Description
+    "bolt.fill" -> Icons.Filled.Bolt
+    "hand.draw.fill" -> Icons.Filled.Gesture
     else -> Icons.Filled.Circle
 }
 

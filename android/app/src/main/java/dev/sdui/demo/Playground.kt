@@ -58,7 +58,7 @@ import dev.sdui.render.SduiScreen
 // ── Catalog model (parsed from the shared content/catalog.json) ─────────────
 
 private data class CatalogEntry(val id: String, val subtitle: String)
-private data class Category(val name: String, val colors: List<String>, val screens: List<CatalogEntry>)
+private data class Category(val name: String, val icon: String, val colors: List<String>, val screens: List<CatalogEntry>)
 
 /** Everything the playground needs, loaded once from the bundled assets. */
 private class Playground(
@@ -92,16 +92,59 @@ private fun loadPlayground(assets: AssetManager): Playground {
     return Playground(parseCategories(catalog), screensById, tokens)
 }
 
+/** A distinct SF-Symbol glyph per screen id (falls back to the category icon) — a verbatim
+ *  port of the iOS demo's `screenIcon`, so the Android catalog tiles show the same glyphs. */
+private fun screenIcon(id: String, fallback: String): String = when (id) {
+    "buttons" -> "hand.point.up.left.fill"
+    "typography" -> "textformat"
+    "layout" -> "rectangle.3.group.fill"
+    "components" -> "cube.fill"
+    "cards" -> "rectangle.stack.fill"
+    "controls" -> "switch.2"
+    "inputs" -> "character.cursor.ibeam"
+    "feedback" -> "exclamationmark.bubble.fill"
+    "document" -> "doc.text.fill"
+    "actions" -> "bolt.fill"
+    "gestures" -> "hand.draw.fill"
+    "animation" -> "wand.and.rays"
+    "lists" -> "list.bullet.rectangle.fill"
+    "reorder" -> "arrow.up.arrow.down"
+    "calendar" -> "calendar"
+    "table" -> "tablecells"
+    "clips" -> "play.rectangle.fill"
+    "alert_sheet" -> "bell.badge.fill"
+    "cart" -> "cart.fill"
+    "messenger" -> "bubble.left.and.bubble.right.fill"
+    "feed" -> "newspaper.fill"
+    "discover" -> "sparkles"
+    "product" -> "tag.fill"
+    "inbox" -> "tray.full.fill"
+    "settings" -> "gearshape.fill"
+    "delivery" -> "shippingbox.fill"
+    "figma" -> "paintbrush.pointed.fill"
+    "fitness" -> "figure.run"
+    "gym" -> "dumbbell.fill"
+    "stocks" -> "chart.line.uptrend.xyaxis"
+    "weather" -> "cloud.sun.fill"
+    "music" -> "music.note"
+    "todo" -> "checklist"
+    "paywall" -> "crown.fill"
+    "signup" -> "person.crop.circle.fill"
+    "gallery" -> "photo.on.rectangle.angled"
+    else -> fallback
+}
+
 private fun parseCategories(catalog: JsonValue?): List<Category> {
     val cats = catalog?.get("categories")?.arrayValue ?: return emptyList()
     return cats.mapNotNull { c ->
         val name = c["name"]?.stringValue ?: return@mapNotNull null
+        val icon = c["icon"]?.stringValue ?: "square.grid.2x2.fill"
         val colors = c["colors"]?.arrayValue?.mapNotNull { it.stringValue } ?: emptyList()
         val entries = c["screens"]?.arrayValue?.mapNotNull { s ->
             val id = s["id"]?.stringValue ?: return@mapNotNull null
             CatalogEntry(id, s["subtitle"]?.stringValue ?: "")
         } ?: emptyList()
-        Category(name, colors, entries)
+        Category(name, icon, colors, entries)
     }
 }
 
@@ -315,7 +358,7 @@ private fun CatalogList(categories: List<Category>, onOpen: (String) -> Unit) {
             }
             for (entry in category.screens) {
                 item(key = "screen-${entry.id}") {
-                    CatalogRow(entry, category.colors) { onOpen(entry.id) }
+                    CatalogRow(entry, category.icon, category.colors) { onOpen(entry.id) }
                 }
             }
         }
@@ -324,7 +367,7 @@ private fun CatalogList(categories: List<Category>, onOpen: (String) -> Unit) {
 }
 
 @Composable
-private fun CatalogRow(entry: CatalogEntry, colors: List<String>, onClick: () -> Unit) {
+private fun CatalogRow(entry: CatalogEntry, categoryIcon: String, colors: List<String>, onClick: () -> Unit) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -335,12 +378,22 @@ private fun CatalogRow(entry: CatalogEntry, colors: List<String>, onClick: () ->
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        // A gradient tile with the screen's glyph centred — the Android twin of the iOS
+        // demo's CatalogRow (screenIcon per screen id, category icon as fallback).
         Box(
             Modifier
                 .size(44.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(gradientOf(colors)),
-        )
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                dev.sdui.render.materialIcon(screenIcon(entry.id, categoryIcon)),
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(22.dp),
+            )
+        }
         Column(Modifier.padding(start = 14.dp)) {
             Text(entry.id, fontWeight = FontWeight.SemiBold, fontSize = 17.sp)
             if (entry.subtitle.isNotEmpty()) {
