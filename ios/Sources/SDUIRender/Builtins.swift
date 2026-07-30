@@ -153,10 +153,26 @@ private struct ZStackView: View {
     let component: Component
     let ctx: RenderContext
     var body: some View {
-        ZStack {
+        // Honour the `alignment` prop (Android's ZStackView already does) so an overlay
+        // pins to the requested corner instead of always centring (doc 21 parity #9).
+        ZStack(alignment: zAlign(component.prop("alignment")?.stringValue)) {
             ForEach(component.children.indices, id: \.self) { i in
                 ctx.registry.view(for: component.children[i], in: ctx)
             }
+        }
+    }
+
+    private func zAlign(_ s: String?) -> Alignment {
+        switch s {
+        case "topLeading": return .topLeading
+        case "top": return .top
+        case "topTrailing": return .topTrailing
+        case "leading": return .leading
+        case "trailing": return .trailing
+        case "bottomLeading": return .bottomLeading
+        case "bottom": return .bottom
+        case "bottomTrailing": return .bottomTrailing
+        default: return .center
         }
     }
 }
