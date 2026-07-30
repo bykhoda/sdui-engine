@@ -37,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
@@ -76,6 +77,8 @@ fun Modifier.sduiModifiers(modifiers: Modifiers?, ctx: RenderContext): Modifier 
     return this
         .then(sizeModifier(m.size))
         .then(frameModifier(m.frame, ctx))
+        // Shadow BEFORE background so it's cast behind the filled/clipped shape.
+        .then(shadowModifier(m.shadow, m.cornerRadius, ctx))
         .then(backgroundModifier(m.background, m.material, m.cornerRadius, ctx))
         // Padding is applied AFTER the background+clip so content is inset WITHIN the
         // filled shape — the SwiftUI `.padding().background()` visual. (In Compose the
@@ -83,7 +86,6 @@ fun Modifier.sduiModifiers(modifiers: Modifiers?, ctx: RenderContext): Modifier 
         // rounded bubbles clip their first character.)
         .then(paddingModifier(m.padding, ctx))
         .then(blurModifier(m.blur))
-        .then(shadowModifier(m.shadow, m.cornerRadius, ctx))
         .then(transformModifier(m.scale, m.rotation, m.opacity, m.animation, ctx))
         .then(pulseModifier(m.pulse, ctx))
         .then(gestureModifier(m, ctx))
@@ -246,8 +248,14 @@ private fun backgroundModifier(color: String?, material: String?, radius: Dimens
         Theme.color(color, ctx.binding)?.let { m = Modifier.background(it, shape).then(m) }
         return m.clip(shape)
     }
-    val bg = Theme.color(color, ctx.binding) ?: return Modifier
-    return Modifier.background(bg, shape).clip(shape)
+    val bg = Theme.color(color, ctx.binding)
+    return when {
+        bg != null -> Modifier.background(bg, shape).clip(shape)
+        // Clip to the rounded shape even with no fill colour, so a `gradient` component or
+        // an `image` with a `cornerRadius` gets rounded corners instead of a hard square.
+        r > 0.dp -> Modifier.clip(shape)
+        else -> Modifier
+    }
 }
 
 /**
@@ -297,16 +305,17 @@ private fun shadowModifier(shadow: Modifiers.Shadow?, radius: Dimension?, ctx: R
     val offsetX = (shadow.x ?: 0.0).dp
     val offsetY = (shadow.y ?: 2.0).dp
     val cornerRadius = radius?.let { Theme.dp(it, ctx.binding) } ?: 0.dp
-    return Modifier.drawBehind {
-        val paint = Paint()
-        val frameworkPaint = paint.asFrameworkPaint()
-        frameworkPaint.color = android.graphics.Color.TRANSPARENT
-        frameworkPaint.setShadowLayer(blurRadius.toPx(), offsetX.toPx(), offsetY.toPx(), color.toArgb())
-        val cr = cornerRadius.toPx()
-        drawIntoCanvas { canvas ->
-            canvas.drawRoundRect(0f, 0f, size.width, size.height, cr, cr, paint)
-        }
-    }
+    // Canonical Compose shadow: a GPU-composited elevation shadow clipped to the shape —
+    // far cleaner than a hand-drawn setShadowLayer, which read as a big grey blob. The
+    // contract's blur radius maps to a capped elevation; colour tints the spot/ambient.
+    val elevation = (blurRadius.value * 0.6f).coerceIn(2f, 16f).dp
+    return Modifier.shadow(
+        elevation = elevation,
+        shape = RoundedCornerShape(cornerRadius),
+        clip = false,
+        ambientColor = color,
+        spotColor = color,
+    )
 }
 
 /**
