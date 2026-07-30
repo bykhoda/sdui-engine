@@ -1,0 +1,123 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "comments",
+    "title": "Comments",
+    "data": {
+      "sources": [
+        { "id": "comments", "service": "feed", "path": "/clips/{clipId}/comments", "method": "GET", "policy": "cacheThenNetwork" }
+      ]
+    },
+    "state": {
+      "draft": "",
+      "comments": [
+        { "id": "m1", "avatar": "https://i.pravatar.cc/72?img=15", "author": "@ridgeline", "text": "One take?! The framing on that last pan is unreal.", "likes": "214" },
+        { "id": "m2", "avatar": "https://i.pravatar.cc/72?img=32", "author": "@mara.k", "text": "Saving this for the light alone. What lens were you on?", "likes": "88" },
+        { "id": "m3", "avatar": "https://i.pravatar.cc/72?img=5", "author": "@northtrails", "text": "Been up there in winter — completely different animal. Nice work.", "likes": "37" },
+        { "id": "m4", "avatar": "https://i.pravatar.cc/72?img=48", "author": "@quietfilms", "text": "The restraint here is the whole point. No cuts, no filter, just the ridge.", "likes": "126" },
+        { "id": "m5", "avatar": "https://i.pravatar.cc/72?img=12", "author": "@sam", "text": "instant follow", "likes": "9" },
+        { "id": "m6", "avatar": "https://i.pravatar.cc/72?img=23", "author": "@vale.shoots", "text": "That golden-hour window is maybe 4 minutes long. Respect for nailing it.", "likes": "52" }
+      ]
+    },
+    "content": {
+      "type": "vstack",
+      "spacing": 0,
+      "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } },
+      "children": [
+        {
+          "type": "list",
+          "items": "$state.comments",
+          "spacing": "$token.spacing.md",
+          "modifiers": { "size": { "height": { "mode": "fill" } }, "padding": "$token.spacing.md" },
+          "template": {
+            "type": "hstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "top",
+            "children": [
+              {
+                "type": "image",
+                "source": "$item.avatar",
+                "loader": { "placeholder": "skeleton", "contentMode": "fill" },
+                "modifiers": {
+                  "size": { "width": { "mode": "fixed", "value": 36 }, "height": { "mode": "fixed", "value": 36 } },
+                  "cornerRadius": 18
+                }
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.xs",
+                "alignment": "leading",
+                "modifiers": { "size": { "width": { "mode": "fill" } } },
+                "children": [
+                  { "type": "text", "value": "$item.author", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+                  { "type": "text", "value": "$item.text", "style": "$token.typography.body" }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "heart",
+                    "size": 16,
+                    "color": "$token.color.textSecondary",
+                    "modifiers": {
+                      "onTap": {
+                        "action": "request",
+                        "source": { "id": "likeComment", "service": "feed", "path": "/comments/$item.id/like", "method": "POST" }
+                      }
+                    }
+                  },
+                  { "type": "text", "value": "$item.likes", "style": "$token.typography.caption", "color": "$token.color.textSecondary" }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.sm",
+          "alignment": "center",
+          "modifiers": {
+            "padding": "$token.spacing.md",
+            "background": "$token.color.surface",
+            "size": { "width": { "mode": "fill" } }
+          },
+          "children": [
+            {
+              "type": "textfield",
+              "placeholder": "Add a comment…",
+              "bind": "draft",
+              "modifiers": { "size": { "width": { "mode": "fill" } } }
+            },
+            {
+              "type": "button",
+              "title": "Send",
+              "style": "$token.button.primary",
+              "enabledWhen": { "exists": "$state.draft" },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "request",
+                    "source": { "id": "postComment", "service": "feed", "path": "/clips/{clipId}/comments", "method": "POST", "body": { "text": "$state.draft" } },
+                    "onSuccess": {
+                      "action": "sequence",
+                      "actions": [
+                        { "action": "setState", "key": "draft", "value": "" },
+                        { "action": "refresh", "sources": ["comments"] }
+                      ]
+                    },
+                    "onError": { "action": "showToast", "message": "Comment failed to send", "style": "error" }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

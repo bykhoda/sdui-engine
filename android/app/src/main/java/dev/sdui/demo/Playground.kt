@@ -49,6 +49,9 @@ import androidx.compose.ui.unit.sp
 import dev.sdui.core.JsonValue
 import dev.sdui.core.SduiDocument
 import dev.sdui.core.SduiParser
+import dev.sdui.core.BindingContext
+import dev.sdui.core.DataConfig
+import dev.sdui.render.DataLoader
 import dev.sdui.render.SduiHostDelegate
 import dev.sdui.render.SduiScreen
 
@@ -123,6 +126,7 @@ private class PlaygroundHost(
     }
 
     override fun dismiss() = onDismiss()
+    override fun dismissRoot() = onDismiss()
 
     // The home story rings fire `custom {name:"story", payload:{index}}` — open the
     // full-screen stories player, the Android twin of the iOS `fullScreenCover` path.
@@ -134,6 +138,18 @@ private class PlaygroundHost(
             openStory(index)
         }
     }
+}
+
+/**
+ * A stand-in data loader for the showcase, which has no live backend. Every source
+ * resolves to an empty success object, so a `request` (e.g. the optimistic-like POST on a
+ * clip) *succeeds* and its `onSuccess`/no-op path runs instead of rolling back — the like
+ * sticks, as it would against a real server. Screens that need visible rows seed them in
+ * `state` and bind to `$state.*`. A production host swaps this for a real HTTP client.
+ */
+private class DemoLoader : DataLoader {
+    override suspend fun load(config: DataConfig, ctx: BindingContext): Map<String, JsonValue> =
+        config.sources.associate { it.id to JsonValue.Obj(emptyMap()) }
 }
 
 // ── UI ───────────────────────────────────────────────────────────────────────
@@ -175,6 +191,7 @@ fun PlaygroundApp() {
     var sheetScreen by remember { mutableStateOf<String?>(null) }
     // The index of the currently open full-screen stories player, or null when closed.
     var openStoryIndex by remember { mutableStateOf<Int?>(null) }
+    val loader = remember { DemoLoader() }
     val host = remember(playground, selected) {
         PlaygroundHost(
             known = playground.screensById.keys + CATALOG,
@@ -216,7 +233,7 @@ fun PlaygroundApp() {
                         else -> {
                             val doc = playground.screensById[currentId]
                             if (doc != null) {
-                                SduiScreen(document = doc, tokens = playground.tokens, env = env, delegate = host)
+                                SduiScreen(document = doc, tokens = playground.tokens, env = env, loader = loader, delegate = host)
                             } else {
                                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                     Text("Screen \"$currentId\" is not bundled")
@@ -238,7 +255,7 @@ fun PlaygroundApp() {
             val doc = playground.screensById[presented]
             ModalBottomSheet(onDismissRequest = { sheetScreen = null }) {
                 if (doc != null) {
-                    SduiScreen(document = doc, tokens = playground.tokens, env = env, delegate = host)
+                    SduiScreen(document = doc, tokens = playground.tokens, env = env, loader = loader, delegate = host)
                 } else {
                     Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
                         Text("Screen \"$presented\" is not bundled")

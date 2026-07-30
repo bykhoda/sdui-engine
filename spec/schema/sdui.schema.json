@@ -171,13 +171,19 @@
           "items": {
             "type": "object",
             "properties": {
+              "id": { "type": "string", "description": "Stable clip id. Used to key per-clip $state (liked_<id> / likes_<id>) and to fill 'params' passed to the comment/share/more sheets." },
               "colors": { "type": "array", "items": { "$ref": "#/$defs/Color" }, "description": "Gradient stops for the media backdrop (stand-in for a video/photo URL)." },
               "author": { "type": "string", "description": "Creator handle." },
               "caption": { "type": "string", "description": "Caption (truncated to two lines)." },
               "audio": { "type": "string", "description": "Audio track label." },
-              "likes": { "type": "string", "description": "Like count label, e.g. '12.4K'." },
+              "liked": { "$ref": "#/$defs/BindableString", "description": "Whether the viewer has liked this clip — usually a '$state.liked_<id>' binding so the heart reflects the optimistic like." },
+              "likes": { "$ref": "#/$defs/BindableString", "description": "Like count. A label like '12.4K' or a '$state.likes_<id>' binding that increments on like." },
               "comments": { "type": "string", "description": "Comment count label." },
-              "shares": { "type": "string", "description": "Share count label." }
+              "shares": { "type": "string", "description": "Share count label." },
+              "onLike": { "$ref": "#/$defs/Action", "description": "Fired when the heart is tapped / the clip double-tapped. Typically an optimistic sequence: haptic → setState → increment → request(onError: rollback)." },
+              "onComment": { "$ref": "#/$defs/Action", "description": "Fired by the comment button — usually 'navigate transition:sheet' to a comments screen." },
+              "onShare": { "$ref": "#/$defs/Action", "description": "Fired by the share button — a system 'share' action or 'navigate transition:sheet' to a repost screen." },
+              "onMore": { "$ref": "#/$defs/Action", "description": "Fired by the '…' button — usually 'navigate transition:sheet' to a more-menu screen." }
             }
           }
         }
@@ -629,7 +635,8 @@
           "properties": {
             "to": { "type": "string", "description": "Target screen id or a route path." },
             "params": { "type": "object", "additionalProperties": { "$ref": "#/$defs/BindableString" } },
-            "transition": { "enum": ["push", "sheet", "fullScreenCover", "replace"], "default": "push" }
+            "transition": { "enum": ["push", "sheet", "fullScreenCover", "replace"], "default": "push" },
+            "sheet": { "$ref": "#/$defs/SheetConfig", "description": "Presentation config for the modal sheet. Ignored unless 'transition' is 'sheet'." }
           }, "required": ["to"] } },
         { "if": { "properties": { "action": { "const": "openURL" } } }, "then": {
           "properties": { "url": { "$ref": "#/$defs/BindableString" } }, "required": ["url"] } },
@@ -652,6 +659,28 @@
         { "if": { "properties": { "action": { "const": "custom" } } }, "then": {
           "properties": { "name": { "type": "string" }, "payload": {} }, "required": ["name"] } }
       ]
+    },
+
+    "SheetConfig": {
+      "type": "object",
+      "description": "How a 'navigate transition:sheet' presents its modal. Additive to 'navigate'; each renderer maps 'detents' to its native sheet (iOS presentationDetents, Android material3 ModalBottomSheet, Aurora bottom Drawer). Omitted fields fall back to platform defaults.",
+      "properties": {
+        "detents": {
+          "type": "array",
+          "description": "Allowed resting heights, in order. A named tier, a fixed 'height' in points, or a 'fraction' of the screen. A single value pins the sheet; multiple values let the user drag between them.",
+          "items": {
+            "oneOf": [
+              { "enum": ["small", "medium", "large"], "description": "Named detent tiers." },
+              { "type": "object", "required": ["height"], "additionalProperties": false, "properties": { "height": { "type": "number", "exclusiveMinimum": 0, "description": "Fixed sheet height in points." } } },
+              { "type": "object", "required": ["fraction"], "additionalProperties": false, "properties": { "fraction": { "type": "number", "exclusiveMinimum": 0, "maximum": 1, "description": "Sheet height as a fraction (0–1) of the available screen height." } } }
+            ]
+          }
+        },
+        "dragIndicator": { "type": "boolean", "default": true, "description": "Show the grabber / drag handle at the top of the sheet." },
+        "dismissible": { "type": "boolean", "default": true, "description": "Allow tap-outside / swipe-down to dismiss. false forces an explicit in-content close action." },
+        "cornerRadius": { "$ref": "#/$defs/Dimension", "description": "Top corner radius of the sheet; platform default when omitted." }
+      },
+      "additionalProperties": false
     },
 
     "Condition": {

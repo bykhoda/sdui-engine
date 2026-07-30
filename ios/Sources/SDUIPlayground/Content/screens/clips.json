@@ -7,84 +7,282 @@
       "title": "Clips",
       "task": "Swipe up for the next clip, double-tap to like, and tap the heart on the rail."
     },
+    "state": {
+      "liked_c1": false, "likes_c1": 12400,
+      "liked_c2": false, "likes_c2": 48100,
+      "liked_c3": false, "likes_c3": 27900,
+      "liked_c4": false, "likes_c4": 9842,
+      "liked_c5": false, "likes_c5": 63500
+    },
     "content": {
       "type": "clips",
       "modifiers": {
         "ignoresSafeArea": true,
         "size": {
-          "width": {
-            "mode": "fill"
-          },
-          "height": {
-            "mode": "fill"
-          }
+          "width": { "mode": "fill" },
+          "height": { "mode": "fill" }
         }
       },
       "pages": [
         {
-          "colors": [
-            "#FF6A88",
-            "#FF99AC",
-            "#6A3093"
-          ],
+          "id": "c1",
+          "colors": ["#FF6A88", "#FF99AC", "#6A3093"],
           "author": "@nova.films",
           "caption": "Golden hour over the north ridge — one take, no filter.",
           "audio": "Original audio · Nova",
-          "likes": "12.4K",
+          "liked": "$state.liked_c1",
+          "likes": "$state.likes_c1",
           "comments": "318",
-          "shares": "1.2K"
+          "shares": "1.2K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c1", "value": true },
+              { "action": "increment", "key": "likes_c1", "by": 1 },
+              {
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c1/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c1", "value": false },
+                    { "action": "increment", "key": "likes_c1", "by": -1 },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
+                }
+              }
+            ]
+          },
+          "onComment": {
+            "action": "navigate",
+            "to": "comments",
+            "transition": "sheet",
+            "params": { "clipId": "c1" },
+            "sheet": { "detents": ["large"], "dragIndicator": true }
+          },
+          "onShare": {
+            "action": "navigate",
+            "to": "share_sheet",
+            "transition": "sheet",
+            "params": { "clipId": "c1" },
+            "sheet": { "detents": [{ "height": 320 }, "large"] }
+          },
+          "onMore": {
+            "action": "navigate",
+            "to": "clip_menu",
+            "transition": "sheet",
+            "params": { "clipId": "c1" },
+            "sheet": { "detents": [{ "fraction": 0.5 }] }
+          }
         },
         {
-          "colors": [
-            "#00C6FB",
-            "#005BEA",
-            "#001E3C"
-          ],
+          "id": "c2",
+          "colors": ["#00C6FB", "#005BEA", "#001E3C"],
           "author": "@deep.blue",
           "caption": "Free-diving the kelp forest at first light",
           "audio": "Tide · Blue Room",
-          "likes": "48.1K",
+          "liked": "$state.liked_c2",
+          "likes": "$state.likes_c2",
           "comments": "2,904",
-          "shares": "8.7K"
+          "shares": "8.7K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c2", "value": true },
+              { "action": "increment", "key": "likes_c2", "by": 1 },
+              {
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c2/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c2", "value": false },
+                    { "action": "increment", "key": "likes_c2", "by": -1 },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
+                }
+              }
+            ]
+          },
+          "onComment": {
+            "action": "navigate",
+            "to": "comments",
+            "transition": "sheet",
+            "params": { "clipId": "c2" },
+            "sheet": { "detents": ["large"], "dragIndicator": true }
+          },
+          "onShare": {
+            "action": "navigate",
+            "to": "share_sheet",
+            "transition": "sheet",
+            "params": { "clipId": "c2" },
+            "sheet": { "detents": [{ "height": 320 }, "large"] }
+          },
+          "onMore": {
+            "action": "navigate",
+            "to": "clip_menu",
+            "transition": "sheet",
+            "params": { "clipId": "c2" },
+            "sheet": { "detents": [{ "fraction": 0.5 }] }
+          }
         },
         {
-          "colors": [
-            "#F7971E",
-            "#FFD200",
-            "#8E2DE2"
-          ],
+          "id": "c3",
+          "colors": ["#F7971E", "#FFD200", "#8E2DE2"],
           "author": "@sol.market",
           "caption": "Street food, 3am, somewhere warm.",
           "audio": "Neon Nights · Aurora Vale",
-          "likes": "27.9K",
+          "liked": "$state.liked_c3",
+          "likes": "$state.likes_c3",
           "comments": "1,133",
-          "shares": "4.1K"
+          "shares": "4.1K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c3", "value": true },
+              { "action": "increment", "key": "likes_c3", "by": 1 },
+              {
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c3/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c3", "value": false },
+                    { "action": "increment", "key": "likes_c3", "by": -1 },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
+                }
+              }
+            ]
+          },
+          "onComment": {
+            "action": "navigate",
+            "to": "comments",
+            "transition": "sheet",
+            "params": { "clipId": "c3" },
+            "sheet": { "detents": ["large"], "dragIndicator": true }
+          },
+          "onShare": {
+            "action": "navigate",
+            "to": "share_sheet",
+            "transition": "sheet",
+            "params": { "clipId": "c3" },
+            "sheet": { "detents": [{ "height": 320 }, "large"] }
+          },
+          "onMore": {
+            "action": "navigate",
+            "to": "clip_menu",
+            "transition": "sheet",
+            "params": { "clipId": "c3" },
+            "sheet": { "detents": [{ "fraction": 0.5 }] }
+          }
         },
         {
-          "colors": [
-            "#11998E",
-            "#38EF7D",
-            "#0F2027"
-          ],
+          "id": "c4",
+          "colors": ["#11998E", "#38EF7D", "#0F2027"],
           "author": "@trailmix",
           "caption": "23km, 1,800m up. Worth every step.",
           "audio": "Uphill · Field Tapes",
-          "likes": "9,842",
+          "liked": "$state.liked_c4",
+          "likes": "$state.likes_c4",
           "comments": "402",
-          "shares": "700"
+          "shares": "700",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c4", "value": true },
+              { "action": "increment", "key": "likes_c4", "by": 1 },
+              {
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c4/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c4", "value": false },
+                    { "action": "increment", "key": "likes_c4", "by": -1 },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
+                }
+              }
+            ]
+          },
+          "onComment": {
+            "action": "navigate",
+            "to": "comments",
+            "transition": "sheet",
+            "params": { "clipId": "c4" },
+            "sheet": { "detents": ["large"], "dragIndicator": true }
+          },
+          "onShare": {
+            "action": "navigate",
+            "to": "share_sheet",
+            "transition": "sheet",
+            "params": { "clipId": "c4" },
+            "sheet": { "detents": [{ "height": 320 }, "large"] }
+          },
+          "onMore": {
+            "action": "navigate",
+            "to": "clip_menu",
+            "transition": "sheet",
+            "params": { "clipId": "c4" },
+            "sheet": { "detents": [{ "fraction": 0.5 }] }
+          }
         },
         {
-          "colors": [
-            "#EB3349",
-            "#F45C43",
-            "#1A1A1A"
-          ],
+          "id": "c5",
+          "colors": ["#EB3349", "#F45C43", "#1A1A1A"],
           "author": "@studio.k",
           "caption": "Throwing clay until it behaves.",
           "audio": "Slow Spin · K",
-          "likes": "63.5K",
+          "liked": "$state.liked_c5",
+          "likes": "$state.likes_c5",
           "comments": "5,210",
-          "shares": "12.3K"
+          "shares": "12.3K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c5", "value": true },
+              { "action": "increment", "key": "likes_c5", "by": 1 },
+              {
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c5/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c5", "value": false },
+                    { "action": "increment", "key": "likes_c5", "by": -1 },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
+                }
+              }
+            ]
+          },
+          "onComment": {
+            "action": "navigate",
+            "to": "comments",
+            "transition": "sheet",
+            "params": { "clipId": "c5" },
+            "sheet": { "detents": ["large"], "dragIndicator": true }
+          },
+          "onShare": {
+            "action": "navigate",
+            "to": "share_sheet",
+            "transition": "sheet",
+            "params": { "clipId": "c5" },
+            "sheet": { "detents": [{ "height": 320 }, "large"] }
+          },
+          "onMore": {
+            "action": "navigate",
+            "to": "clip_menu",
+            "transition": "sheet",
+            "params": { "clipId": "c5" },
+            "sheet": { "detents": [{ "fraction": 0.5 }] }
+          }
         }
       ]
     }

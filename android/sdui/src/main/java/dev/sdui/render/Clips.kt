@@ -59,6 +59,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.sdui.core.Action
+import dev.sdui.core.BindingEngine
 import dev.sdui.core.Component
 import dev.sdui.core.JsonValue
 
@@ -78,7 +80,10 @@ internal fun ClipsView(component: Component, ctx: RenderContext) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val pagerState = rememberPagerState(pageCount = { pages.size })
 
-    val liked = remember { mutableStateListOf<Int>() }
+    // Fallback like-state for pages that carry no `onLike` action (unwired demos). Wired
+    // pages instead read `liked`/`likes` from the contract's bound state, so a like flows
+    // through setState/increment/request exactly like the iOS ClipsView. See doc 19 §3a.
+    val localLiked = remember { mutableStateListOf<Int>() }
     val loaded = remember { mutableStateListOf<Int>() }
     var burst by remember { mutableStateOf<Int?>(null) }
 
@@ -114,17 +119,30 @@ internal fun ClipsView(component: Component, ctx: RenderContext) {
                 .background(Color.Black),
         ) {
             VerticalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
+                val data = pages[page]
+                val onLike = data["onLike"]?.decode<Action>()
+                // Wired page → the heart reflects bound `liked`; unwired → local toggle.
+                val isLiked = if (onLike != null) resolvedBool(data["liked"], ctx) else page in localLiked
+                val fireLike = {
+                    if (onLike != null) {
+                        // The contract's onLike sets liked=true + increments; only fire while
+                        // not already liked so a second tap can't double-count.
+                        if (!isLiked) ctx.dispatch(onLike, ctx.binding)
+                    } else {
+                        toggleLike(localLiked, page)
+                    }
+                }
                 ClipPage(
-                    data = pages[page],
+                    data = data,
                     index = page,
                     ctx = ctx,
-                    isLiked = page in liked,
+                    isLiked = isLiked,
                     isLoaded = page in loaded,
                     burstActive = burst == page,
                     discAngle = discAngle,
-                    onToggleLike = { toggleLike(liked, page) },
+                    onLike = fireLike,
                     onDoubleTap = {
-                        if (page !in liked) liked.add(page)
+                        fireLike()          // double-tap always likes (Instagram)
                         burst = page
                     },
                 )
@@ -138,6 +156,43 @@ private fun toggleLike(liked: MutableList<Int>, page: Int) {
     if (page in liked) liked.remove(page) else liked.add(page)
 }
 
+/** Resolves a possibly-bound boolean field (e.g. `"$state.liked_c1"`) to a Bool. */
+private fun resolvedBool(v: JsonValue?, ctx: RenderContext): Boolean {
+    val raw = (v as? JsonValue.Str)?.value ?: return v?.boolValue ?: false
+    return BindingEngine.resolve(raw, ctx.binding).boolValue ?: false
+}
+
+/** Dispatches an optional action field (onComment/onShare/onMore) if the page declares it. */
+private fun dispatchField(field: String, data: JsonValue, ctx: RenderContext) {
+    data[field]?.decode<Action>()?.let { ctx.dispatch(it, ctx.binding) }
+}
+
+/** Resolves a count field — a `$state` binding to a number, or a literal like `"1.2K"` —
+ *  and renders it compactly (12401 → "12.4K"), matching how iOS formats the rail counts. */
+private fun formatCount(v: JsonValue?, ctx: RenderContext): String {
+    v ?: return "0"
+    val resolved = if (v is JsonValue.Str && v.value.startsWith("$")) BindingEngine.resolve(v.value, ctx.binding) else v
+    return when (resolved) {
+        is JsonValue.Num -> shortNumber(resolved.value)
+        is JsonValue.Str -> resolved.value
+        else -> "0"
+    }
+}
+
+private fun shortNumber(n: Double): String {
+    val x = n.toLong()
+    return when {
+        x >= 1_000_000 -> trimTrailingZero(x / 1_000_000.0) + "M"
+        x >= 1_000 -> trimTrailingZero(x / 1_000.0) + "K"
+        else -> x.toString()
+    }
+}
+
+private fun trimTrailingZero(d: Double): String {
+    val s = "%.1f".format(d)
+    return if (s.endsWith(".0")) s.dropLast(2) else s
+}
+
 @Composable
 private fun ClipPage(
     data: JsonValue,
@@ -147,7 +202,7 @@ private fun ClipPage(
     isLoaded: Boolean,
     burstActive: Boolean,
     discAngle: Float,
-    onToggleLike: () -> Unit,
+    onLike: () -> Unit,
     onDoubleTap: () -> Unit,
 ) {
     Box(
@@ -179,7 +234,7 @@ private fun ClipPage(
         ) {
             ClipCaption(data, Modifier.weight(1f))
             Spacer(Modifier.width(12.dp))
-            ClipActionRail(data, isLiked, discAngle, onToggleLike)
+            ClipActionRail(data, ctx, isLiked, discAngle, onLike)
         }
 
         // Double-tap heart burst.
@@ -269,17 +324,17 @@ private fun ClipAvatar(handle: String) {
 }
 
 @Composable
-private fun ClipActionRail(data: JsonValue, isLiked: Boolean, discAngle: Float, onToggleLike: () -> Unit) {
+private fun ClipActionRail(data: JsonValue, ctx: RenderContext, isLiked: Boolean, discAngle: Float, onLike: () -> Unit) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(24.dp)) {
         ClipRailButton(
             icon = if (isLiked) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-            label = data["likes"]?.stringValue ?: "0",
+            label = formatCount(data["likes"], ctx),
             tint = if (isLiked) Color(0xFFFF3D5E) else Color.White,
-            onClick = onToggleLike,
+            onClick = onLike,
         )
-        ClipRailButton(Icons.Filled.ChatBubble, data["comments"]?.stringValue ?: "0")
-        ClipRailButton(Icons.Filled.Reply, data["shares"]?.stringValue ?: "Share")
-        ClipRailButton(Icons.Filled.MoreHoriz, "")
+        ClipRailButton(Icons.Filled.ChatBubble, formatCount(data["comments"], ctx), onClick = { dispatchField("onComment", data, ctx) })
+        ClipRailButton(Icons.Filled.Reply, formatCount(data["shares"], ctx), onClick = { dispatchField("onShare", data, ctx) })
+        ClipRailButton(Icons.Filled.MoreHoriz, "", onClick = { dispatchField("onMore", data, ctx) })
         // Spinning audio disc.
         Box(
             modifier = Modifier

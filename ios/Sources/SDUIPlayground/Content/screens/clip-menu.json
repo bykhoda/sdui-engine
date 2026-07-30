@@ -1,0 +1,74 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "clip_menu",
+    "title": "More",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.xs",
+      "alignment": "leading",
+      "modifiers": {
+        "padding": "$token.spacing.md",
+        "size": { "width": { "mode": "fill" } }
+      },
+      "children": [
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.md",
+          "alignment": "center",
+          "modifiers": {
+            "padding": "$token.spacing.md",
+            "size": { "width": { "mode": "fill" } },
+            "onTap": { "action": "showToast", "message": "We'll show fewer clips like this", "style": "info" }
+          },
+          "children": [
+            { "type": "icon", "name": "hand.thumbsdown", "size": 22, "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Not interested", "style": "$token.typography.body" }
+          ]
+        },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.md",
+          "alignment": "center",
+          "modifiers": {
+            "padding": "$token.spacing.md",
+            "size": { "width": { "mode": "fill" } },
+            "onTap": { "action": "showToast", "message": "Saved to your collection", "style": "success" }
+          },
+          "children": [
+            { "type": "icon", "name": "bookmark", "size": 22, "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Save", "style": "$token.typography.body" }
+          ]
+        },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.md",
+          "alignment": "center",
+          "modifiers": {
+            "padding": "$token.spacing.md",
+            "size": { "width": { "mode": "fill" } },
+            "onTap": { "action": "showToast", "message": "Thanks — we'll review this clip", "style": "info" }
+          },
+          "children": [
+            { "type": "icon", "name": "flag", "size": 22, "color": "$token.color.error" },
+            { "type": "text", "value": "Report", "style": "$token.typography.body", "color": "$token.color.error" }
+          ]
+        },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.md",
+          "alignment": "center",
+          "modifiers": {
+            "padding": "$token.spacing.md",
+            "size": { "width": { "mode": "fill" } },
+            "onTap": { "action": "showToast", "message": "Link copied", "style": "success" }
+          },
+          "children": [
+            { "type": "icon", "name": "link", "size": 22, "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Copy link", "style": "$token.typography.body" }
+          ]
+        }
+      ]
+    }
+  }
+}

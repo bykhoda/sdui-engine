@@ -1,0 +1,88 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "share_sheet",
+    "title": "Share",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": {
+        "padding": "$token.spacing.lg",
+        "size": { "width": { "mode": "fill" } }
+      },
+      "children": [
+        { "type": "text", "value": "Send to", "style": "$token.typography.title2" },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.lg",
+          "alignment": "top",
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "children": [
+            {
+              "type": "vstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.xs",
+              "modifiers": {
+                "onTap": { "action": "share", "text": "Check out this clip", "url": "https://sdui.dev/clips" }
+              },
+              "children": [
+                { "type": "icon", "name": "message.fill", "size": 26, "color": "$token.color.primary" },
+                { "type": "text", "value": "Messages", "style": "$token.typography.caption" }
+              ]
+            },
+            {
+              "type": "vstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.xs",
+              "modifiers": {
+                "onTap": { "action": "showToast", "message": "Opening chat…", "style": "info" }
+              },
+              "children": [
+                { "type": "icon", "name": "bubble.left.and.bubble.right.fill", "size": 26, "color": "$token.color.primary" },
+                { "type": "text", "value": "Chat", "style": "$token.typography.caption" }
+              ]
+            },
+            {
+              "type": "vstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.xs",
+              "modifiers": {
+                "onTap": { "action": "showToast", "message": "Link copied", "style": "success" }
+              },
+              "children": [
+                { "type": "icon", "name": "link", "size": 26, "color": "$token.color.primary" },
+                { "type": "text", "value": "Copy link", "style": "$token.typography.caption" }
+              ]
+            },
+            {
+              "type": "vstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.xs",
+              "modifiers": {
+                "onTap": { "action": "share", "text": "Check out this clip", "url": "https://sdui.dev/clips" }
+              },
+              "children": [
+                { "type": "icon", "name": "ellipsis", "size": 26, "color": "$token.color.primary" },
+                { "type": "text", "value": "More", "style": "$token.typography.caption" }
+              ]
+            }
+          ]
+        },
+        { "type": "divider" },
+        {
+          "type": "button",
+          "title": "Repost",
+          "style": "$token.button.primary",
+          "onTap": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "success" },
+              { "action": "showToast", "message": "Reposted", "style": "success" }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
