@@ -1,0 +1,38 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_spacer",
+    "title": "spacer",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "spacer — flexible gap that pushes siblings apart", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "text", "value": "Left", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "spacer" },
+            { "type": "text", "value": "Right", "style": "$token.typography.body", "color": "$token.color.textSecondary" }
+          ]
+        },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "spacing": "$token.spacing.xs",
+          "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "icon", "name": "bolt.fill", "color": "$token.color.primary" },
+            { "type": "text", "value": "Fixed min gap", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "spacer", "minLength": "$token.spacing.xl" },
+            { "type": "icon", "name": "chevron.right", "color": "$token.color.textTertiary" }
+          ]
+        }
+      ]
+    }
+  }
+}

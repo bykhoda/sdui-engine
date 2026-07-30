@@ -1,0 +1,18 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_filecell",
+    "title": "filecell",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "filecell — pick a document; empty & size-limit states", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "filecell", "title": "Choose a file", "maxSizeKB": 30720, "color": "$token.color.primary", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+        { "type": "filecell", "title": "Attach receipt (max 2 MB)", "maxSizeKB": 2048, "color": "$token.color.success", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+      ]
+    }
+  }
+}

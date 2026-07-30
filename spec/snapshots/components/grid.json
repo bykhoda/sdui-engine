@@ -1,0 +1,60 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_grid",
+    "title": "grid",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "grid — lazy columns (static children)", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "grid",
+          "columns": 2,
+          "spacing": "$token.spacing.md",
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "children": [
+            {
+              "type": "zstack",
+              "alignment": "bottomLeading",
+              "modifiers": { "cornerRadius": "$token.radius.md", "size": { "height": { "mode": "fixed", "value": 120 } } },
+              "children": [
+                { "type": "gradient", "colors": ["#5B5BF0", "#7C4DFF"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+                { "type": "text", "value": "Apparel", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+              ]
+            },
+            {
+              "type": "zstack",
+              "alignment": "bottomLeading",
+              "modifiers": { "cornerRadius": "$token.radius.md", "size": { "height": { "mode": "fixed", "value": 120 } } },
+              "children": [
+                { "type": "gradient", "colors": ["#00C6FB", "#005BEA"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+                { "type": "text", "value": "Home", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+              ]
+            },
+            {
+              "type": "zstack",
+              "alignment": "bottomLeading",
+              "modifiers": { "cornerRadius": "$token.radius.md", "size": { "height": { "mode": "fixed", "value": 120 } } },
+              "children": [
+                { "type": "gradient", "colors": ["#F7971E", "#FFD200"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+                { "type": "text", "value": "Outdoor", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+              ]
+            },
+            {
+              "type": "zstack",
+              "alignment": "bottomLeading",
+              "modifiers": { "cornerRadius": "$token.radius.md", "size": { "height": { "mode": "fixed", "value": 120 } } },
+              "children": [
+                { "type": "gradient", "colors": ["#11998E", "#38EF7D"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+                { "type": "text", "value": "Sport", "style": "$token.typography.headline", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.md" } }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

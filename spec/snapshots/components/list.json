@@ -1,0 +1,59 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_list",
+    "title": "list",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "list — lazy rows (static children)", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "list",
+          "spacing": "$token.spacing.sm",
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "children": [
+            {
+              "type": "hstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.md",
+              "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "icon", "name": "bell.fill", "color": "$token.color.primary" },
+                { "type": "text", "value": "Notifications", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                { "type": "spacer" },
+                { "type": "icon", "name": "chevron.right", "color": "$token.color.textTertiary" }
+              ]
+            },
+            {
+              "type": "hstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.md",
+              "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "icon", "name": "lock.fill", "color": "$token.color.primary" },
+                { "type": "text", "value": "Privacy", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                { "type": "spacer" },
+                { "type": "icon", "name": "chevron.right", "color": "$token.color.textTertiary" }
+              ]
+            },
+            {
+              "type": "hstack",
+              "alignment": "center",
+              "spacing": "$token.spacing.md",
+              "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "icon", "name": "paintbrush.fill", "color": "$token.color.primary" },
+                { "type": "text", "value": "Appearance", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+                { "type": "spacer" },
+                { "type": "icon", "name": "chevron.right", "color": "$token.color.textTertiary" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

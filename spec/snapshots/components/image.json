@@ -1,0 +1,36 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_image",
+    "title": "image",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "image — remote source, skeleton loader, content modes", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "image",
+          "source": "https://picsum.photos/seed/card/800/520",
+          "loader": { "placeholder": "skeleton", "aspectRatio": 1.6, "contentMode": "fill" },
+          "modifiers": { "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } }
+        },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.md",
+          "alignment": "center",
+          "children": [
+            {
+              "type": "image",
+              "source": "asset:placeholder",
+              "loader": { "placeholder": "spinner", "aspectRatio": 1, "contentMode": "fit" },
+              "modifiers": { "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fixed", "value": 96 }, "height": { "mode": "fixed", "value": 96 } } }
+            },
+            { "type": "text", "value": "Bundled asset, fit mode, spinner placeholder", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+          ]
+        }
+      ]
+    }
+  }
+}

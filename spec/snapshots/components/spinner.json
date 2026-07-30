@@ -1,0 +1,35 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_spinner",
+    "title": "spinner",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "spinner — indeterminate activity, tint & scale", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.xl",
+          "alignment": "center",
+          "children": [
+            { "type": "spinner" },
+            { "type": "spinner", "color": "$token.color.primary", "scale": 1.5 },
+            { "type": "spinner", "color": "$token.color.textSecondary", "scale": 2 }
+          ]
+        },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.sm",
+          "alignment": "center",
+          "children": [
+            { "type": "spinner", "color": "$token.color.primary" },
+            { "type": "text", "value": "Loading…", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+          ]
+        }
+      ]
+    }
+  }
+}

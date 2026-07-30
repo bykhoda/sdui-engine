@@ -1,0 +1,28 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_calendar",
+    "title": "calendar",
+    "state": { "mode": "range", "weekStart": "monday", "date": "2026-07-30", "start": "2026-07-14", "end": "2026-07-20", "days": "2026-07-03,2026-07-11,2026-07-22" },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "calendar — single / range / multi month grid", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "calendar",
+          "mode": "$state.mode",
+          "weekStart": "$state.weekStart",
+          "bind": "date",
+          "startBind": "start",
+          "endBind": "end",
+          "multiBind": "days",
+          "color": "$token.color.primary",
+          "modifiers": { "size": { "width": { "mode": "fill" } } }
+        }
+      ]
+    }
+  }
+}

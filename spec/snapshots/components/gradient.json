@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_gradient",
+    "title": "gradient",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "gradient — vertical, horizontal, diagonal", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "gradient", "colors": ["#5B5BF0", "#FF6B9D"], "direction": "vertical", "modifiers": { "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 64 } } } },
+        { "type": "gradient", "colors": ["#00C6FB", "#005BEA"], "direction": "horizontal", "modifiers": { "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 64 } } } },
+        { "type": "gradient", "colors": ["#F7971E", "#FFD200", "#8E2DE2"], "direction": "diagonal", "modifiers": { "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 64 } } } }
+      ]
+    }
+  }
+}

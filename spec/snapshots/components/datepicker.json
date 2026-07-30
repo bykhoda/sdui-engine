@@ -1,0 +1,27 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_datepicker",
+    "title": "datepicker",
+    "state": { "date": "2026-07-30", "due": "2026-08-15" },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "datepicker — graphical & compact, bound to ISO $state", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "children": [
+            { "type": "text", "value": "Due date", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "spacer" },
+            { "type": "datepicker", "bind": "due", "style": "compact", "color": "$token.color.primary" }
+          ]
+        },
+        { "type": "datepicker", "bind": "date", "style": "graphical", "color": "$token.color.primary", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+      ]
+    }
+  }
+}

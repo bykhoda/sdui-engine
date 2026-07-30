@@ -1,0 +1,24 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_progress",
+    "title": "progress",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "progress — determinate values & indeterminate", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "text", "value": "25%", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "progress", "value": 0.25, "color": "$token.color.primary" },
+        { "type": "text", "value": "70%", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "progress", "value": 0.7, "color": "$token.color.success" },
+        { "type": "text", "value": "100%", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "progress", "value": 1, "color": "$token.color.primary" },
+        { "type": "text", "value": "Indeterminate", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "progress", "color": "$token.color.primary" }
+      ]
+    }
+  }
+}

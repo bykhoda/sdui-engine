@@ -1,0 +1,54 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_async",
+    "title": "async",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "async — fetch-then-render with loading & error slots", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "async",
+          "source": { "id": "post", "service": "demo", "path": "/posts/1", "method": "GET" },
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "loading": {
+            "type": "vstack",
+            "spacing": "$token.spacing.md",
+            "alignment": "leading",
+            "modifiers": { "padding": "$token.spacing.lg", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "hstack", "alignment": "center", "spacing": "$token.spacing.sm", "children": [
+                { "type": "spinner", "color": "$token.color.primary" },
+                { "type": "text", "value": "Loading…", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+              ] },
+              { "type": "progress", "color": "$token.color.primary" }
+            ]
+          },
+          "content": {
+            "type": "vstack",
+            "spacing": "$token.spacing.xs",
+            "alignment": "leading",
+            "modifiers": { "padding": "$token.spacing.lg", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "$data.post.title", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "$data.post.body", "style": "$token.typography.body", "color": "$token.color.textSecondary" }
+            ]
+          },
+          "error": {
+            "type": "hstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "center",
+            "modifiers": { "padding": "$token.spacing.lg", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "icon", "name": "exclamationmark.triangle.fill", "color": "$token.color.error" },
+              { "type": "text", "value": "Couldn't load. Pull to retry.", "style": "$token.typography.body", "color": "$token.color.textPrimary" }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

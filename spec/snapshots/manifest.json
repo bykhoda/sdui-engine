@@ -92,8 +92,18 @@
       "viewport": "phone"
     },
     {
+      "id": "clip_menu",
+      "source": "content/screens/clip-menu.json",
+      "viewport": "phone"
+    },
+    {
       "id": "clips",
       "source": "content/screens/clips.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "comments",
+      "source": "content/screens/comments.json",
       "viewport": "phone"
     },
     {
@@ -192,6 +202,11 @@
       "viewport": "phone"
     },
     {
+      "id": "share_sheet",
+      "source": "content/screens/share-sheet.json",
+      "viewport": "phone"
+    },
+    {
       "id": "stocks",
       "source": "content/screens/stocks.json",
       "viewport": "phone"
@@ -229,8 +244,123 @@
   ],
   "components": [
     {
+      "id": "async",
+      "source": "snapshots/components/async.json",
+      "viewport": "phone"
+    },
+    {
       "id": "button",
       "source": "snapshots/components/button.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "calendar",
+      "source": "snapshots/components/calendar.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "chart",
+      "source": "snapshots/components/chart.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "clips",
+      "source": "snapshots/components/clips.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "datepicker",
+      "source": "snapshots/components/datepicker.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "disclosure",
+      "source": "snapshots/components/disclosure.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "divider",
+      "source": "snapshots/components/divider.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "filecell",
+      "source": "snapshots/components/filecell.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "gradient",
+      "source": "snapshots/components/gradient.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "grid",
+      "source": "snapshots/components/grid.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "hstack",
+      "source": "snapshots/components/hstack.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "icon",
+      "source": "snapshots/components/icon.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "image",
+      "source": "snapshots/components/image.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "list",
+      "source": "snapshots/components/list.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "pager",
+      "source": "snapshots/components/pager.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "picker",
+      "source": "snapshots/components/picker.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "progress",
+      "source": "snapshots/components/progress.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "rings",
+      "source": "snapshots/components/rings.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "roadmap",
+      "source": "snapshots/components/roadmap.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "scroll",
+      "source": "snapshots/components/scroll.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "slider",
+      "source": "snapshots/components/slider.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "spacer",
+      "source": "snapshots/components/spacer.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "spinner",
+      "source": "snapshots/components/spinner.json",
       "viewport": "phone"
     },
     {
@@ -239,8 +369,28 @@
       "viewport": "phone"
     },
     {
+      "id": "textfield",
+      "source": "snapshots/components/textfield.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "ticker",
+      "source": "snapshots/components/ticker.json",
+      "viewport": "phone"
+    },
+    {
       "id": "toggle",
       "source": "snapshots/components/toggle.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "vstack",
+      "source": "snapshots/components/vstack.json",
+      "viewport": "phone"
+    },
+    {
+      "id": "zstack",
+      "source": "snapshots/components/zstack.json",
       "viewport": "phone"
     }
   ]

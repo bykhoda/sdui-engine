@@ -1,0 +1,42 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_disclosure",
+    "title": "disclosure",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "disclosure — collapsible section, open & closed", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "disclosure",
+          "title": "What's included",
+          "subtitle": "Everything in the Pro plan",
+          "icon": "shippingbox",
+          "accent": "$token.color.primary",
+          "expanded": true,
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "text", "value": "Unlimited projects", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Priority support", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Custom themes", "style": "$token.typography.body", "color": "$token.color.textPrimary" }
+          ]
+        },
+        {
+          "type": "disclosure",
+          "title": "Advanced settings",
+          "subtitle": "Starts collapsed",
+          "icon": "gearshape",
+          "accent": "$token.color.primary",
+          "expanded": false,
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "text", "value": "Hidden until expanded", "style": "$token.typography.body", "color": "$token.color.textSecondary" }
+          ]
+        }
+      ]
+    }
+  }
+}

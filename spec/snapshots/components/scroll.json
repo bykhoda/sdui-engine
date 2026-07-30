@@ -1,0 +1,38 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_scroll",
+    "title": "scroll",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "scroll — a scrollable region wrapping a single child", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "scroll",
+          "axis": "vertical",
+          "showsIndicators": true,
+          "modifiers": { "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 220 } } },
+          "child": {
+            "type": "vstack",
+            "spacing": "$token.spacing.sm",
+            "alignment": "leading",
+            "modifiers": { "padding": "$token.spacing.md", "size": { "width": { "mode": "fill" } } },
+            "children": [
+              { "type": "text", "value": "Row 1 — scroll to see more", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Row 2", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Row 3", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Row 4", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Row 5", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Row 6", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Row 7", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+              { "type": "text", "value": "Row 8 — bottom", "style": "$token.typography.body", "color": "$token.color.textSecondary" }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_zstack",
+    "title": "zstack",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "zstack — layered depth, alignment anchors", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "zstack",
+          "alignment": "bottomLeading",
+          "modifiers": { "cornerRadius": "$token.radius.lg", "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 160 } } },
+          "children": [
+            { "type": "gradient", "colors": ["#5B5BF0", "#7C4DFF", "#FF6B9D"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+            { "type": "gradient", "colors": ["#00000000", "#00000066"], "direction": "vertical", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fill" } } } },
+            {
+              "type": "vstack",
+              "alignment": "leading",
+              "spacing": "$token.spacing.xs",
+              "modifiers": { "padding": "$token.spacing.lg" },
+              "children": [
+                { "type": "text", "value": "Overlay caption", "style": "$token.typography.caption", "color": "#FFFFFFCC" },
+                { "type": "text", "value": "Text pinned bottom-leading", "style": "$token.typography.headline", "color": "#FFFFFF" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

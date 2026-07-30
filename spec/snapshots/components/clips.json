@@ -1,0 +1,25 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_clips",
+    "title": "clips",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "clips — vertical snap feed (Reels / TikTok idiom)", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "clips",
+          "modifiers": { "cornerRadius": "$token.radius.lg", "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 420 } } },
+          "pages": [
+            { "colors": ["#FF6A88", "#FF99AC", "#6A3093"], "author": "@nova.films", "caption": "Golden hour over the north ridge — one take, no filter.", "audio": "Original audio · Nova", "likes": "12.4K", "comments": "318", "shares": "1.2K" },
+            { "colors": ["#00C6FB", "#005BEA", "#001E3C"], "author": "@deep.blue", "caption": "Free-diving the kelp forest at first light", "audio": "Tide · Blue Room", "likes": "48.1K", "comments": "2,904", "shares": "8.7K" },
+            { "colors": ["#F7971E", "#FFD200", "#8E2DE2"], "author": "@sol.market", "caption": "Street food, 3am, somewhere warm.", "audio": "Neon Nights · Aurora Vale", "likes": "27.9K", "comments": "1,133", "shares": "4.1K" }
+          ]
+        }
+      ]
+    }
+  }
+}

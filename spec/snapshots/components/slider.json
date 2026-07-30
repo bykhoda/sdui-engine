@@ -1,0 +1,28 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_slider",
+    "title": "slider",
+    "state": { "volume": 0.35, "brightness": 0.8 },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "slider — continuous 0…1, thumb & track variants", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.md",
+          "alignment": "center",
+          "children": [
+            { "type": "icon", "name": "speaker.fill", "color": "$token.color.textSecondary" },
+            { "type": "slider", "bind": "volume", "color": "$token.color.primary", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+          ]
+        },
+        { "type": "text", "value": "Thick track, no thumb", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "slider", "bind": "brightness", "color": "$token.color.success", "height": 10, "thumb": false, "modifiers": { "size": { "width": { "mode": "fill" } } } }
+      ]
+    }
+  }
+}

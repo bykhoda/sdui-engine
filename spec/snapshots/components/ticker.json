@@ -1,0 +1,20 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_ticker",
+    "title": "ticker",
+    "state": { "progress": 0.4, "playing": true },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "ticker — invisible clock that advances a $state value", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "text", "value": "Drives the progress bar below while 'playing' is true", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "ticker", "bind": "progress", "interval": 1, "step": 0.01, "max": 1, "loop": true, "while": "playing" },
+        { "type": "progress", "value": "$state.progress", "color": "$token.color.primary" }
+      ]
+    }
+  }
+}

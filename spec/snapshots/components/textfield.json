@@ -1,0 +1,21 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_textfield",
+    "title": "textfield",
+    "state": { "email": "", "password": "", "name": "Ada", "code": "" },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "textfield — labels, status states, keyboards, secure", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "textfield", "bind": "email", "label": "Email", "placeholder": "you@example.com", "icon": "envelope", "keyboardType": "email", "textContentType": "email", "helper": "We'll never share it", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+        { "type": "textfield", "bind": "password", "label": "Password", "placeholder": "••••••••", "icon": "lock", "secure": true, "textContentType": "password", "status": "error", "helper": "At least 8 characters", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+        { "type": "textfield", "bind": "name", "label": "Full name", "placeholder": "Name", "icon": "person", "status": "success", "helper": "Looks good", "modifiers": { "size": { "width": { "mode": "fill" } } } },
+        { "type": "textfield", "bind": "code", "label": "Invite code", "placeholder": "Disabled", "status": "disabled", "modifiers": { "size": { "width": { "mode": "fill" } } } }
+      ]
+    }
+  }
+}

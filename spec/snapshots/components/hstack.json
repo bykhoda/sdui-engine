@@ -1,0 +1,36 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_hstack",
+    "title": "hstack",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "hstack — horizontal layout, spacing & alignment", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.md",
+          "alignment": "center",
+          "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "icon", "name": "star.fill", "color": "$token.color.primary" },
+            { "type": "text", "value": "Icon + label, centered", "style": "$token.typography.body", "color": "$token.color.textPrimary" }
+          ]
+        },
+        {
+          "type": "hstack",
+          "alignment": "center",
+          "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "text", "value": "Leading", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+            { "type": "spacer" },
+            { "type": "text", "value": "Trailing", "style": "$token.typography.body", "color": "$token.color.textSecondary" }
+          ]
+        }
+      ]
+    }
+  }
+}

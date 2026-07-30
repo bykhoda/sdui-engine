@@ -1,0 +1,51 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_pager",
+    "title": "pager",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "pager — swipeable hero carousel with page dots", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "pager",
+          "height": 200,
+          "autoAdvanceMs": 5000,
+          "indicator": "dots",
+          "children": [
+            {
+              "type": "zstack",
+              "alignment": "bottomLeading",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "gradient", "colors": ["#5B5BF0", "#7C4DFF", "#FF6B9D"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 200 } }, "cornerRadius": "$token.radius.lg" } },
+                { "type": "text", "value": "Summer drop", "style": "$token.typography.title", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.lg" } }
+              ]
+            },
+            {
+              "type": "zstack",
+              "alignment": "bottomLeading",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "gradient", "colors": ["#00C6FB", "#005BEA"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 200 } }, "cornerRadius": "$token.radius.lg" } },
+                { "type": "text", "value": "New arrivals", "style": "$token.typography.title", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.lg" } }
+              ]
+            },
+            {
+              "type": "zstack",
+              "alignment": "bottomLeading",
+              "modifiers": { "size": { "width": { "mode": "fill" } } },
+              "children": [
+                { "type": "gradient", "colors": ["#F7971E", "#FFD200", "#8E2DE2"], "direction": "diagonal", "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 200 } }, "cornerRadius": "$token.radius.lg" } },
+                { "type": "text", "value": "Members only", "style": "$token.typography.title", "color": "#FFFFFF", "modifiers": { "padding": "$token.spacing.lg" } }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

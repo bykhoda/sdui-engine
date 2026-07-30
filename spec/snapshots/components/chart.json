@@ -1,0 +1,22 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_chart",
+    "title": "chart",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "chart — line, area, bar; values & {x,y} points", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "text", "value": "Line", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "chart", "style": "line", "color": "$token.color.primary", "values": [3, 7, 5, 9, 6, 11, 8], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 120 } } } },
+        { "type": "text", "value": "Area", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "chart", "style": "area", "color": "#30D158", "values": [2, 4, 3, 6, 8, 7, 10], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 120 } } } },
+        { "type": "text", "value": "Bar", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        { "type": "chart", "style": "bar", "color": "#FF9500", "values": [6200, 8100, 7400, 9300, 5600, 10200, 8432], "modifiers": { "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 120 } } } }
+      ]
+    }
+  }
+}

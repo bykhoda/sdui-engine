@@ -1,0 +1,36 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_vstack",
+    "title": "vstack",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "vstack — vertical layout, spacing & alignment", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "vstack",
+          "spacing": "$token.spacing.sm",
+          "alignment": "leading",
+          "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "text", "value": "Leading", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Children stacked top-to-bottom", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+          ]
+        },
+        {
+          "type": "vstack",
+          "spacing": "$token.spacing.sm",
+          "alignment": "center",
+          "modifiers": { "padding": "$token.spacing.md", "background": "$token.color.surface", "cornerRadius": "$token.radius.md", "size": { "width": { "mode": "fill" } } },
+          "children": [
+            { "type": "text", "value": "Center", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
+            { "type": "text", "value": "Cross-axis centered", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" }
+          ]
+        }
+      ]
+    }
+  }
+}

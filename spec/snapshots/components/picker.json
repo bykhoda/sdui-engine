@@ -1,0 +1,52 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_picker",
+    "title": "picker",
+    "state": { "view": "list", "plan": "pro", "city": "msk" },
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "picker — segmented, menu, inline styles", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "text", "value": "Segmented", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        {
+          "type": "picker",
+          "bind": "view",
+          "style": "segmented",
+          "modifiers": { "size": { "width": { "mode": "fill" } } },
+          "options": [
+            { "label": "List", "value": "list" },
+            { "label": "Grid", "value": "grid" },
+            { "label": "Map", "value": "map" }
+          ]
+        },
+        { "type": "text", "value": "Menu", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        {
+          "type": "picker",
+          "bind": "plan",
+          "style": "menu",
+          "title": "Plan",
+          "options": [
+            { "label": "Free", "value": "free" },
+            { "label": "Pro", "value": "pro" },
+            { "label": "Team", "value": "team" }
+          ]
+        },
+        { "type": "text", "value": "Inline", "style": "$token.typography.subheadline", "color": "$token.color.textSecondary" },
+        {
+          "type": "picker",
+          "bind": "city",
+          "style": "inline",
+          "options": [
+            { "label": "Moscow", "value": "msk" },
+            { "label": "Saint Petersburg", "value": "spb" },
+            { "label": "Kazan", "value": "kzn" }
+          ]
+        }
+      ]
+    }
+  }
+}

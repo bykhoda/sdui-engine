@@ -1,0 +1,35 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_rings",
+    "title": "rings",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.lg",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "rings — concentric progress (Apple Fitness idiom)", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        {
+          "type": "hstack",
+          "spacing": "$token.spacing.xl",
+          "alignment": "center",
+          "children": [
+            { "type": "rings", "values": [0.84, 0.8, 0.83], "colors": ["#FA114F", "#92E82A", "#00E5FF"], "lineWidth": 16, "gap": 5, "modifiers": { "size": { "width": { "mode": "fixed", "value": 150 }, "height": { "mode": "fixed", "value": 150 } } } },
+            {
+              "type": "vstack",
+              "alignment": "leading",
+              "spacing": "$token.spacing.xs",
+              "children": [
+                { "type": "text", "value": "Move 84%", "style": "$token.typography.subheadline", "color": "#FA114F" },
+                { "type": "text", "value": "Exercise 80%", "style": "$token.typography.subheadline", "color": "#92E82A" },
+                { "type": "text", "value": "Stand 83%", "style": "$token.typography.subheadline", "color": "#00E5FF" }
+              ]
+            }
+          ]
+        },
+        { "type": "rings", "values": [0.3, 1, 0.55, 0.9], "colors": ["#0A84FF", "#34C759", "#FF9500", "#FF375F"], "lineWidth": 10, "gap": 4, "modifiers": { "size": { "width": { "mode": "fixed", "value": 120 }, "height": { "mode": "fixed", "value": 120 } } } }
+      ]
+    }
+  }
+}

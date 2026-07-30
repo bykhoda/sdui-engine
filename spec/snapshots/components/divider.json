@@ -1,0 +1,21 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "card_divider",
+    "title": "divider",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "alignment": "leading",
+      "modifiers": { "padding": "$token.spacing.lg" },
+      "children": [
+        { "type": "text", "value": "divider — hairline separators, default & tinted", "style": "$token.typography.caption", "color": "$token.color.textSecondary" },
+        { "type": "text", "value": "Above the default divider", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+        { "type": "divider" },
+        { "type": "text", "value": "Between two rows", "style": "$token.typography.body", "color": "$token.color.textPrimary" },
+        { "type": "divider", "color": "$token.color.primary" },
+        { "type": "text", "value": "Below a tinted divider", "style": "$token.typography.body", "color": "$token.color.textSecondary" }
+      ]
+    }
+  }
+}
