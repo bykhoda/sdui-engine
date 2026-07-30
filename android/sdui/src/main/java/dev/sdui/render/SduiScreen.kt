@@ -164,6 +164,14 @@ class SduiScreenModel(
         bindingState.value = binding.withState(key, value)
     }
 
+    /** `request` action: load one source and, on success, expose it as $data.<id> (which
+     *  republishes the binding → re-render) so onSuccess and any bound view see it. */
+    override suspend fun request(source: DataSource): Boolean {
+        val value = loadOne(source) ?: return false
+        bindingState.value = binding.withData(source.id, value)
+        return true
+    }
+
     override suspend fun refresh(sources: List<String>) {
         reload(sources)
     }

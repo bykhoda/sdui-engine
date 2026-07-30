@@ -111,6 +111,25 @@ final class ConformanceTests: XCTestCase {
         }
     }
 
+    /// The `request` action runs onSuccess on a successful load, onError otherwise.
+    @MainActor
+    func testRequestBranches() async throws {
+        let json = """
+        {"action":"request","source":{"id":"cart","service":"api","path":"/cart"},
+         "onSuccess":{"action":"showToast","message":"ok"},
+         "onError":{"action":"showToast","message":"err"}}
+        """
+        let action = try JSONDecoder().decode(Action.self, from: Data(json.utf8))
+        let ok = RecordingHost(); ok.requestSucceeds = true
+        await ActionInterpreter(host: ok).run(action, ctx: BindingContext())
+        XCTAssertTrue(ok.effects.contains { subset(.object(["type": .string("showToast"), "message": .string("ok")]), $0) },
+                      "request success must run onSuccess; got \(ok.effects)")
+        let err = RecordingHost(); err.requestSucceeds = false
+        await ActionInterpreter(host: err).run(action, ctx: BindingContext())
+        XCTAssertTrue(err.effects.contains { subset(.object(["type": .string("showToast"), "message": .string("err")]), $0) },
+                      "request failure must run onError; got \(err.effects)")
+    }
+
     /// `expected` (a JSONValue object) is an ordered subset of `actual` (extra keys allowed).
     private func subset(_ expected: JSONValue, _ actual: JSONValue) -> Bool {
         if case .object(let e) = expected {
@@ -153,5 +172,11 @@ final class RecordingHost: ActionHost {
     func log(_ message: String) async { push("log", ["message": .string(message)]) }
     func custom(name: String, payload: JSONValue?) async {
         push("custom", payload.map { ["name": .string(name), "payload": $0] } ?? ["name": .string(name)])
+    }
+    /// Configurable outcome so a test can drive the request onSuccess/onError branch.
+    var requestSucceeds = true
+    func request(source: DataSource) async -> Bool {
+        push("request", ["source": .string(source.id)])
+        return requestSucceeds
     }
 }

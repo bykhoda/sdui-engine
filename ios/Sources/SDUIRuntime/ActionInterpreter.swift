@@ -77,6 +77,10 @@ public protocol ActionHost: AnyObject {
     func openURL(_ url: String) async
     func setState(key: String, value: JSONValue) async
     func refresh(sources: [String]) async
+    /// Loads a single data source (a mutation or fetch), exposing it under
+    /// `$data.<source.id>` on success. Returns whether it succeeded, so the
+    /// interpreter can run the `onSuccess` / `onError` branch.
+    func request(source: DataSource) async -> Bool
     func showToast(message: String, style: String?) async
     /// Scrolls the nearest scroll container to the component whose `id` matches.
     func scrollTo(id: String) async
@@ -108,6 +112,7 @@ public protocol ActionHost: AnyObject {
 /// compiling — the version gate and permission verbs simply no-op cleanly and
 /// write a neutral outcome so the contract's `$state` stays well-defined.
 public extension ActionHost {
+    func request(source: DataSource) async -> Bool { false }
     func requireVersion(minVersion: String, storeURL: String,
                         alert: VersionAlert, resultKey: String?) async {}
     func shouldPrime(_ permission: PermissionRequest.Kind) -> Bool { false }
@@ -272,6 +277,17 @@ public struct ActionInterpreter {
             if let key = resultKey { await host.setState(key: key, value: .string(outcome.rawValue)) }
             let branch = (outcome == .granted) ? "onGranted" : "onDenied"
             if let next = action.field(branch)?.decode(Action.self) { await run(next, ctx: ctx) }
+
+        case "request":
+            // Load a source (a write or fetch); on success its response is exposed as
+            // `$data.<source.id>` and `onSuccess` runs, else `onError`. Powers forms,
+            // pagination and retry without a client release.
+            guard let source = action.field("source")?.decode(DataSource.self) else { return }
+            if await host.request(source: source) {
+                if let ok = action.field("onSuccess")?.decode(Action.self) { await run(ok, ctx: ctx) }
+            } else if let err = action.field("onError")?.decode(Action.self) {
+                await run(err, ctx: ctx)
+            }
 
         default:
             await host.log("Unhandled action '\(action.action)'")

@@ -39,6 +39,11 @@ interface ActionHost {
     /** Reload the named data sources (empty = all). */
     suspend fun refresh(sources: List<String>)
 
+    /** Loads a single data source (a mutation or fetch), exposing it under
+     *  `$data.<source.id>` on success. Returns whether it succeeded, so the interpreter
+     *  runs onSuccess/onError. Default no-op for hosts without a data layer. */
+    suspend fun request(source: dev.sdui.core.DataSource): Boolean = false
+
     /** Show a transient message. */
     suspend fun showToast(message: String, style: String?)
 
@@ -169,6 +174,19 @@ class ActionInterpreter(private val host: ActionHost) {
                 val bare = key.removePrefix("\$state.")
                 val current = ctx.state[bare]?.doubleValue ?: 0.0
                 host.setState(bare, JsonValue.Num(current + by))
+            }
+
+            "request" -> {
+                // Load a source (write/fetch); on success it's exposed as $data.<id> and
+                // onSuccess runs, else onError. Powers forms/pagination/retry.
+                val source = action.field("source")?.decode<dev.sdui.core.DataSource>()
+                if (source != null) {
+                    if (host.request(source)) {
+                        action.field("onSuccess")?.decode<Action>()?.let { run(it, ctx) }
+                    } else {
+                        action.field("onError")?.decode<Action>()?.let { run(it, ctx) }
+                    }
+                }
             }
 
             else -> host.log("Unhandled action '${action.action}'")

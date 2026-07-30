@@ -90,6 +90,15 @@ public final class SDUIScreenModel: ObservableObject, ActionHost {
         return value
     }
 
+    /// `request` action: load one source (a mutation or fetch), and on success expose its
+    /// response under `$data.<source.id>` — which republishes `binding` so the screen
+    /// re-renders and the action's `onSuccess` branch (and any bound view) sees it.
+    public func request(source: DataSource) async -> Bool {
+        guard let value = await loadOne(source) else { return false }
+        binding.data[source.id] = value
+        return true
+    }
+
     // MARK: ActionHost
 
     public func navigate(to screen: String, params: [String: JSONValue], transition: String) async {

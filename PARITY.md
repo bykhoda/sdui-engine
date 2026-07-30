@@ -71,7 +71,7 @@
 | `parallel` | ✅ | ✅ | ✅ |
 | `preview` | ✅ | ✅ | — |
 | `refresh` | ✅ | ✅ | ✅ |
-| `request` | — | — | — |
+| `request` | ✅ | ✅ | — |
 | `requestPermission` | ✅ | — | — |
 | `requireVersion` | ✅ | — | — |
 | `saveFile` | — | — | — |
@@ -80,12 +80,12 @@
 | `setState` | ✅ | ✅ | ✅ |
 | `share` | ✅ | ✅ | ✅ |
 | `showToast` | ✅ | ✅ | ✅ |
-| **supported** | **22/24** | **20/24** | **19/24** |
+| **supported** | **23/24** | **21/24** | **19/24** |
 
 ### Gaps — actions
 
-- **iOS** missing 2: `request`, `saveFile`
-- **Android** missing 4: `request`, `requestPermission`, `requireVersion`, `saveFile`
+- **iOS** missing 1: `saveFile`
+- **Android** missing 3: `requestPermission`, `requireVersion`, `saveFile`
 - **Aurora** missing 5: `preview`, `request`, `requestPermission`, `requireVersion`, `saveFile`
 
 

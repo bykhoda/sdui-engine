@@ -60,8 +60,8 @@ console.log('Conformance corpus coverage (informational — grow toward 100%)');
 
 // Action taxonomy (see doc 09): pure Level-A effects vs host-outcome (integration/Level-B)
 // vs not-yet-implemented in any engine. Only the Level-A tier is fixture-gated here.
-const INTEGRATION_TIER = new Set(['requireVersion', 'requestPermission']); // implemented, but outcome-driven
-const UNIMPLEMENTED = new Set(['request', 'saveFile']);                     // no engine implements these yet (see doc 12)
+const INTEGRATION_TIER = new Set(['requireVersion', 'requestPermission', 'request']); // implemented, but outcome-driven
+const UNIMPLEMENTED = new Set(['saveFile']);                     // no engine implements these yet (see doc 12)
 const levelAActions = new Set([...KNOWN_ACTIONS].filter(a => !INTEGRATION_TIER.has(a) && !UNIMPLEMENTED.has(a)));
 
 let gaps = 0;
