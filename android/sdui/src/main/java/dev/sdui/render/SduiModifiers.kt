@@ -71,6 +71,12 @@ import dev.sdui.core.Modifiers
  * The long-press context menu is NOT handled here — it needs a hoisted composable
  * (a [DropdownMenu]) and is applied by [contextMenuHost] instead.
  */
+/** Set by [contextMenuHost] to the "open the menu" callback. The node's single long-press
+ *  owner ([gestureModifier]) invokes it, so exactly ONE detector handles long-press and the
+ *  menu opens reliably — instead of two stacked detectTapGestures fighting (the menu
+ *  frequently never opened). */
+internal val LocalRequestContextMenu = androidx.compose.runtime.staticCompositionLocalOf<(() -> Unit)?> { null }
+
 @Composable
 fun Modifier.sduiModifiers(modifiers: Modifiers?, ctx: RenderContext): Modifier {
     val m = modifiers ?: return this
@@ -302,20 +308,28 @@ private fun shadowModifier(shadow: Modifiers.Shadow?, radius: Dimension?, ctx: R
     shadow ?: return Modifier
     val color = Theme.color(shadow.color, ctx.binding) ?: Color.Black.copy(alpha = 0.15f)
     val blurRadius = shadow.radius?.let { Theme.dp(it, ctx.binding) } ?: 4.dp
-    val offsetX = (shadow.x ?: 0.0).dp
-    val offsetY = (shadow.y ?: 2.0).dp
     val cornerRadius = radius?.let { Theme.dp(it, ctx.binding) } ?: 0.dp
-    // Canonical Compose shadow: a GPU-composited elevation shadow clipped to the shape —
-    // far cleaner than a hand-drawn setShadowLayer, which read as a big grey blob. The
-    // contract's blur radius maps to a capped elevation; colour tints the spot/ambient.
-    val elevation = (blurRadius.value * 0.6f).coerceIn(2f, 16f).dp
-    return Modifier.shadow(
-        elevation = elevation,
-        shape = RoundedCornerShape(cornerRadius),
-        clip = false,
-        ambientColor = color,
-        spotColor = color,
-    )
+    // A TRUE drop shadow at the contract's colour/blur/OFFSET (x,y) — iOS's `.shadow(
+    // color,radius,x,y)`. Draw the rounded shape filled with the shadow colour, translated
+    // by (x,y) and softened by a BlurMaskFilter, BEHIND the (opaque) content. Modifier.shadow
+    // can't offset; the earlier grey-blob was an untuned setShadowLayer, not a reason to drop
+    // direction — a home card's `y:8` blue glow and the cart bar's `y:-6` lift need it.
+    return Modifier.drawBehind {
+        val paint = androidx.compose.ui.graphics.Paint()
+        val fp = paint.asFrameworkPaint()
+        fp.isAntiAlias = true
+        fp.color = color.toArgb()
+        val blurPx = blurRadius.toPx()
+        if (blurPx > 0f) {
+            fp.maskFilter = android.graphics.BlurMaskFilter(blurPx, android.graphics.BlurMaskFilter.Blur.NORMAL)
+        }
+        val ox = (shadow.x ?: 0.0).toFloat().dp.toPx()
+        val oy = (shadow.y ?: 2.0).toFloat().dp.toPx()
+        val r = cornerRadius.toPx()
+        drawIntoCanvas { canvas ->
+            canvas.drawRoundRect(ox, oy, size.width + ox, size.height + oy, r, r, paint)
+        }
+    }
 }
 
 /**
@@ -328,7 +342,11 @@ private fun shadowModifier(shadow: Modifiers.Shadow?, radius: Dimension?, ctx: R
 private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier {
     val tap = modifiers.onTap
     val longPress = modifiers.onLongPress
-    if (tap == null && longPress == null) return Modifier
+    // A contextMenu on this node makes long-press OPEN THE MENU (contextMenu wins over
+    // onLongPress) — routed through the shared owner so it can't be stolen by a second
+    // detector. If there's no gesture at all, no modifier.
+    val openMenu = LocalRequestContextMenu.current
+    if (tap == null && longPress == null && openMenu == null) return Modifier
 
     val haptics = LocalHapticFeedback.current
     var pressed by remember { mutableStateOf(false) }
@@ -350,7 +368,7 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
     } else {
         Modifier
     }
-    return press.pointerInput(tap, longPress) {
+    return press.pointerInput(tap, longPress, openMenu != null) {
         detectTapGestures(
             onPress = {
                 if (feedback) {
@@ -361,7 +379,13 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
                 }
             },
             onTap = tap?.let { action -> { ctx.dispatch(action, ctx.binding) } },
-            onLongPress = longPress?.let { action -> { ctx.dispatch(action, ctx.binding) } },
+            // Single long-press owner: contextMenu (if any) wins, else onLongPress.
+            onLongPress = if (openMenu != null || longPress != null) {
+                {
+                    haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                    if (openMenu != null) openMenu() else ctx.dispatch(longPress!!, ctx.binding)
+                }
+            } else null,
         )
     }
 }
@@ -391,16 +415,29 @@ fun contextMenuHost(modifiers: Modifiers?, ctx: RenderContext, content: @Composa
         return
     }
     var expanded by remember { mutableStateOf(false) }
-    androidx.compose.foundation.layout.Box(
-        modifier = Modifier.pointerInput(items) {
-            detectTapGestures(onLongPress = { expanded = true })
-        },
-    ) {
-        content()
+    // No gesture detector here — that fought the node's own long-press and the menu often
+    // never opened. Instead publish the "open" callback; the node's single long-press owner
+    // (gestureModifier) invokes it.
+    androidx.compose.foundation.layout.Box {
+        androidx.compose.runtime.CompositionLocalProvider(LocalRequestContextMenu provides { expanded = true }) {
+            content()
+        }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             items.forEach { item ->
+                val destructive = item.role == "destructive"
                 DropdownMenuItem(
                     text = { Text(BindingEngine.resolveString(item.title, ctx.binding)) },
+                    leadingIcon = item.icon?.let { icon ->
+                        { androidx.compose.material3.Icon(materialIcon(icon), contentDescription = null) }
+                    },
+                    colors = if (destructive) {
+                        androidx.compose.material3.MenuDefaults.itemColors(
+                            textColor = androidx.compose.material3.MaterialTheme.colorScheme.error,
+                            leadingIconColor = androidx.compose.material3.MaterialTheme.colorScheme.error,
+                        )
+                    } else {
+                        androidx.compose.material3.MenuDefaults.itemColors()
+                    },
                     onClick = {
                         expanded = false
                         ctx.dispatch(item.action, ctx.binding)
