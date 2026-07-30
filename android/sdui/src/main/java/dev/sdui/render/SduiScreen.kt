@@ -223,6 +223,7 @@ class SduiScreenModel(
  * @param registry the component registry; defaults to built-ins only.
  * @param delegate optional host delegate for navigation, analytics, etc.
  */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun SduiScreen(
     document: SduiDocument,
@@ -255,5 +256,17 @@ fun SduiScreen(
         model.onAppear(interpreter)
     }
 
-    registry.Render(screen.content, ctx)
+    // Pull-to-refresh — the Android twin of iOS's `.refreshable` (SDUIScreenView). When the
+    // screen declares `refresh`, a pull reloads its data sources; the spinner tracks the
+    // model's loading state.
+    if (screen.refresh != null) {
+        androidx.compose.material3.pulltorefresh.PullToRefreshBox(
+            isRefreshing = model.isLoading,
+            onRefresh = { scope.launch { model.reload(screen.refresh?.sources ?: emptyList()) } },
+        ) {
+            registry.Render(screen.content, ctx)
+        }
+    } else {
+        registry.Render(screen.content, ctx)
+    }
 }
