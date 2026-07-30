@@ -1667,7 +1667,7 @@ private struct SliderView: View {
     let component: Component
     let ctx: RenderContext
     var body: some View {
-        let key = component.prop("bind")?.stringValue ?? ""
+        let key = component.bindKey
         let tint = Theme.color(component.prop("color")?.stringValue, ctx: ctx.binding) ?? .accentColor
         let trackH = component.prop("height")?.doubleValue.map { CGFloat($0) } ?? 6
         let thumb = component.prop("thumb")?.boolValue ?? true
@@ -1754,7 +1754,7 @@ private struct TextFieldView: View {
     private var errorColor: Color { Color(.sRGB, red: 0.86, green: 0.24, blue: 0.29, opacity: 1) }
 
     var body: some View {
-        let key = component.prop("bind")?.stringValue ?? ""
+        let key = component.bindKey
         let placeholder = BindingEngine.resolveString(component.prop("placeholder")?.stringValue ?? "", in: ctx.binding)
         let kind = component.prop("keyboardType")?.stringValue
         // Explicit visual state so a payload can show validation UI declaratively:
@@ -1874,7 +1874,7 @@ private struct ToggleView: View {
     let component: Component
     let ctx: RenderContext
     var body: some View {
-        let key = component.prop("bind")?.stringValue ?? ""
+        let key = component.bindKey
         let title = BindingEngine.resolveString(component.prop("title")?.stringValue ?? "", in: ctx.binding)
         Toggle(title, isOn: ctx.boolBinding(key))
     }
@@ -1884,7 +1884,7 @@ private struct PickerView: View {
     let component: Component
     let ctx: RenderContext
     var body: some View {
-        let key = component.prop("bind")?.stringValue ?? ""
+        let key = component.bindKey
         let title = BindingEngine.resolveString(component.prop("title")?.stringValue ?? "", in: ctx.binding)
         let options = component.prop("options")?.arrayValue ?? []
         let style = component.prop("style")?.stringValue

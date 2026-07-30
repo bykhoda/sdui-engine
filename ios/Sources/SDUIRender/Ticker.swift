@@ -17,7 +17,7 @@ struct TickerView: View {
     var body: some View {
         let interval = max(0.05, component.prop("interval")?.doubleValue ?? 1)
         let step = component.prop("step")?.doubleValue ?? 0.01
-        let bindKey = component.prop("bind")?.stringValue ?? ""
+        let bindKey = component.bindKey
         let maxV = component.prop("max")?.doubleValue ?? 1
         let loop = component.prop("loop")?.boolValue ?? false
         let running = component.prop("while")?.stringValue.map { ctx.boolBinding($0).wrappedValue } ?? true

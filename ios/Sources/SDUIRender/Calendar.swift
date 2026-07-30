@@ -22,7 +22,7 @@ struct DatePickerView: View {
     }()
 
     var body: some View {
-        let key = component.prop("bind")?.stringValue ?? ""
+        let key = component.bindKey
         let tint = Theme.color(component.prop("color")?.stringValue, ctx: ctx.binding) ?? .accentColor
         let graphical = (component.prop("style")?.stringValue ?? "graphical") == "graphical"
         let raw = ctx.stringBinding(key)

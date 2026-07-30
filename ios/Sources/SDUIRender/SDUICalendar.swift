@@ -240,7 +240,7 @@ struct CalendarGridView: View {
 
     // MARK: state keys & helpers
 
-    private var singleKey: String { component.prop("bind")?.stringValue ?? "" }
+    private var singleKey: String { component.bindKey }
     private var startKey: String { component.prop("startBind")?.stringValue ?? "" }
     private var endKey: String { component.prop("endBind")?.stringValue ?? "" }
     private var multiKey: String { component.prop("multiBind")?.stringValue ?? singleKey }

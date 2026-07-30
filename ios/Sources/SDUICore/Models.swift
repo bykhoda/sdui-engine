@@ -107,6 +107,14 @@ public struct Component: Decodable, Equatable, Sendable {
     public var children: [Component] {
         raw["children"]?.decode([Component].self) ?? []
     }
+
+    /// The bare `$state` key behind a `bind` prop, tolerating both `"day"` and
+    /// `"$state.day"`. Android already strips the `$state.` prefix, so normalising here
+    /// keeps an authored `bind` identical across platforms (parity #34).
+    public var bindKey: String {
+        let raw = prop("bind")?.stringValue ?? ""
+        return raw.hasPrefix("$state.") ? String(raw.dropFirst(7)) : raw
+    }
 }
 
 // MARK: - Modifiers
