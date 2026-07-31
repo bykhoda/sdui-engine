@@ -180,7 +180,9 @@ function buildSheet(g, tmpDir) {
   }
 
   const title = `${g.fixture}${g.state === 'default' ? '' : `  ·  ${g.state}`}  ·  ${g.scheme}`;
-  const dest = join(SHEETS, `${sheetName(g)}.png`);
+  // Glued sheets are opaque review artifacts, so JPEG (q82, 4:2:0) keeps them ~8-10× smaller
+  // than PNG — the montage of 3 anti-aliased phone screens compresses poorly as PNG.
+  const dest = join(SHEETS, `${sheetName(g)}.jpg`);
   // One montage: renders on row 1, diff heat-maps on row 2 (aligned under each platform).
   // Every cell is normalised to the same HEIGHT so the columns line up row-for-row (devices
   // differ in native resolution, so widths vary — height alignment is what makes a like-for-
@@ -193,7 +195,7 @@ function buildSheet(g, tmpDir) {
     '-background', BG, '-fill', INK, ...fontArgs, '-pointsize', '26',
     '-frame', '4', '-mattecolor', '#33333e',   // clear per-column frame
     '-title', title,
-    '-strip', '-define', 'png:compression-level=9', '-define', 'png:compression-filter=5',
+    '-strip', '-quality', '82', '-sampling-factor', '4:2:0',
     dest,
   ]);
   return { metrics, ref };
@@ -216,7 +218,7 @@ function galleryHtml(sheets) {
     <figure>
       <figcaption>${s.fixture}${s.state === 'default' ? '' : ` · <b>${s.state}</b>`} · ${s.scheme}
         ${s.ref ? `<span class="dim">vs ${s.ref}</span>` : ''} ${badge(s)}</figcaption>
-      <img loading="lazy" src="${s.name}.png">
+      <img loading="lazy" src="${s.name}.jpg">
     </figure>`).join('\n');
   const mech = sheets.filter((s) => s.state !== 'default').length;
   const diffed = sheets.filter((s) => Object.keys(s.metrics || {}).length).length;
