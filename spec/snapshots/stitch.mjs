@@ -41,15 +41,18 @@ function pngSize(path) {
 
 // Group current-run PNGs named {fixture}.{platform}.{scheme}.png into review rows.
 function index() {
-  const rows = new Map(); // `${fixture}::${scheme}` → { fixture, scheme, kind, cells }
+  const rows = new Map(); // `${fixture}@${state}::${scheme}` → { fixture, state, scheme, kind, cells }
+  // {fixture}[@{state}].{platform}.{scheme}.png — @state is an optional mechanic end-state.
+  const re = /^(.+?)(?:@([a-z0-9-]+))?\.(ios|android|aurora)\.(light|dark)\.png$/;
   for (const f of existsSync(OUT) ? readdirSync(OUT) : []) {
-    const m = /^(.+)\.(ios|android|aurora)\.(light|dark)\.png$/.exec(f);
+    const m = re.exec(f);
     if (!m) continue;
-    const [, fixture, platform, scheme] = m;
-    const key = `${fixture}::${scheme}`;
-    const row = rows.get(key) ?? { fixture, scheme, kind: kindOf(fixture), cells: {} };
+    const [, fixture, state = 'default', platform, scheme] = m;
+    const stem = state === 'default' ? fixture : `${fixture}@${state}`;
+    const key = `${stem}::${scheme}`;
+    const row = rows.get(key) ?? { fixture, state, scheme, kind: kindOf(fixture), cells: {} };
     const cur = join(OUT, f);
-    const gold = join(GOLD, platform, `${fixture}.${scheme}.png`);
+    const gold = join(GOLD, platform, `${stem}.${scheme}.png`);
     row.cells[platform] = {
       cur, gold: existsSync(gold) ? gold : null,
       size: pngSize(cur), goldSize: existsSync(gold) ? pngSize(gold) : null,
@@ -57,7 +60,8 @@ function index() {
     rows.set(key, row);
   }
   return [...rows.values()].sort(
-    (a, b) => a.kind.localeCompare(b.kind) || a.fixture.localeCompare(b.fixture) || a.scheme.localeCompare(b.scheme),
+    (a, b) => a.kind.localeCompare(b.kind) || a.fixture.localeCompare(b.fixture)
+      || a.state.localeCompare(b.state) || a.scheme.localeCompare(b.scheme),
   );
 }
 
@@ -78,14 +82,15 @@ function render(rows) {
   const counts = {
     screen: new Set(rows.filter((r) => r.kind === 'screen').map((r) => r.fixture)).size,
     component: new Set(rows.filter((r) => r.kind === 'component').map((r) => r.fixture)).size,
+    mech: rows.filter((r) => r.state !== 'default').length,
     drift: rows.filter((r) => PLATFORMS.some((p) => {
       const c = r.cells[p];
       return c && c.gold && c.goldSize && c.size && (c.goldSize.w !== c.size.w || c.goldSize.h !== c.size.h);
     })).length,
   };
   const body = rows.map((r) => `
-    <section class="row" data-kind="${r.kind}" data-fixture="${r.fixture}">
-      <h2>${r.fixture} <span class="scheme">${r.scheme}</span> <span class="kind">${r.kind}</span></h2>
+    <section class="row" data-kind="${r.kind}" data-fixture="${r.fixture}" data-mech="${r.state !== 'default' ? 1 : 0}">
+      <h2>${r.fixture}${r.state !== 'default' ? ` <span class="mech">${r.state}</span>` : ''} <span class="scheme">${r.scheme}</span> <span class="kind">${r.kind}</span></h2>
       <table><thead><tr>${PLATFORMS.map((p) => `<th>${p}</th>`).join('')}</tr></thead>
       <tbody><tr>${PLATFORMS.map((p) => cell(p, r.cells[p])).join('')}</tr></tbody></table>
     </section>`).join('\n');
@@ -108,15 +113,17 @@ function render(rows) {
     td.drift{outline:2px solid #e5484d;outline-offset:-2px} td.gap{opacity:.45}
     .missing{padding:28px 8px;text-align:center;opacity:.4;border:1px dashed #333;border-radius:6px}
     .scheme{font-size:12px;opacity:.5;font-weight:400} .kind{font-size:11px;opacity:.4;font-weight:400;float:right}
+    .mech{font-size:11px;font-weight:600;color:#fff;background:#8b5cf6;padding:2px 8px;border-radius:999px;vertical-align:middle}
     h2{margin:28px 0 8px;font-size:15px} section.hide{display:none}
   </style>
   <header>
     <h1>SDUI visual snapshots</h1>
-    <div class="sub">${rows.length} cells · ${counts.screen} screens · ${counts.component} components · ${counts.drift} with size-drift · columns: iOS │ Android │ Aurora, golden vs current</div>
+    <div class="sub">${rows.length} cells · ${counts.screen} screens · ${counts.component} components · ${counts.mech} mechanic states · ${counts.drift} with size-drift · columns: iOS │ Android │ Aurora, golden vs current</div>
     <div class="filters">
       <button class="on" data-f="all">all</button>
       <button data-f="screen">screens</button>
       <button data-f="component">components</button>
+      <button data-f="mech">mechanics</button>
       <button data-f="drift">drift only</button>
     </div>
   </header>
@@ -125,7 +132,8 @@ function render(rows) {
     const btns=[...document.querySelectorAll('.filters button')], secs=[...document.querySelectorAll('section.row')];
     btns.forEach(b=>b.onclick=()=>{btns.forEach(x=>x.classList.toggle('on',x===b));const f=b.dataset.f;
       secs.forEach(s=>{const drift=[...s.querySelectorAll('td')].some(t=>t.dataset.drift==='1');
-        s.classList.toggle('hide', !(f==='all'||(f==='drift'?drift:s.dataset.kind===f)));});});
+        const ok=f==='all'||(f==='drift'?drift:f==='mech'?s.dataset.mech==='1':s.dataset.kind===f);
+        s.classList.toggle('hide', !ok);});});
   </script>`;
 }
 

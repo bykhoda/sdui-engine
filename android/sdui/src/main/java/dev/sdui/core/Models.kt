@@ -193,6 +193,8 @@ data class Modifiers(
     val presentWhen: String? = null,
     /** How `presentWhen` presents: `"sheet"` (default) → a bottom sheet. */
     val presentStyle: String? = null,
+    /** Accessibility metadata mapped to Compose semantics / SwiftUI accessibility traits. */
+    val accessibility: AccessibilitySpec? = null,
     /** Swipe-to-reveal row actions (leading / trailing). */
     val swipe: SwipeConfig? = null,
     /** Animation applied when this node's inputs change. */
@@ -237,6 +239,17 @@ data class Modifiers(
         val icon: String? = null,
         val role: String? = null,
         val action: Action,
+    )
+
+    /** Accessibility metadata — explicit because a control read as a button by VoiceOver is
+     *  not automatically labelled for TalkBack. Maps to Compose semantics. */
+    @Serializable
+    data class AccessibilitySpec(
+        val label: String? = null,
+        val value: String? = null,
+        val hint: String? = null,
+        val role: String? = null,
+        val hidden: Boolean? = null,
     )
 
     /** Swipe-to-reveal actions on a row/card (Telegram-style; the drag-revealed

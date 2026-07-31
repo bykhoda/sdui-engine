@@ -32,12 +32,13 @@ if (has('--record')) {
   const only = arg('--platform');
   let n = 0;
   for (const f of existsSync(OUT) ? readdirSync(OUT) : []) {
-    const m = /^(.+)\.(ios|android|aurora)\.(light|dark)\.png$/.exec(f);
+    const m = /^(.+?)(?:@([a-z0-9-]+))?\.(ios|android|aurora)\.(light|dark)\.png$/.exec(f);
     if (!m) continue;
-    const [, fixture, platform, scheme] = m;
+    const [, fixture, state, platform, scheme] = m;
     if (only && platform !== only) continue;
+    const stem = state ? `${fixture}@${state}` : fixture;
     ensure(join(GOLD, platform));
-    copyFileSync(join(OUT, f), join(GOLD, platform, `${fixture}.${scheme}.png`));
+    copyFileSync(join(OUT, f), join(GOLD, platform, `${stem}.${scheme}.png`));
     n++;
   }
   console.log(`recorded ${n} golden(s)${only ? ` for ${only}` : ''} → ${GOLD}`);
@@ -48,6 +49,7 @@ if (has('--record')) {
 const platform = arg('--platform');
 const from = arg('--from');
 const scheme = arg('--scheme') || 'light';
+const forcedState = arg('--state'); // optional: tag every ingested PNG with this mechanic state
 if (!platform || !PLATFORMS.includes(platform) || !from) {
   console.error('usage: collect.mjs --platform <ios|android|aurora> --from <dir> [--scheme light|dark]');
   console.error('   or: collect.mjs --record [--platform <p>]');
@@ -58,12 +60,16 @@ ensure(OUT);
 
 let n = 0;
 for (const f of readdirSync(from).filter((f) => f.toLowerCase().endsWith('.png'))) {
-  // Accept {fixture}.png or {fixture}.{scheme}.png; the embedded scheme wins.
-  const stem = basename(f, '.png');
-  const m = /^(.+)\.(light|dark)$/.exec(stem);
-  const fixture = (m ? m[1] : stem).replace(/\.(ios|android|aurora)$/, '');
-  const sch = m ? m[2] : scheme;
-  copyFileSync(join(from, f), join(OUT, `${fixture}.${platform}.${sch}.png`));
+  // Accept {fixture}[@state].png or {fixture}[@state].{scheme}.png; embedded scheme/state win.
+  let stem = basename(f, '.png');
+  const ms = /^(.+)\.(light|dark)$/.exec(stem);
+  const sch = ms ? ms[2] : scheme;
+  stem = (ms ? ms[1] : stem).replace(/\.(ios|android|aurora)$/, '');
+  const mst = /^(.+?)@([a-z0-9-]+)$/.exec(stem);
+  const fixture = mst ? mst[1] : stem;
+  const state = forcedState || (mst ? mst[2] : null);
+  const outStem = state ? `${fixture}@${state}` : fixture;
+  copyFileSync(join(from, f), join(OUT, `${outStem}.${platform}.${sch}.png`));
   n++;
 }
-console.log(`ingested ${n} PNG(s) for ${platform} (scheme default ${scheme}) → ${OUT}`);
+console.log(`ingested ${n} PNG(s) for ${platform}${forcedState ? ` @${forcedState}` : ''} (scheme default ${scheme}) → ${OUT}`);

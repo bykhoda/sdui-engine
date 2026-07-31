@@ -50,6 +50,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import dev.sdui.core.BindingEngine
 import dev.sdui.core.Dimension
 import dev.sdui.core.EdgeInsets
@@ -95,6 +101,7 @@ fun Modifier.sduiModifiers(modifiers: Modifiers?, ctx: RenderContext): Modifier 
         .then(transformModifier(m.scale, m.rotation, m.opacity, m.animation, ctx))
         .then(pulseModifier(m.pulse, ctx))
         .then(gestureModifier(m, ctx))
+        .then(accessibilityModifier(m.accessibility, ctx))
         .then(safeAreaModifier(m.ignoresSafeArea))
 }
 
@@ -404,6 +411,26 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
  * still enables edge-to-edge at the window level (see `Screen.chrome == "immersive"`).
  */
 @Composable
+/**
+ * Maps `modifiers.accessibility` to Compose semantics — the Android twin of the iOS
+ * AccessibilityModifier (parity #14). `hidden` removes the node from the a11y tree;
+ * otherwise label→contentDescription, value→stateDescription, role→Role/heading, so a
+ * server-authored control is announced correctly to TalkBack.
+ */
+private fun accessibilityModifier(spec: Modifiers.AccessibilitySpec?, ctx: RenderContext): Modifier {
+    spec ?: return Modifier
+    if (spec.hidden == true) return Modifier.clearAndSetSemantics { }
+    return Modifier.semantics {
+        spec.label?.let { contentDescription = BindingEngine.resolveString(it, ctx.binding) }
+        spec.value?.let { stateDescription = BindingEngine.resolveString(it, ctx.binding) }
+        when (spec.role) {
+            "button" -> role = androidx.compose.ui.semantics.Role.Button
+            "image" -> role = androidx.compose.ui.semantics.Role.Image
+            "header" -> heading()
+        }
+    }
+}
+
 private fun safeAreaModifier(ignores: Boolean?): Modifier =
     if (ignores == true) Modifier.consumeWindowInsets(WindowInsets.safeDrawing) else Modifier
 
