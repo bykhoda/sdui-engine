@@ -63,6 +63,19 @@ decision, reviewed in the gallery, never blindly regenerated.
 — no `@state` is the resting screen; `inbox@swipe`, `stocks@scrub`, `home@page` are
 interaction end-states. All three tools understand it, backward-compatibly.
 
+## Persistence — what's stored vs regenerated
+
+Standard visual-snapshot layout: every re-run re-glues all platforms into the combined
+gallery, but only the reviewed baseline is committed.
+
+- **`__out__/`** — the current run's PNGs + glued sheets. **Gitignored, ephemeral**; a leg
+  writes here and `stitch.mjs`/`sheet.mjs` rebuild the gallery from it each run.
+- **`__golden__/{platform}/{fixture}[@state].{scheme}.png`** — the **committed** reference
+  every future run diffs against. Promote a reviewed run with `collect.mjs --record`.
+- Goldens are binaries that get re-recorded over time, so they're tracked with **Git LFS**
+  (`.gitattributes`) — pointers in git, blobs in LFS — keeping history lean. A fresh clone
+  needs `git lfs install`; `git lfs pull` fetches the images.
+
 ## Status — phased build
 
 - **Phase 0 — driver + gallery (JS only). ✅ DONE.** `gen-manifest.mjs` (43 screens + 30
