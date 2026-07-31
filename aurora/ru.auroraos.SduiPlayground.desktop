@@ -2,6 +2,12 @@
 Type=Application
 X-Nemo-Application-Type=silica-qt5
 Icon=ru.auroraos.SduiPlayground
-Exec=ru.auroraos.SduiPlayground
+Exec=/usr/bin/ru.auroraos.SduiPlayground
 Name=SDUI Playground
 Name[ru]=SDUI Плейграунд
+
+[X-Application]
+Permissions=
+OrganizationName=ru.auroraos
+ApplicationName=SduiPlayground
+ExecDBus=/usr/bin/ru.auroraos.SduiPlayground

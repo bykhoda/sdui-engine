@@ -36,6 +36,15 @@ desktop.files = ru.auroraos.SduiPlayground.desktop
 desktop.path  = /usr/share/applications
 INSTALLS += desktop
 
-# TODO: add launcher icons under icons/<size>/ru.auroraos.SduiPlayground.png and
-# re-enable:  AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
+# Launcher icons — auroraapp installs icons/<size>/$${TARGET}.png into
+# /usr/share/icons/hicolor/<size>/apps/, which the RPM validator (sailjail/apptool)
+# requires. Sizes are the Aurora-mandated set.
+AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
+
+DISTFILES += \
+    icons/86x86/ru.auroraos.SduiPlayground.png \
+    icons/108x108/ru.auroraos.SduiPlayground.png \
+    icons/128x128/ru.auroraos.SduiPlayground.png \
+    icons/172x172/ru.auroraos.SduiPlayground.png
+
 # TODO: add translations/ and re-enable TRANSLATIONS once lupdate has run.
