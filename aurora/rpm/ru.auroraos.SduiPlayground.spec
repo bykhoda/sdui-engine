@@ -31,11 +31,15 @@ server-driven JSON screens through a pure-QML/Silica renderer.
 
 %install
 %qmake5_install
+# qmake's `.files` install can leave data files mode 0755 (GNU install defaults to 0755
+# without -m), which the sailjail/apptool validator rejects ("File must not be executable").
+# Normalise the desktop entry + launcher icons to 0644.
+chmod 0644 %{buildroot}%{_datadir}/applications/%{name}.desktop
+chmod 0644 %{buildroot}%{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
-# TODO: add launcher icons, then include:
-# %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
