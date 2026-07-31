@@ -8,16 +8,21 @@
 // Mechanics (swipe/scrub/…) are captured on Android today; the iOS leg captures the resting
 // screens (ImageRenderer has no gesture surface — mechanic seeding is a follow-up).
 //
-// KNOWN ISSUE — ImageRenderer captures only the screen BACKGROUND, not the content subtree:
-// SDUIScreenView's scroll-reactive header/content doesn't resolve in ImageRenderer's single
-// synchronous pass, so PNGs come out blank. FIX (next): host the view in a UIWindow via
-// UIHostingController, force layout, and snapshot with
-// `UIGraphicsImageRenderer.image { _ in view.drawHierarchy(afterScreenUpdates: true) }`,
-// which drives a real render pass. The leg wiring/manifest walk below is correct and stays.
+// KNOWN ISSUE — the PNGs render the screen BACKGROUND but not the content subtree. Root
+// cause: an SPM test bundle has NO host application, so there is no render server — both
+// ImageRenderer AND UIHostingController+`drawHierarchy(afterScreenUpdates:true)` (below)
+// come back with the content blank. The leg wiring / manifest walk is correct; what's
+// missing is a rendering host. FIX (next, an architectural step not a tweak): give the
+// snapshot test a HOST APP (a tiny SwiftUI app target the test drives), or make this an
+// XCUITest that launches that host and uses XCUIScreenshot — either provides the render
+// server the content needs. Until then the iOS column stays an honest gap in the gallery.
 //
 // Run via spec/snapshots/capture-ios.sh (or `node spec/snapshots/run.mjs --ios`).
 import XCTest
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 import SDUICore
 @testable import SDUIRender
 
@@ -36,6 +41,7 @@ final class SnapshotTests: XCTestCase {
         let fixtures = Self.fixtures(repo)
         XCTAssertFalse(fixtures.isEmpty, "no fixtures resolved from manifest.json")
 
+        let size = CGSize(width: 390, height: 844)
         var written = 0
         for scheme in ["light", "dark"] {
             for fx in fixtures {
@@ -46,12 +52,10 @@ final class SnapshotTests: XCTestCase {
                     tokens: tokens,
                     env: ["locale": .string("en"), "theme": .string(scheme), "platform": .string("ios")]
                 )
-                .frame(width: 390, height: 844)
-                .environment(\.colorScheme, scheme == "dark" ? .dark : .light)
+                .frame(width: size.width, height: size.height)
 
-                let renderer = ImageRenderer(content: view)
-                renderer.scale = 3
-                guard let image = renderer.uiImage, let png = image.pngData() else { continue }
+                guard let image = Self.snapshot(view, size: size, dark: scheme == "dark"),
+                      let png = image.pngData() else { continue }
                 let dest = out.appendingPathComponent("\(fx.id).ios.\(scheme).png")
                 try? png.write(to: dest)
                 written += 1
@@ -59,6 +63,30 @@ final class SnapshotTests: XCTestCase {
         }
         print("[SDUI-SNAP] wrote \(written) iOS PNG(s) → \(out.path)")
         XCTAssertGreaterThan(written, 0)
+    }
+
+    /// Host the SwiftUI view in a real key window and capture with drawHierarchy — unlike
+    /// ImageRenderer's single synchronous pass, this drives an actual render/layout cycle so
+    /// the whole content subtree (scroll header, cards, charts) draws, not just the background.
+    @MainActor
+    private static func snapshot(_ view: some View, size: CGSize, dark: Bool) -> UIImage? {
+        let host = UIHostingController(rootView: view)
+        host.overrideUserInterfaceStyle = dark ? .dark : .light
+        let window = UIWindow(frame: CGRect(origin: .zero, size: size))
+        window.overrideUserInterfaceStyle = dark ? .dark : .light
+        window.rootViewController = host
+        window.makeKeyAndVisible()
+        host.view.frame = CGRect(origin: .zero, size: size)
+        host.view.layoutIfNeeded()
+        // Let SwiftUI populate its content + resolve layout before capturing.
+        RunLoop.current.run(until: Date().addingTimeInterval(0.12))
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 3
+        let image = UIGraphicsImageRenderer(size: size, format: format).image { _ in
+            host.view.drawHierarchy(in: CGRect(origin: .zero, size: size), afterScreenUpdates: true)
+        }
+        window.isHidden = true
+        return image
     }
 
     // MARK: - manifest / corpus resolution (filesystem, shared with the other legs)

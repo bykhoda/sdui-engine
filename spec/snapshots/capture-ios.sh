@@ -27,6 +27,7 @@ echo "ios: destination → $DEST"
 SCHEME="SDUI-Package"
 echo "ios: scheme → $SCHEME"
 
+rm -rf "$HERE/__out__/_ios-result.xcresult"   # xcodebuild refuses to overwrite an existing bundle
 xcodebuild test \
   -scheme "$SCHEME" \
   -destination "$DEST" \
