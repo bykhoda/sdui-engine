@@ -8,6 +8,13 @@
 // Mechanics (swipe/scrub/…) are captured on Android today; the iOS leg captures the resting
 // screens (ImageRenderer has no gesture surface — mechanic seeding is a follow-up).
 //
+// KNOWN ISSUE — ImageRenderer captures only the screen BACKGROUND, not the content subtree:
+// SDUIScreenView's scroll-reactive header/content doesn't resolve in ImageRenderer's single
+// synchronous pass, so PNGs come out blank. FIX (next): host the view in a UIWindow via
+// UIHostingController, force layout, and snapshot with
+// `UIGraphicsImageRenderer.image { _ in view.drawHierarchy(afterScreenUpdates: true) }`,
+// which drives a real render pass. The leg wiring/manifest walk below is correct and stays.
+//
 // Run via spec/snapshots/capture-ios.sh (or `node spec/snapshots/run.mjs --ios`).
 import XCTest
 import SwiftUI
