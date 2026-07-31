@@ -1,7 +1,16 @@
 package dev.sdui.demo
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.AssetManager
+import android.net.Uri
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import kotlinx.coroutines.CompletableDeferred
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -158,6 +167,9 @@ private class PlaygroundHost(
     private val present: (String) -> Unit,
     private val onDismiss: () -> Unit,
     private val openStory: (Int) -> Unit,
+    private val currentVersion: String,
+    private val onRequireVersion: (VersionAlert) -> Unit,
+    private val onRequestPermission: suspend (String, JsonValue?) -> String,
 ) : SduiHostDelegate {
     override fun navigate(screen: String, params: Map<String, JsonValue>, transition: String) {
         if (screen !in known) return
@@ -183,7 +195,66 @@ private class PlaygroundHost(
             openStory(index)
         }
     }
+
+    override fun requireVersion(
+        minVersion: String,
+        storeUrl: String,
+        title: String,
+        message: String,
+        confirmTitle: String,
+        dismissible: Boolean,
+    ) {
+        // Only gate when the running app is actually below the required version.
+        if (compareVersions(currentVersion, minVersion) >= 0) return
+        // No explicit store URL → a Play Store deep link to this app's own package.
+        val store = storeUrl.ifEmpty { "market://details?id=dev.sdui.demo" }
+        onRequireVersion(VersionAlert(title, message, confirmTitle, store, dismissible))
+    }
+
+    override suspend fun requestPermission(permission: String, priming: JsonValue?): String =
+        onRequestPermission(permission, priming)
 }
+
+/** A pending force-update alert, surfaced by the host and rendered as a dialog. */
+private data class VersionAlert(
+    val title: String,
+    val message: String,
+    val confirmTitle: String,
+    val storeUrl: String,
+    val dismissible: Boolean,
+)
+
+/** Dotted-version compare: -1 if a<b, 0 if equal, 1 if a>b (missing parts = 0). */
+private fun compareVersions(a: String, b: String): Int {
+    val pa = a.split(".").mapNotNull { it.toIntOrNull() }
+    val pb = b.split(".").mapNotNull { it.toIntOrNull() }
+    for (i in 0 until maxOf(pa.size, pb.size)) {
+        val x = pa.getOrElse(i) { 0 }; val y = pb.getOrElse(i) { 0 }
+        if (x != y) return if (x < y) -1 else 1
+    }
+    return 0
+}
+
+/** A pending permission-priming dialog: the contract's `priming` object and a deferred the
+ *  dialog completes with the user's confirm/cancel. */
+private data class PrimingState(val priming: JsonValue, val deferred: CompletableDeferred<Boolean>)
+
+/** Maps a contract permission name to its Android manifest permission, or null when the
+ *  platform grants it implicitly (e.g. notifications before API 33). */
+private fun androidPermission(name: String): String? = when (name) {
+    "camera" -> Manifest.permission.CAMERA
+    "location" -> Manifest.permission.ACCESS_FINE_LOCATION
+    "microphone" -> Manifest.permission.RECORD_AUDIO
+    "contacts" -> Manifest.permission.READ_CONTACTS
+    "photos" ->
+        if (Build.VERSION.SDK_INT >= 33) Manifest.permission.READ_MEDIA_IMAGES
+        else Manifest.permission.READ_EXTERNAL_STORAGE
+    "notifications" -> if (Build.VERSION.SDK_INT >= 33) Manifest.permission.POST_NOTIFICATIONS else null
+    else -> null
+}
+
+private fun primingField(p: JsonValue, key: String): String =
+    ((p as? JsonValue.Obj)?.value?.get(key) as? JsonValue.Str)?.value ?: ""
 
 /**
  * A stand-in data loader for the showcase, which has no live backend. Every source
@@ -237,6 +308,16 @@ fun PlaygroundApp() {
     // The index of the currently open full-screen stories player, or null when closed.
     var openStoryIndex by remember { mutableStateOf<Int?>(null) }
     val loader = remember { DemoLoader() }
+
+    // Native-capability flows: a force-update alert and the runtime-permission priming +
+    // OS prompt, driven by the `requireVersion` / `requestPermission` actions (doc 21 #9/#10).
+    var versionAlert by remember { mutableStateOf<VersionAlert?>(null) }
+    var priming by remember { mutableStateOf<PrimingState?>(null) }
+    val permDeferred = remember { mutableStateOf<CompletableDeferred<Boolean>?>(null) }
+    val permLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        permDeferred.value?.complete(granted); permDeferred.value = null
+    }
+
     val host = remember(playground, selected) {
         PlaygroundHost(
             known = playground.screensById.keys + CATALOG,
@@ -244,6 +325,36 @@ fun PlaygroundApp() {
             present = { sheetScreen = it },
             onDismiss = { if (sheetScreen != null) sheetScreen = null else if (stack.size > 1) stack.removeAt(stack.lastIndex) },
             openStory = { openStoryIndex = it },
+            currentVersion = runCatching {
+                context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0"
+            }.getOrDefault("1.0"),
+            onRequireVersion = { versionAlert = it },
+            onRequestPermission = { permission, primingJson ->
+                // Priming (first ask): show the rationale; decline → denied without burning
+                // the one-shot OS prompt. Then the real Android runtime-permission request.
+                val primed = if (primingJson != null) {
+                    val d = CompletableDeferred<Boolean>()
+                    priming = PrimingState(primingJson, d)
+                    val ok = d.await(); priming = null; ok
+                } else {
+                    true
+                }
+                if (!primed) {
+                    "denied"
+                } else {
+                    val ap = androidPermission(permission)
+                    when {
+                        ap == null -> "granted"
+                        ContextCompat.checkSelfPermission(context, ap) == PackageManager.PERMISSION_GRANTED -> "granted"
+                        else -> {
+                            val d = CompletableDeferred<Boolean>()
+                            permDeferred.value = d
+                            permLauncher.launch(ap)
+                            if (d.await()) "granted" else "denied"
+                        }
+                    }
+                }
+            },
         )
     }
 
@@ -345,6 +456,46 @@ fun PlaygroundApp() {
         openStoryIndex?.let { start ->
             StoriesPlayer(stories = CapabilityStory.all, start = start, onClose = { openStoryIndex = null })
             BackHandler { openStoryIndex = null }
+        }
+
+        // Force-update alert (requireVersion). A non-dismissible alert has no cancel and
+        // ignores scrim taps — the "hard gate"; a dismissible one offers "Not now".
+        versionAlert?.let { alert ->
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { if (alert.dismissible) versionAlert = null },
+                title = { Text(alert.title, fontWeight = FontWeight.SemiBold) },
+                text = { Text(alert.message) },
+                confirmButton = {
+                    androidx.compose.material3.TextButton(onClick = {
+                        runCatching { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(alert.storeUrl))) }
+                        if (alert.dismissible) versionAlert = null
+                    }) { Text(alert.confirmTitle) }
+                },
+                dismissButton = if (alert.dismissible) {
+                    { androidx.compose.material3.TextButton(onClick = { versionAlert = null }) { Text("Not now") } }
+                } else {
+                    null
+                },
+            )
+        }
+
+        // Permission priming rationale (requestPermission) — shown before the OS prompt.
+        priming?.let { p ->
+            androidx.compose.material3.AlertDialog(
+                onDismissRequest = { p.deferred.complete(false) },
+                title = { Text(primingField(p.priming, "title"), fontWeight = FontWeight.SemiBold) },
+                text = { Text(primingField(p.priming, "message")) },
+                confirmButton = {
+                    androidx.compose.material3.TextButton(onClick = { p.deferred.complete(true) }) {
+                        Text(primingField(p.priming, "confirmTitle").ifEmpty { "Continue" })
+                    }
+                },
+                dismissButton = {
+                    androidx.compose.material3.TextButton(onClick = { p.deferred.complete(false) }) {
+                        Text(primingField(p.priming, "cancelTitle").ifEmpty { "Not now" })
+                    }
+                },
+            )
         }
     }
 }

@@ -68,6 +68,22 @@ interface ActionHost {
     /** Present a quick-look/gallery of one or more urls (default no-op, like iOS's
      *  default ActionHost) so a host that predates it keeps compiling. */
     suspend fun preview(urls: List<String>, index: Int) {}
+
+    /** Server-driven minimum-version gate: if the running app is below [minVersion], present
+     *  a (soft or hard) update alert whose confirm opens [storeUrl]. Default no-op. */
+    suspend fun requireVersion(
+        minVersion: String,
+        storeUrl: String,
+        title: String,
+        message: String,
+        confirmTitle: String,
+        dismissible: Boolean,
+    ) {}
+
+    /** Runtime-permission flow: optional priming, then the OS prompt. Returns the outcome
+     *  string (`granted`/`denied`) so the interpreter can run onGranted/onDenied. Default
+     *  reports `denied` (a host without a permission layer can't grant anything). */
+    suspend fun requestPermission(permission: String, priming: JsonValue?): String = "denied"
 }
 
 /**
@@ -187,6 +203,31 @@ class ActionInterpreter(private val host: ActionHost) {
                         action.field("onError")?.decode<Action>()?.let { run(it, ctx) }
                     }
                 }
+            }
+
+            "requireVersion" -> {
+                // Force-update gate. The store target is an explicit `storeURL`, else the
+                // host builds a Play Store link to its own package. Mirrors the iOS case.
+                val minVersion = action.field("minVersion")?.stringValue ?: return
+                val storeUrl = action.field("storeURL")?.let { resolvedString(it, ctx) } ?: ""
+                host.requireVersion(
+                    minVersion = minVersion,
+                    storeUrl = storeUrl,
+                    title = action.field("title")?.stringValue ?: "Update required",
+                    message = resolvedString(action.field("message"), ctx),
+                    confirmTitle = action.field("confirmTitle")?.stringValue ?: "Update",
+                    dismissible = action.field("dismissible")?.boolValue ?: false,
+                )
+            }
+
+            "requestPermission" -> {
+                // Priming → OS prompt → resultKey → onGranted/onDenied (the host owns the
+                // platform mechanics; the interpreter owns the flow, exactly like iOS).
+                val permission = action.field("permission")?.stringValue ?: return
+                val outcome = host.requestPermission(permission, action.field("priming"))
+                action.field("resultKey")?.stringValue?.let { host.setState(it, JsonValue.Str(outcome)) }
+                val branch = if (outcome == "granted") "onGranted" else "onDenied"
+                action.field(branch)?.decode<Action>()?.let { run(it, ctx) }
             }
 
             else -> host.log("Unhandled action '${action.action}'")

@@ -68,6 +68,19 @@ interface SduiHostDelegate {
 
     /** Handle a host-defined `custom` action. */
     fun custom(name: String, payload: JsonValue?) {}
+
+    /** Present a minimum-version update alert (soft/hard); confirm opens the store. */
+    fun requireVersion(
+        minVersion: String,
+        storeUrl: String,
+        title: String,
+        message: String,
+        confirmTitle: String,
+        dismissible: Boolean,
+    ) {}
+
+    /** Run the runtime-permission flow and return the outcome (`granted`/`denied`). */
+    suspend fun requestPermission(permission: String, priming: JsonValue?): String = "denied"
 }
 
 /**
@@ -206,6 +219,20 @@ class SduiScreenModel(
     override suspend fun custom(name: String, payload: JsonValue?) {
         delegate?.custom(name, payload)
     }
+
+    override suspend fun requireVersion(
+        minVersion: String,
+        storeUrl: String,
+        title: String,
+        message: String,
+        confirmTitle: String,
+        dismissible: Boolean,
+    ) {
+        delegate?.requireVersion(minVersion, storeUrl, title, message, confirmTitle, dismissible)
+    }
+
+    override suspend fun requestPermission(permission: String, priming: JsonValue?): String =
+        delegate?.requestPermission(permission, priming) ?: "denied"
 }
 
 /**
