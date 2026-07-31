@@ -17,6 +17,7 @@ DISTFILES += \
     rpm/ru.auroraos.SduiPlayground.spec \
     ru.auroraos.SduiPlayground.desktop \
     qml/SduiPlayground.qml \
+    qml/Snapshotter.qml \
     qml/cover/DefaultCover.qml \
     qml/pages/ScreenPage.qml \
     qml/sdui/SduiRenderer.qml \

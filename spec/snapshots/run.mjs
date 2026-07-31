@@ -68,12 +68,11 @@ if (!has('--gallery-only')) {
     });
   }
 
-  // ── Aurora leg — offscreen QML render (renderer not built yet → leg is a no-op stub).
+  // ── Aurora leg — renders on the emulator via the app's --snapshot mode. The script
+  // self-guards (needs the Aurora SDK + a running emulator) and exits non-zero to skip.
   if (want('aurora')) {
-    step('aurora (offscreen QML)', () => {
-      const sh = join(HERE, 'capture-aurora.sh');
-      if (!existsSync(sh)) throw new Error('Aurora renderer not built yet');
-      run('bash', [sh, schemes]);
+    step('aurora (emulator --snapshot)', () => {
+      run('bash', [join(HERE, 'capture-aurora.sh'), schemes]);
     });
   }
 }

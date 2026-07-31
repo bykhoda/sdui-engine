@@ -50,6 +50,8 @@ const arg = (name, dflt) => {
 };
 const HEIGHT = Number(arg('--height', '1280')); // column height sheets are normalised to
 const COL_W = Math.round(HEIGHT * (390 / 844));  // phone aspect → a sensible column width
+const has = (f) => process.argv.includes(f);
+const DIFF = has('--diff');                       // opt-in: add the pixel-diff band (off by default)
 const FUZZ = arg('--fuzz', '5%');                // colour tolerance so AA/subpixel isn't "divergence"
 // Reference platform every other column is diffed against — iOS is the parity source of
 // truth (Android/Aurora must match it). Falls back down the list if iOS wasn't captured.
@@ -145,7 +147,7 @@ function buildSheet(g, tmpDir) {
 
   // ── Row 2: the diff band — only meaningful with ≥2 real renders to compare.
   const realCount = PLATFORMS.filter((p) => g.cells[p]).length;
-  const ref = realCount >= 2 ? pickRef(g.cells) : null;
+  const ref = DIFF && realCount >= 2 ? pickRef(g.cells) : null;
   const metrics = {}; // platform → divergence % vs ref (for the gallery)
   let diffInputs = null;
   if (ref) {

@@ -5,6 +5,7 @@
 // qml/sdui/SduiRenderer.qml); no native model is needed for this demo.
 #include <auroraapp.h>
 #include <QtQuick>
+#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +14,21 @@ int main(int argc, char *argv[])
     application->setApplicationName(QStringLiteral("SduiPlayground"));
 
     QScopedPointer<QQuickView> view(Aurora::Application::createView());
-    view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/SduiPlayground.qml")));
+
+    // Headless snapshot leg (spec/snapshots): `--snapshot <outDir> [light|dark]` loads the
+    // capture harness instead of the app — it renders every bundled screen through the same
+    // renderer, writes {fixture}.aurora.{scheme}.png, and quits. See capture-aurora.sh.
+    const QStringList args = application->arguments();
+    const int si = args.indexOf(QStringLiteral("--snapshot"));
+    if (si >= 0) {
+        const QString outDir = (si + 1 < args.size()) ? args.at(si + 1) : QStringLiteral("/tmp/sdui-snap");
+        const QString scheme = (si + 2 < args.size()) ? args.at(si + 2) : QStringLiteral("light");
+        view->rootContext()->setContextProperty(QStringLiteral("snapshotOutDir"), outDir);
+        view->rootContext()->setContextProperty(QStringLiteral("snapshotScheme"), scheme);
+        view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/Snapshotter.qml")));
+    } else {
+        view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/SduiPlayground.qml")));
+    }
     view->show();
 
     return application->exec();
