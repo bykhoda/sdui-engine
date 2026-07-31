@@ -39,6 +39,10 @@ let package = Package(
         // Runs the SHARED conformance corpus (spec/conformance/fixtures) through the
         // native engine, proving the Swift BindingEngine/Condition/ActionInterpreter
         // agree with the JS reference (check.mjs) — the "identical everywhere" gate.
-        .testTarget(name: "SDUIConformanceTests", dependencies: ["SDUICore", "SDUIRuntime"])
+        .testTarget(name: "SDUIConformanceTests", dependencies: ["SDUICore", "SDUIRuntime"]),
+        // The iOS leg of the visual snapshot suite: renders every fixture in
+        // spec/snapshots/manifest.json through SDUIScreenView via ImageRenderer and writes
+        // PNGs for the cross-platform gallery. See spec/snapshots/capture-ios.sh.
+        .testTarget(name: "SDUISnapshotTests", dependencies: ["SDUIRender", "SDUICore"])
     ]
 )
