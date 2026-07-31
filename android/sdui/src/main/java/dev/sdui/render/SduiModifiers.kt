@@ -410,12 +410,12 @@ private fun gestureModifier(modifiers: Modifiers, ctx: RenderContext): Modifier 
  * stops re-insetting — the Compose analogue of SwiftUI `.ignoresSafeArea()`. The host
  * still enables edge-to-edge at the window level (see `Screen.chrome == "immersive"`).
  */
-@Composable
 /**
  * Maps `modifiers.accessibility` to Compose semantics — the Android twin of the iOS
  * AccessibilityModifier (parity #14). `hidden` removes the node from the a11y tree;
  * otherwise label→contentDescription, value→stateDescription, role→Role/heading, so a
- * server-authored control is announced correctly to TalkBack.
+ * server-authored control is announced correctly to TalkBack. Not @Composable — it only
+ * reads the spec and returns a plain semantics Modifier.
  */
 private fun accessibilityModifier(spec: Modifiers.AccessibilitySpec?, ctx: RenderContext): Modifier {
     spec ?: return Modifier
@@ -431,6 +431,7 @@ private fun accessibilityModifier(spec: Modifiers.AccessibilitySpec?, ctx: Rende
     }
 }
 
+@Composable
 private fun safeAreaModifier(ignores: Boolean?): Modifier =
     if (ignores == true) Modifier.consumeWindowInsets(WindowInsets.safeDrawing) else Modifier
 
