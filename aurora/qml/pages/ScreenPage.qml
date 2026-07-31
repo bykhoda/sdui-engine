@@ -5,6 +5,7 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
 import "../sdui"
+import "../sdui/Tokens.js" as T
 
 Page {
     id: page
@@ -85,6 +86,15 @@ Page {
         page.scrollTarget = id ? id : "";
         if (id === "top") flick.scrollToTop();
         else if (id === "bottom") flick.scrollToBottom();
+    }
+
+    // Paint the SDUI surface colour behind everything — a Silica Page is transparent, so
+    // without this the platform's dark theme shows through and the (dark) token text becomes
+    // invisible. The `surface` token is the same light canvas iOS/Android use; the literal is
+    // a safety net if the token can't resolve.
+    Rectangle {
+        anchors.fill: parent
+        color: T.color("$token.color.surface", page._ctx, "#F4F4F7")
     }
 
     SilicaFlickable {
