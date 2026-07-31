@@ -50,6 +50,10 @@ const arg = (name, dflt) => {
 };
 const HEIGHT = Number(arg('--height', '1280')); // column height sheets are normalised to
 const COL_W = Math.round(HEIGHT * (390 / 844));  // phone aspect → a sensible column width
+const FUZZ = arg('--fuzz', '5%');                // colour tolerance so AA/subpixel isn't "divergence"
+// Reference platform every other column is diffed against — iOS is the parity source of
+// truth (Android/Aurora must match it). Falls back down the list if iOS wasn't captured.
+const REF_PRIORITY = (arg('--ref', 'ios,android,aurora')).split(',').map((s) => s.trim());
 
 // ImageMagick 7 exposes everything under a single `magick` entrypoint. Fail loud and
 // early with the install hint rather than emitting half-built sheets.
@@ -69,6 +73,42 @@ function placeholder(platform, dest) {
     '-bordercolor', '#33333a', '-border', '1', dest,
   ]);
 }
+
+// A solid labelled tile for the diff band's non-diff cells (the reference marker, or an
+// "n/a" where a platform wasn't captured so there's nothing to diff).
+function textTile(lines, dest, fill = '#8a8a95') {
+  magick([
+    '-size', `${COL_W}x${HEIGHT}`, `xc:${BG}`, ...fontArgs,
+    '-gravity', 'center', '-fill', fill, '-pointsize', '30',
+    '-annotate', '0', lines,
+    '-bordercolor', '#26262b', '-border', '1', dest,
+  ]);
+}
+
+// Force both operands to the SAME canvas before comparing: fit to the column box preserving
+// aspect, then pad to exact WxH. Different device resolutions then diff like-for-like.
+function normalize(src, dest) {
+  magick([src, '-resize', `${COL_W}x${HEIGHT}`, '-background', BG, '-gravity', 'center', '-extent', `${COL_W}x${HEIGHT}`, dest]);
+}
+
+// `magick compare` writes a heat-map (differing pixels flared red over a faded base) and
+// prints the AE (absolute-error pixel count) to stderr; it exits 1 when images differ, so
+// the count arrives via the thrown error. Returns the divergence as a % of total pixels.
+function diffImage(refNorm, otherNorm, dest) {
+  const parse = (s) => { const m = /(\d+(?:\.\d+)?)(?:e[+-]?\d+)?/i.exec(String(s).trim()); return m ? Number(m[1]) : 0; };
+  let ae = 0;
+  try {
+    const out = execFileSync('magick', ['compare', '-metric', 'AE', '-fuzz', FUZZ, refNorm, otherNorm, dest],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+    ae = parse(out);
+  } catch (e) {
+    if (e.status === 1) ae = parse(e.stderr || e.stdout || '0'); // "differ" is expected, not a failure
+    else throw e;
+  }
+  return { ae, pct: (ae / (COL_W * HEIGHT)) * 100 };
+}
+
+const pickRef = (cells) => REF_PRIORITY.find((p) => cells[p]) || null;
 
 // Parse __out__ into { `${fixture}|${state}|${scheme}`: {fixture,state,scheme,cells} }.
 function groups() {
@@ -93,33 +133,80 @@ function sheetName(g) {
 }
 
 function buildSheet(g, tmpDir) {
-  const inputs = [];
+  // ── Row 1: the renders (real PNG, or a visible placeholder for a missing leg).
+  const cellPath = {};
+  const renderInputs = [];
   for (const p of PLATFORMS) {
     let src = g.cells[p];
     if (!src) { src = join(tmpDir, `_ph.${p}.png`); placeholder(p, src); }
-    inputs.push('-label', LABELS[p], src);
+    cellPath[p] = src;
+    renderInputs.push('-label', LABELS[p], src);
   }
+
+  // ── Row 2: the diff band — only meaningful with ≥2 real renders to compare.
+  const realCount = PLATFORMS.filter((p) => g.cells[p]).length;
+  const ref = realCount >= 2 ? pickRef(g.cells) : null;
+  const metrics = {}; // platform → divergence % vs ref (for the gallery)
+  let diffInputs = null;
+  if (ref) {
+    const refNorm = join(tmpDir, `_norm.${ref}.png`);
+    normalize(cellPath[ref], refNorm);
+    diffInputs = [];
+    for (const p of PLATFORMS) {
+      if (p === ref) {
+        const tile = join(tmpDir, `_ref.${p}.png`);
+        textTile(`◎ reference\n${LABELS[ref]}`, tile, '#6ee7b7');
+        diffInputs.push('-label', `reference · ${LABELS[ref]}`, tile);
+      } else if (g.cells[p]) {
+        const otherNorm = join(tmpDir, `_norm.${p}.png`);
+        normalize(cellPath[p], otherNorm);
+        const dst = join(tmpDir, `_diff.${p}.png`);
+        const { pct } = diffImage(refNorm, otherNorm, dst);
+        metrics[p] = pct;
+        diffInputs.push('-label', `${LABELS[p]} Δ${LABELS[ref]} · ${pct.toFixed(1)}%`, dst);
+      } else {
+        const na = join(tmpDir, `_na.${p}.png`);
+        textTile(`${LABELS[p]}\nnot captured\n— no diff —`, na, '#5a5a63');
+        diffInputs.push('-label', `${LABELS[p]} Δ —`, na);
+      }
+    }
+  }
+
   const title = `${g.fixture}${g.state === 'default' ? '' : `  ·  ${g.state}`}  ·  ${g.scheme}`;
   const dest = join(SHEETS, `${sheetName(g)}.png`);
-  // One montage call: three tiles, fixed height so columns align for a fair comparison,
-  // per-tile platform labels, a title strip naming the fixture/mechanic/scheme.
+  // One montage: renders on row 1, diff heat-maps on row 2 (aligned under each platform),
+  // fixed height so every column compares like-for-like; a title strip names the fixture.
   magick([
-    'montage', ...inputs,
-    '-tile', '3x1', '-geometry', `${COL_W}x${HEIGHT}+10+10`,
+    'montage', ...renderInputs, ...(diffInputs || []),
+    '-tile', diffInputs ? '3x2' : '3x1', '-geometry', `${COL_W}x${HEIGHT}+10+10`,
     '-background', BG, '-fill', INK, ...fontArgs, '-pointsize', '22',
     '-title', title,
     dest,
   ]);
-  return dest;
+  return { metrics, ref };
 }
 
 function galleryHtml(sheets) {
-  const rows = sheets.map((s) => `
+  // Worst divergence first — the whole point is to see what lags, at a glance.
+  const ordered = [...sheets].sort((a, b) => (b.maxPct ?? -1) - (a.maxPct ?? -1)
+    || a.fixture.localeCompare(b.fixture) || a.state.localeCompare(b.state));
+  const badge = (s) => {
+    const entries = Object.entries(s.metrics || {});
+    if (!entries.length) return s.ref === null && (s.maxPct ?? -1) < 0
+      ? '<span class="dim">1 platform · no diff</span>' : '';
+    return entries.map(([p, pct]) => {
+      const cls = pct < 1 ? 'ok' : pct < 8 ? 'warn' : 'bad';
+      return `<span class="delta ${cls}">${p} Δ ${pct.toFixed(1)}%</span>`;
+    }).join(' ');
+  };
+  const rows = ordered.map((s) => `
     <figure>
-      <figcaption>${s.fixture}${s.state === 'default' ? '' : ` · <b>${s.state}</b>`} · ${s.scheme}</figcaption>
+      <figcaption>${s.fixture}${s.state === 'default' ? '' : ` · <b>${s.state}</b>`} · ${s.scheme}
+        ${s.ref ? `<span class="dim">vs ${s.ref}</span>` : ''} ${badge(s)}</figcaption>
       <img loading="lazy" src="${s.name}.png">
     </figure>`).join('\n');
   const mech = sheets.filter((s) => s.state !== 'default').length;
+  const diffed = sheets.filter((s) => Object.keys(s.metrics || {}).length).length;
   return `<!doctype html><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1">
   <title>SDUI glued snapshots</title>
   <style>
@@ -127,11 +214,14 @@ function galleryHtml(sheets) {
     header{position:sticky;top:0;background:#0f0f12ee;backdrop-filter:blur(8px);padding:16px 24px;border-bottom:1px solid #26262b}
     h1{margin:0 0 4px;font-size:18px}.sub{opacity:.6;font-size:13px}
     main{padding:16px 24px 64px;display:grid;gap:28px}
-    figure{margin:0}figcaption{font-size:12px;opacity:.7;margin-bottom:6px}
+    figure{margin:0}figcaption{font-size:12px;opacity:.75;margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     img{max-width:100%;display:block;border:1px solid #26262b;border-radius:8px}
+    .dim{opacity:.5}
+    .delta{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+    .delta.ok{background:#064e3b;color:#6ee7b7}.delta.warn{background:#4a3a06;color:#fcd34d}.delta.bad{background:#4c0519;color:#fda4af}
   </style>
-  <header><h1>SDUI glued snapshots — iOS │ Android │ Aurora</h1>
-  <div class="sub">${sheets.length} sheets · ${mech} mechanic states · each row is one fixture glued across platforms</div></header>
+  <header><h1>SDUI glued snapshots — iOS │ Android │ Aurora + pixel diff</h1>
+  <div class="sub">${sheets.length} sheets · ${mech} mechanic states · ${diffed} with a cross-platform diff · sorted by worst divergence · row 1 renders, row 2 = Δ vs reference (fuzz ${FUZZ})</div></header>
   <main>${rows}</main>`;
 }
 
@@ -145,7 +235,11 @@ if (!existsSync(tmp)) mkdirSync(tmp, { recursive: true });
 
 const gs = groups();
 const built = [];
-for (const g of gs) { buildSheet(g, tmp); built.push({ ...g, name: sheetName(g) }); }
+for (const g of gs) {
+  const { metrics, ref } = buildSheet(g, tmp);
+  const maxPct = Object.values(metrics).length ? Math.max(...Object.values(metrics)) : -1;
+  built.push({ ...g, name: sheetName(g), metrics, ref, maxPct });
+}
 writeFileSync(join(SHEETS, 'index.html'), galleryHtml(built));
 console.log(`glued ${built.length} sheet(s) → ${SHEETS}`);
 if (!built.length) console.log('  (no PNGs in __out__ yet — capture a platform leg or seed with collect.mjs)');
