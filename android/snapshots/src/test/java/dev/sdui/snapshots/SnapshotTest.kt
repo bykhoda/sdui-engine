@@ -39,8 +39,15 @@ class SnapshotTest(private val case: Case) {
     @get:Rule
     val compose = createComposeRule()
 
-    @Test
+    @Test(timeout = 120_000)
     fun capture() {
+        // Infinite animations (image shimmer while Coil can't resolve, ticker/pager loops,
+        // chart/progress pulses) never settle; with the default auto-advancing test clock
+        // waitForIdle() chases them forever and hangs Robolectric (the run stalled at ~36/73).
+        // Freeze the clock → composition/measure/draw still run, so we capture a deterministic
+        // resting frame (animations at phase 0). Timeout is a per-case safety net.
+        compose.mainClock.autoAdvance = false
+
         // Colour scheme is driven by the renderer's `isSystemInDarkTheme()`, which
         // Robolectric toggles via the `night` qualifier.
         RuntimeEnvironment.setQualifiers(if (case.scheme == "dark") "+night" else "+notnight")

@@ -1,1 +1,1 @@
-spec/snapshots/__golden__/**/*.png filter=lfs diff=lfs merge=lfs -text
+spec/snapshots/__gallery__/**/*.png filter=lfs diff=lfs merge=lfs -text

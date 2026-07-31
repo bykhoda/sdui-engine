@@ -109,6 +109,47 @@ function evalCondition(cond, ctx) {
 // Map a typography ref ("$token.typography.title2") to a pixel size — a v0
 // heuristic on the leaf name. TODO: resolve from the tokens file's typography
 // table once its shape is wired through.
+// SF-Symbol name → a Unicode/emoji glyph. Aurora ships no SF-Symbol font, so the `icon`
+// component would otherwise paint the raw name ("figure.run", "cart.fill"). Covers the names
+// used across the shared screens; unmapped names fall back to a neutral dot (never the raw
+// string). ES5 only (Qt5 V4 engine).
+var _GLYPHS = {
+    "chevron.right": "›", "chevron.left": "‹", "chevron.up": "⌃", "chevron.down": "⌄",
+    "arrow.right": "→", "arrow.left": "←", "arrow.up": "↑", "arrow.down": "↓",
+    "arrow.triangle.2.circlepath": "↻", "arrow.clockwise": "↻", "arrow.up.arrow.down": "⇅",
+    "plus": "+", "minus": "−", "xmark": "✕", "checkmark": "✓", "checkmark.circle": "✓",
+    "magnifyingglass": "🔍", "line.3.horizontal": "≡", "ellipsis": "…", "slider.horizontal.3": "🎛",
+    "house": "⌂", "gearshape": "⚙", "gear": "⚙", "cart": "🛒", "bag": "🛍",
+    "creditcard": "💳", "heart": "♥", "star": "★", "bell": "🔔",
+    "person": "👤", "person.2": "👥", "bubble.left": "💬", "envelope": "✉",
+    "paperplane": "➤", "trash": "🗑", "square.and.arrow.up": "⬆", "square.and.pencil": "✎",
+    "pencil": "✎", "doc": "📄", "folder": "📁", "photo": "🖼", "camera": "📷",
+    "play": "▶", "pause": "⏸", "music.note": "♪", "music.note.list": "♫", "speaker.wave.2": "🔊",
+    "waveform": "〰", "map": "🗺", "location": "📍", "calendar": "📅", "clock": "🕒",
+    "flame": "🔥", "bolt": "⚡", "bolt.horizontal": "⚡", "drop": "💧", "leaf": "🍃",
+    "sun.max": "☀", "cloud": "☁", "lock": "🔒", "wifi": "📶", "battery.100": "🔋",
+    "figure.run": "🏃", "figure.walk": "🚶", "figure.stairs": "🧗",
+    "chart.bar": "📊", "chart.line.uptrend.xyaxis": "📈", "chart.pie": "🥧",
+    "square.grid.2x2": "▦", "square.stack.3d.up": "▤", "paintpalette": "🎨",
+    "sparkles": "✨", "wand.and.stars": "🪄", "cube": "⬢", "hammer": "🔨",
+    "wrench": "🔧", "link": "🔗", "tag": "🏷", "flag": "⚑"
+};
+
+function glyph(name) {
+    if (!name) return "";
+    if (_GLYPHS[name] !== undefined) return _GLYPHS[name];
+    var base = name.replace(/\.(fill|circle|square|slash|rtl)$/, "");
+    if (_GLYPHS[base] !== undefined) return _GLYPHS[base];
+    base = base.replace(/\.(fill|circle|square)$/, "");
+    if (_GLYPHS[base] !== undefined) return _GLYPHS[base];
+    return "•"; // neutral bullet, never the raw SF name
+}
+
+// Typography weight: the bold/semibold leaves of the type scale.
+function fontBold(style) {
+    return /^(largeTitle|title|title1|title2|title3|headline)$/.test(String(style || ""));
+}
+
 function fontSize(style) {
     if (typeof style !== 'string') return 20;
     var leaf = style.split('.').pop();

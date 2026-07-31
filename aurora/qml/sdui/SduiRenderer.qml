@@ -185,8 +185,10 @@ Item {
                 model: (node && node.children) ? node.children : []
                 delegate: SduiChild {
                     node: modelData; ctx: parent.ctx
-                    // Overlay each child at the stack's alignment corner.
-                    anchors.left:   parent.align.indexOf("Leading") >= 0 || parent.align === "leading" || parent.align === "top" || parent.align === "bottom" || parent.align === "center" ? parent.left : undefined
+                    // Overlay each child at the stack's alignment corner. NOTE: "center" must
+                    // NOT set anchors.left — QML then drops the horizontalCenter below and the
+                    // concentric ring/overlay children pin left instead of nesting centered.
+                    anchors.left:   parent.align.indexOf("Leading") >= 0 || parent.align === "leading" || parent.align === "top" || parent.align === "bottom" ? parent.left : undefined
                     anchors.right:  parent.align.indexOf("Trailing") >= 0 || parent.align === "trailing" ? parent.right : undefined
                     anchors.top:    parent.align.indexOf("top") === 0 || parent.align === "topLeading" || parent.align === "topTrailing" ? parent.top : undefined
                     anchors.bottom: parent.align.indexOf("bottom") === 0 || parent.align === "bottomLeading" || parent.align === "bottomTrailing" ? parent.bottom : undefined
@@ -277,6 +279,7 @@ Item {
                 : node && node.alignment === "trailing" ? Text.AlignRight : Text.AlignLeft
             text: node ? T.str(node.value, ctx) : ""
             font.pixelSize: node ? T.fontSize(node.style) : Theme.fontSizeMedium
+            font.bold: node ? T.fontBold(node.style) : false
             color: node ? T.color(node.color, ctx, Theme.primaryColor) : Theme.primaryColor
         }
     }
@@ -305,7 +308,12 @@ Item {
         Label {
             property var node
             property var ctx
-            text: node ? T.str(node.name, ctx) : ""
+            // Aurora has no SF-Symbol font → map the name to a Unicode/emoji glyph, and honor
+            // the contract's icon size + colour (was rendering the raw name at default size).
+            text: node ? T.glyph(T.str(node.name, ctx)) : ""
+            font.pixelSize: node ? T.num(node.size, ctx, Theme.iconSizeMedium) : Theme.iconSizeMedium
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
             color: node ? T.color(node.color, ctx, Theme.highlightColor) : Theme.highlightColor
         }
     }

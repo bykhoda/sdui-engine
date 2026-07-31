@@ -37,7 +37,12 @@ const fontArgs = FONT ? ['-font', FONT] : [];
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = join(HERE, '__out__');
-const SHEETS = join(OUT, '_sheets');
+// The glued sheets are the primary, STORED artifact (individual per-platform PNGs stay
+// ephemeral in __out__). `--commit` writes the gallery into spec/snapshots/__gallery__/ —
+// the committed cross-platform gallery. Default writes a throwaway preview to __out__/_sheets.
+const COMMIT = process.argv.includes('--commit');
+const GALLERY = join(HERE, '__gallery__');
+const SHEETS = COMMIT ? GALLERY : join(OUT, '_sheets');
 const PLATFORMS = ['ios', 'android', 'aurora'];
 const LABELS = { ios: 'iOS', android: 'Android', aurora: 'Aurora' };
 const INK = '#e8e8ea';
@@ -48,7 +53,7 @@ const arg = (name, dflt) => {
   const i = process.argv.indexOf(name);
   return i >= 0 ? process.argv[i + 1] : dflt;
 };
-const HEIGHT = Number(arg('--height', '1280')); // column height sheets are normalised to
+const HEIGHT = Number(arg('--height', '1000')); // column height sheets are normalised to (smaller = leaner committed gallery)
 const COL_W = Math.round(HEIGHT * (390 / 844));  // phone aspect → a sensible column width
 const has = (f) => process.argv.includes(f);
 const DIFF = has('--diff');                       // opt-in: add the pixel-diff band (off by default)
@@ -176,13 +181,19 @@ function buildSheet(g, tmpDir) {
 
   const title = `${g.fixture}${g.state === 'default' ? '' : `  ·  ${g.state}`}  ·  ${g.scheme}`;
   const dest = join(SHEETS, `${sheetName(g)}.png`);
-  // One montage: renders on row 1, diff heat-maps on row 2 (aligned under each platform),
-  // fixed height so every column compares like-for-like; a title strip names the fixture.
+  // One montage: renders on row 1, diff heat-maps on row 2 (aligned under each platform).
+  // Every cell is normalised to the same HEIGHT so the columns line up row-for-row (devices
+  // differ in native resolution, so widths vary — height alignment is what makes a like-for-
+  // like read possible). A flat matte frame delineates each column; the title names the
+  // fixture/scheme; per-cell labels name the platform.
   magick([
     'montage', ...renderInputs, ...(diffInputs || []),
-    '-tile', diffInputs ? '3x2' : '3x1', '-geometry', `${COL_W}x${HEIGHT}+10+10`,
-    '-background', BG, '-fill', INK, ...fontArgs, '-pointsize', '22',
+    '-tile', diffInputs ? '3x2' : '3x1',
+    '-geometry', `${COL_W}x${HEIGHT}+16+20`,
+    '-background', BG, '-fill', INK, ...fontArgs, '-pointsize', '26',
+    '-frame', '4', '-mattecolor', '#33333e',   // clear per-column frame
     '-title', title,
+    '-strip', '-define', 'png:compression-level=9', '-define', 'png:compression-filter=5',
     dest,
   ]);
   return { metrics, ref };
