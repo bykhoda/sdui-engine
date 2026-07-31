@@ -87,7 +87,15 @@ Item {
         anchors.leftMargin: root._padL; anchors.rightMargin: root._padR
         anchors.topMargin: root._padT; anchors.bottomMargin: root._padB
         sourceComponent: root.pick(root.node ? root.node.type : "")
-        onLoaded: { if (item) { item.node = root.node; item.ctx = root.ctx } }
+        // Bind (not assign) so node/ctx keep tracking `root` — the recursion shim
+        // (SduiChild) sets root.node/ctx a tick after this Loader instantiates, and static
+        // assignment would freeze the children at the initial `undefined`.
+        onLoaded: {
+            if (item) {
+                item.node = Qt.binding(function () { return root.node })
+                item.ctx = Qt.binding(function () { return root.ctx })
+            }
+        }
     }
 
     // ---------- whole-node tap ----------
@@ -201,8 +209,8 @@ Item {
     Component {
         id: cHScroll
         Flickable {
-            property var node: parent.node
-            property var ctx: parent.ctx
+            property var node: parent ? parent.node : null
+            property var ctx: parent ? parent.ctx : null
             flickableDirection: Flickable.HorizontalFlick
             clip: true
             height: inner.height
@@ -215,8 +223,8 @@ Item {
     Component {
         id: cVPass
         Column {
-            property var node: parent.node
-            property var ctx: parent.ctx
+            property var node: parent ? parent.node : null
+            property var ctx: parent ? parent.ctx : null
             width: parent ? parent.width : implicitWidth
             SduiChild { width: parent.width; node: parent.node ? parent.node.child : null; ctx: parent.ctx }
         }

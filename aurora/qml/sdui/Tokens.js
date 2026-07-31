@@ -14,6 +14,10 @@ function _get(obj, parts) {
 }
 
 function _lookup(token, ctx) {
+    // ctx arrives a tick after a node instantiates (Loader chain in SduiRenderer/SduiChild);
+    // resolve to undefined until then rather than throwing, and the binding re-evaluates once
+    // ctx lands. Keeps token resolution null-safe.
+    if (!ctx) return undefined;
     var parts = token.split('.');
     var ns = parts.shift();
     if (ns === '$token') return _get(ctx.tokens, parts);

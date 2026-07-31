@@ -8,8 +8,9 @@
 // SduiRenderer.qml → SduiChild (this) → Loader.source "SduiRenderer.qml", so nothing depends
 // on its own type at compile time. Every child in SduiRenderer's containers goes through here.
 //
-// It forwards `node`/`ctx` to the loaded renderer and mirrors its implicit size so the parent
-// Column/Row/Grid lays the child out; width/anchors set by the delegate apply to the Loader
+// It forwards `node`/`ctx` to the loaded renderer; a Loader already mirrors its item's
+// implicit size (implicitWidth/implicitHeight are read-only and track the item), so parent
+// Column/Row/Grid lay the child out. width/anchors set by the delegate apply to the Loader
 // (an Item), which resizes the loaded renderer to fill.
 import QtQuick 2.6
 
@@ -24,7 +25,4 @@ Loader {
         item.node = Qt.binding(function () { return shim.node })
         item.ctx = Qt.binding(function () { return shim.ctx })
     }
-
-    implicitWidth: item ? item.implicitWidth : 0
-    implicitHeight: item ? item.implicitHeight : 0
 }
