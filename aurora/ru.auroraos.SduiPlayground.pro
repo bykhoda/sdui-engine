@@ -21,6 +21,7 @@ DISTFILES += \
     qml/cover/DefaultCover.qml \
     qml/pages/ScreenPage.qml \
     qml/sdui/SduiRenderer.qml \
+    qml/sdui/SduiChild.qml \
     qml/sdui/Tokens.js
 
 # Deploy the QML tree to the app data dir so `Aurora::Application::pathTo(

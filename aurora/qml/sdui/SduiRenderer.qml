@@ -144,7 +144,7 @@ Item {
             property string align: node && node.alignment ? node.alignment : "leading"
             Repeater {
                 model: (node && node.children) ? node.children : []
-                delegate: SduiRenderer {
+                delegate: SduiChild {
                     node: modelData; ctx: parent.ctx
                     width: parent.align === "center" || parent.align === "trailing" ? implicitWidth : parent.width
                     anchors.horizontalCenter: parent.align === "center" ? parent.horizontalCenter : undefined
@@ -161,7 +161,7 @@ Item {
             spacing: T.num(node && node.spacing, ctx, Theme.paddingSmall)
             Repeater {
                 model: (node && node.children) ? node.children : []
-                delegate: SduiRenderer { node: modelData; ctx: parent.ctx }
+                delegate: SduiChild { node: modelData; ctx: parent.ctx }
             }
         }
     }
@@ -175,7 +175,7 @@ Item {
             implicitHeight: childrenRect.height
             Repeater {
                 model: (node && node.children) ? node.children : []
-                delegate: SduiRenderer {
+                delegate: SduiChild {
                     node: modelData; ctx: parent.ctx
                     // Overlay each child at the stack's alignment corner.
                     anchors.left:   parent.align.indexOf("Leading") >= 0 || parent.align === "leading" || parent.align === "top" || parent.align === "bottom" || parent.align === "center" ? parent.left : undefined
@@ -208,7 +208,7 @@ Item {
             height: inner.height
             contentWidth: inner.width
             contentHeight: inner.height
-            SduiRenderer { id: inner; node: parent.node ? parent.node.child : null; ctx: parent.ctx }
+            SduiChild { id: inner; node: parent.node ? parent.node.child : null; ctx: parent.ctx }
         }
     }
     // Vertical scroll is a pass-through (the page already provides the scroll surface).
@@ -218,7 +218,7 @@ Item {
             property var node: parent.node
             property var ctx: parent.ctx
             width: parent ? parent.width : implicitWidth
-            SduiRenderer { width: parent.width; node: parent.node ? parent.node.child : null; ctx: parent.ctx }
+            SduiChild { width: parent.width; node: parent.node ? parent.node.child : null; ctx: parent.ctx }
         }
     }
     Component {
@@ -243,7 +243,7 @@ Item {
                             property int cellIx: parent.parent.rowIx * parent.parent.parent.cols + index
                             width: (parent.parent.width - parent.parent.parent.gap * (parent.parent.parent.cols - 1)) / parent.parent.parent.cols
                             height: childrenRect.height
-                            SduiRenderer {
+                            SduiChild {
                                 width: parent.width
                                 node: cellIx < kids.length ? kids[cellIx] : null
                                 ctx: root2ctx
@@ -402,7 +402,7 @@ Item {
             // Templated rows.
             Repeater {
                 model: parent._templated && parent._rows ? parent._rows : []
-                delegate: SduiRenderer {
+                delegate: SduiChild {
                     width: parent.width
                     node: parent.node.template
                     ctx: parent._rowCtx(modelData)
@@ -411,7 +411,7 @@ Item {
             // Empty slot — shown when a templated list resolves to zero rows.
             // (An invisible child is excluded from Column layout, so this adds no
             // gap when there ARE rows.)
-            SduiRenderer {
+            SduiChild {
                 width: parent.width
                 visible: parent._templated && parent._rows !== null && parent._rows.length === 0
                          && parent.node && parent.node.empty !== undefined
@@ -421,7 +421,7 @@ Item {
             // Inline children (non-templated list).
             Repeater {
                 model: !parent._templated && parent.node && parent.node.children ? parent.node.children : []
-                delegate: SduiRenderer { width: parent.width; node: modelData; ctx: parent.ctx }
+                delegate: SduiChild { width: parent.width; node: modelData; ctx: parent.ctx }
             }
         }
     }
@@ -983,7 +983,7 @@ Item {
                     Item { width: 1; height: Theme.paddingMedium }
                     Repeater {
                         model: (droot.node && droot.node.children) ? droot.node.children : []
-                        delegate: SduiRenderer {
+                        delegate: SduiChild {
                             width: body.width - Theme.paddingLarge * 2
                             x: Theme.paddingLarge
                             node: modelData
@@ -1065,7 +1065,7 @@ Item {
             // loaded → the content slot, rendered with $data injected.
             Component {
                 id: aContent
-                SduiRenderer {
+                SduiChild {
                     width: parent ? parent.width : implicitWidth
                     node: (aroot.node && aroot.node.content !== undefined) ? aroot.node.content : null
                     ctx: aroot._contentCtx()
@@ -1081,7 +1081,7 @@ Item {
             }
             Component {
                 id: aLoadingSlot
-                SduiRenderer {
+                SduiChild {
                     width: parent ? parent.width : implicitWidth
                     node: aroot.node.loading; ctx: aroot.ctx
                 }
@@ -1121,7 +1121,7 @@ Item {
             }
             Component {
                 id: aErrorSlot
-                SduiRenderer {
+                SduiChild {
                     width: parent ? parent.width : implicitWidth
                     node: aroot.node.error; ctx: aroot.ctx
                 }
@@ -1977,7 +1977,7 @@ Item {
                 delegate: Item {
                     width: slides.itemWidth
                     height: slides.height
-                    SduiRenderer {
+                    SduiChild {
                         anchors.fill: parent
                         anchors.leftMargin: 20; anchors.rightMargin: 20
                         node: modelData
