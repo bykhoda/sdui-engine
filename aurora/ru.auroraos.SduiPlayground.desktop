@@ -7,7 +7,7 @@ Name=SDUI Playground
 Name[ru]=SDUI Плейграунд
 
 [X-Application]
-Permissions=
+Permissions=Pictures
 OrganizationName=ru.auroraos
 ApplicationName=SduiPlayground
 ExecDBus=/usr/bin/ru.auroraos.SduiPlayground

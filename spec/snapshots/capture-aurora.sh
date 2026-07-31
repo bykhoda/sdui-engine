@@ -1,66 +1,52 @@
 #!/usr/bin/env bash
-# Aurora leg of the visual snapshot suite. Builds the SduiPlayground for the Aurora
-# emulator, deploys it, runs its headless `--snapshot` mode (renders every bundled screen
-# through the real renderer — see aurora/qml/Snapshotter.qml), and pulls the PNGs into
-# spec/snapshots/__out__ named {fixture}.aurora.{scheme}.png for stitch.mjs / sheet.mjs.
+# Aurora leg of the visual snapshot suite. Renders every bundled screen through the app's
+# headless `--snapshot` mode (aurora/qml/Snapshotter.qml → grabToImage) on a RUNNING Aurora
+# emulator, then pulls the PNGs into spec/snapshots/__out__ named {fixture}.aurora.{scheme}.png.
 #
-# The renderer needs Silica + QtGraphicalEffects, so — unlike the JVM Android leg — this
-# MUST run against a real Aurora target (the emulator). It requires the Aurora SDK (`sfdk`)
-# and a RUNNING emulator. When either is missing it exits non-zero with guidance, and
-# run.mjs simply skips the leg (Aurora stays a visible gap in the gallery, never silent).
+# PREREQUISITE: the app must already be built + deployed to the emulator once (via the Aurora
+# SDK / Qt Creator with the Docker build engine — the CLI sfdk in this SDK can't build). After
+# that, this script re-captures without a rebuild.
+#
+# Why launch the binary directly (not via invoker): invoker wraps the app in sailjail/firejail,
+# which (a) detaches stdout and (b) sandboxes the filesystem so grabbed PNGs can't be written
+# where we can pull them. Launching /usr/bin/<app> directly with the compositor's Wayland env
+# bypasses the sandbox; the app writes into ~/Pictures (granted via the .desktop Permissions)
+# which is a real, ssh-readable dir. IMPORTANT: kill the old instance with `pkill <name>` (NOT
+# `pkill -f`), or the pattern matches this very ssh command line and kills the session.
 #
 # Usage: bash spec/snapshots/capture-aurora.sh [light,dark]
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO="$(cd "$HERE/../.." && pwd)"
 OUT="$HERE/__out__"
 SCHEMES="${1:-light,dark}"
-APP="ru.auroraos.SduiPlayground"
-REMOTE_DIR="/tmp/sdui-snap"
 mkdir -p "$OUT"
 
-# ── Locate the Aurora SDK CLI (sfdk). Not on PATH by default; it ships in the SDK. ──────
-find_sfdk() {
-  command -v sfdk 2>/dev/null && return 0
-  for c in "$HOME/AuroraOS/bin/sfdk" "$HOME/AuroraOS/sdk/bin/sfdk" "$HOME/AuroraOS"/*/bin/sfdk; do
-    [ -x "$c" ] && { echo "$c"; return 0; }
-  done
-  return 1
-}
-SFDK="$(find_sfdk || true)"
-if [ -z "${SFDK:-}" ]; then
-  echo "aurora: sfdk not found — install the Aurora SDK, then re-run." >&2
-  echo "        (looked on PATH and under ~/AuroraOS)" >&2
-  exit 3
-fi
+# Emulator connection (overridable). Defaults match the Aurora SDK emulator.
+AURORA_KEY="${AURORA_KEY:-$HOME/AuroraOS/vmshare/ssh/private_keys/sdk}"
+AURORA_HOST="${AURORA_HOST:-defaultuser@127.0.0.1}"
+AURORA_PORT="${AURORA_PORT:-2223}"
+APP="ru.auroraos.SduiPlayground"
+REMOTE_DIR="/home/defaultuser/Pictures"   # granted by the .desktop Permissions=Pictures
 
-# A running emulator/device is required — the QML renderer can't run on host Qt.
-if ! "$SFDK" device list 2>/dev/null | grep -qiE 'emulator|device'; then
-  echo "aurora: no Aurora emulator/device registered with sfdk." >&2
-  echo "        Start the Aurora Emulator (Qt Creator ▸ Devices, or the SDK), then re-run." >&2
-  exit 3
-fi
+SSH="ssh -i $AURORA_KEY -p $AURORA_PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=8"
 
-echo "aurora: building $APP with $SFDK …"
-( cd "$REPO/aurora" && "$SFDK" build ) || { echo "aurora: build failed" >&2; exit 1; }
+[ -f "$AURORA_KEY" ] || { echo "aurora: ssh key not found: $AURORA_KEY" >&2; exit 3; }
+$SSH "$AURORA_HOST" 'echo ok' >/dev/null 2>&1 || { echo "aurora: emulator not reachable — start it (sfdk emulator start)." >&2; exit 3; }
+$SSH "$AURORA_HOST" "test -x /usr/bin/$APP" 2>/dev/null || { echo "aurora: app not deployed — build+deploy once via Qt Creator." >&2; exit 3; }
 
-echo "aurora: deploying to the emulator …"
-( cd "$REPO/aurora" && "$SFDK" deploy --sdk ) || { echo "aurora: deploy failed" >&2; exit 1; }
+# The compositor's session env (WAYLAND_DISPLAY is relative to XDG_RUNTIME_DIR on Aurora).
+ENV='export XDG_RUNTIME_DIR=/run/user/100000 WAYLAND_DISPLAY=../../display/wayland-0 QT_QPA_PLATFORM=wayland EGL_PLATFORM=wayland DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/100000/dbus/user_bus_socket'
 
-# ── Capture each scheme, then pull the PNGs back into __out__. ──────────────────────────
 IFS=',' read -ra WANT <<< "$SCHEMES"
 for scheme in "${WANT[@]}"; do
   echo "aurora: rendering scheme=$scheme …"
-  "$SFDK" device exec "mkdir -p $REMOTE_DIR && /usr/bin/$APP --snapshot $REMOTE_DIR $scheme" \
-    || { echo "aurora: snapshot run failed (scheme $scheme)" >&2; exit 1; }
-done
-
-echo "aurora: pulling PNGs → $OUT"
-# sfdk exposes the device over ssh; copy the rendered PNGs into the review tree.
-"$SFDK" device exec "ls $REMOTE_DIR/*.png" 2>/dev/null | while read -r remote; do
-  base="$(basename "$remote")"
-  "$SFDK" device pull "$remote" "$OUT/$base" 2>/dev/null || true
+  $SSH "$AURORA_HOST" "pkill $APP 2>/dev/null; sleep 1; rm -f $REMOTE_DIR/*.aurora.$scheme.png
+    $ENV
+    /usr/bin/$APP --snapshot $REMOTE_DIR $scheme >/dev/null 2>&1
+    echo \"aurora: $scheme -> \$(ls $REMOTE_DIR/*.aurora.$scheme.png 2>/dev/null | wc -l) png\""
+  scp -i "$AURORA_KEY" -P "$AURORA_PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    "$AURORA_HOST:$REMOTE_DIR/*.aurora.$scheme.png" "$OUT/" 2>/dev/null || true
 done
 
 count=$(ls "$OUT"/*.aurora.*.png 2>/dev/null | wc -l | tr -d ' ')
