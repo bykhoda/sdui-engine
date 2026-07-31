@@ -29,3 +29,7 @@ include(":sdui")
 // The demo/playground application — the Android sibling of ios/Examples/DemoApp.
 // Renders the SAME bundled catalog + screens through the Compose renderer.
 include(":app")
+// The visual-snapshot leg — a TEST-ONLY module (no shipped code, nothing in any APK). It
+// renders every fixture from spec/snapshots/manifest.json through the real `:sdui` renderer
+// via Roborazzi on the JVM (no emulator) and writes PNGs for the cross-platform gallery.
+include(":snapshots")

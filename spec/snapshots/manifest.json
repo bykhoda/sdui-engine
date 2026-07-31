@@ -19,11 +19,31 @@
     "light",
     "dark"
   ],
+  "devices": {
+    "ios": {
+      "simulator": "iPhone 15",
+      "os": "iOS 17.5"
+    },
+    "android": {
+      "emulator": "Pixel 7",
+      "api": 34
+    },
+    "aurora": {
+      "device": "Aurora emulator",
+      "os": "Aurora 5.x"
+    }
+  },
   "env": {
     "locale": "ru_RU",
     "timezone": "Europe/Moscow",
     "reduceMotion": true,
     "textScale": 1
+  },
+  "gestures": {
+    "swipeLeft": "swipe the target from right to left",
+    "longPress": "press and hold the target ~600ms",
+    "dragAlongX": "press the target and drag horizontally across its width",
+    "tap": "single tap the target"
   },
   "screens": [
     {
@@ -39,7 +59,21 @@
     {
       "id": "inbox",
       "source": "content/screens/03-inbox.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "swipe",
+          "gesture": "swipeLeft",
+          "target": "hstack",
+          "note": "reveal swipe actions on the row"
+        },
+        {
+          "id": "menu",
+          "gesture": "longPress",
+          "target": "hstack",
+          "note": "long-press → context menu"
+        }
+      ]
     },
     {
       "id": "signup",
@@ -109,7 +143,15 @@
     {
       "id": "components",
       "source": "content/screens/components.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "slide",
+          "gesture": "dragAlongX",
+          "note": "drag the slider thumb",
+          "target": "slider"
+        }
+      ]
     },
     {
       "id": "controls",
@@ -139,17 +181,47 @@
     {
       "id": "figma",
       "source": "content/screens/figma.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "expand",
+          "gesture": "tap",
+          "note": "tap to expand the disclosure",
+          "target": "disclosure"
+        }
+      ]
     },
     {
       "id": "fitness",
       "source": "content/screens/fitness.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "scrub",
+          "gesture": "dragAlongX",
+          "note": "drag a finger across the chart — crosshair/scrub",
+          "target": "chart"
+        }
+      ]
     },
     {
       "id": "gestures",
       "source": "content/screens/gestures.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "menu",
+          "gesture": "longPress",
+          "target": "hstack",
+          "note": "long-press → context menu"
+        },
+        {
+          "id": "swipe",
+          "gesture": "swipeLeft",
+          "target": "hstack",
+          "note": "reveal swipe actions on the row"
+        }
+      ]
     },
     {
       "id": "gym",
@@ -159,7 +231,15 @@
     {
       "id": "home",
       "source": "content/screens/home.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "page",
+          "gesture": "swipeLeft",
+          "note": "swipe to the next page",
+          "target": "pager"
+        }
+      ]
     },
     {
       "id": "inputs",
@@ -189,7 +269,15 @@
     {
       "id": "music",
       "source": "content/screens/music.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "slide",
+          "gesture": "dragAlongX",
+          "note": "drag the slider thumb",
+          "target": "slider"
+        }
+      ]
     },
     {
       "id": "paywall",
@@ -209,12 +297,28 @@
     {
       "id": "stocks",
       "source": "content/screens/stocks.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "scrub",
+          "gesture": "dragAlongX",
+          "note": "drag a finger across the chart — crosshair/scrub",
+          "target": "chart"
+        }
+      ]
     },
     {
       "id": "swipe",
       "source": "content/screens/swipe.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "swipe",
+          "gesture": "swipeLeft",
+          "target": "hstack",
+          "note": "reveal swipe actions on the row"
+        }
+      ]
     },
     {
       "id": "table",
@@ -224,7 +328,15 @@
     {
       "id": "todo",
       "source": "content/screens/todo.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "swipe",
+          "gesture": "swipeLeft",
+          "target": "hstack",
+          "note": "reveal swipe actions on the row"
+        }
+      ]
     },
     {
       "id": "typography",
@@ -239,7 +351,15 @@
     {
       "id": "weather",
       "source": "content/screens/weather.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "scrub",
+          "gesture": "dragAlongX",
+          "note": "drag a finger across the chart — crosshair/scrub",
+          "target": "chart"
+        }
+      ]
     }
   ],
   "components": [
@@ -261,7 +381,15 @@
     {
       "id": "chart",
       "source": "snapshots/components/chart.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "scrub",
+          "gesture": "dragAlongX",
+          "note": "drag a finger across the chart — crosshair/scrub",
+          "target": "chart"
+        }
+      ]
     },
     {
       "id": "clips",
@@ -276,7 +404,15 @@
     {
       "id": "disclosure",
       "source": "snapshots/components/disclosure.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "expand",
+          "gesture": "tap",
+          "note": "tap to expand the disclosure",
+          "target": "disclosure"
+        }
+      ]
     },
     {
       "id": "divider",
@@ -321,7 +457,15 @@
     {
       "id": "pager",
       "source": "snapshots/components/pager.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "page",
+          "gesture": "swipeLeft",
+          "note": "swipe to the next page",
+          "target": "pager"
+        }
+      ]
     },
     {
       "id": "picker",
@@ -351,7 +495,15 @@
     {
       "id": "slider",
       "source": "snapshots/components/slider.json",
-      "viewport": "phone"
+      "viewport": "phone",
+      "mechanics": [
+        {
+          "id": "slide",
+          "gesture": "dragAlongX",
+          "note": "drag the slider thumb",
+          "target": "slider"
+        }
+      ]
     },
     {
       "id": "spacer",

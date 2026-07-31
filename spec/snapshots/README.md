@@ -33,37 +33,56 @@ __golden__/{platform}/{fixture}.{scheme}.png
 ## Commands
 
 ```bash
+# 0. ONE command: run every available leg, then build the gallery + glued sheets.
+#    Legs render from the manifest automatically — no hand-capture. A leg whose
+#    toolchain is missing is skipped; the missing platform shows as a visible gap.
+node spec/snapshots/run.mjs                     # or --android / --ios / --gallery-only
+
 # 1. Regenerate the manifest from the real corpus (never hand-edit it).
-node spec/snapshots/gen-manifest.mjs           # --check fails in CI if stale
+node spec/snapshots/gen-manifest.mjs            # --check fails in CI if stale
+#    Screens + component cards + MECHANICS (swipe/menu/scrub/page/slide/expand) are
+#    auto-derived by walking each contract — the set can't drift from what we can do.
 
-# 2. Ingest a platform's freshly-rendered PNGs into the review tree.
-node spec/snapshots/collect.mjs --platform android --from <dir> [--scheme light]
+# 2. (manual ingest, if running a leg by hand) pull a platform's PNGs into __out__.
+node spec/snapshots/collect.mjs --platform android --from <dir> [--scheme light] [--state swipe]
 
-# 3. Build the cross-platform gallery, then open it.
-node spec/snapshots/stitch.mjs
-open spec/snapshots/__out__/index.html
+# 3. Review surfaces: HTML gallery (golden vs current, drift + mechanics filters)…
+node spec/snapshots/stitch.mjs && open spec/snapshots/__out__/index.html
+#    …and the glued, shareable iOS│Android│Aurora sheets (one PNG per fixture/mechanic).
+node spec/snapshots/sheet.mjs && open spec/snapshots/__out__/_sheets/index.html
 
-# 4. After reviewing the gallery, promote the current run to goldens.
+# 4. After reviewing, promote the current run to goldens.
 node spec/snapshots/collect.mjs --record [--platform android]
 ```
 
 The gallery is a **review aid** — pass/fail stays inside each native tool
-(Paparazzi `verify`, swift-snapshot `precision`). A diff to a golden is a design
+(Roborazzi `verify`, swift-snapshot `precision`). A diff to a golden is a design
 decision, reviewed in the gallery, never blindly regenerated.
+
+**PNG naming carries the mechanic dimension:** `{fixture}[@{state}].{platform}.{scheme}.png`
+— no `@state` is the resting screen; `inbox@swipe`, `stocks@scrub`, `home@page` are
+interaction end-states. All three tools understand it, backward-compatibly.
 
 ## Status — phased build
 
-- **Phase 0 — driver + gallery (JS only). ✅ DONE.** `gen-manifest.mjs` (40 screens +
-  component cards), `stitch.mjs` (filterable iOS│Android│Aurora gallery with
-  golden-vs-current and zero-decode IHDR size-drift flags), `collect.mjs`. Runs today;
-  seed `__out__` with any platform's PNGs to see the gallery light up.
-- **Phase 1 — Android leg (Paparazzi).** `SnapshotTest.kt` reads `manifest.json` and
-  `Paparazzi.snapshot { SduiScreen(...) }` per entry; no emulator, byte-stable.
-- **Phase 2 — iOS leg (swift-snapshot-testing / `ImageRenderer`).**
-- **Phase 3 — component cards to 100%** (`gen-manifest.mjs` reports the gap each run,
-  so the visual set can't silently fall behind `KNOWN_COMPONENTS`).
-- **Phase 4 — Aurora leg** (offscreen QML), same manifest, 3rd gallery column.
-- **Phase 5 — CI gate** + stitched gallery uploaded as the review artifact.
+- **Phase 0 — driver + gallery (JS only). ✅ DONE.** `gen-manifest.mjs` (43 screens + 30
+  component cards + **17 auto-derived mechanics**, 100% card coverage), `stitch.mjs`
+  (filterable iOS│Android│Aurora gallery, golden-vs-current, size-drift + mechanics
+  filters), `collect.mjs`, `sheet.mjs` (glued shareable sheets), `run.mjs` (one-command
+  orchestrator). All run today with zero deps beyond Node + ImageMagick.
+- **Phase 1 — Android leg (Roborazzi). ✅ WIRED** in `android/:snapshots` (test-only, no
+  app bloat). `SnapshotTest.kt` reads `manifest.json`, renders every fixture through the
+  real `SduiScreen` on the JVM (Robolectric, no emulator), and drives each mechanic.
+  `<gradle> :snapshots:recordRoborazziDebug`. First run fetches Roborazzi/Robolectric from
+  Maven — so it needs network (blocked in the CI sandbox this was authored in; runs in
+  Android Studio / networked CI).
+- **Phase 2 — iOS leg (swift-snapshot-testing / `ImageRenderer`).** Same manifest, writes
+  `{fixture}[@state].ios.{scheme}.png`. `capture-ios.sh` hook is stubbed in `run.mjs`.
+- **Phase 3 — mechanic targeting.** Per-node gestures via `Modifier.testTag(id)` in the
+  renderer (today the leg applies each gesture at the screen level — enough for the
+  single-purpose fixtures).
+- **Phase 4 — Aurora leg** (offscreen QML), same manifest, 3rd column.
+- **Phase 5 — CI gate** + glued sheets uploaded as the review artifact.
 
-Component-card coverage and the list of cards still needed print on every
+Component-card coverage, cards still needed, and mechanic count print on every
 `gen-manifest.mjs` run.

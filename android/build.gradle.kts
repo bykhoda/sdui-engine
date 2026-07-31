@@ -9,4 +9,6 @@ plugins {
     kotlin("android") version "2.0.20" apply false
     kotlin("plugin.serialization") version "2.0.20" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" apply false
+    // Roborazzi drives the JVM visual-snapshot leg (:snapshots) — test-only, never in an app.
+    id("io.github.takahirom.roborazzi") version "1.26.0" apply false
 }
