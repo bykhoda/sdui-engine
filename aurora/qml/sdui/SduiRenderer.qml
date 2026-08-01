@@ -86,6 +86,14 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: root._padL; anchors.rightMargin: root._padR
         anchors.topMargin: root._padT; anchors.bottomMargin: root._padB
+        // Honor modifiers.opacity, and CLIP the content to the node's cornerRadius so
+        // edge-to-edge children (images, inner gradients) round with the card instead of
+        // bleeding square corners past it — the iOS `.clipShape`/Android `.clip(shape)` twin.
+        opacity: T.num(root._m() ? root._m().opacity : undefined, root.ctx, 1)
+        layer.enabled: bg.radius > 0
+        layer.effect: OpacityMask {
+            maskSource: Rectangle { width: loader.width; height: loader.height; radius: bg.radius }
+        }
         sourceComponent: root.pick(root.node ? root.node.type : "")
         // Bind (not assign) so node/ctx keep tracking `root` — the recursion shim
         // (SduiChild) sets root.node/ctx a tick after this Loader instantiates, and static

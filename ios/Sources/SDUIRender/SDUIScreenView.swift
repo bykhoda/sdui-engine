@@ -281,6 +281,14 @@ public struct SDUIScreenView: View {
             loadSource: { source in await model.loadOne(source) })
         let resolvedTitle = screen.title.map { BindingEngine.resolveString($0, in: contextBinding) } ?? ""
         return content(ctx: ctx, interpreter: interpreter)
+            // Pin the screen root to the top of the available height. Without this a
+            // short, non-scrolling root (a `vstack` whose content is smaller than the
+            // viewport) is sized to its intrinsic height and then SwiftUI *centers* it
+            // vertically in the host's frame — while Android hosts the same screen in a
+            // top-start `Box(fillMaxSize)` + `Column`, i.e. top-aligned. Filling the
+            // height and anchoring `.top` makes iOS match Android. A `scroll` root
+            // already greedily fills its axis, so this is a no-op for scrolling screens.
+            .frame(maxHeight: .infinity, alignment: .top)
             .environment(\.sduiScrollTarget, model.scrollTarget.map { SDUIScrollTarget(id: $0.id, generation: $0.generation) })
             .environment(\.sduiSwipeCoordinator, swipeCoordinator)
             // The scroll-reactive header primitive: large title collapse + nav-bar
