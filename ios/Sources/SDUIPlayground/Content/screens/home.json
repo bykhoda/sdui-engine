@@ -2,7 +2,7 @@
   "version": "0.1",
   "screen": {
     "id": "home",
-    "title": "Today",
+    "title": "Summary",
     "scrollBehavior": {
       "largeTitle": true,
       "subtitle": "Monday, 20 July"
@@ -68,7 +68,7 @@
               {
                 "type": "gradient",
                 "colors": [
-                  "#1C1C2E",
+                  "#141428",
                   "#2A2350",
                   "#3B1E52"
                 ],
@@ -80,7 +80,7 @@
                     },
                     "height": {
                       "mode": "fixed",
-                      "value": 196
+                      "value": 280
                     }
                   },
                   "cornerRadius": "$token.radius.lg",
@@ -92,9 +92,9 @@
                 }
               },
               {
-                "type": "hstack",
-                "alignment": "center",
-                "spacing": "$token.spacing.lg",
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.md",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -105,146 +105,467 @@
                 },
                 "children": [
                   {
-                    "type": "rings",
-                    "values": [
-                      0.84,
-                      0.62,
-                      0.5
-                    ],
-                    "colors": [
-                      "#FA114F",
-                      "#8AE821",
-                      "#22D3EE"
-                    ],
-                    "lineWidth": 15,
-                    "gap": 5,
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fixed",
-                          "value": 124
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 124
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.md",
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.lg",
                     "children": [
                       {
+                        "type": "rings",
+                        "values": [
+                          0.84,
+                          0.62,
+                          0.5
+                        ],
+                        "colors": [
+                          "#FA114F",
+                          "#8AE821",
+                          "#22D3EE"
+                        ],
+                        "lineWidth": 14,
+                        "gap": 5,
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 112
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 112
+                            }
+                          }
+                        }
+                      },
+                      {
                         "type": "vstack",
                         "alignment": "leading",
-                        "spacing": 0,
+                        "spacing": "$token.spacing.sm",
                         "children": [
                           {
-                            "type": "text",
-                            "value": "MOVE",
-                            "style": "$token.typography.caption",
-                            "color": "#FA114F",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "alignment": "firstTextBaseline",
-                            "spacing": 4,
+                            "type": "vstack",
+                            "alignment": "leading",
+                            "spacing": 0,
                             "children": [
                               {
                                 "type": "text",
-                                "value": "420",
-                                "style": "$token.typography.title2",
-                                "color": "#FFFFFF",
+                                "value": "MOVE",
+                                "style": "$token.typography.caption",
+                                "color": "#FA114F",
                                 "lineLimit": 1
                               },
                               {
+                                "type": "hstack",
+                                "alignment": "firstTextBaseline",
+                                "spacing": 4,
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "value": "420",
+                                    "style": "$token.typography.title2",
+                                    "color": "#FFFFFF",
+                                    "lineLimit": 1
+                                  },
+                                  {
+                                    "type": "text",
+                                    "value": "/500 CAL",
+                                    "style": "$token.typography.caption",
+                                    "color": "#FFFFFFB3",
+                                    "lineLimit": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "vstack",
+                            "alignment": "leading",
+                            "spacing": 0,
+                            "children": [
+                              {
                                 "type": "text",
-                                "value": "/500 CAL",
+                                "value": "EXERCISE",
                                 "style": "$token.typography.caption",
-                                "color": "#FFFFFFB3",
+                                "color": "#8AE821",
                                 "lineLimit": 1
+                              },
+                              {
+                                "type": "hstack",
+                                "alignment": "firstTextBaseline",
+                                "spacing": 4,
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "value": "24",
+                                    "style": "$token.typography.title2",
+                                    "color": "#FFFFFF",
+                                    "lineLimit": 1
+                                  },
+                                  {
+                                    "type": "text",
+                                    "value": "/30 MIN",
+                                    "style": "$token.typography.caption",
+                                    "color": "#FFFFFFB3",
+                                    "lineLimit": 1
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "vstack",
+                            "alignment": "leading",
+                            "spacing": 0,
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "STAND",
+                                "style": "$token.typography.caption",
+                                "color": "#22D3EE",
+                                "lineLimit": 1
+                              },
+                              {
+                                "type": "hstack",
+                                "alignment": "firstTextBaseline",
+                                "spacing": 4,
+                                "children": [
+                                  {
+                                    "type": "text",
+                                    "value": "10",
+                                    "style": "$token.typography.title2",
+                                    "color": "#FFFFFF",
+                                    "lineLimit": 1
+                                  },
+                                  {
+                                    "type": "text",
+                                    "value": "/12 HR",
+                                    "style": "$token.typography.caption",
+                                    "color": "#FFFFFFB3",
+                                    "lineLimit": 1
+                                  }
+                                ]
                               }
                             ]
                           }
                         ]
                       },
                       {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 0,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "EXERCISE",
-                            "style": "$token.typography.caption",
-                            "color": "#8AE821",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "alignment": "firstTextBaseline",
-                            "spacing": 4,
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "24",
-                                "style": "$token.typography.title2",
-                                "color": "#FFFFFF",
-                                "lineLimit": 1
-                              },
-                              {
-                                "type": "text",
-                                "value": "/30 MIN",
-                                "style": "$token.typography.caption",
-                                "color": "#FFFFFFB3",
-                                "lineLimit": 1
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 0,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "STAND",
-                            "style": "$token.typography.caption",
-                            "color": "#22D3EE",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "alignment": "firstTextBaseline",
-                            "spacing": 4,
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "10",
-                                "style": "$token.typography.title2",
-                                "color": "#FFFFFF",
-                                "lineLimit": 1
-                              },
-                              {
-                                "type": "text",
-                                "value": "/12 HR",
-                                "style": "$token.typography.caption",
-                                "color": "#FFFFFFB3",
-                                "lineLimit": 1
-                              }
-                            ]
-                          }
-                        ]
+                        "type": "spacer"
                       }
                     ]
                   },
                   {
-                    "type": "spacer"
+                    "type": "hstack",
+                    "spacing": "$token.spacing.sm",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "vstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                }
+                              },
+                              "background": "#FA114F",
+                              "cornerRadius": 13
+                            },
+                            "children": [
+                              {
+                                "type": "icon",
+                                "name": "checkmark",
+                                "color": "#FFFFFF",
+                                "size": 11
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "M",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF80",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                }
+                              },
+                              "background": "#FA114F",
+                              "cornerRadius": 13
+                            },
+                            "children": [
+                              {
+                                "type": "icon",
+                                "name": "checkmark",
+                                "color": "#FFFFFF",
+                                "size": 11
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "T",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF80",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                }
+                              },
+                              "background": "#FA114F",
+                              "cornerRadius": 13
+                            },
+                            "children": [
+                              {
+                                "type": "icon",
+                                "name": "checkmark",
+                                "color": "#FFFFFF",
+                                "size": 11
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "W",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF80",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                }
+                              },
+                              "background": "#FFFFFF1F",
+                              "cornerRadius": 13
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "T",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF80",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                }
+                              },
+                              "background": "#FA114F",
+                              "cornerRadius": 13
+                            },
+                            "children": [
+                              {
+                                "type": "icon",
+                                "name": "checkmark",
+                                "color": "#FFFFFF",
+                                "size": 11
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "F",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF80",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                }
+                              },
+                              "background": "#FFFFFF1F",
+                              "cornerRadius": 13
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "S",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF80",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "center",
+                        "spacing": 4,
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 26
+                                }
+                              },
+                              "background": "#FFFFFF1F",
+                              "cornerRadius": 13
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "S",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF80",
+                            "lineLimit": 1
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -252,13 +573,794 @@
           },
           {
             "type": "hstack",
+            "modifiers": {
+              "padding": {
+                "horizontal": "$token.spacing.lg"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "Today",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
+              },
+              {
+                "type": "spacer"
+              }
+            ]
+          },
+          {
+            "type": "vstack",
             "spacing": "$token.spacing.md",
             "modifiers": {
               "size": {
                 "width": {
                   "mode": "fill"
                 }
+              }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 150
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "padding": "$token.spacing.md",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 6,
+                        "color": "#0E0E1212"
+                      },
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "fitness",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "heart.fill",
+                            "color": "#FA114F",
+                            "size": 16
+                          },
+                          {
+                            "type": "text",
+                            "value": "Heart Rate",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.xs"
+                              }
+                            }
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "▾ 3",
+                            "style": "$token.typography.caption",
+                            "color": "#34D399",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "firstTextBaseline",
+                        "spacing": 3,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "72",
+                            "style": "$token.typography.title2",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "BPM",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textTertiary",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "chart",
+                        "style": "line",
+                        "color": "#FA114F",
+                        "values": [
+                          70,
+                          74,
+                          68,
+                          80,
+                          72,
+                          76,
+                          71
+                        ],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 40
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 150
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "padding": "$token.spacing.md",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 6,
+                        "color": "#0E0E1212"
+                      },
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "fitness",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "bed.double.fill",
+                            "color": "#7C6CFF",
+                            "size": 16
+                          },
+                          {
+                            "type": "text",
+                            "value": "Sleep",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.xs"
+                              }
+                            }
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "▴ 40m",
+                            "style": "$token.typography.caption",
+                            "color": "#34D399",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "firstTextBaseline",
+                        "spacing": 3,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "7:20",
+                            "style": "$token.typography.title2",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "hrs",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textTertiary",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "chart",
+                        "style": "bar",
+                        "color": "#7C6CFF",
+                        "values": [
+                          6,
+                          7,
+                          5,
+                          8,
+                          7,
+                          6,
+                          7
+                        ],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 40
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 150
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "padding": "$token.spacing.md",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 6,
+                        "color": "#0E0E1212"
+                      },
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "fitness",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "figure.walk",
+                            "color": "#8AE821",
+                            "size": 16
+                          },
+                          {
+                            "type": "text",
+                            "value": "Steps",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.xs"
+                              }
+                            }
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "▴ 12%",
+                            "style": "$token.typography.caption",
+                            "color": "#34D399",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "firstTextBaseline",
+                        "spacing": 3,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "8,432",
+                            "style": "$token.typography.title2",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textTertiary",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "chart",
+                        "style": "area",
+                        "color": "#8AE821",
+                        "values": [
+                          3,
+                          5,
+                          4,
+                          7,
+                          5,
+                          8,
+                          6,
+                          9
+                        ],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 40
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 150
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "padding": "$token.spacing.md",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 6,
+                        "color": "#0E0E1212"
+                      },
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "fitness",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "flame.fill",
+                            "color": "#FF7A1A",
+                            "size": 16
+                          },
+                          {
+                            "type": "text",
+                            "value": "Active",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.xs"
+                              }
+                            }
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "▴ 60",
+                            "style": "$token.typography.caption",
+                            "color": "#34D399",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "firstTextBaseline",
+                        "spacing": 3,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "420",
+                            "style": "$token.typography.title2",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "CAL",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textTertiary",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "chart",
+                        "style": "area",
+                        "color": "#FF7A1A",
+                        "values": [
+                          2,
+                          4,
+                          3,
+                          6,
+                          5,
+                          7,
+                          6
+                        ],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 40
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 150
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "padding": "$token.spacing.md",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 6,
+                        "color": "#0E0E1212"
+                      },
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "fitness",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "drop.fill",
+                            "color": "#22D3EE",
+                            "size": 16
+                          },
+                          {
+                            "type": "text",
+                            "value": "Water",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.xs"
+                              }
+                            }
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "of 2.0",
+                            "style": "$token.typography.caption",
+                            "color": "#94A3B8",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "firstTextBaseline",
+                        "spacing": 3,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "1.6",
+                            "style": "$token.typography.title2",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "L",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textTertiary",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "chart",
+                        "style": "bar",
+                        "color": "#22D3EE",
+                        "values": [
+                          1,
+                          2,
+                          1,
+                          3,
+                          2,
+                          2,
+                          3
+                        ],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 40
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 150
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "padding": "$token.spacing.md",
+                      "shadow": {
+                        "radius": 14,
+                        "y": 6,
+                        "color": "#0E0E1212"
+                      },
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "fitness",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "brain.head.profile",
+                            "color": "#F472B6",
+                            "size": 16
+                          },
+                          {
+                            "type": "text",
+                            "value": "Mindful",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.xs"
+                              }
+                            }
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "▴ 4",
+                            "style": "$token.typography.caption",
+                            "color": "#34D399",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "firstTextBaseline",
+                        "spacing": 3,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "12",
+                            "style": "$token.typography.title2",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "min",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textTertiary",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "chart",
+                        "style": "line",
+                        "color": "#F472B6",
+                        "values": [
+                          5,
+                          8,
+                          6,
+                          10,
+                          9,
+                          12,
+                          11
+                        ],
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 40
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "modifiers": {
+              "padding": {
+                "horizontal": "$token.spacing.lg"
+              }
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "Trends",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "text",
+                "value": "Show all",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.primary",
+                "lineLimit": 1
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "modifiers": {
               "padding": {
                 "horizontal": "$token.spacing.lg"
               }
@@ -267,20 +1369,16 @@
               {
                 "type": "vstack",
                 "alignment": "leading",
-                "spacing": "$token.spacing.xs",
+                "spacing": "$token.spacing.sm",
                 "modifiers": {
                   "size": {
                     "width": {
                       "mode": "fill"
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 168
                     }
                   },
                   "background": "$token.color.surfaceElevated",
                   "cornerRadius": "$token.radius.lg",
-                  "padding": "$token.spacing.md",
+                  "padding": "$token.spacing.lg",
                   "shadow": {
                     "radius": 16,
                     "y": 8,
@@ -294,36 +1392,40 @@
                 },
                 "children": [
                   {
-                    "type": "text",
-                    "value": "STEPS",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.textSecondary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "8,432",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "spacer"
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "This week",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "Move · minutes",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary",
+                        "lineLimit": 1
+                      }
+                    ]
                   },
                   {
                     "type": "chart",
-                    "style": "area",
-                    "color": "#8AE821",
+                    "style": "bar",
+                    "color": "$token.color.primary",
                     "values": [
-                      3,
-                      5,
-                      4,
-                      7,
-                      5,
-                      8,
-                      6,
-                      9,
-                      7
+                      32,
+                      41,
+                      28,
+                      55,
+                      47,
+                      38,
+                      62
                     ],
                     "modifiers": {
                       "size": {
@@ -332,78 +1434,39 @@
                         },
                         "height": {
                           "mode": "fixed",
-                          "value": 64
+                          "value": 96
                         }
                       }
                     }
-                  }
-                ]
-              },
-              {
-                "type": "zstack",
-                "alignment": "topLeading",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 168
-                    }
-                  },
-                  "cornerRadius": "$token.radius.lg",
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "gym",
-                    "transition": "push"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#FB7185",
-                      "#F59E0B"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 168
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg"
-                    }
                   },
                   {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
+                    "type": "hstack",
                     "modifiers": {
                       "size": {
                         "width": {
                           "mode": "fill"
                         }
-                      },
-                      "padding": "$token.spacing.md"
+                      }
                     },
                     "children": [
                       {
-                        "type": "hstack",
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 0,
                         "children": [
                           {
-                            "type": "icon",
-                            "name": "flame.fill",
-                            "color": "#FFFFFF",
-                            "size": 22
+                            "type": "text",
+                            "value": "43m",
+                            "style": "$token.typography.headline",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
                           },
                           {
-                            "type": "spacer"
+                            "type": "text",
+                            "value": "Daily avg",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "lineLimit": 1
                           }
                         ]
                       },
@@ -411,25 +1474,49 @@
                         "type": "spacer"
                       },
                       {
-                        "type": "text",
-                        "value": "12",
-                        "style": "$token.typography.display",
-                        "color": "#FFFFFF",
-                        "lineLimit": 1
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 0,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "5.2 km",
+                            "style": "$token.typography.headline",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "Distance",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "lineLimit": 1
+                          }
+                        ]
                       },
                       {
-                        "type": "text",
-                        "value": "Day streak",
-                        "style": "$token.typography.headline",
-                        "color": "#FFFFFF",
-                        "lineLimit": 1
+                        "type": "spacer"
                       },
                       {
-                        "type": "text",
-                        "value": "Keep it going",
-                        "style": "$token.typography.caption",
-                        "color": "#FFFFFFCC",
-                        "lineLimit": 1
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 0,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "6/7",
+                            "style": "$token.typography.headline",
+                            "color": "$token.color.textPrimary",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "Goals hit",
+                            "style": "$token.typography.caption",
+                            "color": "$token.color.textSecondary",
+                            "lineLimit": 1
+                          }
+                        ]
                       }
                     ]
                   }
@@ -439,211 +1526,436 @@
           },
           {
             "type": "hstack",
-            "spacing": "$token.spacing.md",
             "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
               "padding": {
                 "horizontal": "$token.spacing.lg"
               }
             },
             "children": [
               {
-                "type": "zstack",
-                "alignment": "topLeading",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 168
-                    }
-                  },
-                  "cornerRadius": "$token.radius.lg",
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "todo",
-                    "transition": "push"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#22D3EE",
-                      "#2563EB"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 168
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg"
-                    }
-                  },
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        }
-                      },
-                      "padding": "$token.spacing.md"
-                    },
-                    "children": [
-                      {
-                        "type": "hstack",
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "timer",
-                            "color": "#FFFFFF",
-                            "size": 22
-                          },
-                          {
-                            "type": "spacer"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "spacer"
-                      },
-                      {
-                        "type": "text",
-                        "value": "4h",
-                        "style": "$token.typography.display",
-                        "color": "#FFFFFF",
-                        "lineLimit": 1
-                      },
-                      {
-                        "type": "text",
-                        "value": "Focus",
-                        "style": "$token.typography.headline",
-                        "color": "#FFFFFF",
-                        "lineLimit": 1
-                      },
-                      {
-                        "type": "text",
-                        "value": "20m / 6h today",
-                        "style": "$token.typography.caption",
-                        "color": "#FFFFFFCC",
-                        "lineLimit": 1
-                      }
-                    ]
-                  }
-                ]
+                "type": "text",
+                "value": "Awards",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
               },
               {
-                "type": "zstack",
-                "alignment": "topLeading",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 168
-                    }
-                  },
-                  "cornerRadius": "$token.radius.lg",
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "stocks",
-                    "transition": "push"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#34D399",
-                      "#059669"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 168
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg"
-                    }
-                  },
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        }
-                      },
-                      "padding": "$token.spacing.md"
-                    },
-                    "children": [
-                      {
-                        "type": "hstack",
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "chart.line.uptrend.xyaxis",
-                            "color": "#FFFFFF",
-                            "size": 22
-                          },
-                          {
-                            "type": "spacer"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "spacer"
-                      },
-                      {
-                        "type": "text",
-                        "value": "+12%",
-                        "style": "$token.typography.display",
-                        "color": "#FFFFFF",
-                        "lineLimit": 1
-                      },
-                      {
-                        "type": "text",
-                        "value": "Portfolio",
-                        "style": "$token.typography.headline",
-                        "color": "#FFFFFF",
-                        "lineLimit": 1
-                      },
-                      {
-                        "type": "text",
-                        "value": "This week",
-                        "style": "$token.typography.caption",
-                        "color": "#FFFFFFCC",
-                        "lineLimit": 1
-                      }
-                    ]
-                  }
-                ]
+                "type": "spacer"
+              },
+              {
+                "type": "text",
+                "value": "Show all",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.primary",
+                "lineLimit": 1
               }
             ]
+          },
+          {
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.md",
+              "modifiers": {
+                "padding": {
+                  "horizontal": "$token.spacing.lg"
+                }
+              },
+              "children": [
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 96
+                      }
+                    },
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "gym",
+                      "transition": "push"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 76
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 76
+                          }
+                        },
+                        "cornerRadius": 38,
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1220"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#FB7185",
+                            "#F59E0B"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 76
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 76
+                              }
+                            },
+                            "cornerRadius": 38
+                          }
+                        },
+                        {
+                          "type": "icon",
+                          "name": "flame.fill",
+                          "color": "#FFFFFF",
+                          "size": 30
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "12-day",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 96
+                      }
+                    },
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "gym",
+                      "transition": "push"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 76
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 76
+                          }
+                        },
+                        "cornerRadius": 38,
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1220"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#A78BFA",
+                            "#7C3AED"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 76
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 76
+                              }
+                            },
+                            "cornerRadius": 38
+                          }
+                        },
+                        {
+                          "type": "icon",
+                          "name": "bolt.fill",
+                          "color": "#FFFFFF",
+                          "size": 30
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "Power hour",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 96
+                      }
+                    },
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "gym",
+                      "transition": "push"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 76
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 76
+                          }
+                        },
+                        "cornerRadius": 38,
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1220"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#FBBF24",
+                            "#F97316"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 76
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 76
+                              }
+                            },
+                            "cornerRadius": 38
+                          }
+                        },
+                        {
+                          "type": "icon",
+                          "name": "crown.fill",
+                          "color": "#FFFFFF",
+                          "size": 30
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "Perfect week",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 96
+                      }
+                    },
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "gym",
+                      "transition": "push"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 76
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 76
+                          }
+                        },
+                        "cornerRadius": 38,
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1220"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#34D399",
+                            "#059669"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 76
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 76
+                              }
+                            },
+                            "cornerRadius": 38
+                          }
+                        },
+                        {
+                          "type": "icon",
+                          "name": "figure.run",
+                          "color": "#FFFFFF",
+                          "size": 30
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "10K club",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "center",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 96
+                      }
+                    },
+                    "onTap": {
+                      "action": "navigate",
+                      "to": "gym",
+                      "transition": "push"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "zstack",
+                      "alignment": "center",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 76
+                          },
+                          "height": {
+                            "mode": "fixed",
+                            "value": 76
+                          }
+                        },
+                        "cornerRadius": 38,
+                        "shadow": {
+                          "radius": 12,
+                          "y": 6,
+                          "color": "#0E0E1220"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "gradient",
+                          "colors": [
+                            "#38BDF8",
+                            "#2563EB"
+                          ],
+                          "direction": "diagonal",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 76
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 76
+                              }
+                            },
+                            "cornerRadius": 38
+                          }
+                        },
+                        {
+                          "type": "icon",
+                          "name": "moon.fill",
+                          "color": "#FFFFFF",
+                          "size": 30
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "value": "Early bird",
+                      "style": "$token.typography.caption",
+                      "color": "$token.color.textSecondary",
+                      "lineLimit": 1
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "type": "hstack",
