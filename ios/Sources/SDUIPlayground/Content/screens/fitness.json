@@ -9,7 +9,7 @@
         {
           "type": "gradient",
           "colors": [
-            "#1C1C1E",
+            "#0B0B0D",
             "#000000"
           ],
           "direction": "vertical",
@@ -29,45 +29,151 @@
           "type": "scroll",
           "child": {
             "type": "vstack",
-            "spacing": "$token.spacing.lg",
+            "spacing": 0,
             "alignment": "leading",
             "modifiers": {
-              "padding": "$token.spacing.lg",
               "size": {
                 "width": {
                   "mode": "fill"
                 }
+              },
+              "padding": {
+                "bottom": "$token.spacing.xl"
               }
             },
             "children": [
               {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": "$token.spacing.xs",
+                "type": "zstack",
+                "alignment": "bottomLeading",
                 "modifiers": {
-                  "padding": {
-                    "top": "$token.spacing.md"
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
                   }
                 },
                 "children": [
                   {
-                    "type": "text",
-                    "value": "Summary",
-                    "style": "$token.typography.largeTitle",
-                    "color": "#FFFFFF"
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/trail-run-route-map/900/900",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 420
+                        }
+                      }
+                    }
                   },
                   {
-                    "type": "text",
-                    "value": "Monday, July 20",
-                    "style": "$token.typography.subheadline",
-                    "color": "#8E8E93"
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000033",
+                      "#000000E6"
+                    ],
+                    "direction": "vertical",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 420
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.sm",
+                    "modifiers": {
+                      "padding": "$token.spacing.lg"
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "MORNING RUN",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFFCC",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Central Park Loop",
+                        "style": "$token.typography.largeTitle",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "hstack",
+                        "spacing": "$token.spacing.xs",
+                        "children": [
+                          {
+                            "type": "hstack",
+                            "spacing": "$token.spacing.xs",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.md",
+                                "trailing": "$token.spacing.md",
+                                "top": "$token.spacing.xs",
+                                "bottom": "$token.spacing.xs"
+                              },
+                              "cornerRadius": "$token.radius.pill",
+                              "material": "glass"
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "Mon, July 20",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              }
+                            ]
+                          },
+                          {
+                            "type": "hstack",
+                            "spacing": "$token.spacing.xs",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.md",
+                                "trailing": "$token.spacing.md",
+                                "top": "$token.spacing.xs",
+                                "bottom": "$token.spacing.xs"
+                              },
+                              "cornerRadius": "$token.radius.pill",
+                              "material": "glass"
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "18° Clear",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
               {
-                "type": "hstack",
-                "alignment": "center",
-                "spacing": "$token.spacing.lg",
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.md",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -75,180 +181,53 @@
                     }
                   },
                   "padding": "$token.spacing.lg",
-                  "background": "#1C1C1E",
-                  "cornerRadius": "$token.radius.lg"
-                },
-                "children": [
-                  {
-                    "type": "rings",
-                    "values": [
-                      0.84,
-                      0.8,
-                      0.83
-                    ],
-                    "colors": [
-                      "#FA114F",
-                      "#92E82A",
-                      "#00E5FF"
-                    ],
-                    "lineWidth": 16,
-                    "gap": 5,
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fixed",
-                          "value": 150
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 150
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 0,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Move",
-                            "style": "$token.typography.caption",
-                            "color": "#FA114F"
-                          },
-                          {
-                            "type": "hstack",
-                            "alignment": "firstTextBaseline",
-                            "spacing": "$token.spacing.xs",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "420",
-                                "style": "$token.typography.title2",
-                                "color": "#FFFFFF"
-                              },
-                              {
-                                "type": "text",
-                                "value": "/500 CAL",
-                                "style": "$token.typography.subheadline",
-                                "color": "#8E8E93"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 0,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Exercise",
-                            "style": "$token.typography.caption",
-                            "color": "#92E82A"
-                          },
-                          {
-                            "type": "hstack",
-                            "alignment": "firstTextBaseline",
-                            "spacing": "$token.spacing.xs",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "24",
-                                "style": "$token.typography.title2",
-                                "color": "#FFFFFF"
-                              },
-                              {
-                                "type": "text",
-                                "value": "/30 MIN",
-                                "style": "$token.typography.subheadline",
-                                "color": "#8E8E93"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 0,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Stand",
-                            "style": "$token.typography.caption",
-                            "color": "#00E5FF"
-                          },
-                          {
-                            "type": "hstack",
-                            "alignment": "firstTextBaseline",
-                            "spacing": "$token.spacing.xs",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "10",
-                                "style": "$token.typography.title2",
-                                "color": "#FFFFFF"
-                              },
-                              {
-                                "type": "text",
-                                "value": "/12 HRS",
-                                "style": "$token.typography.subheadline",
-                                "color": "#8E8E93"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": "$token.spacing.sm",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    }
-                  },
-                  "padding": "$token.spacing.md",
-                  "background": "#1C1C1E",
-                  "cornerRadius": "$token.radius.lg"
+                  "cornerRadius": "$token.radius.lg",
+                  "material": "glass"
                 },
                 "children": [
                   {
                     "type": "hstack",
                     "alignment": "center",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      }
+                    },
                     "children": [
                       {
-                        "type": "icon",
-                        "name": "figure.walk",
-                        "color": "#30D158"
-                      },
-                      {
                         "type": "text",
-                        "value": "STEPS",
-                        "style": "$token.typography.caption",
-                        "color": "#8E8E93"
+                        "value": "Run Summary",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
                       },
                       {
                         "type": "spacer"
                       },
                       {
-                        "type": "text",
-                        "value": "This Week",
-                        "style": "$token.typography.caption",
-                        "color": "#8E8E93"
+                        "type": "hstack",
+                        "spacing": "$token.spacing.xs",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.md",
+                            "trailing": "$token.spacing.md",
+                            "top": "$token.spacing.xs",
+                            "bottom": "$token.spacing.xs"
+                          },
+                          "cornerRadius": "$token.radius.pill",
+                          "material": "thin"
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Goal 20 km",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          }
+                        ]
                       }
                     ]
                   },
@@ -259,31 +238,25 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "8,432",
-                        "style": "$token.typography.display",
-                        "color": "#FFFFFF"
+                        "value": "15.23",
+                        "style": "$token.typography.hero",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
                       },
                       {
                         "type": "text",
-                        "value": "steps/day avg",
-                        "style": "$token.typography.subheadline",
-                        "color": "#8E8E93"
+                        "value": "km",
+                        "style": "$token.typography.title2",
+                        "color": "#FFFFFF99",
+                        "lineLimit": 1
                       }
                     ]
                   },
                   {
-                    "type": "chart",
-                    "style": "bar",
+                    "type": "progress",
+                    "value": 0.76,
+                    "height": 6,
                     "color": "#30D158",
-                    "values": [
-                      6200,
-                      8100,
-                      7400,
-                      9300,
-                      5600,
-                      10200,
-                      8432
-                    ],
                     "modifiers": {
                       "size": {
                         "width": {
@@ -291,212 +264,102 @@
                         },
                         "height": {
                           "mode": "fixed",
-                          "value": 120
+                          "value": 6
                         }
                       }
                     }
-                  }
-                ]
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": "$token.spacing.sm",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    }
                   },
-                  "padding": "$token.spacing.md",
-                  "background": "#1C1C1E",
-                  "cornerRadius": "$token.radius.lg"
-                },
-                "children": [
                   {
                     "type": "hstack",
-                    "alignment": "center",
+                    "alignment": "top",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "padding": {
+                        "top": "$token.spacing.xs"
+                      }
+                    },
                     "children": [
                       {
-                        "type": "icon",
-                        "name": "heart.fill",
-                        "color": "#FF375F"
-                      },
-                      {
-                        "type": "text",
-                        "value": "HEART RATE",
-                        "style": "$token.typography.caption",
-                        "color": "#8E8E93"
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": "$token.spacing.xs",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "5:12",
+                            "style": "$token.typography.title2",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "text",
+                            "value": "Avg pace /km",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF99",
+                            "lineLimit": 1
+                          }
+                        ]
                       },
                       {
                         "type": "spacer"
                       },
                       {
-                        "type": "text",
-                        "value": "Today",
-                        "style": "$token.typography.caption",
-                        "color": "#8E8E93"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "hstack",
-                    "alignment": "firstTextBaseline",
-                    "spacing": "$token.spacing.xs",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "72",
-                        "style": "$token.typography.display",
-                        "color": "#FFFFFF"
-                      },
-                      {
-                        "type": "text",
-                        "value": "BPM",
-                        "style": "$token.typography.subheadline",
-                        "color": "#8E8E93"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "chart",
-                    "style": "line",
-                    "color": "#FF375F",
-                    "values": [
-                      68,
-                      72,
-                      65,
-                      74,
-                      80,
-                      76,
-                      90,
-                      82,
-                      74,
-                      70,
-                      72,
-                      68
-                    ],
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 100
-                        }
-                      }
-                    }
-                  }
-                ]
-              },
-              {
-                "type": "hstack",
-                "alignment": "center",
-                "spacing": "$token.spacing.md",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    }
-                  }
-                },
-                "children": [
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "weight",
-                          "value": 1
-                        }
-                      },
-                      "padding": "$token.spacing.md",
-                      "background": "#1C1C1E",
-                      "cornerRadius": "$token.radius.lg"
-                    },
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "location.fill",
-                        "color": "#0A84FF"
-                      },
-                      {
-                        "type": "hstack",
-                        "alignment": "firstTextBaseline",
+                        "type": "vstack",
+                        "alignment": "leading",
                         "spacing": "$token.spacing.xs",
                         "children": [
                           {
                             "type": "text",
-                            "value": "5.2",
+                            "value": "1:19:34",
                             "style": "$token.typography.title2",
-                            "color": "#FFFFFF"
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
                           },
                           {
                             "type": "text",
-                            "value": "KM",
+                            "value": "Time",
                             "style": "$token.typography.caption",
-                            "color": "#8E8E93"
+                            "color": "#FFFFFF99",
+                            "lineLimit": 1
                           }
                         ]
                       },
                       {
-                        "type": "text",
-                        "value": "Distance",
-                        "style": "$token.typography.caption",
-                        "color": "#8E8E93"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "weight",
-                          "value": 1
-                        }
-                      },
-                      "padding": "$token.spacing.md",
-                      "background": "#1C1C1E",
-                      "cornerRadius": "$token.radius.lg"
-                    },
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "figure.stairs",
-                        "color": "#FF9F0A"
+                        "type": "spacer"
                       },
                       {
-                        "type": "hstack",
-                        "alignment": "firstTextBaseline",
+                        "type": "vstack",
+                        "alignment": "leading",
                         "spacing": "$token.spacing.xs",
                         "children": [
                           {
                             "type": "text",
-                            "value": "12",
+                            "value": "18,204",
                             "style": "$token.typography.title2",
-                            "color": "#FFFFFF"
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
                           },
                           {
                             "type": "text",
-                            "value": "FL",
+                            "value": "Steps",
                             "style": "$token.typography.caption",
-                            "color": "#8E8E93"
+                            "color": "#FFFFFF99",
+                            "lineLimit": 1
                           }
                         ]
-                      },
-                      {
-                        "type": "text",
-                        "value": "Flights Climbed",
-                        "style": "$token.typography.caption",
-                        "color": "#8E8E93"
                       }
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "value": "You held a steady rhythm the whole way — your pace stayed within 8 seconds across every kilometre. Beautifully even.",
+                    "style": "$token.typography.subheadline",
+                    "color": "#FFFFFFB0",
+                    "lineLimit": 3
                   }
                 ]
               }

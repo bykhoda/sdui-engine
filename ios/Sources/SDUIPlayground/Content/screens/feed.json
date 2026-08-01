@@ -3,8 +3,8 @@
   "screen": {
     "id": "feed",
     "teach": {
-      "title": "Feed",
-      "task": "Tap the heart or repost on any post to interact."
+      "title": "Memories",
+      "task": "Tap the + on any collection to add a memory."
     },
     "content": {
       "type": "scroll",
@@ -13,7 +13,11 @@
         "spacing": "$token.spacing.lg",
         "alignment": "leading",
         "modifiers": {
-          "padding": "$token.spacing.lg",
+          "padding": {
+            "horizontal": "$token.spacing.lg",
+            "top": "$token.spacing.md",
+            "bottom": "$token.spacing.xl"
+          },
           "size": {
             "width": {
               "mode": "fill"
@@ -22,333 +26,302 @@
         },
         "children": [
           {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Memories",
+                    "style": "$token.typography.largeTitle",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "42 collections",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 44
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 44
+                    }
+                  },
+                  "cornerRadius": 22,
+                  "material": "glass",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Search memories"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "magnifyingglass",
+                    "color": "$token.color.textPrimary",
+                    "size": 18
+                  }
+                ]
+              },
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 44
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 44
+                    }
+                  },
+                  "cornerRadius": 22,
+                  "material": "glass",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Filter"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "line.3.horizontal.decrease",
+                    "color": "$token.color.textPrimary",
+                    "size": 18
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "type": "vstack",
             "alignment": "leading",
-            "spacing": "$token.spacing.xs",
-            "children": [
-              {
-                "type": "text",
-                "value": "Home",
-                "style": "$token.typography.largeTitle",
-                "color": "$token.color.textPrimary"
-              },
-              {
-                "type": "text",
-                "value": "Latest posts",
-                "style": "$token.typography.subheadline",
-                "color": "$token.color.textSecondary"
-              }
-            ]
-          },
-          {
-            "type": "hstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.md",
+            "spacing": "$token.spacing.sm",
             "modifiers": {
               "size": {
                 "width": {
                   "mode": "fill"
                 }
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Opening Santorini Escape"
+                  }
+                ]
               }
             },
             "children": [
               {
                 "type": "zstack",
-                "alignment": "center",
+                "alignment": "bottom",
                 "modifiers": {
                   "size": {
                     "width": {
-                      "mode": "fixed",
-                      "value": 42
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 42
+                      "mode": "fill"
                     }
                   },
-                  "cornerRadius": 21
+                  "cornerRadius": "$token.radius.lg"
                 },
                 "children": [
                   {
-                    "type": "gradient",
-                    "colors": [
-                      "#5B8DEF",
-                      "#3B5BDB"
-                    ],
-                    "direction": "diagonal",
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/santorini-blue/900/540",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
                     "modifiers": {
                       "size": {
                         "width": {
                           "mode": "fill"
                         },
                         "height": {
-                          "mode": "fill"
+                          "mode": "fixed",
+                          "value": 200
                         }
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "A",
-                    "style": "$token.typography.headline",
-                    "color": "#FFFFFF"
-                  }
-                ]
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": "$token.spacing.xs",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    }
-                  }
-                },
-                "children": [
-                  {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": 4,
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Aizhan",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textPrimary"
                       },
-                      {
-                        "type": "text",
-                        "value": "@aizhan · 2h",
-                        "style": "$token.typography.subheadline",
-                        "color": "$token.color.textSecondary"
-                      }
-                    ]
+                      "cornerRadius": "$token.radius.lg"
+                    }
                   },
                   {
-                    "type": "text",
-                    "value": "Shipped a whole checkout flow tonight without touching Xcode. Backend sent new JSON, the app re-rendered live. Still feels illegal",
-                    "style": "$token.typography.body",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 4
-                  },
-                  {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.lg",
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000066",
+                      "#000000CC"
+                    ],
+                    "direction": "vertical",
                     "modifiers": {
-                      "padding": {
-                        "top": "$token.spacing.xs"
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 200
+                        }
                       },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.sm",
+                    "modifiers": {
                       "size": {
                         "width": {
                           "mode": "fill"
                         }
                       },
-                      "animation": {
-                        "curve": "spring"
-                      }
+                      "padding": {
+                        "horizontal": "$token.spacing.md",
+                        "top": "$token.spacing.sm",
+                        "bottom": "$token.spacing.sm"
+                      },
+                      "material": "glass"
                     },
                     "children": [
                       {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 2,
                         "children": [
                           {
-                            "type": "icon",
-                            "name": "bubble.left",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reply"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
+                            "type": "text",
+                            "value": "Santorini Escape",
+                            "style": "$token.typography.headline",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
                           },
                           {
                             "type": "text",
-                            "value": " 12",
+                            "value": "128 photos · 12 videos",
                             "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
+                            "color": "#FFFFFFCC",
+                            "lineLimit": 1
                           }
                         ]
                       },
                       {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "arrow.2.squarepath",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reposted"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
-                          },
-                          {
-                            "type": "text",
-                            "value": " 34",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
+                        "type": "spacer"
                       },
                       {
-                        "type": "hstack",
+                        "type": "zstack",
                         "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "heart",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "symbolEffect": "bounce",
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Liked"
-                                  }
-                                ]
-                              }
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 36
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 36
                             }
                           },
-                          {
-                            "type": "text",
-                            "value": " 218",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "spacer"
-                      },
-                      {
-                        "type": "icon",
-                        "name": "square.and.arrow.up",
-                        "color": "$token.color.textSecondary",
-                        "size": 15,
-                        "modifiers": {
+                          "cornerRadius": 18,
+                          "material": "glass",
                           "onTap": {
                             "action": "sequence",
                             "actions": [
                               {
                                 "action": "haptic",
-                                "style": "light"
+                                "style": "medium"
                               },
                               {
                                 "action": "showToast",
-                                "message": "Share"
+                                "message": "Added to Santorini Escape"
                               }
                             ]
                           }
                         },
-                        "symbolEffect": "bounce"
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "+",
+                            "style": "$token.typography.title2",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          }
+                        ]
                       }
                     ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "type": "divider",
-            "color": "$token.color.separator"
-          },
-          {
-            "type": "hstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              }
-            },
-            "children": [
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 42
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 42
-                    }
-                  },
-                  "cornerRadius": 21
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#10B981",
-                      "#059669"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fill"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "K",
-                    "style": "$token.typography.headline",
-                    "color": "#FFFFFF"
-                  }
-                ]
               },
               {
-                "type": "vstack",
-                "alignment": "leading",
+                "type": "text",
+                "value": "Santorini Escape",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
+              },
+              {
+                "type": "text",
+                "value": "July 2026 · Greece",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary",
+                "lineLimit": 1
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
                 "spacing": "$token.spacing.xs",
                 "modifiers": {
                   "size": {
@@ -359,151 +332,223 @@
                 },
                 "children": [
                   {
-                    "type": "hstack",
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-aizhan/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-kuan/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-meiram/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "zstack",
                     "alignment": "center",
-                    "spacing": 4,
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14,
+                      "material": "glass"
+                    },
                     "children": [
                       {
                         "type": "text",
-                        "value": "Kuan",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textPrimary"
-                      },
-                      {
-                        "type": "text",
-                        "value": "@devkuan · 5h",
-                        "style": "$token.typography.subheadline",
-                        "color": "$token.color.textSecondary"
+                        "value": "+5",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
                       }
                     ]
                   },
                   {
+                    "type": "spacer"
+                  },
+                  {
                     "type": "text",
-                    "value": "Hot take: your design system should be data, not code. One tokens.json, and every platform themes itself. Stop shipping the same color twice.",
-                    "style": "$token.typography.body",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 4
+                    "value": "128 Memories",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Opening Weekend in Kyoto"
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "bottom",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/kyoto-temple/900/540",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 200
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000066",
+                      "#000000CC"
+                    ],
+                    "direction": "vertical",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 200
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
                   },
                   {
                     "type": "hstack",
                     "alignment": "center",
-                    "spacing": "$token.spacing.lg",
+                    "spacing": "$token.spacing.sm",
                     "modifiers": {
-                      "padding": {
-                        "top": "$token.spacing.xs"
-                      },
                       "size": {
                         "width": {
                           "mode": "fill"
                         }
                       },
-                      "animation": {
-                        "curve": "spring"
-                      }
+                      "padding": {
+                        "horizontal": "$token.spacing.md",
+                        "top": "$token.spacing.sm",
+                        "bottom": "$token.spacing.sm"
+                      },
+                      "material": "glass"
                     },
                     "children": [
                       {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 2,
                         "children": [
                           {
-                            "type": "icon",
-                            "name": "bubble.left",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reply"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
+                            "type": "text",
+                            "value": "Weekend in Kyoto",
+                            "style": "$token.typography.headline",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
                           },
                           {
                             "type": "text",
-                            "value": " 41",
+                            "value": "96 photos · 8 videos",
                             "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "arrow.2.squarepath",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reposted"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
-                          },
-                          {
-                            "type": "text",
-                            "value": " 96",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "heart",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Liked"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
-                          },
-                          {
-                            "type": "text",
-                            "value": " 512",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
+                            "color": "#FFFFFFCC",
+                            "lineLimit": 1
                           }
                         ]
                       },
@@ -511,95 +556,66 @@
                         "type": "spacer"
                       },
                       {
-                        "type": "icon",
-                        "name": "square.and.arrow.up",
-                        "color": "$token.color.textSecondary",
-                        "size": 15,
+                        "type": "zstack",
+                        "alignment": "center",
                         "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 36
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 36
+                            }
+                          },
+                          "cornerRadius": 18,
+                          "material": "glass",
                           "onTap": {
                             "action": "sequence",
                             "actions": [
                               {
                                 "action": "haptic",
-                                "style": "light"
+                                "style": "medium"
                               },
                               {
                                 "action": "showToast",
-                                "message": "Share"
+                                "message": "Added to Weekend in Kyoto"
                               }
                             ]
                           }
                         },
-                        "symbolEffect": "bounce"
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "+",
+                            "style": "$token.typography.title2",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          }
+                        ]
                       }
                     ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "type": "divider",
-            "color": "$token.color.separator"
-          },
-          {
-            "type": "hstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              }
-            },
-            "children": [
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 42
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 42
-                    }
-                  },
-                  "cornerRadius": 21
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#8B5CF6",
-                      "#6D28D9"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fill"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "S",
-                    "style": "$token.typography.headline",
-                    "color": "#FFFFFF"
-                  }
-                ]
               },
               {
-                "type": "vstack",
-                "alignment": "leading",
+                "type": "text",
+                "value": "Weekend in Kyoto",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
+              },
+              {
+                "type": "text",
+                "value": "May 2026 · Japan",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary",
+                "lineLimit": 1
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
                 "spacing": "$token.spacing.xs",
                 "modifiers": {
                   "size": {
@@ -610,151 +626,202 @@
                 },
                 "children": [
                   {
-                    "type": "hstack",
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-sana/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-timur/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "zstack",
                     "alignment": "center",
-                    "spacing": 4,
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14,
+                      "material": "glass"
+                    },
                     "children": [
                       {
                         "type": "text",
-                        "value": "SDUI",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textPrimary"
-                      },
-                      {
-                        "type": "text",
-                        "value": "@sdui · 8h",
-                        "style": "$token.typography.subheadline",
-                        "color": "$token.color.textSecondary"
+                        "value": "+2",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
                       }
                     ]
                   },
                   {
+                    "type": "spacer"
+                  },
+                  {
                     "type": "text",
-                    "value": "v0.1 is live. One JSON contract renders natively on every platform — validated before it ever hits a screen. No more \"works on my platform\".",
-                    "style": "$token.typography.body",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 4
+                    "value": "96 Memories",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Opening Alpine Trek"
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "bottom",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/alpine-ridge/900/540",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 200
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000066",
+                      "#000000CC"
+                    ],
+                    "direction": "vertical",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 200
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
                   },
                   {
                     "type": "hstack",
                     "alignment": "center",
-                    "spacing": "$token.spacing.lg",
+                    "spacing": "$token.spacing.sm",
                     "modifiers": {
-                      "padding": {
-                        "top": "$token.spacing.xs"
-                      },
                       "size": {
                         "width": {
                           "mode": "fill"
                         }
                       },
-                      "animation": {
-                        "curve": "spring"
-                      }
+                      "padding": {
+                        "horizontal": "$token.spacing.md",
+                        "top": "$token.spacing.sm",
+                        "bottom": "$token.spacing.sm"
+                      },
+                      "material": "glass"
                     },
                     "children": [
                       {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 2,
                         "children": [
                           {
-                            "type": "icon",
-                            "name": "bubble.left",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reply"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
+                            "type": "text",
+                            "value": "Alpine Trek",
+                            "style": "$token.typography.headline",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
                           },
                           {
                             "type": "text",
-                            "value": " 88",
+                            "value": "64 photos · 5 videos",
                             "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "arrow.2.squarepath",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reposted"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
-                          },
-                          {
-                            "type": "text",
-                            "value": " 240",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "heart",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Liked"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
-                          },
-                          {
-                            "type": "text",
-                            "value": " 1.2k",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
+                            "color": "#FFFFFFCC",
+                            "lineLimit": 1
                           }
                         ]
                       },
@@ -762,95 +829,66 @@
                         "type": "spacer"
                       },
                       {
-                        "type": "icon",
-                        "name": "square.and.arrow.up",
-                        "color": "$token.color.textSecondary",
-                        "size": 15,
+                        "type": "zstack",
+                        "alignment": "center",
                         "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 36
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 36
+                            }
+                          },
+                          "cornerRadius": 18,
+                          "material": "glass",
                           "onTap": {
                             "action": "sequence",
                             "actions": [
                               {
                                 "action": "haptic",
-                                "style": "light"
+                                "style": "medium"
                               },
                               {
                                 "action": "showToast",
-                                "message": "Share"
+                                "message": "Added to Alpine Trek"
                               }
                             ]
                           }
                         },
-                        "symbolEffect": "bounce"
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "+",
+                            "style": "$token.typography.title2",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          }
+                        ]
                       }
                     ]
                   }
                 ]
-              }
-            ]
-          },
-          {
-            "type": "divider",
-            "color": "$token.color.separator"
-          },
-          {
-            "type": "hstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              }
-            },
-            "children": [
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 42
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 42
-                    }
-                  },
-                  "cornerRadius": 21
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#F59E0B",
-                      "#EA580C"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fill"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "M",
-                    "style": "$token.typography.headline",
-                    "color": "#FFFFFF"
-                  }
-                ]
               },
               {
-                "type": "vstack",
-                "alignment": "leading",
+                "type": "text",
+                "value": "Alpine Trek",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
+              },
+              {
+                "type": "text",
+                "value": "March 2026 · Switzerland",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary",
+                "lineLimit": 1
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
                 "spacing": "$token.spacing.xs",
                 "modifiers": {
                   "size": {
@@ -861,151 +899,223 @@
                 },
                 "children": [
                   {
-                    "type": "hstack",
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-dana/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-nurlan/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-alina/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "zstack",
                     "alignment": "center",
-                    "spacing": 4,
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14,
+                      "material": "glass"
+                    },
                     "children": [
                       {
                         "type": "text",
-                        "value": "Meiram",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textPrimary"
-                      },
-                      {
-                        "type": "text",
-                        "value": "@meiram · 1d",
-                        "style": "$token.typography.subheadline",
-                        "color": "$token.color.textSecondary"
+                        "value": "+1",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
                       }
                     ]
                   },
                   {
+                    "type": "spacer"
+                  },
+                  {
                     "type": "text",
-                    "value": "Redesigned three screens this morning. Zero rebuilds, zero App Store review. Just pushed the layout and watched it land on my phone. This is the workflow.",
-                    "style": "$token.typography.body",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 4
+                    "value": "64 Memories",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Opening City Nights"
+                  }
+                ]
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "bottom",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/city-nights-neon/900/540",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 200
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#00000000",
+                      "#00000066",
+                      "#000000CC"
+                    ],
+                    "direction": "vertical",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 200
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
                   },
                   {
                     "type": "hstack",
                     "alignment": "center",
-                    "spacing": "$token.spacing.lg",
+                    "spacing": "$token.spacing.sm",
                     "modifiers": {
-                      "padding": {
-                        "top": "$token.spacing.xs"
-                      },
                       "size": {
                         "width": {
                           "mode": "fill"
                         }
                       },
-                      "animation": {
-                        "curve": "spring"
-                      }
+                      "padding": {
+                        "horizontal": "$token.spacing.md",
+                        "top": "$token.spacing.sm",
+                        "bottom": "$token.spacing.sm"
+                      },
+                      "material": "glass"
                     },
                     "children": [
                       {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 2,
                         "children": [
                           {
-                            "type": "icon",
-                            "name": "bubble.left",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reply"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
+                            "type": "text",
+                            "value": "City Nights",
+                            "style": "$token.typography.headline",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
                           },
                           {
                             "type": "text",
-                            "value": " 7",
+                            "value": "210 photos · 24 videos",
                             "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "arrow.2.squarepath",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Reposted"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
-                          },
-                          {
-                            "type": "text",
-                            "value": " 19",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": 4,
-                        "children": [
-                          {
-                            "type": "icon",
-                            "name": "heart",
-                            "color": "$token.color.textSecondary",
-                            "size": 15,
-                            "modifiers": {
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  {
-                                    "action": "haptic",
-                                    "style": "light"
-                                  },
-                                  {
-                                    "action": "showToast",
-                                    "message": "Liked"
-                                  }
-                                ]
-                              }
-                            },
-                            "symbolEffect": "bounce"
-                          },
-                          {
-                            "type": "text",
-                            "value": " 143",
-                            "style": "$token.typography.caption",
-                            "color": "$token.color.textSecondary"
+                            "color": "#FFFFFFCC",
+                            "lineLimit": 1
                           }
                         ]
                       },
@@ -1013,28 +1123,174 @@
                         "type": "spacer"
                       },
                       {
-                        "type": "icon",
-                        "name": "square.and.arrow.up",
-                        "color": "$token.color.textSecondary",
-                        "size": 15,
+                        "type": "zstack",
+                        "alignment": "center",
                         "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fixed",
+                              "value": 36
+                            },
+                            "height": {
+                              "mode": "fixed",
+                              "value": 36
+                            }
+                          },
+                          "cornerRadius": 18,
+                          "material": "glass",
                           "onTap": {
                             "action": "sequence",
                             "actions": [
                               {
                                 "action": "haptic",
-                                "style": "light"
+                                "style": "medium"
                               },
                               {
                                 "action": "showToast",
-                                "message": "Share"
+                                "message": "Added to City Nights"
                               }
                             ]
                           }
                         },
-                        "symbolEffect": "bounce"
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "+",
+                            "style": "$token.typography.title2",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          }
+                        ]
                       }
                     ]
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "City Nights",
+                "style": "$token.typography.title2",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
+              },
+              {
+                "type": "text",
+                "value": "February 2026 · Tokyo",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textSecondary",
+                "lineLimit": 1
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.xs",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-erlan/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-madi/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "image",
+                    "source": "https://picsum.photos/seed/traveler-aruzhan/80/80",
+                    "loader": {
+                      "placeholder": "skeleton",
+                      "contentMode": "fill"
+                    },
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14
+                    }
+                  },
+                  {
+                    "type": "zstack",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 28
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 28
+                        }
+                      },
+                      "cornerRadius": 14,
+                      "material": "glass"
+                    },
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "+9",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "210 Memories",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
                   }
                 ]
               }

@@ -18,11 +18,32 @@
       "alignment": "top",
       "children": [
         {
+          "type": "image",
+          "source": "https://picsum.photos/seed/neon-nights-cover/800/900",
+          "loader": {
+            "placeholder": "skeleton",
+            "contentMode": "fill"
+          },
+          "modifiers": {
+            "size": {
+              "width": {
+                "mode": "fill"
+              },
+              "height": {
+                "mode": "fixed",
+                "value": 950
+              }
+            },
+            "blur": 40,
+            "ignoresSafeArea": true
+          }
+        },
+        {
           "type": "gradient",
           "colors": [
-            "#2A1A2E",
-            "#140A18",
-            "#0A0610"
+            "#0A0610B0",
+            "#0A0610E6",
+            "#0A0610F7"
           ],
           "direction": "vertical",
           "modifiers": {
@@ -38,501 +59,809 @@
           }
         },
         {
-          "type": "vstack",
-          "alignment": "center",
-          "spacing": "$token.spacing.lg",
-          "modifiers": {
-            "padding": "$token.spacing.lg",
-            "size": {
-              "width": {
-                "mode": "fill"
+          "type": "scroll",
+          "showsIndicators": false,
+          "child": {
+            "type": "vstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.lg",
+            "modifiers": {
+              "padding": {
+                "horizontal": "$token.spacing.lg",
+                "top": "$token.spacing.xl",
+                "bottom": "$token.spacing.xl"
               },
-              "height": {
-                "mode": "fill"
-              }
-            }
-          },
-          "children": [
-            {
-              "type": "spacer"
-            },
-            {
-              "type": "gradient",
-              "colors": [
-                "#FF512F",
-                "#DD2476"
-              ],
-              "direction": "diagonal",
-              "modifiers": {
-                "size": {
-                  "width": {
-                    "mode": "fixed",
-                    "value": 300
-                  },
-                  "height": {
-                    "mode": "fixed",
-                    "value": 300
-                  }
-                },
-                "cornerRadius": 14,
-                "shadow": {
-                  "radius": 34,
-                  "y": 18,
-                  "color": "#00000073"
-                },
-                "scale": "$state.artScale",
-                "pulse": { "while": "$state.playing", "scale": 1.035, "interval": 0.46 },
-                "animation": {
-                  "curve": "spring"
-                },
-                "onTap": {
-                  "action": "condition",
-                  "if": { "equals": ["$state.playing", "true"] },
-                  "then": { "action": "sequence", "actions": [ { "action": "setState", "key": "playing", "value": false }, { "action": "setState", "key": "artScale", "value": 0.82 }, { "action": "haptic", "style": "light" } ] },
-                  "else": { "action": "sequence", "actions": [ { "action": "setState", "key": "playing", "value": true }, { "action": "setState", "key": "artScale", "value": 1 }, { "action": "haptic", "style": "light" } ] }
+              "size": {
+                "width": {
+                  "mode": "fill"
                 }
               }
             },
-            {
-              "type": "spacer"
-            },
-            {
-              "type": "hstack",
-              "alignment": "center",
-              "spacing": "$token.spacing.md",
-              "modifiers": {
-                "size": {
-                  "width": {
-                    "mode": "fill"
-                  }
-                }
-              },
-              "children": [
-                {
-                  "type": "vstack",
-                  "alignment": "leading",
-                  "spacing": 2,
-                  "children": [
-                    {
-                      "type": "text",
-                      "value": "Neon Nights",
-                      "style": "$token.typography.title2",
-                      "color": "#FFFFFF"
-                    },
-                    {
-                      "type": "text",
-                      "value": "Aurora Vale",
-                      "style": "$token.typography.body",
-                      "color": "#FF6A88"
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
                     }
-                  ]
-                },
-                {
-                  "type": "spacer"
-                },
-                {
-                  "type": "zstack",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "name": "star",
-                      "color": "#FFFFFFAA",
-                      "size": 22,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.liked",
-                          "false"
-                        ]
-                      },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "setState",
-                          "key": "liked",
-                          "value": true
-                        }
-                      }
-                    },
-                    {
-                      "type": "icon",
-                      "name": "star.fill",
-                      "color": "#FFD60A",
-                      "size": 22,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.liked",
-                          "true"
-                        ]
-                      },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "setState",
-                          "key": "liked",
-                          "value": false
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  "type": "icon",
-                  "name": "ellipsis.circle",
-                  "color": "#FFFFFFAA",
-                  "size": 22,
-                  "modifiers": { "onTap": { "action": "showToast", "message": "More" } }
-                }
-              ]
-            },
-            {
-              "type": "vstack",
-              "spacing": "$token.spacing.xs",
-              "modifiers": {
-                "size": {
-                  "width": {
-                    "mode": "fill"
                   }
-                }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "PLAYING FROM PLAYLIST",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFF99",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Late Night Drive",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFFDD",
+                    "lineLimit": 1
+                  }
+                ]
               },
-              "children": [
-                {
-                  "type": "ticker",
-                  "bind": "progress",
-                  "interval": 1,
-                  "step": 0.00408,
-                  "max": 1,
-                  "loop": true,
-                  "while": "playing"
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/neon-nights-cover/600/600",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "contentMode": "fill"
                 },
-                {
-                  "type": "slider",
-                  "bind": "progress",
-                  "color": "#FFFFFF",
-                  "height": 6
-                },
-                {
-                  "type": "hstack",
-                  "alignment": "center",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fill"
-                      }
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 300
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 300
                     }
                   },
-                  "children": [
-                    {
-                      "type": "text",
-                      "value": "$state.progress",
-                      "format": "elapsed",
-                      "total": 245,
-                      "style": "$token.typography.caption",
-                      "color": "#FFFFFF88"
-                    },
-                    {
-                      "type": "spacer"
-                    },
-                    {
-                      "type": "text",
-                      "value": "$state.progress",
-                      "format": "remaining",
-                      "total": 245,
-                      "style": "$token.typography.caption",
-                      "color": "#FFFFFF88"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "hstack",
-              "alignment": "center",
-              "modifiers": {
-                "size": {
-                  "width": {
-                    "mode": "fill"
+                  "cornerRadius": 16,
+                  "shadow": {
+                    "radius": 34,
+                    "y": 18,
+                    "color": "#00000099"
+                  },
+                  "scale": "$state.artScale",
+                  "pulse": { "while": "$state.playing", "scale": 1.035, "interval": 0.46 },
+                  "animation": {
+                    "curve": "spring"
+                  },
+                  "onTap": {
+                    "action": "condition",
+                    "if": { "equals": ["$state.playing", "true"] },
+                    "then": { "action": "sequence", "actions": [ { "action": "setState", "key": "playing", "value": false }, { "action": "setState", "key": "artScale", "value": 0.82 }, { "action": "haptic", "style": "light" } ] },
+                    "else": { "action": "sequence", "actions": [ { "action": "setState", "key": "playing", "value": true }, { "action": "setState", "key": "artScale", "value": 1 }, { "action": "haptic", "style": "light" } ] }
                   }
-                },
-                "padding": {
-                  "horizontal": "$token.spacing.md"
                 }
               },
-              "children": [
-                {
-                  "type": "zstack",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "name": "shuffle",
-                      "color": "#FFFFFF66",
-                      "size": 20,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.shuffle",
-                          "false"
-                        ]
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "top": "$token.spacing.sm"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Neon Nights",
+                        "style": "$token.typography.title2",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
                       },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "setState",
-                          "key": "shuffle",
-                          "value": true
+                      {
+                        "type": "text",
+                        "value": "Aurora Vale",
+                        "style": "$token.typography.body",
+                        "color": "#FF6A88",
+                        "lineLimit": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "zstack",
+                    "children": [
+                      {
+                        "type": "icon",
+                        "name": "star",
+                        "color": "#FFFFFFAA",
+                        "size": 22,
+                        "visibleWhen": {
+                          "equals": [
+                            "$state.liked",
+                            "false"
+                          ]
+                        },
+                        "modifiers": {
+                          "onTap": {
+                            "action": "setState",
+                            "key": "liked",
+                            "value": true
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "star.fill",
+                        "color": "#FFD60A",
+                        "size": 22,
+                        "visibleWhen": {
+                          "equals": [
+                            "$state.liked",
+                            "true"
+                          ]
+                        },
+                        "modifiers": {
+                          "onTap": {
+                            "action": "setState",
+                            "key": "liked",
+                            "value": false
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "icon",
+                    "name": "ellipsis.circle",
+                    "color": "#FFFFFFAA",
+                    "size": 22,
+                    "modifiers": { "onTap": { "action": "showToast", "message": "More" } }
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "cornerRadius": "$token.radius.lg",
+                  "material": "glass"
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
                         }
                       }
                     },
-                    {
-                      "type": "icon",
-                      "name": "shuffle",
-                      "color": "#FF2D55",
-                      "size": 20,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.shuffle",
-                          "true"
-                        ]
+                    "children": [
+                      {
+                        "type": "ticker",
+                        "bind": "progress",
+                        "interval": 1,
+                        "step": 0.00408,
+                        "max": 1,
+                        "loop": true,
+                        "while": "playing"
                       },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "setState",
-                          "key": "shuffle",
-                          "value": false
-                        }
+                      {
+                        "type": "slider",
+                        "bind": "progress",
+                        "color": "#FFFFFF",
+                        "height": 6
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            }
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "$state.progress",
+                            "format": "elapsed",
+                            "total": 245,
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF88"
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "$state.progress",
+                            "format": "remaining",
+                            "total": 245,
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF88"
+                          }
+                        ]
                       }
-                    }
-                  ]
-                },
-                {
-                  "type": "spacer"
-                },
-                {
-                  "type": "icon",
-                  "name": "backward.fill",
-                  "color": "#FFFFFF",
-                  "size": 32,
-                  "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "progress", "value": 0 }, { "action": "showToast", "message": "Previous" } ] } }
-                },
-                {
-                  "type": "spacer"
-                },
-                {
-                  "type": "zstack",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "name": "play.fill",
-                      "color": "#FFFFFF",
-                      "size": 56,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.playing",
-                          "false"
-                        ]
+                    ]
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
                       },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "sequence",
-                          "actions": [
-                            {
-                              "action": "setState",
-                              "key": "playing",
-                              "value": true
+                      "padding": {
+                        "horizontal": "$token.spacing.xs"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "zstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "shuffle",
+                            "color": "#FFFFFF66",
+                            "size": 20,
+                            "visibleWhen": {
+                              "equals": [
+                                "$state.shuffle",
+                                "false"
+                              ]
                             },
-                            {
-                              "action": "setState",
-                              "key": "artScale",
+                            "modifiers": {
+                              "onTap": {
+                                "action": "setState",
+                                "key": "shuffle",
+                                "value": true
+                              }
+                            }
+                          },
+                          {
+                            "type": "icon",
+                            "name": "shuffle",
+                            "color": "#FF2D55",
+                            "size": 20,
+                            "visibleWhen": {
+                              "equals": [
+                                "$state.shuffle",
+                                "true"
+                              ]
+                            },
+                            "modifiers": {
+                              "onTap": {
+                                "action": "setState",
+                                "key": "shuffle",
+                                "value": false
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "backward.fill",
+                        "color": "#FFFFFF",
+                        "size": 32,
+                        "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "setState", "key": "progress", "value": 0 }, { "action": "showToast", "message": "Previous" } ] } }
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "zstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "play.fill",
+                            "color": "#FFFFFF",
+                            "size": 56,
+                            "visibleWhen": {
+                              "equals": [
+                                "$state.playing",
+                                "false"
+                              ]
+                            },
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "setState",
+                                    "key": "playing",
+                                    "value": true
+                                  },
+                                  {
+                                    "action": "setState",
+                                    "key": "artScale",
+                                    "value": 1
+                                  },
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "type": "icon",
+                            "name": "pause.fill",
+                            "color": "#FFFFFF",
+                            "size": 56,
+                            "visibleWhen": {
+                              "equals": [
+                                "$state.playing",
+                                "true"
+                              ]
+                            },
+                            "modifiers": {
+                              "onTap": {
+                                "action": "sequence",
+                                "actions": [
+                                  {
+                                    "action": "setState",
+                                    "key": "playing",
+                                    "value": false
+                                  },
+                                  {
+                                    "action": "setState",
+                                    "key": "artScale",
+                                    "value": 0.82
+                                  },
+                                  {
+                                    "action": "haptic",
+                                    "style": "light"
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "forward.fill",
+                        "color": "#FFFFFF",
+                        "size": 32,
+                        "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Next" } ] } }
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "zstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "repeat",
+                            "color": "#FFFFFF66",
+                            "size": 20,
+                            "visibleWhen": {
+                              "equals": [
+                                "$state.repeat",
+                                "false"
+                              ]
+                            },
+                            "modifiers": {
+                              "onTap": {
+                                "action": "setState",
+                                "key": "repeat",
+                                "value": true
+                              }
+                            }
+                          },
+                          {
+                            "type": "icon",
+                            "name": "repeat",
+                            "color": "#FF2D55",
+                            "size": 20,
+                            "visibleWhen": {
+                              "equals": [
+                                "$state.repeat",
+                                "true"
+                              ]
+                            },
+                            "modifiers": {
+                              "onTap": {
+                                "action": "setState",
+                                "key": "repeat",
+                                "value": false
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "spacing": "$token.spacing.md",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "padding": {
+                        "horizontal": "$token.spacing.xs",
+                        "top": "$token.spacing.xs"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "icon",
+                        "name": "speaker.fill",
+                        "color": "#FFFFFF88",
+                        "size": 13
+                      },
+                      {
+                        "type": "slider",
+                        "bind": "volume",
+                        "color": "#FFFFFFCC",
+                        "height": 5,
+                        "thumb": false,
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "weight",
                               "value": 1
-                            },
-                            {
-                              "action": "haptic",
-                              "style": "light"
                             }
-                          ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "icon",
+                        "name": "speaker.wave.3.fill",
+                        "color": "#FFFFFF88",
+                        "size": 13
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "horizontal": "$token.spacing.xl"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "quote.bubble",
+                    "color": "#FFFFFF99",
+                    "size": 20,
+                    "modifiers": { "onTap": { "action": "showToast", "message": "Lyrics" } }
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "airplayaudio",
+                    "color": "#FFFFFF99",
+                    "size": 20,
+                    "modifiers": { "onTap": { "action": "showToast", "message": "AirPlay" } }
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "icon",
+                    "name": "list.bullet",
+                    "color": "#FFFFFF99",
+                    "size": 20,
+                    "modifiers": { "onTap": { "action": "showToast", "message": "Up Next" } }
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "top": "$token.spacing.md"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
                         }
                       }
                     },
-                    {
-                      "type": "icon",
-                      "name": "pause.fill",
-                      "color": "#FFFFFF",
-                      "size": 56,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.playing",
-                          "true"
-                        ]
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Up Next",
+                        "style": "$token.typography.title2",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
                       },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "sequence",
-                          "actions": [
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "See all",
+                        "style": "$token.typography.subheadline",
+                        "color": "#FF6A88",
+                        "lineLimit": 1
+                      }
+                    ]
+                  },
+                  {
+                    "type": "scroll",
+                    "axis": "horizontal",
+                    "showsIndicators": false,
+                    "child": {
+                      "type": "hstack",
+                      "spacing": "$token.spacing.md",
+                      "children": [
+                        {
+                          "type": "vstack",
+                          "alignment": "leading",
+                          "spacing": "$token.spacing.xs",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 150
+                              }
+                            },
+                            "onTap": { "action": "showToast", "message": "Midnight Drive" }
+                          },
+                          "children": [
                             {
-                              "action": "setState",
-                              "key": "playing",
-                              "value": false
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/midnight-drive-lp/300/300",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
                             },
                             {
-                              "action": "setState",
-                              "key": "artScale",
-                              "value": 0.82
+                              "type": "text",
+                              "value": "Midnight Drive",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF",
+                              "lineLimit": 1
                             },
                             {
-                              "action": "haptic",
-                              "style": "light"
+                              "type": "text",
+                              "value": "Aurora Vale",
+                              "style": "$token.typography.caption",
+                              "color": "#FFFFFF99",
+                              "lineLimit": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "leading",
+                          "spacing": "$token.spacing.xs",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 150
+                              }
+                            },
+                            "onTap": { "action": "showToast", "message": "Static Bloom" }
+                          },
+                          "children": [
+                            {
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/static-bloom-lp/300/300",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "value": "Static Bloom",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF",
+                              "lineLimit": 1
+                            },
+                            {
+                              "type": "text",
+                              "value": "Nova Reign",
+                              "style": "$token.typography.caption",
+                              "color": "#FFFFFF99",
+                              "lineLimit": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "leading",
+                          "spacing": "$token.spacing.xs",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 150
+                              }
+                            },
+                            "onTap": { "action": "showToast", "message": "Velvet Static" }
+                          },
+                          "children": [
+                            {
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/velvet-static-lp/300/300",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "value": "Velvet Static",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF",
+                              "lineLimit": 1
+                            },
+                            {
+                              "type": "text",
+                              "value": "Kite",
+                              "style": "$token.typography.caption",
+                              "color": "#FFFFFF99",
+                              "lineLimit": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "vstack",
+                          "alignment": "leading",
+                          "spacing": "$token.spacing.xs",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 150
+                              }
+                            },
+                            "onTap": { "action": "showToast", "message": "Paper Moons" }
+                          },
+                          "children": [
+                            {
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/paper-moons-lp/300/300",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 150
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.md"
+                              }
+                            },
+                            {
+                              "type": "text",
+                              "value": "Paper Moons",
+                              "style": "$token.typography.headline",
+                              "color": "#FFFFFF",
+                              "lineLimit": 1
+                            },
+                            {
+                              "type": "text",
+                              "value": "Halcyon",
+                              "style": "$token.typography.caption",
+                              "color": "#FFFFFF99",
+                              "lineLimit": 1
                             }
                           ]
                         }
-                      }
-                    }
-                  ]
-                },
-                {
-                  "type": "spacer"
-                },
-                {
-                  "type": "icon",
-                  "name": "forward.fill",
-                  "color": "#FFFFFF",
-                  "size": 32,
-                  "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Next" } ] } }
-                },
-                {
-                  "type": "spacer"
-                },
-                {
-                  "type": "zstack",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "name": "repeat",
-                      "color": "#FFFFFF66",
-                      "size": 20,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.repeat",
-                          "false"
-                        ]
-                      },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "setState",
-                          "key": "repeat",
-                          "value": true
-                        }
-                      }
-                    },
-                    {
-                      "type": "icon",
-                      "name": "repeat",
-                      "color": "#FF2D55",
-                      "size": 20,
-                      "visibleWhen": {
-                        "equals": [
-                          "$state.repeat",
-                          "true"
-                        ]
-                      },
-                      "modifiers": {
-                        "onTap": {
-                          "action": "setState",
-                          "key": "repeat",
-                          "value": false
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "spacer"
-            },
-            {
-              "type": "hstack",
-              "alignment": "center",
-              "spacing": "$token.spacing.md",
-              "modifiers": {
-                "size": {
-                  "width": {
-                    "mode": "fill"
-                  }
-                }
-              },
-              "children": [
-                {
-                  "type": "icon",
-                  "name": "speaker.fill",
-                  "color": "#FFFFFF88",
-                  "size": 13
-                },
-                {
-                  "type": "slider",
-                  "bind": "volume",
-                  "color": "#FFFFFFCC",
-                  "height": 5,
-                  "thumb": false,
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "weight",
-                        "value": 1
-                      }
+                      ]
                     }
                   }
-                },
-                {
-                  "type": "icon",
-                  "name": "speaker.wave.3.fill",
-                  "color": "#FFFFFF88",
-                  "size": 13
-                }
-              ]
-            },
-            {
-              "type": "hstack",
-              "alignment": "center",
-              "modifiers": {
-                "size": {
-                  "width": {
-                    "mode": "fill"
-                  }
-                },
-                "padding": {
-                  "horizontal": "$token.spacing.xl",
-                  "top": "$token.spacing.xs"
-                }
-              },
-              "children": [
-                {
-                  "type": "icon",
-                  "name": "quote.bubble",
-                  "color": "#FFFFFF99",
-                  "size": 20,
-                  "modifiers": { "onTap": { "action": "showToast", "message": "Lyrics" } }
-                },
-                {
-                  "type": "spacer"
-                },
-                {
-                  "type": "icon",
-                  "name": "airplayaudio",
-                  "color": "#FFFFFF99",
-                  "size": 20,
-                  "modifiers": { "onTap": { "action": "showToast", "message": "AirPlay" } }
-                },
-                {
-                  "type": "spacer"
-                },
-                {
-                  "type": "icon",
-                  "name": "list.bullet",
-                  "color": "#FFFFFF99",
-                  "size": 20,
-                  "modifiers": { "onTap": { "action": "showToast", "message": "Up Next" } }
-                }
-              ]
-            },
-            {
-              "type": "spacer"
-            }
-          ]
+                ]
+              }
+            ]
+          }
         }
       ]
     }

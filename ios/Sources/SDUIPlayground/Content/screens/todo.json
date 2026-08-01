@@ -10,10 +10,13 @@
       "type": "scroll",
       "child": {
         "type": "vstack",
-        "spacing": "$token.spacing.md",
+        "spacing": "$token.spacing.lg",
         "alignment": "leading",
         "modifiers": {
-          "padding": "$token.spacing.lg",
+          "padding": {
+            "top": "$token.spacing.md",
+            "bottom": "$token.spacing.xl"
+          },
           "size": {
             "width": {
               "mode": "fill"
@@ -22,680 +25,9 @@
         },
         "children": [
           {
-            "type": "vstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.xs",
-            "modifiers": {
-              "padding": {
-                "top": "$token.spacing.xs"
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "value": "MONDAY, JULY 20",
-                "style": "$token.typography.caption",
-                "color": "$token.color.primary"
-              },
-              {
-                "type": "text",
-                "value": "Today",
-                "style": "$token.typography.largeTitle",
-                "color": "$token.color.textPrimary"
-              },
-              {
-                "type": "text",
-                "value": "2 left to do · 3 done",
-                "style": "$token.typography.subheadline",
-                "color": "$token.color.textSecondary"
-              }
-            ]
-          },
-          {
             "type": "hstack",
             "alignment": "center",
             "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": "$token.spacing.md",
-              "background": "$token.color.surfaceElevated",
-              "cornerRadius": "$token.radius.lg",
-              "shadow": {
-                "radius": 10,
-                "y": 4,
-                "color": "#0E0E1214"
-              },
-              "onTap": {
-                "action": "sequence",
-                "actions": [
-                  {
-                    "action": "haptic",
-                    "style": "success"
-                  },
-                  {
-                    "action": "showToast",
-                    "message": "Completed",
-                    "style": "success"
-                  }
-                ]
-              },
-              "swipe": {
-                "style": "custom",
-                "fullSwipe": true,
-                "leading": [
-                  {
-                    "title": "Remind",
-                    "icon": "bell.fill",
-                    "tint": "$token.color.primary",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Reminder set"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "trailing": [
-                  {
-                    "title": "Flag",
-                    "icon": "flag.fill",
-                    "tint": "$token.color.warning",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Flagged"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "title": "Delete",
-                    "icon": "trash.fill",
-                    "role": "destructive",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "medium"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Deleted",
-                          "style": "error"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            },
-            "children": [
-              {
-                "type": "icon",
-                "name": "checkmark.circle.fill",
-                "color": "$token.color.success",
-                "size": 26
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": 2,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Design the paywall",
-                    "style": "$token.typography.headline",
-                    "color": "$token.color.textTertiary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "Final polish · shipped",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.textTertiary"
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              }
-            ]
-          },
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": "$token.spacing.md",
-              "background": "$token.color.surfaceElevated",
-              "cornerRadius": "$token.radius.lg",
-              "shadow": {
-                "radius": 10,
-                "y": 4,
-                "color": "#0E0E1214"
-              },
-              "onTap": {
-                "action": "sequence",
-                "actions": [
-                  {
-                    "action": "haptic",
-                    "style": "success"
-                  },
-                  {
-                    "action": "showToast",
-                    "message": "Completed",
-                    "style": "success"
-                  }
-                ]
-              },
-              "swipe": {
-                "style": "custom",
-                "fullSwipe": true,
-                "leading": [
-                  {
-                    "title": "Remind",
-                    "icon": "bell.fill",
-                    "tint": "$token.color.primary",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Reminder set"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "trailing": [
-                  {
-                    "title": "Flag",
-                    "icon": "flag.fill",
-                    "tint": "$token.color.warning",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Flagged"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "title": "Delete",
-                    "icon": "trash.fill",
-                    "role": "destructive",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "medium"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Deleted",
-                          "style": "error"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            },
-            "children": [
-              {
-                "type": "icon",
-                "name": "checkmark.circle.fill",
-                "color": "$token.color.success",
-                "size": 26
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": 2,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Ship the JSON contract",
-                    "style": "$token.typography.headline",
-                    "color": "$token.color.textTertiary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "v0.1 · merged",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.textTertiary"
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              }
-            ]
-          },
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": "$token.spacing.md",
-              "background": "$token.color.surfaceElevated",
-              "cornerRadius": "$token.radius.lg",
-              "shadow": {
-                "radius": 10,
-                "y": 4,
-                "color": "#0E0E1214"
-              },
-              "onTap": {
-                "action": "sequence",
-                "actions": [
-                  {
-                    "action": "haptic",
-                    "style": "success"
-                  },
-                  {
-                    "action": "showToast",
-                    "message": "Completed",
-                    "style": "success"
-                  }
-                ]
-              },
-              "swipe": {
-                "style": "custom",
-                "fullSwipe": true,
-                "leading": [
-                  {
-                    "title": "Remind",
-                    "icon": "bell.fill",
-                    "tint": "$token.color.primary",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Reminder set"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "trailing": [
-                  {
-                    "title": "Flag",
-                    "icon": "flag.fill",
-                    "tint": "$token.color.warning",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Flagged"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "title": "Delete",
-                    "icon": "trash.fill",
-                    "role": "destructive",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "medium"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Deleted",
-                          "style": "error"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            },
-            "children": [
-              {
-                "type": "icon",
-                "name": "checkmark.circle.fill",
-                "color": "$token.color.success",
-                "size": 26
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": 2,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Call Aizhan about the demo",
-                    "style": "$token.typography.headline",
-                    "color": "$token.color.textTertiary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "Follow-up sent",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.textTertiary"
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              }
-            ]
-          },
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": "$token.spacing.md",
-              "background": "$token.color.surfaceElevated",
-              "cornerRadius": "$token.radius.lg",
-              "shadow": {
-                "radius": 10,
-                "y": 4,
-                "color": "#0E0E1214"
-              },
-              "onTap": {
-                "action": "sequence",
-                "actions": [
-                  {
-                    "action": "haptic",
-                    "style": "success"
-                  },
-                  {
-                    "action": "showToast",
-                    "message": "Completed",
-                    "style": "success"
-                  }
-                ]
-              },
-              "swipe": {
-                "style": "custom",
-                "fullSwipe": true,
-                "leading": [
-                  {
-                    "title": "Remind",
-                    "icon": "bell.fill",
-                    "tint": "$token.color.primary",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Reminder set"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "trailing": [
-                  {
-                    "title": "Flag",
-                    "icon": "flag.fill",
-                    "tint": "$token.color.warning",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Flagged"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "title": "Delete",
-                    "icon": "trash.fill",
-                    "role": "destructive",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "medium"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Deleted",
-                          "style": "error"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            },
-            "children": [
-              {
-                "type": "icon",
-                "name": "circle",
-                "color": "$token.color.textTertiary",
-                "size": 26
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": 2,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Review the pull request",
-                    "style": "$token.typography.headline",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "Due today · 4:00 PM",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.textTertiary"
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              }
-            ]
-          },
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": "$token.spacing.md",
-              "background": "$token.color.surfaceElevated",
-              "cornerRadius": "$token.radius.lg",
-              "shadow": {
-                "radius": 10,
-                "y": 4,
-                "color": "#0E0E1214"
-              },
-              "onTap": {
-                "action": "sequence",
-                "actions": [
-                  {
-                    "action": "haptic",
-                    "style": "success"
-                  },
-                  {
-                    "action": "showToast",
-                    "message": "Completed",
-                    "style": "success"
-                  }
-                ]
-              },
-              "swipe": {
-                "style": "custom",
-                "fullSwipe": true,
-                "leading": [
-                  {
-                    "title": "Remind",
-                    "icon": "bell.fill",
-                    "tint": "$token.color.primary",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Reminder set"
-                        }
-                      ]
-                    }
-                  }
-                ],
-                "trailing": [
-                  {
-                    "title": "Flag",
-                    "icon": "flag.fill",
-                    "tint": "$token.color.warning",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "light"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Flagged"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "title": "Delete",
-                    "icon": "trash.fill",
-                    "role": "destructive",
-                    "action": {
-                      "action": "sequence",
-                      "actions": [
-                        {
-                          "action": "haptic",
-                          "style": "medium"
-                        },
-                        {
-                          "action": "showToast",
-                          "message": "Deleted",
-                          "style": "error"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            },
-            "children": [
-              {
-                "type": "icon",
-                "name": "circle",
-                "color": "$token.color.textTertiary",
-                "size": 26
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": 2,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Book the team dinner",
-                    "style": "$token.typography.headline",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "Pick a spot for Friday",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.textTertiary"
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              }
-            ]
-          },
-          {
-            "type": "button",
-            "title": "Add task",
-            "style": "$token.button.large",
-            "icon": "plus",
             "modifiers": {
               "size": {
                 "width": {
@@ -703,22 +35,1127 @@
                 }
               },
               "padding": {
-                "top": "$token.spacing.sm"
+                "horizontal": "$token.spacing.lg"
               }
             },
-            "onTap": {
-              "action": "sequence",
-              "actions": [
+            "children": [
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 2,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "MONDAY, JULY 20",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.primary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Hi Danila, nice to see you!",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 2
+                  }
+                ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "zstack",
+                "alignment": "center",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 44
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 44
+                    }
+                  },
+                  "material": "glass",
+                  "cornerRadius": 22,
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "No new notifications"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "bell.fill",
+                    "color": "$token.color.textPrimary",
+                    "size": 18
+                  }
+                ]
+              },
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/danila-avatar/120/120",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "contentMode": "fill"
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 44
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 44
+                    }
+                  },
+                  "cornerRadius": 22
+                }
+              }
+            ]
+          },
+          {
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.sm",
+              "modifiers": {
+                "padding": {
+                  "horizontal": "$token.spacing.lg"
+                }
+              },
+              "children": [
                 {
-                  "action": "haptic",
-                  "style": "light"
+                  "type": "hstack",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.lg",
+                      "trailing": "$token.spacing.lg",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "cornerRadius": "$token.radius.pill",
+                    "background": "$token.color.primary"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "All 5",
+                      "style": "$token.typography.headline",
+                      "color": "#FFFFFF",
+                      "lineLimit": 1
+                    }
+                  ]
                 },
                 {
-                  "action": "showToast",
-                  "message": "New task"
+                  "type": "hstack",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.lg",
+                      "trailing": "$token.spacing.lg",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "cornerRadius": "$token.radius.pill",
+                    "material": "glass"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Today 2",
+                      "style": "$token.typography.headline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.lg",
+                      "trailing": "$token.spacing.lg",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "cornerRadius": "$token.radius.pill",
+                    "material": "glass"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Done 3",
+                      "style": "$token.typography.headline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
                 }
               ]
             }
+          },
+          {
+            "type": "zstack",
+            "alignment": "center",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "horizontal": "$token.spacing.lg"
+              }
+            },
+            "children": [
+              {
+                "type": "vstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 232
+                    }
+                  },
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "opacity": 0.3,
+                  "scale": 0.86
+                },
+                "children": [
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 232
+                    }
+                  },
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "opacity": 0.55,
+                  "scale": 0.93
+                },
+                "children": [
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "zstack",
+                "alignment": "topLeading",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 232
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": {
+                    "radius": 18,
+                    "y": 10,
+                    "color": "#5B5BF04D"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "success"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Completed",
+                        "style": "success"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#7A7AF7",
+                      "#5B5BF0",
+                      "#4A32D6"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 232
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.sm",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 232
+                        }
+                      },
+                      "padding": "$token.spacing.lg"
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": "$token.spacing.sm",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            }
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "image",
+                            "source": "https://picsum.photos/seed/mate-aizhan/80/80",
+                            "loader": {
+                              "placeholder": "skeleton",
+                              "contentMode": "fill"
+                            },
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 28
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 28
+                                }
+                              },
+                              "cornerRadius": 14
+                            }
+                          },
+                          {
+                            "type": "image",
+                            "source": "https://picsum.photos/seed/mate-timur/80/80",
+                            "loader": {
+                              "placeholder": "skeleton",
+                              "contentMode": "fill"
+                            },
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 28
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 28
+                                }
+                              },
+                              "cornerRadius": 14
+                            }
+                          },
+                          {
+                            "type": "image",
+                            "source": "https://picsum.photos/seed/mate-lena/80/80",
+                            "loader": {
+                              "placeholder": "skeleton",
+                              "contentMode": "fill"
+                            },
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 28
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 28
+                                }
+                              },
+                              "cornerRadius": 14
+                            }
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "hstack",
+                            "spacing": "$token.spacing.xs",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.sm",
+                                "trailing": "$token.spacing.sm",
+                                "top": 4,
+                                "bottom": 4
+                              },
+                              "cornerRadius": "$token.radius.pill",
+                              "background": "#FFFFFF26"
+                            },
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "High",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "Review the pull request",
+                        "style": "$token.typography.title2",
+                        "color": "#FFFFFF",
+                        "lineLimit": 2
+                      },
+                      {
+                        "type": "hstack",
+                        "spacing": "$token.spacing.xs",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.sm",
+                            "trailing": "$token.spacing.sm",
+                            "top": 4,
+                            "bottom": 4
+                          },
+                          "cornerRadius": "$token.radius.pill",
+                          "material": "glass"
+                        },
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "clock.fill",
+                            "color": "#FFFFFF",
+                            "size": 12
+                          },
+                          {
+                            "type": "text",
+                            "value": "Due today · 4:00 PM",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "hstack",
+                        "alignment": "center",
+                        "spacing": "$token.spacing.sm",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            }
+                          },
+                          "padding": {
+                            "leading": 6,
+                            "trailing": "$token.spacing.md",
+                            "top": 6,
+                            "bottom": 6
+                          },
+                          "cornerRadius": "$token.radius.pill",
+                          "material": "glass",
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "success"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Completed",
+                                "style": "success"
+                              }
+                            ]
+                          }
+                        },
+                        "children": [
+                          {
+                            "type": "zstack",
+                            "alignment": "center",
+                            "modifiers": {
+                              "size": {
+                                "width": {
+                                  "mode": "fixed",
+                                  "value": 34
+                                },
+                                "height": {
+                                  "mode": "fixed",
+                                  "value": 34
+                                }
+                              },
+                              "background": "#FFFFFF",
+                              "cornerRadius": 17
+                            },
+                            "children": [
+                              {
+                                "type": "icon",
+                                "name": "checkmark",
+                                "color": "$token.color.primary",
+                                "size": 16
+                              }
+                            ]
+                          },
+                          {
+                            "type": "text",
+                            "value": "Drag to mark done",
+                            "style": "$token.typography.headline",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "spacer"
+                          },
+                          {
+                            "type": "text",
+                            "value": "»",
+                            "style": "$token.typography.headline",
+                            "color": "#FFFFFFAA",
+                            "lineLimit": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "horizontal": "$token.spacing.lg"
+              }
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Upcoming",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": {
+                    "radius": 10,
+                    "y": 4,
+                    "color": "#0E0E1214"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "success"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Completed",
+                        "style": "success"
+                      }
+                    ]
+                  },
+                  "swipe": {
+                    "style": "custom",
+                    "fullSwipe": true,
+                    "leading": [
+                      {
+                        "title": "Remind",
+                        "icon": "bell.fill",
+                        "tint": "$token.color.primary",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Reminder set"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "trailing": [
+                      {
+                        "title": "Flag",
+                        "icon": "flag.fill",
+                        "tint": "$token.color.warning",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Flagged"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Delete",
+                        "icon": "trash.fill",
+                        "role": "destructive",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "medium"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Deleted",
+                              "style": "error"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "circle",
+                    "color": "$token.color.textTertiary",
+                    "size": 26
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Book the team dinner",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Pick a spot for Friday",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textTertiary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": {
+                    "radius": 10,
+                    "y": 4,
+                    "color": "#0E0E1214"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "success"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Completed",
+                        "style": "success"
+                      }
+                    ]
+                  },
+                  "swipe": {
+                    "style": "custom",
+                    "fullSwipe": true,
+                    "leading": [
+                      {
+                        "title": "Remind",
+                        "icon": "bell.fill",
+                        "tint": "$token.color.primary",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Reminder set"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "trailing": [
+                      {
+                        "title": "Flag",
+                        "icon": "flag.fill",
+                        "tint": "$token.color.warning",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Flagged"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Delete",
+                        "icon": "trash.fill",
+                        "role": "destructive",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "medium"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Deleted",
+                              "style": "error"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.success",
+                    "size": 26
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Design the paywall",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textTertiary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Final polish · shipped",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textTertiary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": {
+                    "radius": 10,
+                    "y": 4,
+                    "color": "#0E0E1214"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "success"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Completed",
+                        "style": "success"
+                      }
+                    ]
+                  },
+                  "swipe": {
+                    "style": "custom",
+                    "fullSwipe": true,
+                    "leading": [
+                      {
+                        "title": "Remind",
+                        "icon": "bell.fill",
+                        "tint": "$token.color.primary",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Reminder set"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "trailing": [
+                      {
+                        "title": "Flag",
+                        "icon": "flag.fill",
+                        "tint": "$token.color.warning",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Flagged"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Delete",
+                        "icon": "trash.fill",
+                        "role": "destructive",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "medium"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Deleted",
+                              "style": "error"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.success",
+                    "size": 26
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Ship the JSON contract",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textTertiary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "v0.1 · merged",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textTertiary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": {
+                    "radius": 10,
+                    "y": 4,
+                    "color": "#0E0E1214"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "success"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Completed",
+                        "style": "success"
+                      }
+                    ]
+                  },
+                  "swipe": {
+                    "style": "custom",
+                    "fullSwipe": true,
+                    "leading": [
+                      {
+                        "title": "Remind",
+                        "icon": "bell.fill",
+                        "tint": "$token.color.primary",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Reminder set"
+                            }
+                          ]
+                        }
+                      }
+                    ],
+                    "trailing": [
+                      {
+                        "title": "Flag",
+                        "icon": "flag.fill",
+                        "tint": "$token.color.warning",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "light"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Flagged"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "title": "Delete",
+                        "icon": "trash.fill",
+                        "role": "destructive",
+                        "action": {
+                          "action": "sequence",
+                          "actions": [
+                            {
+                              "action": "haptic",
+                              "style": "medium"
+                            },
+                            {
+                              "action": "showToast",
+                              "message": "Deleted",
+                              "style": "error"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.success",
+                    "size": 26
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": 2,
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Call Aizhan about the demo",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textTertiary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Follow-up sent",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textTertiary"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              },
+              {
+                "type": "button",
+                "title": "Add task",
+                "style": "$token.button.large",
+                "icon": "plus",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  },
+                  "padding": {
+                    "top": "$token.spacing.sm"
+                  }
+                },
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "light"
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "New task"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         ]
       }

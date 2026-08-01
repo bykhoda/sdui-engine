@@ -7,9 +7,7 @@
       "trial": true
     },
     "content": {
-      "type": "vstack",
-      "spacing": 0,
-      "alignment": "center",
+      "type": "scroll",
       "modifiers": {
         "size": {
           "width": {
@@ -18,123 +16,30 @@
           "height": {
             "mode": "fill"
           }
-        },
-        "animation": {
-          "curve": "spring"
         }
       },
-      "children": [
-        {
-          "type": "vstack",
-          "spacing": "$token.spacing.md",
-          "alignment": "center",
-          "modifiers": {
-            "size": {
-              "width": {
-                "mode": "fill"
-              }
-            },
-            "padding": {
-              "leading": "$token.spacing.lg",
-              "trailing": "$token.spacing.lg",
-              "top": "$token.spacing.lg",
-              "bottom": "$token.spacing.md"
+      "child": {
+        "type": "vstack",
+        "alignment": "center",
+        "spacing": "$token.spacing.lg",
+        "modifiers": {
+          "size": {
+            "width": {
+              "mode": "fill"
             }
           },
-          "children": [
-            {
-              "type": "zstack",
-              "alignment": "center",
-              "modifiers": {
-                "size": {
-                  "width": {
-                    "mode": "fixed",
-                    "value": 68
-                  },
-                  "height": {
-                    "mode": "fixed",
-                    "value": 68
-                  }
-                },
-                "cornerRadius": 20,
-                "shadow": {
-                  "radius": 16,
-                  "y": 7,
-                  "color": "#5B5BF040"
-                }
-              },
-              "children": [
-                {
-                  "type": "gradient",
-                  "colors": [
-                    "#5B5BF0",
-                    "#8B5CF6"
-                  ],
-                  "direction": "diagonal",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fill"
-                      },
-                      "height": {
-                        "mode": "fill"
-                      }
-                    }
-                  }
-                },
-                {
-                  "type": "icon",
-                  "name": "crown.fill",
-                  "color": "#FFFFFF",
-                  "size": 30,
-                  "symbolEffect": "pulse"
-                }
-              ]
-            },
-            {
-              "type": "vstack",
-              "alignment": "center",
-              "spacing": "$token.spacing.xs",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Go Premium",
-                  "style": "$token.typography.largeTitle",
-                  "color": "$token.color.textPrimary"
-                },
-                {
-                  "type": "text",
-                  "value": "Everything unlocked. Cancel anytime.",
-                  "style": "$token.typography.subheadline",
-                  "color": "$token.color.textSecondary"
-                }
-              ]
-            }
-          ]
+          "padding": {
+            "bottom": "$token.spacing.xl"
+          },
+          "animation": {
+            "curve": "spring"
+          }
         },
-        {
-          "type": "scroll",
-          "modifiers": {
-            "size": {
-              "width": {
-                "mode": "fill"
-              },
-              "height": {
-                "mode": "fill"
-              }
-            }
-          },
-          "child": {
-            "type": "vstack",
-            "spacing": "$token.spacing.lg",
-            "alignment": "center",
+        "children": [
+          {
+            "type": "zstack",
+            "alignment": "bottomLeading",
             "modifiers": {
-              "padding": {
-                "leading": "$token.spacing.lg",
-                "trailing": "$token.spacing.lg",
-                "top": "$token.spacing.sm",
-                "bottom": "$token.spacing.lg"
-              },
               "size": {
                 "width": {
                   "mode": "fill"
@@ -143,373 +48,140 @@
             },
             "children": [
               {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": "$token.spacing.md",
+                "type": "image",
+                "source": "https://picsum.photos/seed/aurora-summit-premium/800/920",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "contentMode": "fill"
+                },
                 "modifiers": {
                   "size": {
                     "width": {
                       "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 460
                     }
-                  },
-                  "padding": "$token.spacing.lg",
-                  "background": "$token.color.surfaceElevated",
-                  "cornerRadius": "$token.radius.lg",
-                  "shadow": {
-                    "radius": 10,
-                    "y": 4,
-                    "color": "#00000010"
                   }
-                },
-                "children": [
-                  {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "square.stack.3d.up.fill",
-                        "color": "$token.color.primary",
-                        "size": 20
-                      },
-                      {
-                        "type": "text",
-                        "value": "Unlimited projects",
-                        "style": "$token.typography.body",
-                        "color": "$token.color.textPrimary"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "paintpalette.fill",
-                        "color": "$token.color.primary",
-                        "size": 20
-                      },
-                      {
-                        "type": "text",
-                        "value": "All templates & themes",
-                        "style": "$token.typography.body",
-                        "color": "$token.color.textPrimary"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "icloud.fill",
-                        "color": "$token.color.primary",
-                        "size": 20
-                      },
-                      {
-                        "type": "text",
-                        "value": "Sync across all devices",
-                        "style": "$token.typography.body",
-                        "color": "$token.color.textPrimary"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "bolt.badge.checkmark.fill",
-                        "color": "$token.color.primary",
-                        "size": 20
-                      },
-                      {
-                        "type": "text",
-                        "value": "Priority support",
-                        "style": "$token.typography.body",
-                        "color": "$token.color.textPrimary"
-                      }
-                    ]
+                }
+              },
+              {
+                "type": "gradient",
+                "colors": [
+                  "#00000000",
+                  "#00000055",
+                  "#000000EE"
+                ],
+                "direction": "vertical",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 460
+                    }
                   }
-                ]
+                }
               },
               {
                 "type": "vstack",
+                "alignment": "leading",
                 "spacing": "$token.spacing.sm",
                 "modifiers": {
                   "size": {
                     "width": {
                       "mode": "fill"
                     }
-                  }
+                  },
+                  "padding": "$token.spacing.lg"
                 },
                 "children": [
                   {
                     "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.plan",
-                        "yearly"
-                      ]
-                    },
+                    "spacing": "$token.spacing.xs",
                     "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        }
+                      "padding": {
+                        "leading": "$token.spacing.md",
+                        "trailing": "$token.spacing.md",
+                        "top": "$token.spacing.sm",
+                        "bottom": "$token.spacing.sm"
                       },
-                      "padding": "$token.spacing.md",
-                      "background": "$token.color.primarySoft",
-                      "cornerRadius": "$token.radius.md"
+                      "cornerRadius": "$token.radius.pill",
+                      "material": "glass"
                     },
                     "children": [
                       {
                         "type": "icon",
-                        "name": "checkmark.circle.fill",
-                        "color": "$token.color.primary",
-                        "size": 22
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 1,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Yearly",
-                            "style": "$token.typography.headline",
-                            "color": "$token.color.textPrimary"
-                          },
-                          {
-                            "type": "text",
-                            "value": "$59.99/year · just $4.99/mo",
-                            "style": "$token.typography.subheadline",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "spacer"
+                        "name": "crown.fill",
+                        "color": "#FFFFFF",
+                        "size": 14,
+                        "symbolEffect": "pulse"
                       },
                       {
                         "type": "text",
-                        "value": "SAVE 50%",
+                        "value": "PREMIUM",
                         "style": "$token.typography.caption",
-                        "color": "$token.color.onPrimary",
-                        "modifiers": {
-                          "padding": {
-                            "horizontal": "$token.spacing.sm",
-                            "vertical": 4
-                          },
-                          "background": "$token.color.primary",
-                          "cornerRadius": "$token.radius.pill"
-                        }
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
                       }
                     ]
                   },
                   {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.plan",
-                        "monthly"
-                      ]
-                    },
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        }
-                      },
-                      "padding": "$token.spacing.md",
-                      "background": "$token.color.surface",
-                      "cornerRadius": "$token.radius.md",
-                      "onTap": {
-                        "action": "sequence",
-                        "actions": [
-                          {
-                            "action": "setState",
-                            "key": "plan",
-                            "value": "yearly"
-                          },
-                          {
-                            "action": "haptic",
-                            "style": "light"
-                          }
-                        ]
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "circle",
-                        "color": "$token.color.textTertiary",
-                        "size": 22
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 1,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Yearly",
-                            "style": "$token.typography.headline",
-                            "color": "$token.color.textPrimary"
-                          },
-                          {
-                            "type": "text",
-                            "value": "$59.99/year · just $4.99/mo",
-                            "style": "$token.typography.subheadline",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "spacer"
-                      },
-                      {
-                        "type": "text",
-                        "value": "SAVE 50%",
-                        "style": "$token.typography.caption",
-                        "color": "$token.color.primary",
-                        "modifiers": {
-                          "padding": {
-                            "horizontal": "$token.spacing.sm",
-                            "vertical": 4
-                          },
-                          "background": "$token.color.primarySoft",
-                          "cornerRadius": "$token.radius.pill"
-                        }
-                      }
-                    ]
+                    "type": "text",
+                    "value": "Everything unlocked.",
+                    "style": "$token.typography.display",
+                    "color": "#FFFFFF"
                   },
                   {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.plan",
-                        "monthly"
-                      ]
-                    },
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        }
-                      },
-                      "padding": "$token.spacing.md",
-                      "background": "$token.color.primarySoft",
-                      "cornerRadius": "$token.radius.md"
-                    },
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "checkmark.circle.fill",
-                        "color": "$token.color.primary",
-                        "size": 22
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 1,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Monthly",
-                            "style": "$token.typography.headline",
-                            "color": "$token.color.textPrimary"
-                          },
-                          {
-                            "type": "text",
-                            "value": "$9.99/month",
-                            "style": "$token.typography.subheadline",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "spacer"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "One membership. Every feature, forever. Cancel anytime.",
+                    "style": "$token.typography.subheadline",
+                    "color": "#FFFFFFDD",
+                    "lineLimit": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "leading": "$token.spacing.lg",
+                "trailing": "$token.spacing.lg",
+                "top": "$token.spacing.lg",
+                "bottom": "$token.spacing.lg"
+              },
+              "material": "glass",
+              "cornerRadius": "$token.radius.lg"
+            },
+            "children": [
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.primary",
+                    "size": 22
                   },
                   {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.plan",
-                        "yearly"
-                      ]
-                    },
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        }
-                      },
-                      "padding": "$token.spacing.md",
-                      "background": "$token.color.surface",
-                      "cornerRadius": "$token.radius.md",
-                      "onTap": {
-                        "action": "sequence",
-                        "actions": [
-                          {
-                            "action": "setState",
-                            "key": "plan",
-                            "value": "monthly"
-                          },
-                          {
-                            "action": "haptic",
-                            "style": "light"
-                          }
-                        ]
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "circle",
-                        "color": "$token.color.textTertiary",
-                        "size": 22
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": 1,
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Monthly",
-                            "style": "$token.typography.headline",
-                            "color": "$token.color.textPrimary"
-                          },
-                          {
-                            "type": "text",
-                            "value": "$9.99/month",
-                            "style": "$token.typography.subheadline",
-                            "color": "$token.color.textSecondary"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "spacer"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "Unlimited projects",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
                   }
                 ]
               },
@@ -517,126 +189,595 @@
                 "type": "hstack",
                 "alignment": "center",
                 "spacing": "$token.spacing.md",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" } },
-                  "padding": "$token.spacing.md",
-                  "background": "$token.color.surface",
-                  "cornerRadius": "$token.radius.md"
-                },
                 "children": [
-                  { "type": "icon", "name": "gift.fill", "color": "$token.color.primary", "size": 20 },
-                  { "type": "vstack", "alignment": "leading", "spacing": 1, "children": [
-                    { "type": "text", "value": "Free trial", "style": "$token.typography.headline", "color": "$token.color.textPrimary" },
-                    { "type": "text", "value": "Try 7 days free, then billed", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "visibleWhen": { "equals": ["$state.trial", "true"] } },
-                    { "type": "text", "value": "Billed today, no trial", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "visibleWhen": { "equals": ["$state.trial", "false"] } }
-                  ] },
-                  { "type": "spacer" },
-                  { "type": "toggle", "bind": "trial", "title": "" }
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.primary",
+                    "size": 22
+                  },
+                  {
+                    "type": "text",
+                    "value": "All templates & themes",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.primary",
+                    "size": 22
+                  },
+                  {
+                    "type": "text",
+                    "value": "Sync across all devices",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.md",
+                "children": [
+                  {
+                    "type": "icon",
+                    "name": "checkmark.circle.fill",
+                    "color": "$token.color.primary",
+                    "size": 22
+                  },
+                  {
+                    "type": "text",
+                    "value": "Priority support",
+                    "style": "$token.typography.body",
+                    "color": "$token.color.textPrimary"
+                  }
                 ]
               }
             ]
-          }
-        },
-        {
-          "type": "vstack",
-          "alignment": "center",
-          "spacing": "$token.spacing.sm",
-          "modifiers": {
-            "size": {
-              "width": {
-                "mode": "fill"
-              }
-            },
-            "padding": {
-              "leading": "$token.spacing.lg",
-              "trailing": "$token.spacing.lg",
-              "top": "$token.spacing.md",
-              "bottom": "$token.spacing.md"
-            },
-            "background": "$token.color.surfaceElevated",
-            "shadow": {
-              "radius": 12,
-              "y": -4,
-              "color": "#00000010"
-            }
           },
-          "children": [
-            {
-              "type": "button",
-              "title": "Start 7-Day Free Trial",
-              "style": "$token.button.large",
-              "visibleWhen": { "equals": ["$state.trial", "true"] },
-              "modifiers": { "size": { "width": { "mode": "fill" } } },
-              "onTap": {
-                "action": "sequence",
-                "actions": [
-                  { "action": "haptic", "style": "success" },
-                  { "action": "showToast", "message": "Welcome to Premium" }
-                ]
+          {
+            "type": "hstack",
+            "alignment": "top",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "padding": {
+                "leading": "$token.spacing.lg",
+                "trailing": "$token.spacing.lg"
               }
             },
-            {
-              "type": "button",
-              "title": "Subscribe Now",
-              "style": "$token.button.large",
-              "visibleWhen": { "equals": ["$state.trial", "false"] },
-              "modifiers": { "size": { "width": { "mode": "fill" } } },
-              "onTap": {
-                "action": "sequence",
-                "actions": [
-                  { "action": "haptic", "style": "success" },
-                  { "action": "showToast", "message": "Welcome to Premium" }
+            "children": [
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.plan",
+                    "yearly"
+                  ]
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 150
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 158
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.primarySoft",
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "POPULAR",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1,
+                        "modifiers": {
+                          "padding": {
+                            "horizontal": "$token.spacing.sm",
+                            "vertical": 4
+                          },
+                          "cornerRadius": "$token.radius.pill",
+                          "material": "glass"
+                        }
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "checkmark.circle.fill",
+                        "color": "$token.color.primary",
+                        "size": 22
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Yearly",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "$59.99/yr",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "just $4.99/mo · save 50%",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.plan",
+                    "monthly"
+                  ]
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 150
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 158
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "setState",
+                        "key": "plan",
+                        "value": "yearly"
+                      },
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "POPULAR",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.primary",
+                        "lineLimit": 1,
+                        "modifiers": {
+                          "padding": {
+                            "horizontal": "$token.spacing.sm",
+                            "vertical": 4
+                          },
+                          "cornerRadius": "$token.radius.pill",
+                          "background": "$token.color.primarySoft"
+                        }
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "circle",
+                        "color": "$token.color.textTertiary",
+                        "size": 22
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Yearly",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "$59.99/yr",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "just $4.99/mo · save 50%",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.plan",
+                    "monthly"
+                  ]
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 150
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 158
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.primarySoft",
+                  "cornerRadius": "$token.radius.lg"
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "checkmark.circle.fill",
+                        "color": "$token.color.primary",
+                        "size": 22
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Monthly",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "$9.99/mo",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "billed monthly",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.plan",
+                    "yearly"
+                  ]
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fixed",
+                      "value": 150
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 158
+                    }
+                  },
+                  "padding": "$token.spacing.md",
+                  "background": "$token.color.surface",
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "setState",
+                        "key": "plan",
+                        "value": "monthly"
+                      },
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      }
+                    ]
+                  }
+                },
+                "children": [
+                  {
+                    "type": "hstack",
+                    "alignment": "center",
+                    "children": [
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "icon",
+                        "name": "circle",
+                        "color": "$token.color.textTertiary",
+                        "size": 22
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Monthly",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "$9.99/mo",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "billed monthly",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "lineLimit": 1
+                  }
                 ]
               }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": "$token.spacing.md",
+              "background": "$token.color.surface",
+              "cornerRadius": "$token.radius.md"
             },
-            {
-              "type": "text",
-              "value": "Then $59.99/year. Cancel anytime in Settings.",
-              "style": "$token.typography.caption",
-              "color": "$token.color.textTertiary",
-              "visibleWhen": {
-                "equals": [
-                  "$state.plan",
-                  "yearly"
+            "children": [
+              {
+                "type": "icon",
+                "name": "gift.fill",
+                "color": "$token.color.primary",
+                "size": 20
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": 1,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Free trial",
+                    "style": "$token.typography.headline",
+                    "color": "$token.color.textPrimary"
+                  },
+                  {
+                    "type": "text",
+                    "value": "Try 7 days free, then billed",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.trial",
+                        "true"
+                      ]
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Billed today, no trial",
+                    "style": "$token.typography.caption",
+                    "color": "$token.color.textSecondary",
+                    "visibleWhen": {
+                      "equals": [
+                        "$state.trial",
+                        "false"
+                      ]
+                    }
+                  }
                 ]
+              },
+              {
+                "type": "spacer"
+              },
+              {
+                "type": "toggle",
+                "bind": "trial",
+                "title": ""
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "leading": "$token.spacing.lg",
+                "trailing": "$token.spacing.lg"
               }
             },
-            {
-              "type": "text",
-              "value": "Then $9.99/month. Cancel anytime in Settings.",
-              "style": "$token.typography.caption",
-              "color": "$token.color.textTertiary",
-              "visibleWhen": {
-                "equals": [
-                  "$state.plan",
-                  "monthly"
-                ]
-              }
-            },
-            {
-              "type": "text",
-              "value": "Restore Purchases",
-              "style": "$token.typography.subheadline",
-              "color": "$token.color.primary",
-              "modifiers": {
+            "children": [
+              {
+                "type": "button",
+                "title": "Start 7-Day Free Trial",
+                "style": "$token.button.pill",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.trial",
+                    "true"
+                  ]
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
                 "onTap": {
                   "action": "sequence",
                   "actions": [
                     {
                       "action": "haptic",
-                      "style": "light"
+                      "style": "success"
                     },
                     {
                       "action": "showToast",
-                      "message": "Purchases restored"
+                      "message": "Welcome to Premium"
                     }
                   ]
                 }
+              },
+              {
+                "type": "button",
+                "title": "Subscribe Now",
+                "style": "$token.button.pill",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.trial",
+                    "false"
+                  ]
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    }
+                  }
+                },
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "success"
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "Welcome to Premium"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "text",
+                "value": "Then $59.99/year. Cancel anytime in Settings.",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textTertiary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.plan",
+                    "yearly"
+                  ]
+                }
+              },
+              {
+                "type": "text",
+                "value": "Then $9.99/month. Cancel anytime in Settings.",
+                "style": "$token.typography.caption",
+                "color": "$token.color.textTertiary",
+                "visibleWhen": {
+                  "equals": [
+                    "$state.plan",
+                    "monthly"
+                  ]
+                }
+              },
+              {
+                "type": "text",
+                "value": "Restore Purchases",
+                "style": "$token.typography.subheadline",
+                "color": "$token.color.primary",
+                "modifiers": {
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Purchases restored"
+                      }
+                    ]
+                  }
+                }
               }
-            }
-          ]
-        }
-      ]
+            ]
+          }
+        ]
+      }
     }
   }
 }
