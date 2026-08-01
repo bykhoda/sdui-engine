@@ -204,18 +204,42 @@ function glyph(name) {
     return "•";
 }
 
-// Typography weight: the bold/semibold leaves of the type scale.
-function fontBold(style) {
-    return /^(largeTitle|title|title1|title2|title3|headline)$/.test(String(style || ""));
+// Typography resolves from the SHARED tokens (ctx.tokens.typography) — the same source iOS/Android
+// read — so the three renderers use identical sizes/weights. The hardcoded table is only a fallback
+// for a bare run where tokens haven't loaded. `style` is e.g. "$token.typography.largeTitle".
+var _TYPE_FALLBACK = {
+    hero: {size: 76, weight: "bold"}, display: {size: 44, weight: "bold"},
+    largeTitle: {size: 32, weight: "bold"}, title: {size: 28, weight: "bold"},
+    title2: {size: 22, weight: "bold"}, title3: {size: 20, weight: "semibold"},
+    headline: {size: 17, weight: "semibold"}, body: {size: 17, weight: "regular"},
+    callout: {size: 16, weight: "regular"}, subheadline: {size: 15, weight: "regular"},
+    footnote: {size: 13, weight: "regular"}, caption: {size: 12, weight: "medium"},
+    caption2: {size: 11, weight: "regular"}
+};
+
+function _typeSpec(style, ctx) {
+    var leaf = (typeof style === "string") ? style.split(".").pop() : "body";
+    var t = (ctx && ctx.tokens && ctx.tokens.typography) ? ctx.tokens.typography[leaf] : null;
+    return t ? t : (_TYPE_FALLBACK[leaf] || _TYPE_FALLBACK.body);
 }
 
-function fontSize(style) {
-    if (typeof style !== 'string') return 20;
-    var leaf = style.split('.').pop();
-    var table = {
-        largeTitle: 40, title: 32, title1: 30, title2: 26, title3: 22,
-        headline: 20, body: 18, callout: 17, subheadline: 16,
-        footnote: 14, caption: 13, caption2: 11
-    };
-    return table[leaf] !== undefined ? table[leaf] : 18;
+function fontSize(style, ctx) {
+    var s = _typeSpec(style, ctx).size;
+    return (typeof s === "number") ? s : 17;
+}
+
+// Map a token weight name to a Qt Font.Weight enum value (so semibold ≠ bold, matching iOS/Android).
+// Font.Normal=50, Medium=57, DemiBold=63, Bold=75, Black=87.
+function fontWeight(style, ctx) {
+    var w = String(_typeSpec(style, ctx).weight || "regular");
+    if (w === "bold") return 75;
+    if (w === "semibold") return 63;
+    if (w === "medium") return 57;
+    if (w === "heavy" || w === "black") return 87;
+    return 50; // regular / light
+}
+
+// Kept for callers that still want a boolean.
+function fontBold(style, ctx) {
+    return fontWeight(style, ctx) >= 63;
 }

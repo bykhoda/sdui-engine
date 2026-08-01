@@ -423,8 +423,8 @@ Item {
             horizontalAlignment: node && node.alignment === "center" ? Text.AlignHCenter
                 : node && node.alignment === "trailing" ? Text.AlignRight : Text.AlignLeft
             text: node ? T.str(node.value, ctx) : ""
-            font.pixelSize: node ? T.fontSize(node.style) : Theme.fontSizeMedium
-            font.bold: node ? T.fontBold(node.style) : false
+            font.pixelSize: node ? T.fontSize(node.style, ctx) : Theme.fontSizeMedium
+            font.weight: node ? T.fontWeight(node.style, ctx) : Font.Normal
             color: node ? T.color(node.color, ctx, Theme.primaryColor) : Theme.primaryColor
         }
     }

@@ -147,20 +147,28 @@
                         "color": "#FFFFFFCC"
                       },
                       {
-                        "type": "text",
-                        "value": "Explore  →",
-                        "style": "$token.typography.subheadline",
-                        "color": "$token.color.primary",
-                        "modifiers": {
-                          "padding": {
-                            "leading": "$token.spacing.md",
-                            "trailing": "$token.spacing.md",
-                            "top": "$token.spacing.xs",
-                            "bottom": "$token.spacing.xs"
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Explore  →",
+                            "style": "$token.typography.subheadline",
+                            "color": "$token.color.primary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.md",
+                                "trailing": "$token.spacing.md",
+                                "top": "$token.spacing.xs",
+                                "bottom": "$token.spacing.xs"
+                              },
+                              "background": "#FFFFFF",
+                              "cornerRadius": "$token.radius.pill"
+                            }
                           },
-                          "background": "#FFFFFF",
-                          "cornerRadius": "$token.radius.pill"
-                        }
+                          {
+                            "type": "spacer"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -254,20 +262,28 @@
                         "color": "#FFFFFFCC"
                       },
                       {
-                        "type": "text",
-                        "value": "Explore  →",
-                        "style": "$token.typography.subheadline",
-                        "color": "$token.color.primary",
-                        "modifiers": {
-                          "padding": {
-                            "leading": "$token.spacing.md",
-                            "trailing": "$token.spacing.md",
-                            "top": "$token.spacing.xs",
-                            "bottom": "$token.spacing.xs"
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Explore  →",
+                            "style": "$token.typography.subheadline",
+                            "color": "$token.color.primary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.md",
+                                "trailing": "$token.spacing.md",
+                                "top": "$token.spacing.xs",
+                                "bottom": "$token.spacing.xs"
+                              },
+                              "background": "#FFFFFF",
+                              "cornerRadius": "$token.radius.pill"
+                            }
                           },
-                          "background": "#FFFFFF",
-                          "cornerRadius": "$token.radius.pill"
-                        }
+                          {
+                            "type": "spacer"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -361,20 +377,28 @@
                         "color": "#FFFFFFCC"
                       },
                       {
-                        "type": "text",
-                        "value": "Explore  →",
-                        "style": "$token.typography.subheadline",
-                        "color": "$token.color.primary",
-                        "modifiers": {
-                          "padding": {
-                            "leading": "$token.spacing.md",
-                            "trailing": "$token.spacing.md",
-                            "top": "$token.spacing.xs",
-                            "bottom": "$token.spacing.xs"
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Explore  →",
+                            "style": "$token.typography.subheadline",
+                            "color": "$token.color.primary",
+                            "modifiers": {
+                              "padding": {
+                                "leading": "$token.spacing.md",
+                                "trailing": "$token.spacing.md",
+                                "top": "$token.spacing.xs",
+                                "bottom": "$token.spacing.xs"
+                              },
+                              "background": "#FFFFFF",
+                              "cornerRadius": "$token.radius.pill"
+                            }
                           },
-                          "background": "#FFFFFF",
-                          "cornerRadius": "$token.radius.pill"
-                        }
+                          {
+                            "type": "spacer"
+                          }
+                        ]
                       }
                     ]
                   }
