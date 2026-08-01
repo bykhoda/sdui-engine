@@ -48,6 +48,15 @@ Item {
     property real _fixedW: _fixed("width")
     property real _fixedH: _fixed("height")
     property bool _fillW: _isFill("width")
+    property bool _fillH: _isFill("height")
+
+    // A `visibleWhen` condition gates the whole node (iOS/Android ComponentRegistry skip a node
+    // whose condition is false). When hidden we render nothing AND take no layout space, so
+    // positioners exclude it — this is what de-duplicates the selected/unselected chip pairs
+    // (each gated by equals/notEquals on $state) that otherwise both drew ("All All").
+    property bool _visible: !root.node || root.node.visibleWhen === undefined || root.node.visibleWhen === null
+                            || T.evalCondition(root.node.visibleWhen, root.ctx)
+    visible: _visible
 
     // Intrinsic size must reflect the RESOLVED size — a fixed size (modifiers.size) is the
     // node's intrinsic size, exactly like a SwiftUI .frame(width:height:) / Compose
@@ -57,7 +66,7 @@ Item {
     implicitWidth: _fixedW >= 0 ? _fixedW : ((loader.item ? loader.item.implicitWidth : 0) + _padL + _padR)
     implicitHeight: _fixedH >= 0 ? _fixedH : ((loader.item ? loader.item.implicitHeight : 0) + _padT + _padB)
     width: _fixedW >= 0 ? _fixedW : (_fillW && parent ? parent.width : implicitWidth)
-    height: _fixedH >= 0 ? _fixedH : implicitHeight
+    height: _fixedH >= 0 ? _fixedH : (_fillH && parent ? parent.height : implicitHeight)
 
     // gentle "breathe" (Instagram live-ring) when a pulse modifier is present
     SequentialAnimation on scale {
@@ -99,7 +108,7 @@ Item {
         layer.effect: OpacityMask {
             maskSource: Rectangle { width: loader.width; height: loader.height; radius: bg.radius }
         }
-        sourceComponent: root.pick(root.node ? root.node.type : "")
+        sourceComponent: root._visible ? root.pick(root.node ? root.node.type : "") : null
         // Bind (not assign) so node/ctx keep tracking `root` — the recursion shim
         // (SduiChild) sets root.node/ctx a tick after this Loader instantiates, and static
         // assignment would freeze the children at the initial `undefined`.
@@ -368,15 +377,47 @@ Item {
             onClicked: { if (node && node.onTap && ctx && ctx.dispatch) ctx.dispatch(node.onTap) }
         }
     }
+    // image — a remote picture sized by its `loader.aspectRatio` (height = width / ratio, iOS
+    // .aspectRatio / Compose .aspectRatio) or, when no ratio is given, by the frame its parent
+    // imposes (modifiers.size / a fixed-height container — the MEDIA-card case). While loading or
+    // on failure it fills that frame with a skeleton/placeholder (never collapses to zero), the
+    // same grey box iOS/Android show — so an offline snapshot matches them. contentMode fill→crop,
+    // fit→letterbox; `placeholder: "none"` draws nothing under a not-yet-loaded image.
     Component {
         id: cImage
-        Image {
+        Item {
             property var node
             property var ctx
+            property var ldr: (node && node.loader) ? node.loader : null
+            property real ar: ldr ? T.num(ldr.aspectRatio, ctx, 0) : 0
+            property string ph: (ldr && ldr.placeholder) ? T.str(ldr.placeholder, ctx) : "skeleton"
+            property bool crop: !(ldr && ldr.contentMode === "fit")
             width: parent ? parent.width : implicitWidth
-            fillMode: Image.PreserveAspectCrop
+            implicitWidth: parent ? parent.width : 200
+            implicitHeight: ar > 0 ? (width / ar) : (parent ? parent.height : 0)
+            height: implicitHeight
             clip: true
-            source: node ? T.str(node.source, ctx) : ""
+
+            Rectangle {   // skeleton / loading + failure surface
+                anchors.fill: parent
+                visible: img.status !== Image.Ready && parent.ph !== "none"
+                color: Qt.rgba(0.5, 0.5, 0.5, 0.12)
+            }
+            Label {       // failure / empty glyph, centred on the placeholder
+                anchors.centerIn: parent
+                visible: (img.status === Image.Error || img.status === Image.Null) && parent.ph !== "none"
+                text: T.glyph("photo"); opacity: 0.45; font.pixelSize: 28
+                color: Theme.secondaryColor
+            }
+            Image {
+                id: img
+                anchors.fill: parent
+                fillMode: parent.crop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                clip: true
+                asynchronous: true
+                cache: true
+                source: node ? T.str(node.source, ctx) : ""
+            }
         }
     }
     Component {

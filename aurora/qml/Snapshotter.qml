@@ -19,9 +19,16 @@ ApplicationWindow {
     property string outDir: (typeof snapshotOutDir !== "undefined" && snapshotOutDir) ? snapshotOutDir : "/tmp/sdui-snap"
     property string scheme: (typeof snapshotScheme !== "undefined" && snapshotScheme) ? snapshotScheme : "light"
 
-    // Fixed phone viewport so Aurora columns line up with iOS/Android in the glued sheets.
-    readonly property int vpW: 1080
-    readonly property int vpH: 2340
+    // Render at the SAME LOGICAL viewport as the iOS/Android legs so the glued columns line up
+    // 1:1. SDUI sizes (84, 172, 212 …) are logical points, exactly as iOS renders them at 390pt
+    // and Android at ~411dp; drawing them into a raw 1080px stage made every element ~3× too
+    // small and crammed the whole page into one column. We render at 390×844 logical and grab at
+    // 3× (1170×2532, matching the iOS capture) so a 172pt card is ~44% of the width on all three.
+    readonly property int logW: 390
+    readonly property int logH: 844
+    readonly property int scale: 3
+    readonly property int vpW: logW * scale
+    readonly property int vpH: logH * scale
 
     property var tokens: ({})
     property var screens: []   // [{ id, content, state }]
@@ -87,12 +94,16 @@ ApplicationWindow {
     // fixed viewport regardless of the device window so every sheet is the same shape.
     Rectangle {
         id: stage
-        width: win.vpW
-        height: win.vpH
+        width: win.logW
+        height: win.logH
+        clip: true   // crop to one device viewport, exactly as the iOS/Android screen captures do
         color: win.scheme === "dark" ? "#000000" : "#ffffff"
         SduiRenderer {
             id: renderer
-            anchors.fill: parent
+            width: parent.width
+            // Top-align the screen content and let overflow crop (the device viewport), rather
+            // than stretching the renderer to the stage height.
+            anchors.top: parent.top
             node: null
             ctx: ({})
         }

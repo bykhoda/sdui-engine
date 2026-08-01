@@ -114,35 +114,94 @@ function evalCondition(cond, ctx) {
 // used across the shared screens; unmapped names fall back to a neutral dot (never the raw
 // string). ES5 only (Qt5 V4 engine).
 var _GLYPHS = {
+    // navigation / arrows
     "chevron.right": "›", "chevron.left": "‹", "chevron.up": "⌃", "chevron.down": "⌄",
     "arrow.right": "→", "arrow.left": "←", "arrow.up": "↑", "arrow.down": "↓",
-    "arrow.triangle.2.circlepath": "↻", "arrow.clockwise": "↻", "arrow.up.arrow.down": "⇅",
-    "plus": "+", "minus": "−", "xmark": "✕", "checkmark": "✓", "checkmark.circle": "✓",
-    "magnifyingglass": "🔍", "line.3.horizontal": "≡", "ellipsis": "…", "slider.horizontal.3": "🎛",
-    "house": "⌂", "gearshape": "⚙", "gear": "⚙", "cart": "🛒", "bag": "🛍",
-    "creditcard": "💳", "heart": "♥", "star": "★", "bell": "🔔",
-    "person": "👤", "person.2": "👥", "bubble.left": "💬", "envelope": "✉",
-    "paperplane": "➤", "trash": "🗑", "square.and.arrow.up": "⬆", "square.and.pencil": "✎",
-    "pencil": "✎", "doc": "📄", "folder": "📁", "photo": "🖼", "camera": "📷",
-    "play": "▶", "pause": "⏸", "music.note": "♪", "music.note.list": "♫", "speaker.wave.2": "🔊",
-    "waveform": "〰", "map": "🗺", "location": "📍", "calendar": "📅", "clock": "🕒",
-    "flame": "🔥", "bolt": "⚡", "bolt.horizontal": "⚡", "drop": "💧", "leaf": "🍃",
-    "sun.max": "☀", "cloud": "☁", "lock": "🔒", "wifi": "📶", "battery.100": "🔋",
-    "figure.run": "🏃", "figure.walk": "🚶", "figure.stairs": "🧗",
-    "chart.bar": "📊", "chart.line.uptrend.xyaxis": "📈", "chart.pie": "🥧",
-    "square.grid.2x2": "▦", "square.stack.3d.up": "▤", "paintpalette": "🎨",
-    "sparkles": "✨", "wand.and.stars": "🪄", "cube": "⬢", "hammer": "🔨",
-    "wrench": "🔧", "link": "🔗", "tag": "🏷", "flag": "⚑"
+    "arrow.up.right": "↗", "arrow.up.left": "↖", "arrow.down.right": "�’",
+    "arrow.triangle.2.circlepath": "↻", "arrow.clockwise": "↻", "arrow.counterclockwise": "↺",
+    "arrow.2.squarepath": "⇄", "arrow.up.arrow.down": "⇅", "arrow.left.arrow.right": "⇄",
+    "arrow.triangle.branch": "⑂", "arrowshape.turn.up.left": "↩",
+    "arrow.up.left.and.arrow.down.right": "⤢", "arrow.down.right.and.arrow.up.left": "⤡",
+    "arrow.up.circle": "⊕", "arrow.down.circle": "⊖", "arrow.up.doc": "⤒",
+    "chevron.right.circle": "›",
+    // symbols / status
+    "plus": "+", "plus.circle": "⊕", "minus": "−", "minus.circle": "⊖",
+    "xmark": "✕", "xmark.circle": "⊗", "xmark.octagon": "⊗",
+    "checkmark": "✓", "checkmark.circle": "✓", "checkmark.seal": "✔",
+    "circle": "○", "capsule": "▭", "info.circle": "ⓘ", "questionmark.circle": "?",
+    "exclamationmark.triangle": "⚠", "exclamationmark.bubble": "❕", "dollarsign.circle": "＄",
+    "ellipsis": "…", "ellipsis.circle": "…", "line.3.horizontal": "≡", "list.bullet": "☰",
+    "slider.horizontal.3": "▤", "switch.2": "⇄", "textformat": "A", "textformat.size": "A",
+    "bold": "B", "character.cursor.ibeam": "⌶", "cursorarrow.rays": "✳",
+    // people / social
+    "person": "☻", "person.2": "☺", "person.fill": "☻", "person.crop.circle": "☻",
+    "heart": "♥", "star": "★", "star.leadinghalf.filled": "★", "star.circle": "★",
+    "bell": "🔔", "bell.badge": "🔔", "bell.slash": "🔕", "flag": "⚑", "bookmark": "🔖",
+    "hand.thumbsup": "👍", "hand.thumbsdown": "👎", "hand.tap": "☝", "hand.draw": "✍",
+    "hand.point.up.left": "☝", "hand.raised.slash": "✋", "crown": "♔", "gift": "🎁",
+    "quote.bubble": "❝",
+    // comms
+    "bubble.left": "💬", "bubble.left.and.bubble.right": "💬", "message": "💬",
+    "envelope": "✉", "envelope.open": "✉", "paperplane": "➤", "phone": "☎",
+    "tray": "📥", "tray.full": "📥", "archivebox": "🗄",
+    // media
+    "play": "▶", "play.circle": "▶", "play.rectangle": "▶", "pause": "⏸",
+    "backward": "⏮", "forward": "⏭", "shuffle": "🔀", "repeat": "🔁",
+    "music.note": "♪", "music.note.list": "♫",
+    "speaker.fill": "🔊", "speaker.wave.2": "🔊", "speaker.wave.3": "🔊", "headphones": "🎧",
+    "film": "🎞", "video": "🎥", "photo": "🖼", "photo.on.rectangle.angled": "🖼",
+    "camera": "📷", "qrcode": "▣",
+    // docs / files
+    "doc": "📄", "doc.text": "📄", "doc.richtext": "📄", "doc.on.doc": "🗐", "folder": "📁",
+    "square.and.arrow.up": "⤴", "square.and.arrow.down": "⤵", "square.and.pencil": "✎", "pencil": "✎",
+    "pencil.and.ruler": "📐", "checklist": "☑", "tablecells": "▦",
+    // shapes / grids
+    "square.grid.2x2": "▦", "square.grid.3x3": "▦", "square.stack": "▤", "square.stack.3d.up": "▤",
+    "square.on.square": "❒", "rectangle.stack": "▤", "rectangle.portrait.and.arrow.right": "⎋",
+    "rectangle.portrait.bottomhalf.inset.filled": "▭",
+    // system / connectivity
+    "house": "⌂", "gearshape": "⚙", "gear": "⚙", "lock": "🔒", "lock.open": "🔓",
+    "wifi": "📶", "wifi.slash": "⊘", "battery.100": "🔋", "icloud": "☁",
+    "externaldrive.badge.icloud": "☁", "dot.radiowaves.left.and.right": "📡",
+    "airplayaudio": "📡", "cable.connector": "🔌", "shield.lefthalf.filled": "🛡",
+    "bolt.shield": "🛡", "door.left.hand.closed": "🚪",
+    // commerce
+    "cart": "🛒", "bag": "🛍", "creditcard": "💳", "tag": "🏷", "shippingbox": "📦",
+    // search / location / time
+    "magnifyingglass": "🔍", "map": "🗺", "location": "📍", "location.circle": "📍",
+    "pin": "📌", "calendar": "📅", "clock": "🕒",
+    // nature / weather
+    "flame": "🔥", "bolt": "⚡", "bolt.horizontal": "⚡", "bolt.badge.checkmark": "⚡",
+    "bolt.horizontal.circle": "⚡", "drop": "💧", "leaf": "🍃",
+    "sun.max": "☀", "sunrise": "🌅", "sunset": "🌇", "moon.stars": "☾", "moon": "☾",
+    "cloud": "☁", "cloud.sun": "⛅", "cloud.moon": "☁", "cloud.rain": "🌧",
+    // activity / fitness
+    "figure.run": "🏃", "figure.walk": "🚶", "figure.walk.motion": "🚶", "figure.stairs": "🧗",
+    "dumbbell": "🏋", "bicycle": "🚲",
+    // charts / creative / tools
+    "chart.bar": "📊", "chart.line.uptrend.xyaxis": "📈", "chart.pie": "◔",
+    "paintpalette": "🎨", "sparkles": "✨", "wand.and.stars": "🪄", "wand.and.rays": "🪄",
+    "cube": "⬢", "hammer": "🔨", "wrench": "🔧", "link": "🔗",
+    // numbered badges
+    "1.circle": "①", "2.circle": "②", "3.circle": "③",
+    // brands (no glyph font → initial letter)
+    "apple.logo": "", "safari": "❖"
 };
 
+// Resolve an SF-Symbol name to a glyph. Try the exact name, then progressively drop trailing
+// dot-segments ("cloud.sun.fill" → "cloud.sun" → "cloud") so the many "*.fill"/"*.circle.fill"
+// variants all fall back to their base without needing a row each. Unmapped → a neutral dot,
+// never the raw SF string.
 function glyph(name) {
     if (!name) return "";
     if (_GLYPHS[name] !== undefined) return _GLYPHS[name];
-    var base = name.replace(/\.(fill|circle|square|slash|rtl)$/, "");
-    if (_GLYPHS[base] !== undefined) return _GLYPHS[base];
-    base = base.replace(/\.(fill|circle|square)$/, "");
-    if (_GLYPHS[base] !== undefined) return _GLYPHS[base];
-    return "•"; // neutral bullet, never the raw SF name
+    var parts = String(name).split(".");
+    while (parts.length > 1) {
+        parts.pop();
+        var key = parts.join(".");
+        if (_GLYPHS[key] !== undefined) return _GLYPHS[key];
+    }
+    return "•";
 }
 
 // Typography weight: the bold/semibold leaves of the type scale.

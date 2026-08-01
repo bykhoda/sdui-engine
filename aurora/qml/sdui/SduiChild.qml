@@ -30,5 +30,9 @@ Loader {
 
     width:  item ? (item._fixedW >= 0 ? item._fixedW
                    : (item._fillW && shim.parent ? shim.parent.width : item.implicitWidth)) : 0
-    height: item ? (item._fixedH >= 0 ? item._fixedH : item.implicitHeight) : 0
+    height: item ? (item._fixedH >= 0 ? item._fixedH
+                   : (item._fillH && shim.parent ? shim.parent.height : item.implicitHeight)) : 0
+
+    // A node gated out by `visibleWhen` renders nothing and is excluded from positioner layout.
+    visible: item ? item._visible : true
 }
