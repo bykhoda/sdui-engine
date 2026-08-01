@@ -49,8 +49,13 @@ Item {
     property real _fixedH: _fixed("height")
     property bool _fillW: _isFill("width")
 
-    implicitWidth: (loader.item ? loader.item.implicitWidth : 0) + _padL + _padR
-    implicitHeight: (loader.item ? loader.item.implicitHeight : 0) + _padT + _padB
+    // Intrinsic size must reflect the RESOLVED size — a fixed size (modifiers.size) is the
+    // node's intrinsic size, exactly like a SwiftUI .frame(width:height:) / Compose
+    // Modifier.size. Folding it in here (not only into `width`/`height`) is what lets a parent
+    // that measures children by their IMPLICIT size — a zstack (cStack), a rail's content
+    // hstack — see fixed-size circles/cards instead of collapsing to zero.
+    implicitWidth: _fixedW >= 0 ? _fixedW : ((loader.item ? loader.item.implicitWidth : 0) + _padL + _padR)
+    implicitHeight: _fixedH >= 0 ? _fixedH : ((loader.item ? loader.item.implicitHeight : 0) + _padT + _padB)
     width: _fixedW >= 0 ? _fixedW : (_fillW && parent ? parent.width : implicitWidth)
     height: _fixedH >= 0 ? _fixedH : implicitHeight
 
@@ -192,8 +197,12 @@ Item {
             // A ZStack (iOS ZStack / Android Box) sizes to its LARGEST child. Deriving that
             // from childrenRect is CIRCULAR here — children are centre-anchored, so
             // childrenRect ← child positions ← parent height ← implicitHeight — which Qt5
-            // detects as a binding loop and resolves to 0, collapsing the stack (and any rail
-            // built on it). Measure the max child *implicit* size instead: intrinsic, no cycle.
+            // detects as a binding loop and resolves to 0, collapsing the stack. Measure each
+            // child's own RESOLVED size instead: intrinsic, no cycle. A child's resolved size
+            // lives in its actual `width`/`height` (SduiChild folds in fixed sizes there) — a
+            // bare Loader does NOT forward a child's implicitWidth/Height once it carries its
+            // own width/height bindings, so `implicitWidth`/`implicitHeight` read 0 for
+            // fixed-size children. Take the max of both to be safe.
             property real _maxH: 0
             property real _maxW: 0
             implicitHeight: _maxH
@@ -202,8 +211,11 @@ Item {
                 var mh = 0, mw = 0;
                 for (var i = 0; i < st.children.length; i++) {
                     var c = st.children[i];
-                    if (c && c.implicitHeight > mh) mh = c.implicitHeight;
-                    if (c && c.implicitWidth > mw) mw = c.implicitWidth;
+                    if (!c) continue;
+                    var ch = Math.max(c.implicitHeight || 0, c.height || 0);
+                    var cw = Math.max(c.implicitWidth || 0, c.width || 0);
+                    if (ch > mh) mh = ch;
+                    if (cw > mw) mw = cw;
                 }
                 st._maxH = mh; st._maxW = mw;
             }
@@ -213,8 +225,17 @@ Item {
                 onItemRemoved: st._remeasure()
                 delegate: SduiChild {
                     node: modelData; ctx: st.ctx
+                    // A ZStack proposes its own size to each child (SwiftUI ZStack / Compose Box):
+                    // a fixed-size child keeps its size, every other child is offered the stack's
+                    // width. Without this a non-fixed overlay (e.g. the featured card's caption
+                    // vstack) hits a circular width↔implicitWidth and collapses to 0, so its text
+                    // wraps to nothing and piles up. Height stays intrinsic so bottom/top anchoring
+                    // still hugs content.
+                    width: (item && item._fixedW >= 0) ? item._fixedW : st.width
                     onImplicitHeightChanged: st._remeasure()
                     onImplicitWidthChanged: st._remeasure()
+                    onHeightChanged: st._remeasure()
+                    onWidthChanged: st._remeasure()
                     // Overlay each child at the stack's alignment corner. "center" must NOT set
                     // anchors.left — QML then drops the horizontalCenter and the concentric
                     // ring/overlay children pin left instead of nesting centered.
@@ -230,17 +251,34 @@ Item {
     }
     Component {
         id: cScroll
-        Loader {
+        Item {
+            id: sc
             property var node
             property var ctx
             width: parent ? parent.width : implicitWidth
-            sourceComponent: (node && node.axis === "horizontal") ? cHScroll : cVPass
+            // Hug the loaded scroll surface. Reading scl.item.implicit* DIRECTLY (not the Loader's
+            // own forwarded implicit size — Qt5 drops that once the Loader carries a width binding)
+            // is what carries a horizontal rail's height up to the enclosing SduiRenderer; a bare
+            // Loader here reported 0 and collapsed every rail.
+            implicitWidth: scl.item ? scl.item.implicitWidth : 0
+            implicitHeight: scl.item ? scl.item.implicitHeight : 0
+            height: implicitHeight
+            Loader {
+                id: scl
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: item ? item.implicitHeight : 0
+                property var node: sc.node
+                property var ctx: sc.ctx
+                sourceComponent: (sc.node && sc.node.axis === "horizontal") ? cHScroll : cVPass
+            }
         }
     }
     // Horizontal rail: a Flickable wrapping the child hstack.
     Component {
         id: cHScroll
         Flickable {
+            id: hf
             property var node: parent ? parent.node : null
             property var ctx: parent ? parent.ctx : null
             flickableDirection: Flickable.HorizontalFlick
@@ -253,7 +291,10 @@ Item {
             height: inner.height
             contentWidth: inner.width
             contentHeight: inner.height
-            SduiChild { id: inner; node: parent.node ? parent.node.child : null; ctx: parent.ctx }
+            // Reference the Flickable by id (hf), NOT `parent`: a child declared inside a Flickable
+            // is reparented to its `contentItem`, so `parent.node`/`parent.ctx` would resolve
+            // against contentItem (no such properties) and the rail's content would never load.
+            SduiChild { id: inner; node: hf.node ? hf.node.child : null; ctx: hf.ctx }
         }
     }
     // Vertical scroll is a pass-through (the page already provides the scroll surface).
