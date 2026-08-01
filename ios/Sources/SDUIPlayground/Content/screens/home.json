@@ -2,7 +2,32 @@
   "version": "0.1",
   "screen": {
     "id": "home",
-    "title": "Home",
+    "title": "Today",
+    "scrollBehavior": {
+      "largeTitle": true,
+      "subtitle": "Monday, 20 July"
+    },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "bell",
+          "accessibilityLabel": "Notifications",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Notifications"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "content": {
       "type": "scroll",
       "child": {
@@ -16,103 +41,14 @@
             }
           },
           "padding": {
+            "top": "$token.spacing.xs",
             "bottom": "$token.spacing.xl"
           }
         },
         "children": [
           {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": {
-                "leading": "$token.spacing.lg",
-                "trailing": "$token.spacing.lg",
-                "top": "$token.spacing.md"
-              }
-            },
-            "children": [
-              {
-                "type": "image",
-                "source": "https://picsum.photos/seed/home-avatar/92/92",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "contentMode": "fill"
-                },
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 46
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 46
-                    }
-                  },
-                  "cornerRadius": 23
-                }
-              },
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": 2,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "GOOD MORNING",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.textSecondary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "Welcome back",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 1
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              },
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 44
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 44
-                    }
-                  },
-                  "material": "glass",
-                  "cornerRadius": 22
-                },
-                "children": [
-                  {
-                    "type": "icon",
-                    "name": "bell",
-                    "color": "$token.color.textPrimary",
-                    "size": 18
-                  }
-                ]
-              }
-            ]
-          },
-          {
             "type": "zstack",
-            "alignment": "bottomLeading",
+            "alignment": "topLeading",
             "modifiers": {
               "size": {
                 "width": {
@@ -124,18 +60,19 @@
               },
               "onTap": {
                 "action": "navigate",
-                "to": "media",
+                "to": "fitness",
                 "transition": "push"
               }
             },
             "children": [
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/home-hero-cinema/800/520",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "contentMode": "fill"
-                },
+                "type": "gradient",
+                "colors": [
+                  "#1C1C2E",
+                  "#2A2350",
+                  "#3B1E52"
+                ],
+                "direction": "diagonal",
                 "modifiers": {
                   "size": {
                     "width": {
@@ -143,95 +80,356 @@
                     },
                     "height": {
                       "mode": "fixed",
-                      "value": 260
+                      "value": 196
                     }
                   },
-                  "cornerRadius": "$token.radius.lg"
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": {
+                    "radius": 22,
+                    "y": 12,
+                    "color": "#2A235066"
+                  }
                 }
               },
               {
-                "type": "gradient",
-                "colors": [
-                  "#00000000",
-                  "#000000CC"
-                ],
-                "direction": "vertical",
+                "type": "hstack",
+                "alignment": "center",
+                "spacing": "$token.spacing.lg",
                 "modifiers": {
                   "size": {
                     "width": {
                       "mode": "fill"
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 260
                     }
                   },
-                  "cornerRadius": "$token.radius.lg"
+                  "padding": "$token.spacing.lg"
+                },
+                "children": [
+                  {
+                    "type": "rings",
+                    "values": [
+                      0.84,
+                      0.62,
+                      0.5
+                    ],
+                    "colors": [
+                      "#FA114F",
+                      "#8AE821",
+                      "#22D3EE"
+                    ],
+                    "lineWidth": 15,
+                    "gap": 5,
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 124
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 124
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.md",
+                    "children": [
+                      {
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 0,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "MOVE",
+                            "style": "$token.typography.caption",
+                            "color": "#FA114F",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "hstack",
+                            "alignment": "firstTextBaseline",
+                            "spacing": 4,
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "420",
+                                "style": "$token.typography.title2",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              },
+                              {
+                                "type": "text",
+                                "value": "/500 CAL",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFFB3",
+                                "lineLimit": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 0,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "EXERCISE",
+                            "style": "$token.typography.caption",
+                            "color": "#8AE821",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "hstack",
+                            "alignment": "firstTextBaseline",
+                            "spacing": 4,
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "24",
+                                "style": "$token.typography.title2",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              },
+                              {
+                                "type": "text",
+                                "value": "/30 MIN",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFFB3",
+                                "lineLimit": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "vstack",
+                        "alignment": "leading",
+                        "spacing": 0,
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "STAND",
+                            "style": "$token.typography.caption",
+                            "color": "#22D3EE",
+                            "lineLimit": 1
+                          },
+                          {
+                            "type": "hstack",
+                            "alignment": "firstTextBaseline",
+                            "spacing": 4,
+                            "children": [
+                              {
+                                "type": "text",
+                                "value": "10",
+                                "style": "$token.typography.title2",
+                                "color": "#FFFFFF",
+                                "lineLimit": 1
+                              },
+                              {
+                                "type": "text",
+                                "value": "/12 HR",
+                                "style": "$token.typography.caption",
+                                "color": "#FFFFFFB3",
+                                "lineLimit": 1
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "spacer"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
                 }
               },
+              "padding": {
+                "horizontal": "$token.spacing.lg"
+              }
+            },
+            "children": [
               {
                 "type": "vstack",
                 "alignment": "leading",
                 "spacing": "$token.spacing.xs",
                 "modifiers": {
-                  "padding": "$token.spacing.lg"
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 168
+                    }
+                  },
+                  "background": "$token.color.surfaceElevated",
+                  "cornerRadius": "$token.radius.lg",
+                  "padding": "$token.spacing.md",
+                  "shadow": {
+                    "radius": 16,
+                    "y": 8,
+                    "color": "#0E0E1214"
+                  },
+                  "onTap": {
+                    "action": "navigate",
+                    "to": "fitness",
+                    "transition": "push"
+                  }
                 },
                 "children": [
                   {
                     "type": "text",
-                    "value": "FEATURED",
+                    "value": "STEPS",
                     "style": "$token.typography.caption",
-                    "color": "#FFFFFFCC",
+                    "color": "$token.color.textSecondary",
                     "lineLimit": 1
                   },
                   {
                     "type": "text",
-                    "value": "A streaming app, shipped from JSON",
+                    "value": "8,432",
                     "style": "$token.typography.title2",
-                    "color": "#FFFFFF",
-                    "lineLimit": 2
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
                   },
                   {
-                    "type": "text",
-                    "value": "One contract — native on iOS, Android & Aurora",
-                    "style": "$token.typography.subheadline",
-                    "color": "#FFFFFFDD",
-                    "lineLimit": 2
+                    "type": "spacer"
                   },
                   {
-                    "type": "hstack",
-                    "spacing": "$token.spacing.sm",
+                    "type": "chart",
+                    "style": "area",
+                    "color": "#8AE821",
+                    "values": [
+                      3,
+                      5,
+                      4,
+                      7,
+                      5,
+                      8,
+                      6,
+                      9,
+                      7
+                    ],
                     "modifiers": {
-                      "padding": {
-                        "top": "$token.spacing.xs"
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 64
+                        }
                       }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "zstack",
+                "alignment": "topLeading",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 168
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "navigate",
+                    "to": "gym",
+                    "transition": "push"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#FB7185",
+                      "#F59E0B"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 168
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "padding": "$token.spacing.md"
                     },
                     "children": [
                       {
                         "type": "hstack",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "background": "#FFFFFF",
-                          "cornerRadius": "$token.radius.pill",
-                          "padding": {
-                            "leading": "$token.spacing.md",
-                            "trailing": "$token.spacing.md",
-                            "top": "$token.spacing.sm",
-                            "bottom": "$token.spacing.sm"
-                          }
-                        },
                         "children": [
                           {
-                            "type": "text",
-                            "value": "Open",
-                            "style": "$token.typography.headline",
-                            "color": "#0E0E12",
-                            "lineLimit": 1
+                            "type": "icon",
+                            "name": "flame.fill",
+                            "color": "#FFFFFF",
+                            "size": 22
+                          },
+                          {
+                            "type": "spacer"
                           }
                         ]
                       },
                       {
                         "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "12",
+                        "style": "$token.typography.display",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Day streak",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Keep it going",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFFCC",
+                        "lineLimit": 1
                       }
                     ]
                   }
@@ -241,7 +439,214 @@
           },
           {
             "type": "hstack",
-            "alignment": "center",
+            "spacing": "$token.spacing.md",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "horizontal": "$token.spacing.lg"
+              }
+            },
+            "children": [
+              {
+                "type": "zstack",
+                "alignment": "topLeading",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 168
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "navigate",
+                    "to": "todo",
+                    "transition": "push"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#22D3EE",
+                      "#2563EB"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 168
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "padding": "$token.spacing.md"
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "timer",
+                            "color": "#FFFFFF",
+                            "size": 22
+                          },
+                          {
+                            "type": "spacer"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "4h",
+                        "style": "$token.typography.display",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Focus",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "20m / 6h today",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFFCC",
+                        "lineLimit": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "zstack",
+                "alignment": "topLeading",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 168
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "navigate",
+                    "to": "stocks",
+                    "transition": "push"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "gradient",
+                    "colors": [
+                      "#34D399",
+                      "#059669"
+                    ],
+                    "direction": "diagonal",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 168
+                        }
+                      },
+                      "cornerRadius": "$token.radius.lg"
+                    }
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      },
+                      "padding": "$token.spacing.md"
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "chart.line.uptrend.xyaxis",
+                            "color": "#FFFFFF",
+                            "size": 22
+                          },
+                          {
+                            "type": "spacer"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      },
+                      {
+                        "type": "text",
+                        "value": "+12%",
+                        "style": "$token.typography.display",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Portfolio",
+                        "style": "$token.typography.headline",
+                        "color": "#FFFFFF",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "This week",
+                        "style": "$token.typography.caption",
+                        "color": "#FFFFFFCC",
+                        "lineLimit": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "hstack",
             "modifiers": {
               "padding": {
                 "horizontal": "$token.spacing.lg"
@@ -250,26 +655,13 @@
             "children": [
               {
                 "type": "text",
-                "value": "Real apps",
+                "value": "Jump back in",
                 "style": "$token.typography.title2",
                 "color": "$token.color.textPrimary",
                 "lineLimit": 1
               },
               {
                 "type": "spacer"
-              },
-              {
-                "type": "text",
-                "value": "See all",
-                "style": "$token.typography.subheadline",
-                "color": "$token.color.primary",
-                "modifiers": {
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "discover",
-                    "transition": "push"
-                  }
-                }
               }
             ]
           },
@@ -293,11 +685,11 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 168
+                        "value": 128
                       },
                       "height": {
                         "mode": "fixed",
-                        "value": 210
+                        "value": 148
                       }
                     },
                     "cornerRadius": "$token.radius.lg",
@@ -309,40 +701,21 @@
                   },
                   "children": [
                     {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-coffee/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
                       "type": "gradient",
                       "colors": [
-                        "#00000000",
-                        "#000000B3"
+                        "#B4571E",
+                        "#E08D3C"
                       ],
-                      "direction": "vertical",
+                      "direction": "diagonal",
                       "modifiers": {
                         "size": {
                           "width": {
-                            "mode": "fill"
+                            "mode": "fixed",
+                            "value": 128
                           },
                           "height": {
                             "mode": "fixed",
-                            "value": 210
+                            "value": 148
                           }
                         },
                         "cornerRadius": "$token.radius.lg"
@@ -351,23 +724,38 @@
                     {
                       "type": "vstack",
                       "alignment": "leading",
-                      "spacing": 2,
+                      "spacing": "$token.spacing.xs",
                       "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fill"
+                          }
+                        },
                         "padding": "$token.spacing.md"
                       },
                       "children": [
+                        {
+                          "type": "hstack",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "cup.and.saucer.fill",
+                              "color": "#FFFFFF",
+                              "size": 24
+                            },
+                            {
+                              "type": "spacer"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "spacer"
+                        },
                         {
                           "type": "text",
                           "value": "Roastery",
                           "style": "$token.typography.headline",
                           "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Coffee store",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
                           "lineLimit": 1
                         }
                       ]
@@ -381,11 +769,11 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 168
+                        "value": 128
                       },
                       "height": {
                         "mode": "fixed",
-                        "value": 210
+                        "value": 148
                       }
                     },
                     "cornerRadius": "$token.radius.lg",
@@ -397,40 +785,21 @@
                   },
                   "children": [
                     {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-stream/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
                       "type": "gradient",
                       "colors": [
-                        "#00000000",
-                        "#000000B3"
+                        "#6D28D9",
+                        "#C026D3"
                       ],
-                      "direction": "vertical",
+                      "direction": "diagonal",
                       "modifiers": {
                         "size": {
                           "width": {
-                            "mode": "fill"
+                            "mode": "fixed",
+                            "value": 128
                           },
                           "height": {
                             "mode": "fixed",
-                            "value": 210
+                            "value": 148
                           }
                         },
                         "cornerRadius": "$token.radius.lg"
@@ -439,24 +808,39 @@
                     {
                       "type": "vstack",
                       "alignment": "leading",
-                      "spacing": 2,
+                      "spacing": "$token.spacing.xs",
                       "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fill"
+                          }
+                        },
                         "padding": "$token.spacing.md"
                       },
                       "children": [
+                        {
+                          "type": "hstack",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "play.rectangle.fill",
+                              "color": "#FFFFFF",
+                              "size": 24
+                            },
+                            {
+                              "type": "spacer"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "spacer"
+                        },
                         {
                           "type": "text",
                           "value": "Watch",
                           "style": "$token.typography.headline",
                           "color": "#FFFFFF",
                           "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Streaming",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
-                          "lineLimit": 1
                         }
                       ]
                     }
@@ -469,99 +853,11 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 168
+                        "value": 128
                       },
                       "height": {
                         "mode": "fixed",
-                        "value": 210
-                      }
-                    },
-                    "cornerRadius": "$token.radius.lg",
-                    "onTap": {
-                      "action": "navigate",
-                      "to": "fitness",
-                      "transition": "push"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-fit/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "gradient",
-                      "colors": [
-                        "#00000000",
-                        "#000000B3"
-                      ],
-                      "direction": "vertical",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": 2,
-                      "modifiers": {
-                        "padding": "$token.spacing.md"
-                      },
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Fitness",
-                          "style": "$token.typography.headline",
-                          "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Activity rings",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
-                          "lineLimit": 1
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "zstack",
-                  "alignment": "bottomLeading",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fixed",
-                        "value": 168
-                      },
-                      "height": {
-                        "mode": "fixed",
-                        "value": 210
+                        "value": 148
                       }
                     },
                     "cornerRadius": "$token.radius.lg",
@@ -573,40 +869,21 @@
                   },
                   "children": [
                     {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-music/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
                       "type": "gradient",
                       "colors": [
-                        "#00000000",
-                        "#000000B3"
+                        "#0EA5E9",
+                        "#2563EB"
                       ],
-                      "direction": "vertical",
+                      "direction": "diagonal",
                       "modifiers": {
                         "size": {
                           "width": {
-                            "mode": "fill"
+                            "mode": "fixed",
+                            "value": 128
                           },
                           "height": {
                             "mode": "fixed",
-                            "value": 210
+                            "value": 148
                           }
                         },
                         "cornerRadius": "$token.radius.lg"
@@ -615,23 +892,38 @@
                     {
                       "type": "vstack",
                       "alignment": "leading",
-                      "spacing": 2,
+                      "spacing": "$token.spacing.xs",
                       "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fill"
+                          }
+                        },
                         "padding": "$token.spacing.md"
                       },
                       "children": [
+                        {
+                          "type": "hstack",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "music.note",
+                              "color": "#FFFFFF",
+                              "size": 24
+                            },
+                            {
+                              "type": "spacer"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "spacer"
+                        },
                         {
                           "type": "text",
                           "value": "Music",
                           "style": "$token.typography.headline",
                           "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Now playing",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
                           "lineLimit": 1
                         }
                       ]
@@ -645,11 +937,11 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 168
+                        "value": 128
                       },
                       "height": {
                         "mode": "fixed",
-                        "value": 210
+                        "value": 148
                       }
                     },
                     "cornerRadius": "$token.radius.lg",
@@ -661,40 +953,21 @@
                   },
                   "children": [
                     {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-mem/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
                       "type": "gradient",
                       "colors": [
-                        "#00000000",
-                        "#000000B3"
+                        "#DB2777",
+                        "#F59E0B"
                       ],
-                      "direction": "vertical",
+                      "direction": "diagonal",
                       "modifiers": {
                         "size": {
                           "width": {
-                            "mode": "fill"
+                            "mode": "fixed",
+                            "value": 128
                           },
                           "height": {
                             "mode": "fixed",
-                            "value": 210
+                            "value": 148
                           }
                         },
                         "cornerRadius": "$token.radius.lg"
@@ -703,162 +976,39 @@
                     {
                       "type": "vstack",
                       "alignment": "leading",
-                      "spacing": 2,
+                      "spacing": "$token.spacing.xs",
                       "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fill"
+                          }
+                        },
                         "padding": "$token.spacing.md"
                       },
                       "children": [
+                        {
+                          "type": "hstack",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "photo.stack.fill",
+                              "color": "#FFFFFF",
+                              "size": 24
+                            },
+                            {
+                              "type": "spacer"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "spacer"
+                        },
                         {
                           "type": "text",
                           "value": "Memories",
                           "style": "$token.typography.headline",
                           "color": "#FFFFFF",
                           "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Collections",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
-                          "lineLimit": 1
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "modifiers": {
-              "padding": {
-                "horizontal": "$token.spacing.lg"
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "value": "More to explore",
-                "style": "$token.typography.title2",
-                "color": "$token.color.textPrimary",
-                "lineLimit": 1
-              },
-              {
-                "type": "spacer"
-              },
-              {
-                "type": "text",
-                "value": "See all",
-                "style": "$token.typography.subheadline",
-                "color": "$token.color.primary",
-                "modifiers": {
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "components",
-                    "transition": "push"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "type": "scroll",
-            "axis": "horizontal",
-            "showsIndicators": false,
-            "child": {
-              "type": "hstack",
-              "spacing": "$token.spacing.md",
-              "modifiers": {
-                "padding": {
-                  "horizontal": "$token.spacing.lg"
-                }
-              },
-              "children": [
-                {
-                  "type": "zstack",
-                  "alignment": "bottomLeading",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fixed",
-                        "value": 168
-                      },
-                      "height": {
-                        "mode": "fixed",
-                        "value": 210
-                      }
-                    },
-                    "cornerRadius": "$token.radius.lg",
-                    "onTap": {
-                      "action": "navigate",
-                      "to": "todo",
-                      "transition": "push"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-todo/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "gradient",
-                      "colors": [
-                        "#00000000",
-                        "#000000B3"
-                      ],
-                      "direction": "vertical",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": 2,
-                      "modifiers": {
-                        "padding": "$token.spacing.md"
-                      },
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Tasks",
-                          "style": "$token.typography.headline",
-                          "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Plan your day",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
-                          "lineLimit": 1
                         }
                       ]
                     }
@@ -871,56 +1021,37 @@
                     "size": {
                       "width": {
                         "mode": "fixed",
-                        "value": 168
+                        "value": 128
                       },
                       "height": {
                         "mode": "fixed",
-                        "value": 210
+                        "value": 148
                       }
                     },
                     "cornerRadius": "$token.radius.lg",
                     "onTap": {
                       "action": "navigate",
-                      "to": "stocks",
+                      "to": "messenger",
                       "transition": "push"
                     }
                   },
                   "children": [
                     {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-stocks/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
                       "type": "gradient",
                       "colors": [
-                        "#00000000",
-                        "#000000B3"
+                        "#059669",
+                        "#10B981"
                       ],
-                      "direction": "vertical",
+                      "direction": "diagonal",
                       "modifiers": {
                         "size": {
                           "width": {
-                            "mode": "fill"
+                            "mode": "fixed",
+                            "value": 128
                           },
                           "height": {
                             "mode": "fixed",
-                            "value": 210
+                            "value": 148
                           }
                         },
                         "cornerRadius": "$token.radius.lg"
@@ -929,287 +1060,38 @@
                     {
                       "type": "vstack",
                       "alignment": "leading",
-                      "spacing": 2,
+                      "spacing": "$token.spacing.xs",
                       "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fill"
+                          }
+                        },
                         "padding": "$token.spacing.md"
                       },
                       "children": [
                         {
+                          "type": "hstack",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "name": "message.fill",
+                              "color": "#FFFFFF",
+                              "size": 24
+                            },
+                            {
+                              "type": "spacer"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "spacer"
+                        },
+                        {
                           "type": "text",
-                          "value": "Portfolio",
+                          "value": "Messages",
                           "style": "$token.typography.headline",
                           "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Markets live",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
-                          "lineLimit": 1
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "zstack",
-                  "alignment": "bottomLeading",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fixed",
-                        "value": 168
-                      },
-                      "height": {
-                        "mode": "fixed",
-                        "value": 210
-                      }
-                    },
-                    "cornerRadius": "$token.radius.lg",
-                    "onTap": {
-                      "action": "navigate",
-                      "to": "delivery",
-                      "transition": "push"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-deliver/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "gradient",
-                      "colors": [
-                        "#00000000",
-                        "#000000B3"
-                      ],
-                      "direction": "vertical",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": 2,
-                      "modifiers": {
-                        "padding": "$token.spacing.md"
-                      },
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Delivery",
-                          "style": "$token.typography.headline",
-                          "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Track orders",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
-                          "lineLimit": 1
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "zstack",
-                  "alignment": "bottomLeading",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fixed",
-                        "value": 168
-                      },
-                      "height": {
-                        "mode": "fixed",
-                        "value": 210
-                      }
-                    },
-                    "cornerRadius": "$token.radius.lg",
-                    "onTap": {
-                      "action": "navigate",
-                      "to": "gym",
-                      "transition": "push"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-gym/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "gradient",
-                      "colors": [
-                        "#00000000",
-                        "#000000B3"
-                      ],
-                      "direction": "vertical",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": 2,
-                      "modifiers": {
-                        "padding": "$token.spacing.md"
-                      },
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Profile",
-                          "style": "$token.typography.headline",
-                          "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Fitness club",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
-                          "lineLimit": 1
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "zstack",
-                  "alignment": "bottomLeading",
-                  "modifiers": {
-                    "size": {
-                      "width": {
-                        "mode": "fixed",
-                        "value": 168
-                      },
-                      "height": {
-                        "mode": "fixed",
-                        "value": 210
-                      }
-                    },
-                    "cornerRadius": "$token.radius.lg",
-                    "onTap": {
-                      "action": "navigate",
-                      "to": "product",
-                      "transition": "push"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "image",
-                      "source": "https://picsum.photos/seed/app-shop/336/420",
-                      "loader": {
-                        "placeholder": "skeleton",
-                        "contentMode": "fill"
-                      },
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "gradient",
-                      "colors": [
-                        "#00000000",
-                        "#000000B3"
-                      ],
-                      "direction": "vertical",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fill"
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 210
-                          }
-                        },
-                        "cornerRadius": "$token.radius.lg"
-                      }
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": 2,
-                      "modifiers": {
-                        "padding": "$token.spacing.md"
-                      },
-                      "children": [
-                        {
-                          "type": "text",
-                          "value": "Shop",
-                          "style": "$token.typography.headline",
-                          "color": "#FFFFFF",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Product detail",
-                          "style": "$token.typography.caption",
-                          "color": "#FFFFFFCC",
                           "lineLimit": 1
                         }
                       ]
