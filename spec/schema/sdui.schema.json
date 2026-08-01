@@ -55,8 +55,28 @@
           "required": ["title", "task"]
         },
         "scrollBehavior": { "$ref": "#/$defs/ScrollBehavior" },
+        "toolbar": {
+          "type": "object",
+          "description": "Nav-bar toolbar items pinned beside the title — the HIG home for search / filter / add. Unlike controls placed in the scroll body, these do NOT scroll away; they migrate into the compact nav bar as the large title collapses. Renders as iOS .toolbar items, Android TopAppBar actions, Aurora page-header buttons.",
+          "properties": {
+            "leading": { "type": "array", "items": { "$ref": "#/$defs/ToolbarItem" }, "description": "Items pinned to the leading (left) edge." },
+            "trailing": { "type": "array", "items": { "$ref": "#/$defs/ToolbarItem" }, "description": "Items pinned to the trailing (right) edge." }
+          },
+          "additionalProperties": false
+        },
         "content": { "$ref": "#/$defs/Component" }
       },
+      "additionalProperties": false
+    },
+    "ToolbarItem": {
+      "type": "object",
+      "description": "A single nav-bar toolbar button: an icon that fires an action.",
+      "properties": {
+        "icon": { "type": "string", "description": "Icon / SF-Symbol name (mapped per platform)." },
+        "action": { "$ref": "#/$defs/Action", "description": "Action dispatched on tap." },
+        "accessibilityLabel": { "type": "string", "description": "VoiceOver label; falls back to the icon name." }
+      },
+      "required": ["icon"],
       "additionalProperties": false
     },
 

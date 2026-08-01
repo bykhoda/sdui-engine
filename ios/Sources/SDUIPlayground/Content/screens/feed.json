@@ -26,122 +26,6 @@
         },
         "children": [
           {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.sm",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              }
-            },
-            "children": [
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": "$token.spacing.xs",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Memories",
-                    "style": "$token.typography.largeTitle",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "42 collections",
-                    "style": "$token.typography.subheadline",
-                    "color": "$token.color.textSecondary",
-                    "lineLimit": 1
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              },
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 44
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 44
-                    }
-                  },
-                  "cornerRadius": 22,
-                  "material": "glass",
-                  "onTap": {
-                    "action": "sequence",
-                    "actions": [
-                      {
-                        "action": "haptic",
-                        "style": "light"
-                      },
-                      {
-                        "action": "showToast",
-                        "message": "Search memories"
-                      }
-                    ]
-                  }
-                },
-                "children": [
-                  {
-                    "type": "icon",
-                    "name": "magnifyingglass",
-                    "color": "$token.color.textPrimary",
-                    "size": 18
-                  }
-                ]
-              },
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 44
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 44
-                    }
-                  },
-                  "cornerRadius": 22,
-                  "material": "glass",
-                  "onTap": {
-                    "action": "sequence",
-                    "actions": [
-                      {
-                        "action": "haptic",
-                        "style": "light"
-                      },
-                      {
-                        "action": "showToast",
-                        "message": "Filter"
-                      }
-                    ]
-                  }
-                },
-                "children": [
-                  {
-                    "type": "icon",
-                    "name": "line.3.horizontal.decrease",
-                    "color": "$token.color.textPrimary",
-                    "size": 18
-                  }
-                ]
-              }
-            ]
-          },
-          {
             "type": "vstack",
             "alignment": "leading",
             "spacing": "$token.spacing.sm",
@@ -1298,6 +1182,48 @@
           }
         ]
       }
+    },
+    "title": "Memories",
+    "scrollBehavior": {
+      "largeTitle": true
+    },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "magnifyingglass",
+          "accessibilityLabel": "Search",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Search"
+              }
+            ]
+          }
+        },
+        {
+          "icon": "line.3.horizontal.decrease.circle",
+          "accessibilityLabel": "Filter",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Filter"
+              }
+            ]
+          }
+        }
+      ]
     }
   }
 }

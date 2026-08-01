@@ -305,6 +305,9 @@ public struct SDUIScreenView: View {
             // The scroll-reactive header primitive: large title collapse + nav-bar
             // cross-fade when `scrollBehavior` is set; a plain title otherwise.
             .modifier(SDUIScrollHeaderChrome(behavior: screen.scrollBehavior, title: resolvedTitle, progress: $collapseProgress))
+            // Pinned nav-bar toolbar items (search / filter / add) — the HIG home for
+            // controls that must NOT scroll away with the content. iOS 14+ placements.
+            .modifier(SDUIToolbarChrome(toolbar: screen.toolbar, ctx: ctx))
             .task { await model.onAppear(interpreter: interpreter) }
             // Tap anywhere outside a field dismisses the keyboard — the expected
             // pattern on every screen (complements drag-to-dismiss on scrolls).
@@ -320,6 +323,48 @@ public struct SDUIScreenView: View {
             registry.view(for: screen.content, in: ctx)
         }
     }
+}
+
+/// Applies the screen's pinned nav-bar toolbar items (leading/trailing icon
+/// buttons) via the native `.toolbar`, so search / filter / add controls live in
+/// the navigation bar and never scroll away. Uses iOS 14+ placements to keep a
+/// low deployment target; a no-op when there's no toolbar or off iOS.
+struct SDUIToolbarChrome: ViewModifier {
+    let toolbar: Screen.Toolbar?
+    let ctx: RenderContext
+    func body(content: Content) -> some View {
+        #if os(iOS)
+        let leading = toolbar?.leading ?? []
+        let trailing = toolbar?.trailing ?? []
+        if leading.isEmpty && trailing.isEmpty {
+            content
+        } else {
+            // No `if` inside the ToolbarContentBuilder — buildIf is iOS 16+, and we
+            // target lower. Empty groups render nothing, so emit both unconditionally.
+            content.toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    ForEach(Array(leading.enumerated()), id: \.offset) { _, item in toolbarButton(item) }
+                }
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    ForEach(Array(trailing.enumerated()), id: \.offset) { _, item in toolbarButton(item) }
+                }
+            }
+        }
+        #else
+        content
+        #endif
+    }
+
+    #if os(iOS)
+    @ViewBuilder private func toolbarButton(_ item: Screen.Toolbar.Item) -> some View {
+        Button {
+            if let action = item.action { ctx.dispatch(action, ctx.binding) }
+        } label: {
+            Image(systemName: item.icon)
+        }
+        .accessibilityLabel(Text(item.accessibilityLabel ?? item.icon))
+    }
+    #endif
 }
 
 #if !os(iOS)

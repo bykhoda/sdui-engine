@@ -29,9 +29,29 @@ public struct Screen: Decodable, Equatable, Sendable {
     /// gets Apple-grade behaviour; the header is derived from `title`, not hand-
     /// authored per screen. Absent = a plain screen (fully backwards compatible).
     public let scrollBehavior: ScrollBehavior?
+    /// Nav-bar toolbar items pinned beside the title. Unlike controls placed in the
+    /// scroll body, these do NOT scroll away — the HIG home for search / filter / add
+    /// (they migrate into the compact nav bar as the large title collapses).
+    public let toolbar: Toolbar?
 
     public struct RefreshConfig: Decodable, Equatable, Sendable {
         public let sources: [String]?
+    }
+
+    public struct Toolbar: Decodable, Equatable, Sendable {
+        /// Items pinned to the leading (left) edge of the nav bar.
+        public let leading: [Item]?
+        /// Items pinned to the trailing (right) edge of the nav bar.
+        public let trailing: [Item]?
+
+        public struct Item: Decodable, Equatable, Sendable {
+            /// SF-Symbol / glyph name for the button (mapped per platform).
+            public let icon: String
+            /// Action dispatched on tap.
+            public let action: Action?
+            /// VoiceOver label; falls back to the icon name.
+            public let accessibilityLabel: String?
+        }
     }
 
     public struct Teach: Decodable, Equatable, Sendable {
