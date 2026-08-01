@@ -225,7 +225,14 @@ Item {
                 model: (node && node.children) ? node.children : []
                 delegate: SduiChild {
                     node: modelData; ctx: parent.ctx
-                    width: parent.align === "center" || parent.align === "trailing" ? implicitWidth : parent.width
+                    // Leading children fill the column's width so text wraps and dividers span. But
+                    // when the column itself is HUGGING (e.g. a title/subtitle stack inside a row),
+                    // its width derives from children → parent.width is circular and resolves to 0,
+                    // piling every child at x/y 0. Fall back to the child's intrinsic width in that
+                    // case so the column hugs its content and children still stack vertically.
+                    width: (parent.align === "center" || parent.align === "trailing")
+                           ? implicitWidth
+                           : (parent.width > 0 ? parent.width : implicitWidth)
                     anchors.horizontalCenter: parent.align === "center" ? parent.horizontalCenter : undefined
                     anchors.right: parent.align === "trailing" ? parent.right : undefined
                 }
