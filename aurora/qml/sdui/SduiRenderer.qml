@@ -184,24 +184,46 @@ Item {
     Component {
         id: cStack
         Item {
+            id: st
             property var node
             property var ctx
             property string align: node && node.alignment ? node.alignment : "center"
             width: parent ? parent.width : implicitWidth
-            implicitHeight: childrenRect.height
+            // A ZStack (iOS ZStack / Android Box) sizes to its LARGEST child. Deriving that
+            // from childrenRect is CIRCULAR here — children are centre-anchored, so
+            // childrenRect ← child positions ← parent height ← implicitHeight — which Qt5
+            // detects as a binding loop and resolves to 0, collapsing the stack (and any rail
+            // built on it). Measure the max child *implicit* size instead: intrinsic, no cycle.
+            property real _maxH: 0
+            property real _maxW: 0
+            implicitHeight: _maxH
+            implicitWidth: _maxW
+            function _remeasure() {
+                var mh = 0, mw = 0;
+                for (var i = 0; i < st.children.length; i++) {
+                    var c = st.children[i];
+                    if (c && c.implicitHeight > mh) mh = c.implicitHeight;
+                    if (c && c.implicitWidth > mw) mw = c.implicitWidth;
+                }
+                st._maxH = mh; st._maxW = mw;
+            }
             Repeater {
                 model: (node && node.children) ? node.children : []
+                onItemAdded: st._remeasure()
+                onItemRemoved: st._remeasure()
                 delegate: SduiChild {
-                    node: modelData; ctx: parent.ctx
-                    // Overlay each child at the stack's alignment corner. NOTE: "center" must
-                    // NOT set anchors.left — QML then drops the horizontalCenter below and the
-                    // concentric ring/overlay children pin left instead of nesting centered.
-                    anchors.left:   parent.align.indexOf("Leading") >= 0 || parent.align === "leading" || parent.align === "top" || parent.align === "bottom" ? parent.left : undefined
-                    anchors.right:  parent.align.indexOf("Trailing") >= 0 || parent.align === "trailing" ? parent.right : undefined
-                    anchors.top:    parent.align.indexOf("top") === 0 || parent.align === "topLeading" || parent.align === "topTrailing" ? parent.top : undefined
-                    anchors.bottom: parent.align.indexOf("bottom") === 0 || parent.align === "bottomLeading" || parent.align === "bottomTrailing" ? parent.bottom : undefined
-                    anchors.horizontalCenter: parent.align === "center" || parent.align === "top" || parent.align === "bottom" ? parent.horizontalCenter : undefined
-                    anchors.verticalCenter: parent.align === "center" || parent.align === "leading" || parent.align === "trailing" ? parent.verticalCenter : undefined
+                    node: modelData; ctx: st.ctx
+                    onImplicitHeightChanged: st._remeasure()
+                    onImplicitWidthChanged: st._remeasure()
+                    // Overlay each child at the stack's alignment corner. "center" must NOT set
+                    // anchors.left — QML then drops the horizontalCenter and the concentric
+                    // ring/overlay children pin left instead of nesting centered.
+                    anchors.left:   st.align.indexOf("Leading") >= 0 || st.align === "leading" || st.align === "top" || st.align === "bottom" ? st.left : undefined
+                    anchors.right:  st.align.indexOf("Trailing") >= 0 || st.align === "trailing" ? st.right : undefined
+                    anchors.top:    st.align.indexOf("top") === 0 || st.align === "topLeading" || st.align === "topTrailing" ? st.top : undefined
+                    anchors.bottom: st.align.indexOf("bottom") === 0 || st.align === "bottomLeading" || st.align === "bottomTrailing" ? st.bottom : undefined
+                    anchors.horizontalCenter: st.align === "center" || st.align === "top" || st.align === "bottom" ? st.horizontalCenter : undefined
+                    anchors.verticalCenter: st.align === "center" || st.align === "leading" || st.align === "trailing" ? st.verticalCenter : undefined
                 }
             }
         }
@@ -223,6 +245,11 @@ Item {
             property var ctx: parent ? parent.ctx : null
             flickableDirection: Flickable.HorizontalFlick
             clip: true
+            // A Flickable has no intrinsic implicit size; without this the enclosing cScroll
+            // Loader (which sizes to its item's IMPLICIT height) reports 0 and the whole rail
+            // collapses. Expose the content height/width so it propagates up the Loader chain.
+            implicitHeight: inner.height
+            implicitWidth: inner.width
             height: inner.height
             contentWidth: inner.width
             contentHeight: inner.height

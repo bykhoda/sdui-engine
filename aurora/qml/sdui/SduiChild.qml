@@ -8,10 +8,12 @@
 // SduiRenderer.qml → SduiChild (this) → Loader.source "SduiRenderer.qml", so nothing depends
 // on its own type at compile time. Every child in SduiRenderer's containers goes through here.
 //
-// It forwards `node`/`ctx` to the loaded renderer; a Loader already mirrors its item's
-// implicit size (implicitWidth/implicitHeight are read-only and track the item), so parent
-// Column/Row/Grid lay the child out. width/anchors set by the delegate apply to the Loader
-// (an Item), which resizes the loaded renderer to fill.
+// It forwards `node`/`ctx` to the loaded renderer and ADOPTS the renderer's real size. A bare
+// Loader sizes only to its item's IMPLICIT size, which silently drops fixed sizes from the
+// contract (`modifiers.size` — e.g. Live cards 172×212, icon-rail items width 84) and
+// collapses whole horizontal rails to zero height. Mirror SduiRenderer's own size logic
+// (fixed → fill → implicit) so fixed-size children keep their size. A delegate that sets
+// `width`/anchors explicitly still overrides these defaults.
 import QtQuick 2.6
 
 Loader {
@@ -25,4 +27,8 @@ Loader {
         item.node = Qt.binding(function () { return shim.node })
         item.ctx = Qt.binding(function () { return shim.ctx })
     }
+
+    width:  item ? (item._fixedW >= 0 ? item._fixedW
+                   : (item._fillW && shim.parent ? shim.parent.width : item.implicitWidth)) : 0
+    height: item ? (item._fixedH >= 0 ? item._fixedH : item.implicitHeight) : 0
 }
