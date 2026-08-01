@@ -36,369 +36,120 @@
                 "type": "text",
                 "value": "SERVER-DRIVEN UI",
                 "style": "$token.typography.caption",
-                "color": "$token.color.primary"
+                "color": "$token.color.primary",
+                "lineLimit": 1
               },
               {
                 "type": "text",
                 "value": "SDUI",
                 "style": "$token.typography.largeTitle",
-                "color": "$token.color.textPrimary"
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
               },
               {
                 "type": "text",
-                "value": "Every screen here is JSON — native on iOS, Android and Aurora.",
+                "value": "Every feature of this app — one JSON, native on iOS, Android & Aurora.",
                 "style": "$token.typography.subheadline",
-                "color": "$token.color.textSecondary"
+                "color": "$token.color.textSecondary",
+                "lineLimit": 2
               }
             ]
           },
           {
-            "type": "pager",
-            "height": 220,
-            "autoAdvanceMs": 5000,
-            "indicator": "dots",
+            "type": "zstack",
+            "alignment": "bottomLeading",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "padding": {
+                "horizontal": "$token.spacing.lg"
+              }
+            },
             "children": [
               {
-                "type": "zstack",
-                "alignment": "bottomLeading",
+                "type": "gradient",
+                "colors": [
+                  "#6366F1",
+                  "#8B5CF6",
+                  "#EC4899"
+                ],
+                "direction": "diagonal",
                 "modifiers": {
                   "size": {
                     "width": {
                       "mode": "fill"
-                    }
-                  },
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "discover",
-                    "transition": "push"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#5B5BF0",
-                      "#7C4DFF",
-                      "#FF6B9D"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 220
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg",
-                      "shadow": {
-                        "radius": 14,
-                        "y": 8,
-                        "color": "#5B5BF033"
-                      }
-                    }
-                  },
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#00000000",
-                      "#00000066"
-                    ],
-                    "direction": "vertical",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 220
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg"
-                    }
-                  },
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
-                    "modifiers": {
-                      "padding": "$token.spacing.lg"
                     },
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "FEATURED",
-                        "style": "$token.typography.caption",
-                        "color": "#FFFFFFCC"
-                      },
-                      {
-                        "type": "text",
-                        "value": "Ship whole screens from JSON",
-                        "style": "$token.typography.title2",
-                        "color": "#FFFFFF"
-                      },
-                      {
-                        "type": "text",
-                        "value": "One contract, three native apps — no release.",
-                        "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFCC"
-                      },
-                      {
-                        "type": "hstack",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Explore  →",
-                            "style": "$token.typography.subheadline",
-                            "color": "$token.color.primary",
-                            "modifiers": {
-                              "padding": {
-                                "leading": "$token.spacing.md",
-                                "trailing": "$token.spacing.md",
-                                "top": "$token.spacing.xs",
-                                "bottom": "$token.spacing.xs"
-                              },
-                              "background": "#FFFFFF",
-                              "cornerRadius": "$token.radius.pill"
-                            }
-                          },
-                          {
-                            "type": "spacer"
-                          }
-                        ]
-                      }
-                    ]
+                    "height": {
+                      "mode": "fixed",
+                      "value": 196
+                    }
+                  },
+                  "cornerRadius": "$token.radius.lg",
+                  "shadow": {
+                    "radius": 20,
+                    "y": 12,
+                    "color": "#6366F133"
                   }
-                ]
+                }
               },
               {
-                "type": "zstack",
-                "alignment": "bottomLeading",
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.xs",
                 "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    }
-                  },
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "figma",
-                    "transition": "push"
-                  }
+                  "padding": "$token.spacing.lg"
                 },
                 "children": [
                   {
-                    "type": "gradient",
-                    "colors": [
-                      "#00B89E",
-                      "#0A84FF"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 220
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg",
-                      "shadow": {
-                        "radius": 14,
-                        "y": 8,
-                        "color": "#00B89E33"
-                      }
-                    }
+                    "type": "text",
+                    "value": "FEATURED",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFFCC",
+                    "lineLimit": 1
                   },
                   {
-                    "type": "gradient",
-                    "colors": [
-                      "#00000000",
-                      "#00000066"
-                    ],
-                    "direction": "vertical",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 220
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg"
-                    }
+                    "type": "text",
+                    "value": "Ship whole screens from JSON",
+                    "style": "$token.typography.title2",
+                    "color": "#FFFFFF",
+                    "lineLimit": 2
                   },
                   {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
-                    "modifiers": {
-                      "padding": "$token.spacing.lg"
-                    },
+                    "type": "text",
+                    "value": "One contract · three native apps",
+                    "style": "$token.typography.subheadline",
+                    "color": "#FFFFFFDD",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "hstack",
                     "children": [
                       {
                         "type": "text",
-                        "value": "ONE CONTRACT",
-                        "style": "$token.typography.caption",
-                        "color": "#FFFFFFCC"
-                      },
-                      {
-                        "type": "text",
-                        "value": "iOS · Android · Aurora",
-                        "style": "$token.typography.title2",
-                        "color": "#FFFFFF"
-                      },
-                      {
-                        "type": "text",
-                        "value": "The same JSON renders natively on all three.",
+                        "value": "Explore  →",
                         "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFCC"
-                      },
-                      {
-                        "type": "hstack",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Explore  →",
-                            "style": "$token.typography.subheadline",
-                            "color": "$token.color.primary",
-                            "modifiers": {
-                              "padding": {
-                                "leading": "$token.spacing.md",
-                                "trailing": "$token.spacing.md",
-                                "top": "$token.spacing.xs",
-                                "bottom": "$token.spacing.xs"
-                              },
-                              "background": "#FFFFFF",
-                              "cornerRadius": "$token.radius.pill"
-                            }
+                        "color": "$token.color.primary",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.md",
+                            "trailing": "$token.spacing.md",
+                            "top": "$token.spacing.xs",
+                            "bottom": "$token.spacing.xs"
                           },
-                          {
-                            "type": "spacer"
+                          "background": "#FFFFFF",
+                          "cornerRadius": "$token.radius.pill",
+                          "onTap": {
+                            "action": "navigate",
+                            "to": "discover",
+                            "transition": "push"
                           }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "zstack",
-                "alignment": "bottomLeading",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fill"
-                    }
-                  },
-                  "onTap": {
-                    "action": "navigate",
-                    "to": "materials",
-                    "transition": "push"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#FA8C30",
-                      "#D94D4D"
-                    ],
-                    "direction": "diagonal",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 220
                         }
                       },
-                      "cornerRadius": "$token.radius.lg",
-                      "shadow": {
-                        "radius": 14,
-                        "y": 8,
-                        "color": "#FA8C3033"
-                      }
-                    }
-                  },
-                  {
-                    "type": "gradient",
-                    "colors": [
-                      "#00000000",
-                      "#00000066"
-                    ],
-                    "direction": "vertical",
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fill"
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 220
-                        }
-                      },
-                      "cornerRadius": "$token.radius.lg"
-                    }
-                  },
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.xs",
-                    "modifiers": {
-                      "padding": "$token.spacing.lg"
-                    },
-                    "children": [
                       {
-                        "type": "text",
-                        "value": "LIVE THEMING",
-                        "style": "$token.typography.caption",
-                        "color": "#FFFFFFCC"
-                      },
-                      {
-                        "type": "text",
-                        "value": "Re-theme the whole app",
-                        "style": "$token.typography.title2",
-                        "color": "#FFFFFF"
-                      },
-                      {
-                        "type": "text",
-                        "value": "Design tokens ship over the wire, instantly.",
-                        "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFCC"
-                      },
-                      {
-                        "type": "hstack",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Explore  →",
-                            "style": "$token.typography.subheadline",
-                            "color": "$token.color.primary",
-                            "modifiers": {
-                              "padding": {
-                                "leading": "$token.spacing.md",
-                                "trailing": "$token.spacing.md",
-                                "top": "$token.spacing.xs",
-                                "bottom": "$token.spacing.xs"
-                              },
-                              "background": "#FFFFFF",
-                              "cornerRadius": "$token.radius.pill"
-                            }
-                          },
-                          {
-                            "type": "spacer"
-                          }
-                        ]
+                        "type": "spacer"
                       }
                     ]
                   }
@@ -431,12 +182,12 @@
                         },
                         "height": {
                           "mode": "fixed",
-                          "value": 110
+                          "value": 132
                         }
                       },
                       "cornerRadius": "$token.radius.lg",
                       "shadow": {
-                        "radius": 14,
+                        "radius": 16,
                         "y": 8,
                         "color": "#0E0E1220"
                       },
@@ -462,7 +213,7 @@
                             },
                             "height": {
                               "mode": "fixed",
-                              "value": 110
+                              "value": 132
                             }
                           },
                           "cornerRadius": "$token.radius.lg"
@@ -483,7 +234,7 @@
                                 "type": "icon",
                                 "name": "arrow.triangle.2.circlepath",
                                 "color": "#FFFFFF",
-                                "size": 28
+                                "size": 26
                               },
                               {
                                 "type": "spacer"
@@ -499,10 +250,10 @@
                           },
                           {
                             "type": "text",
-                            "value": "Live from JSON",
+                            "value": "Push screens live",
                             "style": "$token.typography.caption",
                             "color": "#FFFFFFCC",
-                            "lineLimit": 1
+                            "lineLimit": 2
                           }
                         ]
                       }
@@ -519,12 +270,12 @@
                         },
                         "height": {
                           "mode": "fixed",
-                          "value": 110
+                          "value": 132
                         }
                       },
                       "cornerRadius": "$token.radius.lg",
                       "shadow": {
-                        "radius": 14,
+                        "radius": 16,
                         "y": 8,
                         "color": "#0E0E1220"
                       },
@@ -538,7 +289,7 @@
                       {
                         "type": "gradient",
                         "colors": [
-                          "#00C2A8",
+                          "#00B8A9",
                           "#0EA5E9"
                         ],
                         "direction": "diagonal",
@@ -550,7 +301,7 @@
                             },
                             "height": {
                               "mode": "fixed",
-                              "value": 110
+                              "value": 132
                             }
                           },
                           "cornerRadius": "$token.radius.lg"
@@ -571,7 +322,7 @@
                                 "type": "icon",
                                 "name": "square.on.square",
                                 "color": "#FFFFFF",
-                                "size": 28
+                                "size": 26
                               },
                               {
                                 "type": "spacer"
@@ -587,10 +338,10 @@
                           },
                           {
                             "type": "text",
-                            "value": "3 native apps",
+                            "value": "iOS·Android·Aurora",
                             "style": "$token.typography.caption",
                             "color": "#FFFFFFCC",
-                            "lineLimit": 1
+                            "lineLimit": 2
                           }
                         ]
                       }
@@ -608,8 +359,9 @@
                 },
                 "children": [
                   {
-                    "type": "zstack",
-                    "alignment": "topLeading",
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
                     "modifiers": {
                       "size": {
                         "width": {
@@ -618,15 +370,17 @@
                         },
                         "height": {
                           "mode": "fixed",
-                          "value": 110
+                          "value": 124
                         }
                       },
+                      "background": "$token.color.surfaceElevated",
                       "cornerRadius": "$token.radius.lg",
                       "shadow": {
-                        "radius": 14,
+                        "radius": 16,
                         "y": 8,
-                        "color": "#0E0E1220"
+                        "color": "#0E0E1214"
                       },
+                      "padding": "$token.spacing.md",
                       "onTap": {
                         "action": "navigate",
                         "to": "materials",
@@ -635,69 +389,39 @@
                     },
                     "children": [
                       {
-                        "type": "gradient",
-                        "colors": [
-                          "#FB923C",
-                          "#F43F5E"
-                        ],
-                        "direction": "diagonal",
-                        "modifiers": {
-                          "size": {
-                            "width": {
-                              "mode": "fixed",
-                              "value": 156
-                            },
-                            "height": {
-                              "mode": "fixed",
-                              "value": 110
-                            }
-                          },
-                          "cornerRadius": "$token.radius.lg"
-                        }
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "padding": "$token.spacing.md"
-                        },
+                        "type": "hstack",
                         "children": [
                           {
-                            "type": "hstack",
-                            "children": [
-                              {
-                                "type": "icon",
-                                "name": "paintpalette.fill",
-                                "color": "#FFFFFF",
-                                "size": 28
-                              },
-                              {
-                                "type": "spacer"
-                              }
-                            ]
+                            "type": "icon",
+                            "name": "paintpalette.fill",
+                            "color": "#FB8C3C",
+                            "size": 26
                           },
                           {
-                            "type": "text",
-                            "value": "Theming",
-                            "style": "$token.typography.headline",
-                            "color": "#FFFFFF",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "text",
-                            "value": "Ship tokens live",
-                            "style": "$token.typography.caption",
-                            "color": "#FFFFFFCC",
-                            "lineLimit": 1
+                            "type": "spacer"
                           }
                         ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "Live theming",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Tokens over the wire",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary",
+                        "lineLimit": 2
                       }
                     ]
                   },
                   {
-                    "type": "zstack",
-                    "alignment": "topLeading",
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
                     "modifiers": {
                       "size": {
                         "width": {
@@ -706,15 +430,17 @@
                         },
                         "height": {
                           "mode": "fixed",
-                          "value": 110
+                          "value": 124
                         }
                       },
+                      "background": "$token.color.surfaceElevated",
                       "cornerRadius": "$token.radius.lg",
                       "shadow": {
-                        "radius": 14,
+                        "radius": 16,
                         "y": 8,
-                        "color": "#0E0E1220"
+                        "color": "#0E0E1214"
                       },
+                      "padding": "$token.spacing.md",
                       "onTap": {
                         "action": "navigate",
                         "to": "components",
@@ -723,63 +449,294 @@
                     },
                     "children": [
                       {
-                        "type": "gradient",
-                        "colors": [
-                          "#A855F7",
-                          "#EC4899"
-                        ],
-                        "direction": "diagonal",
-                        "modifiers": {
-                          "size": {
-                            "width": {
-                              "mode": "fixed",
-                              "value": 156
-                            },
-                            "height": {
-                              "mode": "fixed",
-                              "value": 110
-                            }
-                          },
-                          "cornerRadius": "$token.radius.lg"
-                        }
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "leading",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "padding": "$token.spacing.md"
-                        },
+                        "type": "hstack",
                         "children": [
                           {
-                            "type": "hstack",
-                            "children": [
-                              {
-                                "type": "icon",
-                                "name": "square.grid.2x2.fill",
-                                "color": "#FFFFFF",
-                                "size": 28
-                              },
-                              {
-                                "type": "spacer"
-                              }
-                            ]
+                            "type": "icon",
+                            "name": "square.grid.2x2.fill",
+                            "color": "#A855F7",
+                            "size": 26
                           },
                           {
-                            "type": "text",
-                            "value": "Components",
-                            "style": "$token.typography.headline",
-                            "color": "#FFFFFF",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "text",
-                            "value": "30+ built-in",
-                            "style": "$token.typography.caption",
-                            "color": "#FFFFFFCC",
-                            "lineLimit": 1
+                            "type": "spacer"
                           }
                         ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "Components",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "30+ built-in",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary",
+                        "lineLimit": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 156
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 124
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "shadow": {
+                        "radius": 16,
+                        "y": 8,
+                        "color": "#0E0E1214"
+                      },
+                      "padding": "$token.spacing.md",
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "fitness",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "chart.line.uptrend.xyaxis",
+                            "color": "#0A84FF",
+                            "size": 26
+                          },
+                          {
+                            "type": "spacer"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "Charts & rings",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Scrub & animate",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary",
+                        "lineLimit": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 156
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 124
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "shadow": {
+                        "radius": 16,
+                        "y": 8,
+                        "color": "#0E0E1214"
+                      },
+                      "padding": "$token.spacing.md",
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "capabilities",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "bolt.fill",
+                            "color": "#F5A623",
+                            "size": 26
+                          },
+                          {
+                            "type": "spacer"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "Native effects",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Blur · haptics",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary",
+                        "lineLimit": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "hstack",
+                "spacing": "$token.spacing.md",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 156
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 124
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "shadow": {
+                        "radius": 16,
+                        "y": 8,
+                        "color": "#0E0E1214"
+                      },
+                      "padding": "$token.spacing.md",
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "gestures",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "hand.tap.fill",
+                            "color": "#EC4899",
+                            "size": 26
+                          },
+                          {
+                            "type": "spacer"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "Interactions",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Swipe · drag",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary",
+                        "lineLimit": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "vstack",
+                    "alignment": "leading",
+                    "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "size": {
+                        "width": {
+                          "mode": "fixed",
+                          "value": 156
+                        },
+                        "height": {
+                          "mode": "fixed",
+                          "value": 124
+                        }
+                      },
+                      "background": "$token.color.surfaceElevated",
+                      "cornerRadius": "$token.radius.lg",
+                      "shadow": {
+                        "radius": 16,
+                        "y": 8,
+                        "color": "#0E0E1214"
+                      },
+                      "padding": "$token.spacing.md",
+                      "onTap": {
+                        "action": "navigate",
+                        "to": "figma",
+                        "transition": "push"
+                      }
+                    },
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "children": [
+                          {
+                            "type": "icon",
+                            "name": "wand.and.stars",
+                            "color": "#00B8A9",
+                            "size": 26
+                          },
+                          {
+                            "type": "spacer"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "text",
+                        "value": "Figma sync",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textPrimary",
+                        "lineLimit": 1
+                      },
+                      {
+                        "type": "text",
+                        "value": "Design → code",
+                        "style": "$token.typography.caption",
+                        "color": "$token.color.textSecondary",
+                        "lineLimit": 2
                       }
                     ]
                   }
@@ -2198,1884 +2155,6 @@
                         {
                           "type": "text",
                           "value": "Preferences — toggles, pickers & sections",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "vstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.sm",
-            "children": [
-              {
-                "type": "hstack",
-                "modifiers": {
-                  "padding": {
-                    "horizontal": "$token.spacing.lg"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Design System",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary"
-                  },
-                  {
-                    "type": "spacer"
-                  },
-                  {
-                    "type": "text",
-                    "value": "See all",
-                    "style": "$token.typography.subheadline",
-                    "color": "$token.color.primary"
-                  }
-                ]
-              },
-              {
-                "type": "scroll",
-                "axis": "horizontal",
-                "showsIndicators": false,
-                "child": {
-                  "type": "hstack",
-                  "spacing": "$token.spacing.md",
-                  "modifiers": {
-                    "padding": {
-                      "horizontal": "$token.spacing.lg"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "typography",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "textformat",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Typography",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Type scale, colour & truncation",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "layout",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "square.grid.3x3.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Layout",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Stacks, overlays & the sizing model",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "buttons",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "capsule.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Buttons",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Styles, shapes, sizes & icons",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "inputs",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "character.cursor.ibeam",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Inputs",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Text fields — every state & keyboard",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "controls",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "switch.2",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Controls",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Segmented, select & switches",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "uploader",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "arrow.up.doc.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Uploader",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "File upload — every state, preview & remove",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "cards",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "rectangle.stack.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Cards",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Surface, elevated, selectable & media",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "components",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "square.grid.2x2.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Components",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Icons, badges, avatars & progress",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "feedback",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "exclamationmark.bubble.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Feedback",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Banners, alerts & loaders",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "calendar",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF9F0A",
-                                "#FF6B00"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "calendar",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Calendar",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Calendar, date range & file upload",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "vstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.sm",
-            "children": [
-              {
-                "type": "hstack",
-                "modifiers": {
-                  "padding": {
-                    "horizontal": "$token.spacing.lg"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Native",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary"
-                  },
-                  {
-                    "type": "spacer"
-                  },
-                  {
-                    "type": "text",
-                    "value": "See all",
-                    "style": "$token.typography.subheadline",
-                    "color": "$token.color.primary"
-                  }
-                ]
-              },
-              {
-                "type": "scroll",
-                "axis": "horizontal",
-                "showsIndicators": false,
-                "child": {
-                  "type": "hstack",
-                  "spacing": "$token.spacing.md",
-                  "modifiers": {
-                    "padding": {
-                      "horizontal": "$token.spacing.lg"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "materials",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#30D158",
-                                "#0A84FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "drop.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Materials",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "System frost materials & blur",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "capabilities",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#30D158",
-                                "#0A84FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "bolt.shield.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Capabilities",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Force-update, permissions & accessibility",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "vstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.sm",
-            "children": [
-              {
-                "type": "hstack",
-                "modifiers": {
-                  "padding": {
-                    "horizontal": "$token.spacing.lg"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Interactions",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary"
-                  },
-                  {
-                    "type": "spacer"
-                  },
-                  {
-                    "type": "text",
-                    "value": "See all",
-                    "style": "$token.typography.subheadline",
-                    "color": "$token.color.primary"
-                  }
-                ]
-              },
-              {
-                "type": "scroll",
-                "axis": "horizontal",
-                "showsIndicators": false,
-                "child": {
-                  "type": "hstack",
-                  "spacing": "$token.spacing.md",
-                  "modifiers": {
-                    "padding": {
-                      "horizontal": "$token.spacing.lg"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "swipe",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF375F",
-                                "#C9184A"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "hand.draw.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Swipe",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Custom swipe actions — Telegram/Outlook style",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "gestures",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF375F",
-                                "#C9184A"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "hand.tap.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Gestures",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Tap, double-tap, long-press & swipe",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "animation",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#FF375F",
-                                "#C9184A"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "wand.and.rays",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Animation",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "State springs & SF Symbol effects",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "vstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.sm",
-            "children": [
-              {
-                "type": "hstack",
-                "modifiers": {
-                  "padding": {
-                    "horizontal": "$token.spacing.lg"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Engine",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary"
-                  },
-                  {
-                    "type": "spacer"
-                  },
-                  {
-                    "type": "text",
-                    "value": "See all",
-                    "style": "$token.typography.subheadline",
-                    "color": "$token.color.primary"
-                  }
-                ]
-              },
-              {
-                "type": "scroll",
-                "axis": "horizontal",
-                "showsIndicators": false,
-                "child": {
-                  "type": "hstack",
-                  "spacing": "$token.spacing.md",
-                  "modifiers": {
-                    "padding": {
-                      "horizontal": "$token.spacing.lg"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "table",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#32ADE6",
-                                "#0A84FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "tablecells.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Table",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Search, filters, sort & pagination",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "document",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#32ADE6",
-                                "#0A84FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "doc.text.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Document",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Async fetch — skeleton → content + share",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "actions",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#32ADE6",
-                                "#0A84FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "bolt.fill",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Actions",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Toasts, state, conditions & haptics",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "lists",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#32ADE6",
-                                "#0A84FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "list.bullet",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Lists",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Data-bound lists and grids",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    },
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "reorder",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#32ADE6",
-                                "#0A84FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "arrow.up.arrow.down",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Reorder",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "Drag rows to reorder, saved to state",
-                          "style": "$token.typography.caption",
-                          "color": "$token.color.textSecondary",
-                          "lineLimit": 2
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "type": "vstack",
-            "alignment": "leading",
-            "spacing": "$token.spacing.sm",
-            "children": [
-              {
-                "type": "hstack",
-                "modifiers": {
-                  "padding": {
-                    "horizontal": "$token.spacing.lg"
-                  }
-                },
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Figma & Tokens",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary"
-                  },
-                  {
-                    "type": "spacer"
-                  },
-                  {
-                    "type": "text",
-                    "value": "See all",
-                    "style": "$token.typography.subheadline",
-                    "color": "$token.color.primary"
-                  }
-                ]
-              },
-              {
-                "type": "scroll",
-                "axis": "horizontal",
-                "showsIndicators": false,
-                "child": {
-                  "type": "hstack",
-                  "spacing": "$token.spacing.md",
-                  "modifiers": {
-                    "padding": {
-                      "horizontal": "$token.spacing.lg"
-                    }
-                  },
-                  "children": [
-                    {
-                      "type": "vstack",
-                      "alignment": "leading",
-                      "spacing": "$token.spacing.sm",
-                      "modifiers": {
-                        "size": {
-                          "width": {
-                            "mode": "fixed",
-                            "value": 172
-                          },
-                          "height": {
-                            "mode": "fixed",
-                            "value": 212
-                          }
-                        },
-                        "padding": "$token.spacing.md",
-                        "background": "$token.color.surfaceElevated",
-                        "cornerRadius": "$token.radius.lg",
-                        "shadow": {
-                          "radius": 12,
-                          "y": 6,
-                          "color": "#0E0E1216"
-                        },
-                        "onTap": {
-                          "action": "navigate",
-                          "to": "figma",
-                          "transition": "push"
-                        }
-                      },
-                      "children": [
-                        {
-                          "type": "zstack",
-                          "alignment": "center",
-                          "children": [
-                            {
-                              "type": "gradient",
-                              "colors": [
-                                "#A259FF",
-                                "#6E44FF"
-                              ],
-                              "direction": "diagonal",
-                              "modifiers": {
-                                "size": {
-                                  "width": {
-                                    "mode": "fill"
-                                  },
-                                  "height": {
-                                    "mode": "fixed",
-                                    "value": 96
-                                  }
-                                },
-                                "cornerRadius": "$token.radius.md"
-                              }
-                            },
-                            {
-                              "type": "icon",
-                              "name": "wand.and.stars",
-                              "color": "#FFFFFF",
-                              "size": 30
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "value": "Figma",
-                          "style": "$token.typography.headline",
-                          "color": "$token.color.textPrimary",
-                          "lineLimit": 1
-                        },
-                        {
-                          "type": "text",
-                          "value": "How Figma variables drive every screen",
                           "style": "$token.typography.caption",
                           "color": "$token.color.textSecondary",
                           "lineLimit": 2
