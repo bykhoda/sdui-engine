@@ -2,6 +2,50 @@
   "version": "0.1",
   "screen": {
     "id": "paywall",
+    "title": "Go Premium",
+    "scrollBehavior": {
+      "largeTitle": false
+    },
+    "toolbar": {
+      "leading": [
+        {
+          "icon": "xmark",
+          "accessibilityLabel": "Close",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Maybe later"
+              }
+            ]
+          }
+        }
+      ],
+      "trailing": [
+        {
+          "icon": "arrow.clockwise",
+          "accessibilityLabel": "Restore purchases",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Purchases restored"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "state": {
       "plan": "yearly",
       "trial": true
@@ -163,7 +207,20 @@
                 "bottom": "$token.spacing.lg"
               },
               "material": "glass",
-              "cornerRadius": "$token.radius.lg"
+              "cornerRadius": "$token.radius.lg",
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "All of this is included in Premium"
+                  }
+                ]
+              }
             },
             "children": [
               {
@@ -249,6 +306,11 @@
             "alignment": "top",
             "spacing": "$token.spacing.md",
             "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
               "padding": {
                 "leading": "$token.spacing.lg",
                 "trailing": "$token.spacing.lg"
@@ -268,8 +330,7 @@
                 "modifiers": {
                   "size": {
                     "width": {
-                      "mode": "fixed",
-                      "value": 150
+                      "mode": "fill"
                     },
                     "height": {
                       "mode": "fixed",
@@ -278,7 +339,21 @@
                   },
                   "padding": "$token.spacing.md",
                   "background": "$token.color.primarySoft",
-                  "cornerRadius": "$token.radius.lg"
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "setState",
+                        "key": "plan",
+                        "value": "yearly"
+                      },
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      }
+                    ]
+                  }
                 },
                 "children": [
                   {
@@ -350,8 +425,7 @@
                 "modifiers": {
                   "size": {
                     "width": {
-                      "mode": "fixed",
-                      "value": 150
+                      "mode": "fill"
                     },
                     "height": {
                       "mode": "fixed",
@@ -446,8 +520,7 @@
                 "modifiers": {
                   "size": {
                     "width": {
-                      "mode": "fixed",
-                      "value": 150
+                      "mode": "fill"
                     },
                     "height": {
                       "mode": "fixed",
@@ -456,7 +529,21 @@
                   },
                   "padding": "$token.spacing.md",
                   "background": "$token.color.primarySoft",
-                  "cornerRadius": "$token.radius.lg"
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "setState",
+                        "key": "plan",
+                        "value": "monthly"
+                      },
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      }
+                    ]
+                  }
                 },
                 "children": [
                   {
@@ -513,8 +600,7 @@
                 "modifiers": {
                   "size": {
                     "width": {
-                      "mode": "fixed",
-                      "value": 150
+                      "mode": "fill"
                     },
                     "height": {
                       "mode": "fixed",
@@ -751,27 +837,6 @@
                     "$state.plan",
                     "monthly"
                   ]
-                }
-              },
-              {
-                "type": "text",
-                "value": "Restore Purchases",
-                "style": "$token.typography.subheadline",
-                "color": "$token.color.primary",
-                "modifiers": {
-                  "onTap": {
-                    "action": "sequence",
-                    "actions": [
-                      {
-                        "action": "haptic",
-                        "style": "light"
-                      },
-                      {
-                        "action": "showToast",
-                        "message": "Purchases restored"
-                      }
-                    ]
-                  }
                 }
               }
             ]

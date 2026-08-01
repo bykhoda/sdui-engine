@@ -25,107 +25,6 @@
         },
         "children": [
           {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.md",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": {
-                "horizontal": "$token.spacing.lg"
-              }
-            },
-            "children": [
-              {
-                "type": "vstack",
-                "alignment": "leading",
-                "spacing": 2,
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "MONDAY, JULY 20",
-                    "style": "$token.typography.caption",
-                    "color": "$token.color.primary",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
-                    "value": "Hi Danila, nice to see you!",
-                    "style": "$token.typography.title2",
-                    "color": "$token.color.textPrimary",
-                    "lineLimit": 2
-                  }
-                ]
-              },
-              {
-                "type": "spacer"
-              },
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 44
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 44
-                    }
-                  },
-                  "material": "glass",
-                  "cornerRadius": 22,
-                  "onTap": {
-                    "action": "sequence",
-                    "actions": [
-                      {
-                        "action": "haptic",
-                        "style": "light"
-                      },
-                      {
-                        "action": "showToast",
-                        "message": "No new notifications"
-                      }
-                    ]
-                  }
-                },
-                "children": [
-                  {
-                    "type": "icon",
-                    "name": "bell.fill",
-                    "color": "$token.color.textPrimary",
-                    "size": 18
-                  }
-                ]
-              },
-              {
-                "type": "image",
-                "source": "https://picsum.photos/seed/danila-avatar/120/120",
-                "loader": {
-                  "placeholder": "skeleton",
-                  "contentMode": "fill"
-                },
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 44
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 44
-                    }
-                  },
-                  "cornerRadius": 22
-                }
-              }
-            ]
-          },
-          {
             "type": "scroll",
             "axis": "horizontal",
             "showsIndicators": false,
@@ -149,7 +48,20 @@
                       "bottom": "$token.spacing.sm"
                     },
                     "cornerRadius": "$token.radius.pill",
-                    "background": "$token.color.primary"
+                    "background": "$token.color.primary",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Showing all tasks"
+                        }
+                      ]
+                    }
                   },
                   "children": [
                     {
@@ -172,7 +84,20 @@
                       "bottom": "$token.spacing.sm"
                     },
                     "cornerRadius": "$token.radius.pill",
-                    "material": "glass"
+                    "material": "glass",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Showing today"
+                        }
+                      ]
+                    }
                   },
                   "children": [
                     {
@@ -195,7 +120,21 @@
                       "bottom": "$token.spacing.sm"
                     },
                     "cornerRadius": "$token.radius.pill",
-                    "material": "glass"
+                    "material": "glass",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Showing done",
+                          "style": "success"
+                        }
+                      ]
+                    }
                   },
                   "children": [
                     {
@@ -294,12 +233,11 @@
                     "actions": [
                       {
                         "action": "haptic",
-                        "style": "success"
+                        "style": "light"
                       },
                       {
                         "action": "showToast",
-                        "message": "Completed",
-                        "style": "success"
+                        "message": "Opening Review the pull request"
                       }
                     ]
                   }
@@ -610,7 +548,22 @@
                     "value": "See all",
                     "style": "$token.typography.subheadline",
                     "color": "$token.color.primary",
-                    "lineLimit": 1
+                    "lineLimit": 1,
+                    "modifiers": {
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "haptic",
+                            "style": "light"
+                          },
+                          {
+                            "action": "showToast",
+                            "message": "All upcoming tasks"
+                          }
+                        ]
+                      }
+                    }
                   }
                 ]
               },
@@ -1159,6 +1112,49 @@
           }
         ]
       }
+    },
+    "title": "Tasks",
+    "scrollBehavior": {
+      "largeTitle": true,
+      "subtitle": "Monday, July 20"
+    },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "magnifyingglass",
+          "accessibilityLabel": "Search tasks",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Search"
+              }
+            ]
+          }
+        },
+        {
+          "icon": "plus",
+          "accessibilityLabel": "Add task",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "New task"
+              }
+            ]
+          }
+        }
+      ]
     }
   }
 }

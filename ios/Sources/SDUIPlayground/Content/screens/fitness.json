@@ -97,7 +97,12 @@
                     "alignment": "leading",
                     "spacing": "$token.spacing.sm",
                     "modifiers": {
-                      "padding": "$token.spacing.lg"
+                      "padding": "$token.spacing.lg",
+                      "size": {
+                        "width": {
+                          "mode": "fill"
+                        }
+                      }
                     },
                     "children": [
                       {
@@ -182,7 +187,20 @@
                   },
                   "padding": "$token.spacing.lg",
                   "cornerRadius": "$token.radius.lg",
-                  "material": "glass"
+                  "material": "glass",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Full run breakdown"
+                      }
+                    ]
+                  }
                 },
                 "children": [
                   {
@@ -217,7 +235,20 @@
                             "bottom": "$token.spacing.xs"
                           },
                           "cornerRadius": "$token.radius.pill",
-                          "material": "thin"
+                          "material": "thin",
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Edit weekly goal"
+                              }
+                            ]
+                          }
                         },
                         "children": [
                           {
@@ -272,6 +303,7 @@
                   {
                     "type": "hstack",
                     "alignment": "top",
+                    "spacing": "$token.spacing.sm",
                     "modifiers": {
                       "size": {
                         "width": {
@@ -287,6 +319,26 @@
                         "type": "vstack",
                         "alignment": "leading",
                         "spacing": "$token.spacing.xs",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            }
+                          },
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Pace splits per km"
+                              }
+                            ]
+                          }
+                        },
                         "children": [
                           {
                             "type": "text",
@@ -305,12 +357,29 @@
                         ]
                       },
                       {
-                        "type": "spacer"
-                      },
-                      {
                         "type": "vstack",
                         "alignment": "leading",
                         "spacing": "$token.spacing.xs",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            }
+                          },
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Elapsed time detail"
+                              }
+                            ]
+                          }
+                        },
                         "children": [
                           {
                             "type": "text",
@@ -329,12 +398,29 @@
                         ]
                       },
                       {
-                        "type": "spacer"
-                      },
-                      {
                         "type": "vstack",
                         "alignment": "leading",
                         "spacing": "$token.spacing.xs",
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "fill"
+                            }
+                          },
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              {
+                                "action": "haptic",
+                                "style": "light"
+                              },
+                              {
+                                "action": "showToast",
+                                "message": "Step cadence detail"
+                              }
+                            ]
+                          }
+                        },
                         "children": [
                           {
                             "type": "text",

@@ -3,6 +3,21 @@
   "screen": {
     "id": "discover",
     "title": "Roastery",
+    "scrollBehavior": { "largeTitle": true },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "magnifyingglass",
+          "accessibilityLabel": "Search",
+          "action": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Search the menu" } ] }
+        },
+        {
+          "icon": "line.3.horizontal.decrease.circle",
+          "accessibilityLabel": "Filter",
+          "action": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Filter" } ] }
+        }
+      ]
+    },
     "state": { "category": "all", "likedShirt": false },
     "content": {
       "type": "scroll",
@@ -59,7 +74,8 @@
                         "modifiers": {
                           "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" },
                           "cornerRadius": "$token.radius.pill",
-                          "material": "glass"
+                          "material": "glass",
+                          "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "medium" }, { "action": "showToast", "message": "Order started" } ] }
                         },
                         "children": [
                           { "type": "text", "value": "☕ Order now", "style": "$token.typography.headline", "color": "#FFFFFF", "lineLimit": 1 }
@@ -71,7 +87,8 @@
                         "modifiers": {
                           "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.sm", "bottom": "$token.spacing.sm" },
                           "cornerRadius": "$token.radius.pill",
-                          "material": "glass"
+                          "material": "glass",
+                          "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Open till 9pm today" } ] }
                         },
                         "children": [
                           { "type": "text", "value": "Open till 9pm", "style": "$token.typography.subheadline", "color": "#FFFFFFEE", "lineLimit": 1 }
@@ -166,7 +183,7 @@
               "children": [
                 {
                   "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
-                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } } },
+                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "product", "transition": "push" } ] } },
                   "children": [
                     {
                       "type": "zstack", "alignment": "topLeading",
@@ -205,7 +222,7 @@
                 },
                 {
                   "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
-                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } } },
+                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "product", "transition": "push" } ] } },
                   "children": [
                     {
                       "type": "zstack", "alignment": "topLeading",
@@ -235,7 +252,7 @@
                 },
                 {
                   "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
-                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } } },
+                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "product", "transition": "push" } ] } },
                   "children": [
                     {
                       "type": "zstack", "alignment": "topLeading",
@@ -265,7 +282,7 @@
                 },
                 {
                   "type": "vstack", "alignment": "leading", "spacing": "$token.spacing.xs",
-                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } } },
+                  "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "product", "transition": "push" } ] } },
                   "children": [
                     {
                       "type": "zstack", "alignment": "topLeading",

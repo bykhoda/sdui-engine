@@ -2,8 +2,28 @@
   "version": "0.1",
   "screen": {
     "id": "gym",
-    "title": "Profile",
+    "title": "Alex Morgan",
     "state": { "following": false },
+    "scrollBehavior": { "largeTitle": false },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "square.and.arrow.up",
+          "accessibilityLabel": "Share profile",
+          "action": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "share_sheet", "transition": "sheet" } ] }
+        },
+        {
+          "icon": "message.fill",
+          "accessibilityLabel": "Message Alex",
+          "action": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "messenger", "transition": "push" } ] }
+        },
+        {
+          "icon": "ellipsis",
+          "accessibilityLabel": "More options",
+          "action": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "More options" } ] }
+        }
+      ]
+    },
     "content": {
       "type": "scroll",
       "child": {
@@ -49,7 +69,7 @@
                       {
                         "type": "hstack",
                         "spacing": "$token.spacing.xs",
-                        "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "cornerRadius": "$token.radius.pill", "material": "glass" },
+                        "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "cornerRadius": "$token.radius.pill", "material": "glass", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Pulse Club PRO member" } ] } },
                         "children": [
                           { "type": "icon", "name": "crown.fill", "color": "#F5C518", "size": 12 },
                           { "type": "text", "value": "PRO", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
@@ -58,7 +78,7 @@
                       {
                         "type": "hstack",
                         "spacing": "$token.spacing.xs",
-                        "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "cornerRadius": "$token.radius.pill", "material": "glass" },
+                        "modifiers": { "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.sm", "top": 4, "bottom": 4 }, "cornerRadius": "$token.radius.pill", "material": "glass", "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "30-day workout streak" } ] } },
                         "children": [
                           { "type": "icon", "name": "flame.fill", "color": "#FF7043", "size": 12 },
                           { "type": "text", "value": "30-day streak", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
@@ -82,7 +102,7 @@
             "children": [
               {
                 "type": "vstack", "alignment": "center", "spacing": 1,
-                "modifiers": { "size": { "width": { "mode": "fixed", "value": 92 } } },
+                "modifiers": { "size": { "width": { "mode": "fixed", "value": 92 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "12,400 followers" } ] } },
                 "children": [
                   { "type": "text", "value": "12.4k", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "lineLimit": 1 },
                   { "type": "text", "value": "Followers", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "lineLimit": 1 }
@@ -93,7 +113,7 @@
               { "type": "spacer" },
               {
                 "type": "vstack", "alignment": "center", "spacing": 1,
-                "modifiers": { "size": { "width": { "mode": "fixed", "value": 92 } } },
+                "modifiers": { "size": { "width": { "mode": "fixed", "value": 92 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Following 318 athletes" } ] } },
                 "children": [
                   { "type": "text", "value": "318", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "lineLimit": 1 },
                   { "type": "text", "value": "Following", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "lineLimit": 1 }
@@ -104,7 +124,7 @@
               { "type": "spacer" },
               {
                 "type": "vstack", "alignment": "center", "spacing": 1,
-                "modifiers": { "size": { "width": { "mode": "fixed", "value": 92 } } },
+                "modifiers": { "size": { "width": { "mode": "fixed", "value": 92 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "542 activities logged" } ] } },
                 "children": [
                   { "type": "text", "value": "542", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "lineLimit": 1 },
                   { "type": "text", "value": "Activities", "style": "$token.typography.caption", "color": "$token.color.textSecondary", "lineLimit": 1 }
@@ -152,32 +172,6 @@
                   { "type": "icon", "name": "checkmark", "color": "$token.color.textPrimary", "size": 14 },
                   { "type": "text", "value": "Following", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "lineLimit": 1 }
                 ]
-              },
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 48 } },
-                  "material": "glass",
-                  "cornerRadius": 24,
-                  "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Share profile" } ] }
-                },
-                "children": [
-                  { "type": "icon", "name": "square.and.arrow.up", "color": "$token.color.textPrimary", "size": 18 }
-                ]
-              },
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": { "width": { "mode": "fixed", "value": 48 }, "height": { "mode": "fixed", "value": 48 } },
-                  "material": "glass",
-                  "cornerRadius": 24,
-                  "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Message Alex" } ] }
-                },
-                "children": [
-                  { "type": "icon", "name": "message.fill", "color": "$token.color.textPrimary", "size": 18 }
-                ]
               }
             ]
           },
@@ -209,7 +203,7 @@
                       "type": "vstack",
                       "alignment": "leading",
                       "spacing": "$token.spacing.sm",
-                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" } },
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "medium" }, { "action": "showToast", "message": "Consistency Pro · 30-day streak" } ] } },
                       "children": [
                         {
                           "type": "zstack", "alignment": "center",
@@ -224,7 +218,7 @@
                       "type": "vstack",
                       "alignment": "leading",
                       "spacing": "$token.spacing.sm",
-                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" } },
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "medium" }, { "action": "showToast", "message": "Iron Will · 100 workouts" } ] } },
                       "children": [
                         {
                           "type": "zstack", "alignment": "center",
@@ -239,7 +233,7 @@
                       "type": "vstack",
                       "alignment": "leading",
                       "spacing": "$token.spacing.sm",
-                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" } },
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "medium" }, { "action": "showToast", "message": "Early Bird · 20 dawn classes" } ] } },
                       "children": [
                         {
                           "type": "zstack", "alignment": "center",
@@ -254,7 +248,7 @@
                       "type": "vstack",
                       "alignment": "leading",
                       "spacing": "$token.spacing.sm",
-                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" } },
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 160 } }, "padding": "$token.spacing.md", "background": "$token.color.surfaceElevated", "cornerRadius": "$token.radius.lg", "shadow": { "radius": 12, "y": 4, "color": "#00000012" }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "medium" }, { "action": "showToast", "message": "Podium · Top 5% this month" } ] } },
                       "children": [
                         {
                           "type": "zstack", "alignment": "center",
@@ -282,7 +276,7 @@
                 "children": [
                   { "type": "text", "value": "Your programs", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "lineLimit": 1 },
                   { "type": "spacer" },
-                  { "type": "text", "value": "See all", "style": "$token.typography.subheadline", "color": "$token.color.primary", "lineLimit": 1, "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Program library" } ] } } }
+                  { "type": "text", "value": "See all", "style": "$token.typography.subheadline", "color": "$token.color.primary", "lineLimit": 1, "modifiers": { "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "fitness", "transition": "push" } ] } } }
                 ]
               },
               {
@@ -298,7 +292,7 @@
                       "type": "vstack",
                       "alignment": "leading",
                       "spacing": "$token.spacing.xs",
-                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 200 } }, "onTap": { "action": "navigate", "to": "gym", "transition": "push" } },
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 200 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "fitness", "transition": "push" } ] } },
                       "children": [
                         {
                           "type": "zstack",
@@ -335,7 +329,7 @@
                       "type": "vstack",
                       "alignment": "leading",
                       "spacing": "$token.spacing.xs",
-                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 200 } }, "onTap": { "action": "navigate", "to": "gym", "transition": "push" } },
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 200 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "fitness", "transition": "push" } ] } },
                       "children": [
                         {
                           "type": "zstack",
@@ -372,7 +366,7 @@
                       "type": "vstack",
                       "alignment": "leading",
                       "spacing": "$token.spacing.xs",
-                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 200 } }, "onTap": { "action": "navigate", "to": "gym", "transition": "push" } },
+                      "modifiers": { "size": { "width": { "mode": "fixed", "value": 200 } }, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "navigate", "to": "fitness", "transition": "push" } ] } },
                       "children": [
                         {
                           "type": "zstack",

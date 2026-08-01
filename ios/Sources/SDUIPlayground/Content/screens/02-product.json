@@ -2,6 +2,17 @@
   "version": "0.1",
   "screen": {
     "id": "product",
+    "title": "Runner Pro",
+    "scrollBehavior": { "largeTitle": false },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "square.and.arrow.up",
+          "accessibilityLabel": "Share",
+          "action": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Share Runner Pro" } ] }
+        }
+      ]
+    },
     "state": { "favorite": false, "size": "42", "color": "black", "qty": 1 },
     "content": {
       "type": "scroll",
@@ -35,18 +46,12 @@
                 "modifiers": { "size": { "width": { "mode": "fill" } }, "padding": "$token.spacing.lg" },
                 "children": [
                   { "type": "text", "value": "TRAINING · NEW ARRIVAL", "style": "$token.typography.caption", "color": "#FFFFFFCC", "lineLimit": 1 },
-                  {
-                    "type": "hstack",
-                    "alignment": "center",
-                    "children": [
-                      { "type": "text", "value": "Runner Pro", "style": "$token.typography.largeTitle", "color": "#FFFFFF", "lineLimit": 1 },
-                      { "type": "spacer" },
-                      { "type": "text", "value": "$129", "style": "$token.typography.largeTitle", "color": "#FFFFFF", "lineLimit": 1 }
-                    ]
-                  },
+                  { "type": "text", "value": "Runner Pro", "style": "$token.typography.largeTitle", "color": "#FFFFFF", "lineLimit": 1 },
+                  { "type": "text", "value": "$129", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 },
                   {
                     "type": "hstack",
                     "spacing": "$token.spacing.xs",
+                    "modifiers": { "padding": { "top": "$token.spacing.xs" } },
                     "children": [
                       {
                         "type": "hstack",
@@ -199,7 +204,7 @@
                 "children": [
                   { "type": "text", "value": "You might also like", "style": "$token.typography.title2", "color": "$token.color.textPrimary", "lineLimit": 1 },
                   { "type": "spacer" },
-                  { "type": "text", "value": "See all", "style": "$token.typography.subheadline", "color": "$token.color.primary", "lineLimit": 1 }
+                  { "type": "text", "value": "See all", "style": "$token.typography.subheadline", "color": "$token.color.primary", "lineLimit": 1, "modifiers": { "hitSlop": 8, "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "All recommendations" } ] } } }
                 ]
               },
               {

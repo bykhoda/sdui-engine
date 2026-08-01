@@ -5,18 +5,17 @@
     "chrome": "immersive",
     "teach": {
       "title": "Clips",
-      "task": "Scroll for the next clip, tap the heart on the rail to like, and use the glass buttons to comment or share."
+      "task": "Swipe up for the next clip, double-tap or tap the heart to like, and use the glass rail to comment or share."
     },
     "state": {
-      "liked_c1": false, "likes_c1": 12400,
-      "liked_c2": false, "likes_c2": 48100,
-      "liked_c3": false, "likes_c3": 27900,
-      "liked_c4": false, "likes_c4": 9842,
-      "liked_c5": false, "likes_c5": 63500
+      "liked_c1": false, "likes_c1": "12.4K",
+      "liked_c2": false, "likes_c2": "48.1K",
+      "liked_c3": false, "likes_c3": "27.9K",
+      "liked_c4": false, "likes_c4": "9,842",
+      "liked_c5": false, "likes_c5": "63.5K"
     },
     "content": {
-      "type": "scroll",
-      "showsIndicators": false,
+      "type": "clips",
       "modifiers": {
         "ignoresSafeArea": true,
         "size": {
@@ -24,1036 +23,168 @@
           "height": { "mode": "fill" }
         }
       },
-      "child": {
-        "type": "vstack",
-        "spacing": "$token.spacing.md",
-        "modifiers": {
-          "size": { "width": { "mode": "fill" } },
-          "padding": { "bottom": "$token.spacing.xl" }
+      "pages": [
+        {
+          "id": "c1",
+          "colors": ["#F7971E", "#C7305E", "#241023"],
+          "author": "@nova.films",
+          "caption": "Golden hour over the north ridge — one take, no filter.",
+          "audio": "Original audio · Nova",
+          "liked": "$state.liked_c1",
+          "likes": "$state.likes_c1",
+          "comments": "318",
+          "shares": "1.2K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c1", "value": true },
+              {
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c1/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c1", "value": false },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
+                }
+              }
+            ]
+          },
+          "onComment": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c1" }, "sheet": { "detents": ["large"], "dragIndicator": true } },
+          "onShare": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Share clip" } ] },
+          "onMore": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "More options" } ] }
         },
-        "children": [
-          {
-            "type": "zstack",
-            "alignment": "bottom",
-            "modifiers": { "size": { "width": { "mode": "fill" } } },
-            "children": [
+        {
+          "id": "c2",
+          "colors": ["#00C6FB", "#005BEA", "#001E3C"],
+          "author": "@deep.blue",
+          "caption": "Free-diving the kelp forest at first light.",
+          "audio": "Tide · Blue Room",
+          "liked": "$state.liked_c2",
+          "likes": "$state.likes_c2",
+          "comments": "2,904",
+          "shares": "8.7K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c2", "value": true },
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/clip-goldenridge/800/1400",
-                "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c2/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c2", "value": false },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
                 }
-              },
-              {
-                "type": "gradient",
-                "colors": ["#00000000", "#00000033", "#000000E6"],
-                "direction": "vertical",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
-                }
-              },
-              {
-                "type": "hstack",
-                "alignment": "bottom",
-                "spacing": "$token.spacing.md",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } },
-                  "padding": "$token.spacing.lg"
-                },
-                "children": [
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.sm",
-                    "children": [
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.sm",
-                        "children": [
-                          {
-                            "type": "image",
-                            "source": "https://picsum.photos/seed/clip-nova-avatar/80/80",
-                            "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 40 }, "height": { "mode": "fixed", "value": 40 } },
-                              "cornerRadius": 20
-                            }
-                          },
-                          {
-                            "type": "text",
-                            "value": "@nova.films",
-                            "style": "$token.typography.headline",
-                            "color": "#FFFFFF",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "modifiers": {
-                              "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                              "cornerRadius": "$token.radius.pill",
-                              "material": "glass"
-                            },
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "Follow",
-                                "style": "$token.typography.headline",
-                                "color": "#FFFFFF",
-                                "lineLimit": 1
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": "Golden hour over the north ridge — one take, no filter.",
-                        "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFEE",
-                        "lineLimit": 2
-                      },
-                      {
-                        "type": "hstack",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                          "cornerRadius": "$token.radius.pill",
-                          "material": "glass"
-                        },
-                        "children": [
-                          { "type": "text", "value": "♪", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 },
-                          { "type": "text", "value": "Original audio · Nova", "style": "$token.typography.caption", "color": "#FFFFFFDD", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  },
-                  { "type": "spacer" },
-                  {
-                    "type": "vstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  { "action": "haptic", "style": "light" },
-                                  { "action": "setState", "key": "liked_c1", "value": true },
-                                  { "action": "increment", "key": "likes_c1", "by": 1 },
-                                  {
-                                    "action": "request",
-                                    "source": { "id": "likeClip", "service": "feed", "path": "/clips/c1/like", "method": "POST" },
-                                    "onError": {
-                                      "action": "sequence",
-                                      "actions": [
-                                        { "action": "setState", "key": "liked_c1", "value": false },
-                                        { "action": "increment", "key": "likes_c1", "by": -1 },
-                                        { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            },
-                            "children": [
-                              { "type": "text", "value": "♥", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "$state.likes_c1", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c1" }, "sheet": { "detents": ["large"], "dragIndicator": true } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "💬", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "318", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "share_sheet", "transition": "sheet", "params": { "clipId": "c1" }, "sheet": { "detents": [{ "height": 320 }, "large"] } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "↗", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "1.2K", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "zstack",
-                        "alignment": "center",
-                        "modifiers": {
-                          "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                          "material": "glass",
-                          "cornerRadius": 26,
-                          "onTap": { "action": "navigate", "to": "clip_menu", "transition": "sheet", "params": { "clipId": "c1" }, "sheet": { "detents": [{ "fraction": 0.5 }] } }
-                        },
-                        "children": [
-                          { "type": "text", "value": "⋯", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  }
-                ]
               }
             ]
           },
-          {
-            "type": "zstack",
-            "alignment": "bottom",
-            "modifiers": { "size": { "width": { "mode": "fill" } } },
-            "children": [
+          "onComment": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c2" }, "sheet": { "detents": ["large"], "dragIndicator": true } },
+          "onShare": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Share clip" } ] },
+          "onMore": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "More options" } ] }
+        },
+        {
+          "id": "c3",
+          "colors": ["#FF512F", "#DD2476", "#1A0A2E"],
+          "author": "@sol.market",
+          "caption": "Street food, 3am, somewhere warm.",
+          "audio": "Neon Nights · Aurora Vale",
+          "liked": "$state.liked_c3",
+          "likes": "$state.likes_c3",
+          "comments": "1,133",
+          "shares": "4.1K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c3", "value": true },
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/clip-kelpforest/800/1400",
-                "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c3/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c3", "value": false },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
                 }
-              },
-              {
-                "type": "gradient",
-                "colors": ["#00000000", "#00000033", "#000000E6"],
-                "direction": "vertical",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
-                }
-              },
-              {
-                "type": "hstack",
-                "alignment": "bottom",
-                "spacing": "$token.spacing.md",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } },
-                  "padding": "$token.spacing.lg"
-                },
-                "children": [
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.sm",
-                    "children": [
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.sm",
-                        "children": [
-                          {
-                            "type": "image",
-                            "source": "https://picsum.photos/seed/clip-blue-avatar/80/80",
-                            "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 40 }, "height": { "mode": "fixed", "value": 40 } },
-                              "cornerRadius": 20
-                            }
-                          },
-                          {
-                            "type": "text",
-                            "value": "@deep.blue",
-                            "style": "$token.typography.headline",
-                            "color": "#FFFFFF",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "modifiers": {
-                              "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                              "cornerRadius": "$token.radius.pill",
-                              "material": "glass"
-                            },
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "Follow",
-                                "style": "$token.typography.headline",
-                                "color": "#FFFFFF",
-                                "lineLimit": 1
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": "Free-diving the kelp forest at first light",
-                        "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFEE",
-                        "lineLimit": 2
-                      },
-                      {
-                        "type": "hstack",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                          "cornerRadius": "$token.radius.pill",
-                          "material": "glass"
-                        },
-                        "children": [
-                          { "type": "text", "value": "♪", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 },
-                          { "type": "text", "value": "Tide · Blue Room", "style": "$token.typography.caption", "color": "#FFFFFFDD", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  },
-                  { "type": "spacer" },
-                  {
-                    "type": "vstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  { "action": "haptic", "style": "light" },
-                                  { "action": "setState", "key": "liked_c2", "value": true },
-                                  { "action": "increment", "key": "likes_c2", "by": 1 },
-                                  {
-                                    "action": "request",
-                                    "source": { "id": "likeClip", "service": "feed", "path": "/clips/c2/like", "method": "POST" },
-                                    "onError": {
-                                      "action": "sequence",
-                                      "actions": [
-                                        { "action": "setState", "key": "liked_c2", "value": false },
-                                        { "action": "increment", "key": "likes_c2", "by": -1 },
-                                        { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            },
-                            "children": [
-                              { "type": "text", "value": "♥", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "$state.likes_c2", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c2" }, "sheet": { "detents": ["large"], "dragIndicator": true } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "💬", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "2,904", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "share_sheet", "transition": "sheet", "params": { "clipId": "c2" }, "sheet": { "detents": [{ "height": 320 }, "large"] } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "↗", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "8.7K", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "zstack",
-                        "alignment": "center",
-                        "modifiers": {
-                          "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                          "material": "glass",
-                          "cornerRadius": 26,
-                          "onTap": { "action": "navigate", "to": "clip_menu", "transition": "sheet", "params": { "clipId": "c2" }, "sheet": { "detents": [{ "fraction": 0.5 }] } }
-                        },
-                        "children": [
-                          { "type": "text", "value": "⋯", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  }
-                ]
               }
             ]
           },
-          {
-            "type": "zstack",
-            "alignment": "bottom",
-            "modifiers": { "size": { "width": { "mode": "fill" } } },
-            "children": [
+          "onComment": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c3" }, "sheet": { "detents": ["large"], "dragIndicator": true } },
+          "onShare": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Share clip" } ] },
+          "onMore": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "More options" } ] }
+        },
+        {
+          "id": "c4",
+          "colors": ["#2AF598", "#009EFD", "#04203A"],
+          "author": "@trailmix",
+          "caption": "23km, 1,800m up. Worth every step.",
+          "audio": "Uphill · Field Tapes",
+          "liked": "$state.liked_c4",
+          "likes": "$state.likes_c4",
+          "comments": "402",
+          "shares": "700",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c4", "value": true },
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/clip-streetfood/800/1400",
-                "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c4/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c4", "value": false },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
                 }
-              },
-              {
-                "type": "gradient",
-                "colors": ["#00000000", "#00000033", "#000000E6"],
-                "direction": "vertical",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
-                }
-              },
-              {
-                "type": "hstack",
-                "alignment": "bottom",
-                "spacing": "$token.spacing.md",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } },
-                  "padding": "$token.spacing.lg"
-                },
-                "children": [
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.sm",
-                    "children": [
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.sm",
-                        "children": [
-                          {
-                            "type": "image",
-                            "source": "https://picsum.photos/seed/clip-sol-avatar/80/80",
-                            "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 40 }, "height": { "mode": "fixed", "value": 40 } },
-                              "cornerRadius": 20
-                            }
-                          },
-                          {
-                            "type": "text",
-                            "value": "@sol.market",
-                            "style": "$token.typography.headline",
-                            "color": "#FFFFFF",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "modifiers": {
-                              "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                              "cornerRadius": "$token.radius.pill",
-                              "material": "glass"
-                            },
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "Follow",
-                                "style": "$token.typography.headline",
-                                "color": "#FFFFFF",
-                                "lineLimit": 1
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": "Street food, 3am, somewhere warm.",
-                        "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFEE",
-                        "lineLimit": 2
-                      },
-                      {
-                        "type": "hstack",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                          "cornerRadius": "$token.radius.pill",
-                          "material": "glass"
-                        },
-                        "children": [
-                          { "type": "text", "value": "♪", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 },
-                          { "type": "text", "value": "Neon Nights · Aurora Vale", "style": "$token.typography.caption", "color": "#FFFFFFDD", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  },
-                  { "type": "spacer" },
-                  {
-                    "type": "vstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  { "action": "haptic", "style": "light" },
-                                  { "action": "setState", "key": "liked_c3", "value": true },
-                                  { "action": "increment", "key": "likes_c3", "by": 1 },
-                                  {
-                                    "action": "request",
-                                    "source": { "id": "likeClip", "service": "feed", "path": "/clips/c3/like", "method": "POST" },
-                                    "onError": {
-                                      "action": "sequence",
-                                      "actions": [
-                                        { "action": "setState", "key": "liked_c3", "value": false },
-                                        { "action": "increment", "key": "likes_c3", "by": -1 },
-                                        { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            },
-                            "children": [
-                              { "type": "text", "value": "♥", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "$state.likes_c3", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c3" }, "sheet": { "detents": ["large"], "dragIndicator": true } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "💬", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "1,133", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "share_sheet", "transition": "sheet", "params": { "clipId": "c3" }, "sheet": { "detents": [{ "height": 320 }, "large"] } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "↗", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "4.1K", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "zstack",
-                        "alignment": "center",
-                        "modifiers": {
-                          "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                          "material": "glass",
-                          "cornerRadius": 26,
-                          "onTap": { "action": "navigate", "to": "clip_menu", "transition": "sheet", "params": { "clipId": "c3" }, "sheet": { "detents": [{ "fraction": 0.5 }] } }
-                        },
-                        "children": [
-                          { "type": "text", "value": "⋯", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  }
-                ]
               }
             ]
           },
-          {
-            "type": "zstack",
-            "alignment": "bottom",
-            "modifiers": { "size": { "width": { "mode": "fill" } } },
-            "children": [
+          "onComment": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c4" }, "sheet": { "detents": ["large"], "dragIndicator": true } },
+          "onShare": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Share clip" } ] },
+          "onMore": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "More options" } ] }
+        },
+        {
+          "id": "c5",
+          "colors": ["#8E2DE2", "#4A00E0", "#0D0221"],
+          "author": "@studio.k",
+          "caption": "Throwing clay until it behaves.",
+          "audio": "Slow Spin · K",
+          "liked": "$state.liked_c5",
+          "likes": "$state.likes_c5",
+          "comments": "5,210",
+          "shares": "12.3K",
+          "onLike": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "setState", "key": "liked_c5", "value": true },
               {
-                "type": "image",
-                "source": "https://picsum.photos/seed/clip-mountaintrail/800/1400",
-                "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
+                "action": "request",
+                "source": { "id": "likeClip", "service": "feed", "path": "/clips/c5/like", "method": "POST" },
+                "onError": {
+                  "action": "sequence",
+                  "actions": [
+                    { "action": "setState", "key": "liked_c5", "value": false },
+                    { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
+                  ]
                 }
-              },
-              {
-                "type": "gradient",
-                "colors": ["#00000000", "#00000033", "#000000E6"],
-                "direction": "vertical",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
-                }
-              },
-              {
-                "type": "hstack",
-                "alignment": "bottom",
-                "spacing": "$token.spacing.md",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } },
-                  "padding": "$token.spacing.lg"
-                },
-                "children": [
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.sm",
-                    "children": [
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.sm",
-                        "children": [
-                          {
-                            "type": "image",
-                            "source": "https://picsum.photos/seed/clip-trail-avatar/80/80",
-                            "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 40 }, "height": { "mode": "fixed", "value": 40 } },
-                              "cornerRadius": 20
-                            }
-                          },
-                          {
-                            "type": "text",
-                            "value": "@trailmix",
-                            "style": "$token.typography.headline",
-                            "color": "#FFFFFF",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "modifiers": {
-                              "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                              "cornerRadius": "$token.radius.pill",
-                              "material": "glass"
-                            },
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "Follow",
-                                "style": "$token.typography.headline",
-                                "color": "#FFFFFF",
-                                "lineLimit": 1
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": "23km, 1,800m up. Worth every step.",
-                        "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFEE",
-                        "lineLimit": 2
-                      },
-                      {
-                        "type": "hstack",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                          "cornerRadius": "$token.radius.pill",
-                          "material": "glass"
-                        },
-                        "children": [
-                          { "type": "text", "value": "♪", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 },
-                          { "type": "text", "value": "Uphill · Field Tapes", "style": "$token.typography.caption", "color": "#FFFFFFDD", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  },
-                  { "type": "spacer" },
-                  {
-                    "type": "vstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  { "action": "haptic", "style": "light" },
-                                  { "action": "setState", "key": "liked_c4", "value": true },
-                                  { "action": "increment", "key": "likes_c4", "by": 1 },
-                                  {
-                                    "action": "request",
-                                    "source": { "id": "likeClip", "service": "feed", "path": "/clips/c4/like", "method": "POST" },
-                                    "onError": {
-                                      "action": "sequence",
-                                      "actions": [
-                                        { "action": "setState", "key": "liked_c4", "value": false },
-                                        { "action": "increment", "key": "likes_c4", "by": -1 },
-                                        { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            },
-                            "children": [
-                              { "type": "text", "value": "♥", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "$state.likes_c4", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c4" }, "sheet": { "detents": ["large"], "dragIndicator": true } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "💬", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "402", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "share_sheet", "transition": "sheet", "params": { "clipId": "c4" }, "sheet": { "detents": [{ "height": 320 }, "large"] } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "↗", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "700", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "zstack",
-                        "alignment": "center",
-                        "modifiers": {
-                          "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                          "material": "glass",
-                          "cornerRadius": 26,
-                          "onTap": { "action": "navigate", "to": "clip_menu", "transition": "sheet", "params": { "clipId": "c4" }, "sheet": { "detents": [{ "fraction": 0.5 }] } }
-                        },
-                        "children": [
-                          { "type": "text", "value": "⋯", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  }
-                ]
               }
             ]
           },
-          {
-            "type": "zstack",
-            "alignment": "bottom",
-            "modifiers": { "size": { "width": { "mode": "fill" } } },
-            "children": [
-              {
-                "type": "image",
-                "source": "https://picsum.photos/seed/clip-pottery/800/1400",
-                "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
-                }
-              },
-              {
-                "type": "gradient",
-                "colors": ["#00000000", "#00000033", "#000000E6"],
-                "direction": "vertical",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } }
-                }
-              },
-              {
-                "type": "hstack",
-                "alignment": "bottom",
-                "spacing": "$token.spacing.md",
-                "modifiers": {
-                  "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 640 } },
-                  "padding": "$token.spacing.lg"
-                },
-                "children": [
-                  {
-                    "type": "vstack",
-                    "alignment": "leading",
-                    "spacing": "$token.spacing.sm",
-                    "children": [
-                      {
-                        "type": "hstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.sm",
-                        "children": [
-                          {
-                            "type": "image",
-                            "source": "https://picsum.photos/seed/clip-studiok-avatar/80/80",
-                            "loader": { "placeholder": "skeleton", "contentMode": "fill" },
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 40 }, "height": { "mode": "fixed", "value": 40 } },
-                              "cornerRadius": 20
-                            }
-                          },
-                          {
-                            "type": "text",
-                            "value": "@studio.k",
-                            "style": "$token.typography.headline",
-                            "color": "#FFFFFF",
-                            "lineLimit": 1
-                          },
-                          {
-                            "type": "hstack",
-                            "modifiers": {
-                              "padding": { "leading": "$token.spacing.md", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                              "cornerRadius": "$token.radius.pill",
-                              "material": "glass"
-                            },
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "Follow",
-                                "style": "$token.typography.headline",
-                                "color": "#FFFFFF",
-                                "lineLimit": 1
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": "Throwing clay until it behaves.",
-                        "style": "$token.typography.subheadline",
-                        "color": "#FFFFFFEE",
-                        "lineLimit": 2
-                      },
-                      {
-                        "type": "hstack",
-                        "spacing": "$token.spacing.xs",
-                        "modifiers": {
-                          "padding": { "leading": "$token.spacing.sm", "trailing": "$token.spacing.md", "top": "$token.spacing.xs", "bottom": "$token.spacing.xs" },
-                          "cornerRadius": "$token.radius.pill",
-                          "material": "glass"
-                        },
-                        "children": [
-                          { "type": "text", "value": "♪", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 },
-                          { "type": "text", "value": "Slow Spin · K", "style": "$token.typography.caption", "color": "#FFFFFFDD", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  },
-                  { "type": "spacer" },
-                  {
-                    "type": "vstack",
-                    "alignment": "center",
-                    "spacing": "$token.spacing.md",
-                    "children": [
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": {
-                                "action": "sequence",
-                                "actions": [
-                                  { "action": "haptic", "style": "light" },
-                                  { "action": "setState", "key": "liked_c5", "value": true },
-                                  { "action": "increment", "key": "likes_c5", "by": 1 },
-                                  {
-                                    "action": "request",
-                                    "source": { "id": "likeClip", "service": "feed", "path": "/clips/c5/like", "method": "POST" },
-                                    "onError": {
-                                      "action": "sequence",
-                                      "actions": [
-                                        { "action": "setState", "key": "liked_c5", "value": false },
-                                        { "action": "increment", "key": "likes_c5", "by": -1 },
-                                        { "action": "showToast", "message": "Couldn't like — try again", "style": "error" }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            },
-                            "children": [
-                              { "type": "text", "value": "♥", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "$state.likes_c5", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c5" }, "sheet": { "detents": ["large"], "dragIndicator": true } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "💬", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "5,210", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "vstack",
-                        "alignment": "center",
-                        "spacing": "$token.spacing.xs",
-                        "children": [
-                          {
-                            "type": "zstack",
-                            "alignment": "center",
-                            "modifiers": {
-                              "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                              "material": "glass",
-                              "cornerRadius": 26,
-                              "onTap": { "action": "navigate", "to": "share_sheet", "transition": "sheet", "params": { "clipId": "c5" }, "sheet": { "detents": [{ "height": 320 }, "large"] } }
-                            },
-                            "children": [
-                              { "type": "text", "value": "↗", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                            ]
-                          },
-                          { "type": "text", "value": "12.3K", "style": "$token.typography.caption", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      },
-                      {
-                        "type": "zstack",
-                        "alignment": "center",
-                        "modifiers": {
-                          "size": { "width": { "mode": "fixed", "value": 52 }, "height": { "mode": "fixed", "value": 52 } },
-                          "material": "glass",
-                          "cornerRadius": 26,
-                          "onTap": { "action": "navigate", "to": "clip_menu", "transition": "sheet", "params": { "clipId": "c5" }, "sheet": { "detents": [{ "fraction": 0.5 }] } }
-                        },
-                        "children": [
-                          { "type": "text", "value": "⋯", "style": "$token.typography.title2", "color": "#FFFFFF", "lineLimit": 1 }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+          "onComment": { "action": "navigate", "to": "comments", "transition": "sheet", "params": { "clipId": "c5" }, "sheet": { "detents": ["large"], "dragIndicator": true } },
+          "onShare": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "Share clip" } ] },
+          "onMore": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "More options" } ] }
+        }
+      ]
     }
   }
 }

@@ -2,8 +2,50 @@
   "version": "0.1",
   "screen": {
     "id": "stocks",
+    "title": "Portfolio",
+    "scrollBehavior": {
+      "largeTitle": true
+    },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "magnifyingglass",
+          "accessibilityLabel": "Search markets",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Search"
+              }
+            ]
+          }
+        },
+        {
+          "icon": "arrow.up.arrow.down.circle",
+          "accessibilityLabel": "Sort watchlist",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Sort"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "teach": {
-      "title": "Stocks",
+      "title": "Portfolio",
       "task": "Press and hold the chart, then drag to scrub the live price."
     },
     "state": {
@@ -37,7 +79,20 @@
                   "mode": "fill"
                 }
               },
-              "cornerRadius": "$token.radius.lg"
+              "cornerRadius": "$token.radius.lg",
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  {
+                    "action": "haptic",
+                    "style": "light"
+                  },
+                  {
+                    "action": "showToast",
+                    "message": "Avalon Inc. · AVLN"
+                  }
+                ]
+              }
             },
             "children": [
               {
@@ -198,6 +253,21 @@
                     "type": "vstack",
                     "alignment": "center",
                     "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "haptic",
+                            "style": "medium"
+                          },
+                          {
+                            "action": "showToast",
+                            "message": "Send"
+                          }
+                        ]
+                      }
+                    },
                     "children": [
                       {
                         "type": "zstack",
@@ -214,16 +284,12 @@
                             }
                           },
                           "material": "glass",
-                          "cornerRadius": 27,
-                          "onTap": {
-                            "action": "haptic",
-                            "style": "light"
-                          }
+                          "cornerRadius": 27
                         },
                         "children": [
                           {
                             "type": "icon",
-                            "name": "plus.circle.fill",
+                            "name": "arrow.up",
                             "color": "$token.color.success",
                             "size": 24
                           }
@@ -231,7 +297,7 @@
                       },
                       {
                         "type": "text",
-                        "value": "Buy",
+                        "value": "Send",
                         "style": "$token.typography.caption",
                         "color": "$token.color.textPrimary"
                       }
@@ -261,6 +327,21 @@
                     "type": "vstack",
                     "alignment": "center",
                     "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "haptic",
+                            "style": "medium"
+                          },
+                          {
+                            "action": "showToast",
+                            "message": "Request"
+                          }
+                        ]
+                      }
+                    },
                     "children": [
                       {
                         "type": "zstack",
@@ -277,24 +358,20 @@
                             }
                           },
                           "material": "glass",
-                          "cornerRadius": 27,
-                          "onTap": {
-                            "action": "haptic",
-                            "style": "light"
-                          }
+                          "cornerRadius": 27
                         },
                         "children": [
                           {
                             "type": "icon",
-                            "name": "arrow.left.arrow.right",
+                            "name": "arrow.down",
                             "color": "$token.color.primary",
-                            "size": 22
+                            "size": 24
                           }
                         ]
                       },
                       {
                         "type": "text",
-                        "value": "Sell",
+                        "value": "Request",
                         "style": "$token.typography.caption",
                         "color": "$token.color.textPrimary"
                       }
@@ -324,6 +401,21 @@
                     "type": "vstack",
                     "alignment": "center",
                     "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "haptic",
+                            "style": "medium"
+                          },
+                          {
+                            "action": "showToast",
+                            "message": "Top up"
+                          }
+                        ]
+                      }
+                    },
                     "children": [
                       {
                         "type": "zstack",
@@ -340,24 +432,20 @@
                             }
                           },
                           "material": "glass",
-                          "cornerRadius": 27,
-                          "onTap": {
-                            "action": "haptic",
-                            "style": "light"
-                          }
+                          "cornerRadius": 27
                         },
                         "children": [
                           {
                             "type": "icon",
-                            "name": "star.fill",
+                            "name": "plus",
                             "color": "$token.color.warning",
-                            "size": 22
+                            "size": 24
                           }
                         ]
                       },
                       {
                         "type": "text",
-                        "value": "Watch",
+                        "value": "Top up",
                         "style": "$token.typography.caption",
                         "color": "$token.color.textPrimary"
                       }
@@ -387,6 +475,21 @@
                     "type": "vstack",
                     "alignment": "center",
                     "spacing": "$token.spacing.xs",
+                    "modifiers": {
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          {
+                            "action": "haptic",
+                            "style": "medium"
+                          },
+                          {
+                            "action": "showToast",
+                            "message": "Price alerts"
+                          }
+                        ]
+                      }
+                    },
                     "children": [
                       {
                         "type": "zstack",
@@ -403,11 +506,7 @@
                             }
                           },
                           "material": "glass",
-                          "cornerRadius": 27,
-                          "onTap": {
-                            "action": "haptic",
-                            "style": "light"
-                          }
+                          "cornerRadius": 27
                         },
                         "children": [
                           {
@@ -1388,7 +1487,22 @@
                 "type": "text",
                 "value": "See all",
                 "style": "$token.typography.subheadline",
-                "color": "$token.color.primary"
+                "color": "$token.color.primary",
+                "modifiers": {
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "All watchlist symbols"
+                      }
+                    ]
+                  }
+                }
               }
             ]
           },
@@ -1422,6 +1536,19 @@
                   },
                   "padding": {
                     "vertical": "$token.spacing.sm"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Novacore · NOVA"
+                      }
+                    ]
                   }
                 },
                 "children": [
@@ -1511,6 +1638,19 @@
                   },
                   "padding": {
                     "vertical": "$token.spacing.sm"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Helix Bio · HELX"
+                      }
+                    ]
                   }
                 },
                 "children": [
@@ -1600,6 +1740,19 @@
                   },
                   "padding": {
                     "vertical": "$token.spacing.sm"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Orbital Systems · ORBT"
+                      }
+                    ]
                   }
                 },
                 "children": [
@@ -1689,6 +1842,19 @@
                   },
                   "padding": {
                     "vertical": "$token.spacing.sm"
+                  },
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      {
+                        "action": "haptic",
+                        "style": "light"
+                      },
+                      {
+                        "action": "showToast",
+                        "message": "Verdant Energy · VERT"
+                      }
+                    ]
                   }
                 },
                 "children": [

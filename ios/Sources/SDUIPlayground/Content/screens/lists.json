@@ -2,9 +2,31 @@
   "version": "0.1",
   "screen": {
     "id": "lists",
-    "title": "Lists & Grids",
+    "title": "All recipes",
     "scrollBehavior": {
+      "largeTitle": true,
       "subtitle": "One array, one template — filter by category, flip to a grid."
+    },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "magnifyingglass",
+          "accessibilityLabel": "Search recipes",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "Search recipes"
+              }
+            ]
+          }
+        }
+      ]
     },
     "state": {
       "layout": "list",
@@ -75,57 +97,6 @@
           }
         },
         "children": [
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "children": [
-              {
-                "type": "text",
-                "value": "All recipes",
-                "style": "$token.typography.largeTitle",
-                "color": "$token.color.textPrimary",
-                "lineLimit": 1
-              },
-              {
-                "type": "spacer"
-              }
-            ]
-          },
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "spacing": "$token.spacing.sm",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "material": "regular",
-              "cornerRadius": "$token.radius.pill",
-              "padding": {
-                "leading": "$token.spacing.md",
-                "trailing": "$token.spacing.md",
-                "top": "$token.spacing.sm",
-                "bottom": "$token.spacing.sm"
-              }
-            },
-            "children": [
-              {
-                "type": "icon",
-                "name": "magnifyingglass",
-                "color": "$token.color.textSecondary",
-                "size": 16
-              },
-              {
-                "type": "text",
-                "value": "Search recipes",
-                "style": "$token.typography.body",
-                "color": "$token.color.textTertiary",
-                "lineLimit": 1
-              }
-            ]
-          },
           {
             "type": "scroll",
             "axis": "horizontal",

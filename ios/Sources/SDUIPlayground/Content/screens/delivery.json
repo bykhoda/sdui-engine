@@ -2,10 +2,40 @@
   "version": "0.1",
   "screen": {
     "id": "delivery",
+    "title": "Order #2847",
+    "scrollBehavior": {
+      "largeTitle": false,
+      "subtitle": "Sushi Ato"
+    },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "square.and.arrow.up",
+          "accessibilityLabel": "Share tracking",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "showToast", "message": "Sharing live tracking…" }
+            ]
+          }
+        },
+        {
+          "icon": "questionmark.circle",
+          "accessibilityLabel": "Help with this order",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              { "action": "haptic", "style": "light" },
+              { "action": "showToast", "message": "Contacting support" }
+            ]
+          }
+        }
+      ]
+    },
     "state": {
       "tip": "15",
-      "leaveAtDoor": true,
-      "contact": "chat"
+      "leaveAtDoor": true
     },
     "content": {
       "type": "scroll",
@@ -35,6 +65,13 @@
                 "width": {
                   "mode": "fill"
                 }
+              },
+              "onTap": {
+                "action": "sequence",
+                "actions": [
+                  { "action": "haptic", "style": "light" },
+                  { "action": "showToast", "message": "Opening live map" }
+                ]
               }
             },
             "children": [
@@ -118,13 +155,6 @@
                   },
                   {
                     "type": "text",
-                    "value": "DELIVERY",
-                    "style": "$token.typography.caption",
-                    "color": "#FFFFFFCC",
-                    "lineLimit": 1
-                  },
-                  {
-                    "type": "text",
                     "value": "On the way",
                     "style": "$token.typography.largeTitle",
                     "color": "#FFFFFF",
@@ -132,7 +162,7 @@
                   },
                   {
                     "type": "text",
-                    "value": "Order #2847 · Sushi Ato",
+                    "value": "Sushi Ato · 2 items",
                     "style": "$token.typography.subheadline",
                     "color": "#FFFFFFDD",
                     "lineLimit": 1
@@ -168,7 +198,14 @@
                   },
                   "padding": "$token.spacing.lg",
                   "material": "glass",
-                  "cornerRadius": "$token.radius.lg"
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      { "action": "haptic", "style": "light" },
+                      { "action": "showToast", "message": "Live tracking" }
+                    ]
+                  }
                 },
                 "children": [
                   {
@@ -438,12 +475,6 @@
                   {
                     "type": "zstack",
                     "alignment": "center",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.contact",
-                        "chat"
-                      ]
-                    },
                     "modifiers": {
                       "size": {
                         "width": {
@@ -455,59 +486,20 @@
                           "value": 46
                         }
                       },
-                      "background": "$token.color.primary",
-                      "cornerRadius": 23
+                      "material": "glass",
+                      "cornerRadius": 23,
+                      "onTap": {
+                        "action": "sequence",
+                        "actions": [
+                          { "action": "haptic", "style": "light" },
+                          { "action": "showToast", "message": "Messaging Marat…" }
+                        ]
+                      }
                     },
                     "children": [
                       {
                         "type": "icon",
                         "name": "message.fill",
-                        "color": "$token.color.onPrimary",
-                        "size": 18
-                      }
-                    ]
-                  },
-                  {
-                    "type": "zstack",
-                    "alignment": "center",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.contact",
-                        "call"
-                      ]
-                    },
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fixed",
-                          "value": 46
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 46
-                        }
-                      },
-                      "material": "glass",
-                      "cornerRadius": 23,
-                      "onTap": {
-                        "action": "sequence",
-                        "actions": [
-                          {
-                            "action": "setState",
-                            "key": "contact",
-                            "value": "chat"
-                          },
-                          {
-                            "action": "haptic",
-                            "style": "light"
-                          }
-                        ]
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "message",
                         "color": "$token.color.textPrimary",
                         "size": 18
                       }
@@ -516,12 +508,6 @@
                   {
                     "type": "zstack",
                     "alignment": "center",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.contact",
-                        "call"
-                      ]
-                    },
                     "modifiers": {
                       "size": {
                         "width": {
@@ -538,14 +524,8 @@
                       "onTap": {
                         "action": "sequence",
                         "actions": [
-                          {
-                            "action": "haptic",
-                            "style": "light"
-                          },
-                          {
-                            "action": "showToast",
-                            "message": "Calling Marat…"
-                          }
+                          { "action": "haptic", "style": "medium" },
+                          { "action": "showToast", "message": "Calling Marat…" }
                         ]
                       }
                     },
@@ -554,52 +534,6 @@
                         "type": "icon",
                         "name": "phone.fill",
                         "color": "$token.color.onPrimary",
-                        "size": 18
-                      }
-                    ]
-                  },
-                  {
-                    "type": "zstack",
-                    "alignment": "center",
-                    "visibleWhen": {
-                      "equals": [
-                        "$state.contact",
-                        "chat"
-                      ]
-                    },
-                    "modifiers": {
-                      "size": {
-                        "width": {
-                          "mode": "fixed",
-                          "value": 46
-                        },
-                        "height": {
-                          "mode": "fixed",
-                          "value": 46
-                        }
-                      },
-                      "material": "glass",
-                      "cornerRadius": 23,
-                      "onTap": {
-                        "action": "sequence",
-                        "actions": [
-                          {
-                            "action": "setState",
-                            "key": "contact",
-                            "value": "call"
-                          },
-                          {
-                            "action": "haptic",
-                            "style": "light"
-                          }
-                        ]
-                      }
-                    },
-                    "children": [
-                      {
-                        "type": "icon",
-                        "name": "phone.fill",
-                        "color": "$token.color.textPrimary",
                         "size": 18
                       }
                     ]
@@ -734,45 +668,12 @@
                             "vertical": "$token.spacing.sm"
                           },
                           "background": "$token.color.primary",
-                          "cornerRadius": "$token.radius.md"
-                        }
-                      },
-                      {
-                        "type": "text",
-                        "value": "10%",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textSecondary",
-                        "alignment": "center",
-                        "visibleWhen": {
-                          "equals": [
-                            "$state.tip",
-                            "15"
-                          ]
-                        },
-                        "modifiers": {
-                          "size": {
-                            "width": {
-                              "mode": "weight",
-                              "value": 1
-                            }
-                          },
-                          "padding": {
-                            "vertical": "$token.spacing.sm"
-                          },
-                          "background": "$token.color.surfaceElevated",
                           "cornerRadius": "$token.radius.md",
                           "onTap": {
                             "action": "sequence",
                             "actions": [
-                              {
-                                "action": "setState",
-                                "key": "tip",
-                                "value": "10"
-                              },
-                              {
-                                "action": "haptic",
-                                "style": "light"
-                              }
+                              { "action": "setState", "key": "tip", "value": "10" },
+                              { "action": "haptic", "style": "light" }
                             ]
                           }
                         }
@@ -784,47 +685,7 @@
                         "color": "$token.color.textSecondary",
                         "alignment": "center",
                         "visibleWhen": {
-                          "equals": [
-                            "$state.tip",
-                            "20"
-                          ]
-                        },
-                        "modifiers": {
-                          "size": {
-                            "width": {
-                              "mode": "weight",
-                              "value": 1
-                            }
-                          },
-                          "padding": {
-                            "vertical": "$token.spacing.sm"
-                          },
-                          "background": "$token.color.surfaceElevated",
-                          "cornerRadius": "$token.radius.md",
-                          "onTap": {
-                            "action": "sequence",
-                            "actions": [
-                              {
-                                "action": "setState",
-                                "key": "tip",
-                                "value": "10"
-                              },
-                              {
-                                "action": "haptic",
-                                "style": "light"
-                              }
-                            ]
-                          }
-                        }
-                      },
-                      {
-                        "type": "text",
-                        "value": "15%",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textSecondary",
-                        "alignment": "center",
-                        "visibleWhen": {
-                          "equals": [
+                          "notEquals": [
                             "$state.tip",
                             "10"
                           ]
@@ -844,15 +705,8 @@
                           "onTap": {
                             "action": "sequence",
                             "actions": [
-                              {
-                                "action": "setState",
-                                "key": "tip",
-                                "value": "15"
-                              },
-                              {
-                                "action": "haptic",
-                                "style": "light"
-                              }
+                              { "action": "setState", "key": "tip", "value": "10" },
+                              { "action": "haptic", "style": "light" }
                             ]
                           }
                         }
@@ -880,7 +734,14 @@
                             "vertical": "$token.spacing.sm"
                           },
                           "background": "$token.color.primary",
-                          "cornerRadius": "$token.radius.md"
+                          "cornerRadius": "$token.radius.md",
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              { "action": "setState", "key": "tip", "value": "15" },
+                              { "action": "haptic", "style": "light" }
+                            ]
+                          }
                         }
                       },
                       {
@@ -890,87 +751,7 @@
                         "color": "$token.color.textSecondary",
                         "alignment": "center",
                         "visibleWhen": {
-                          "equals": [
-                            "$state.tip",
-                            "20"
-                          ]
-                        },
-                        "modifiers": {
-                          "size": {
-                            "width": {
-                              "mode": "weight",
-                              "value": 1
-                            }
-                          },
-                          "padding": {
-                            "vertical": "$token.spacing.sm"
-                          },
-                          "background": "$token.color.surfaceElevated",
-                          "cornerRadius": "$token.radius.md",
-                          "onTap": {
-                            "action": "sequence",
-                            "actions": [
-                              {
-                                "action": "setState",
-                                "key": "tip",
-                                "value": "15"
-                              },
-                              {
-                                "action": "haptic",
-                                "style": "light"
-                              }
-                            ]
-                          }
-                        }
-                      },
-                      {
-                        "type": "text",
-                        "value": "20%",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textSecondary",
-                        "alignment": "center",
-                        "visibleWhen": {
-                          "equals": [
-                            "$state.tip",
-                            "10"
-                          ]
-                        },
-                        "modifiers": {
-                          "size": {
-                            "width": {
-                              "mode": "weight",
-                              "value": 1
-                            }
-                          },
-                          "padding": {
-                            "vertical": "$token.spacing.sm"
-                          },
-                          "background": "$token.color.surfaceElevated",
-                          "cornerRadius": "$token.radius.md",
-                          "onTap": {
-                            "action": "sequence",
-                            "actions": [
-                              {
-                                "action": "setState",
-                                "key": "tip",
-                                "value": "20"
-                              },
-                              {
-                                "action": "haptic",
-                                "style": "light"
-                              }
-                            ]
-                          }
-                        }
-                      },
-                      {
-                        "type": "text",
-                        "value": "20%",
-                        "style": "$token.typography.headline",
-                        "color": "$token.color.textSecondary",
-                        "alignment": "center",
-                        "visibleWhen": {
-                          "equals": [
+                          "notEquals": [
                             "$state.tip",
                             "15"
                           ]
@@ -990,15 +771,8 @@
                           "onTap": {
                             "action": "sequence",
                             "actions": [
-                              {
-                                "action": "setState",
-                                "key": "tip",
-                                "value": "20"
-                              },
-                              {
-                                "action": "haptic",
-                                "style": "light"
-                              }
+                              { "action": "setState", "key": "tip", "value": "15" },
+                              { "action": "haptic", "style": "light" }
                             ]
                           }
                         }
@@ -1026,7 +800,47 @@
                             "vertical": "$token.spacing.sm"
                           },
                           "background": "$token.color.primary",
-                          "cornerRadius": "$token.radius.md"
+                          "cornerRadius": "$token.radius.md",
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              { "action": "setState", "key": "tip", "value": "20" },
+                              { "action": "haptic", "style": "light" }
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "type": "text",
+                        "value": "20%",
+                        "style": "$token.typography.headline",
+                        "color": "$token.color.textSecondary",
+                        "alignment": "center",
+                        "visibleWhen": {
+                          "notEquals": [
+                            "$state.tip",
+                            "20"
+                          ]
+                        },
+                        "modifiers": {
+                          "size": {
+                            "width": {
+                              "mode": "weight",
+                              "value": 1
+                            }
+                          },
+                          "padding": {
+                            "vertical": "$token.spacing.sm"
+                          },
+                          "background": "$token.color.surfaceElevated",
+                          "cornerRadius": "$token.radius.md",
+                          "onTap": {
+                            "action": "sequence",
+                            "actions": [
+                              { "action": "setState", "key": "tip", "value": "20" },
+                              { "action": "haptic", "style": "light" }
+                            ]
+                          }
                         }
                       }
                     ]
@@ -1045,7 +859,14 @@
                   },
                   "padding": "$token.spacing.lg",
                   "background": "$token.color.surface",
-                  "cornerRadius": "$token.radius.lg"
+                  "cornerRadius": "$token.radius.lg",
+                  "onTap": {
+                    "action": "sequence",
+                    "actions": [
+                      { "action": "haptic", "style": "light" },
+                      { "action": "showToast", "message": "View full receipt" }
+                    ]
+                  }
                 },
                 "children": [
                   {

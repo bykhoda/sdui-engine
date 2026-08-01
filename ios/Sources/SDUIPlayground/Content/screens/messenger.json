@@ -2,6 +2,31 @@
   "version": "0.1",
   "screen": {
     "id": "messenger",
+    "title": "Messages",
+    "scrollBehavior": {
+      "largeTitle": true
+    },
+    "toolbar": {
+      "trailing": [
+        {
+          "icon": "square.and.pencil",
+          "accessibilityLabel": "New message",
+          "action": {
+            "action": "sequence",
+            "actions": [
+              {
+                "action": "haptic",
+                "style": "light"
+              },
+              {
+                "action": "showToast",
+                "message": "New message"
+              }
+            ]
+          }
+        }
+      ]
+    },
     "state": {
       "search": ""
     },
@@ -23,71 +48,6 @@
           }
         },
         "children": [
-          {
-            "type": "hstack",
-            "alignment": "center",
-            "modifiers": {
-              "size": {
-                "width": {
-                  "mode": "fill"
-                }
-              },
-              "padding": {
-                "horizontal": "$token.spacing.lg"
-              }
-            },
-            "children": [
-              {
-                "type": "text",
-                "value": "Messages",
-                "style": "$token.typography.largeTitle",
-                "color": "$token.color.textPrimary",
-                "lineLimit": 1
-              },
-              {
-                "type": "spacer"
-              },
-              {
-                "type": "zstack",
-                "alignment": "center",
-                "modifiers": {
-                  "size": {
-                    "width": {
-                      "mode": "fixed",
-                      "value": 40
-                    },
-                    "height": {
-                      "mode": "fixed",
-                      "value": 40
-                    }
-                  },
-                  "material": "glass",
-                  "cornerRadius": 20,
-                  "onTap": {
-                    "action": "sequence",
-                    "actions": [
-                      {
-                        "action": "haptic",
-                        "style": "light"
-                      },
-                      {
-                        "action": "showToast",
-                        "message": "New message"
-                      }
-                    ]
-                  }
-                },
-                "children": [
-                  {
-                    "type": "icon",
-                    "name": "square.and.pencil",
-                    "color": "$token.color.primary",
-                    "size": 19
-                  }
-                ]
-              }
-            ]
-          },
           {
             "type": "hstack",
             "alignment": "center",
@@ -152,6 +112,19 @@
                         "mode": "fixed",
                         "value": 64
                       }
+                    },
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Add to your story"
+                        }
+                      ]
                     }
                   },
                   "children": [
@@ -200,6 +173,19 @@
                         "mode": "fixed",
                         "value": 64
                       }
+                    },
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Aizhan is active now"
+                        }
+                      ]
                     }
                   },
                   "children": [
@@ -302,6 +288,19 @@
                         "mode": "fixed",
                         "value": 64
                       }
+                    },
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Timur is active now"
+                        }
+                      ]
                     }
                   },
                   "children": [
@@ -404,6 +403,19 @@
                         "mode": "fixed",
                         "value": 64
                       }
+                    },
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Madina is active now"
+                        }
+                      ]
                     }
                   },
                   "children": [
@@ -506,6 +518,19 @@
                         "mode": "fixed",
                         "value": 64
                       }
+                    },
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "showToast",
+                          "message": "Dana is active now"
+                        }
+                      ]
                     }
                   },
                   "children": [
