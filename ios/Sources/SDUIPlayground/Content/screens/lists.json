@@ -3,35 +3,61 @@
   "screen": {
     "id": "lists",
     "title": "Lists & Grids",
-    "scrollBehavior": { "subtitle": "One array, one template — flip the segment to draw it as rows or columns." },
+    "scrollBehavior": {
+      "subtitle": "One array, one template — filter by category, flip to a grid."
+    },
     "state": {
       "layout": "list",
-      "selected": "",
+      "category": "All",
       "rows": [
         {
           "id": "r1",
-          "title": "Data-bound row",
-          "subtitle": "Rendered from $item",
-          "icon": "1.circle.fill"
+          "title": "Avocado toast",
+          "time": "9 min",
+          "rating": "4.8",
+          "category": "Breakfast",
+          "image": "https://picsum.photos/seed/avocado-toast/120/120"
         },
         {
           "id": "r2",
-          "title": "One template",
-          "subtitle": "Repeated per array element",
-          "icon": "2.circle.fill"
+          "title": "Berry pancakes",
+          "time": "15 min",
+          "rating": "4.6",
+          "category": "Breakfast",
+          "image": "https://picsum.photos/seed/berry-pancakes/120/120"
         },
         {
           "id": "r3",
-          "title": "Virtualised",
-          "subtitle": "Lazy \u2014 only visible rows render",
-          "icon": "3.circle.fill"
+          "title": "Salmon poke bowl",
+          "time": "20 min",
+          "rating": "4.9",
+          "category": "Lunch",
+          "image": "https://picsum.photos/seed/poke-bowl/120/120"
+        },
+        {
+          "id": "r4",
+          "title": "Greek salad",
+          "time": "10 min",
+          "rating": "4.5",
+          "category": "Lunch",
+          "image": "https://picsum.photos/seed/greek-salad/120/120"
+        },
+        {
+          "id": "r5",
+          "title": "Mushroom risotto",
+          "time": "35 min",
+          "rating": "4.7",
+          "category": "Dinner",
+          "image": "https://picsum.photos/seed/risotto/120/120"
+        },
+        {
+          "id": "r6",
+          "title": "Chocolate mousse",
+          "time": "25 min",
+          "rating": "4.9",
+          "category": "Snack",
+          "image": "https://picsum.photos/seed/chocolate-mousse/120/120"
         }
-      ],
-      "tiles": [
-        "A",
-        "B",
-        "C",
-        "D"
       ]
     },
     "content": {
@@ -41,53 +67,603 @@
         "spacing": "$token.spacing.md",
         "alignment": "leading",
         "modifiers": {
-          "padding": "$token.spacing.lg"
+          "padding": "$token.spacing.lg",
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          }
         },
         "children": [
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "children": [
+              {
+                "type": "text",
+                "value": "All recipes",
+                "style": "$token.typography.largeTitle",
+                "color": "$token.color.textPrimary",
+                "lineLimit": 1
+              },
+              {
+                "type": "spacer"
+              }
+            ]
+          },
+          {
+            "type": "hstack",
+            "alignment": "center",
+            "spacing": "$token.spacing.sm",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              },
+              "material": "regular",
+              "cornerRadius": "$token.radius.pill",
+              "padding": {
+                "leading": "$token.spacing.md",
+                "trailing": "$token.spacing.md",
+                "top": "$token.spacing.sm",
+                "bottom": "$token.spacing.sm"
+              }
+            },
+            "children": [
+              {
+                "type": "icon",
+                "name": "magnifyingglass",
+                "color": "$token.color.textSecondary",
+                "size": 16
+              },
+              {
+                "type": "text",
+                "value": "Search recipes",
+                "style": "$token.typography.body",
+                "color": "$token.color.textTertiary",
+                "lineLimit": 1
+              }
+            ]
+          },
+          {
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.sm",
+              "children": [
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "All"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "background": "$token.color.textPrimary"
+                  },
+                  "visibleWhen": {
+                    "equals": [
+                      "$state.category",
+                      "All"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "All",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.surface",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "All"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "material": "glass"
+                  },
+                  "visibleWhen": {
+                    "notEquals": [
+                      "$state.category",
+                      "All"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "All",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Breakfast"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "background": "$token.color.textPrimary"
+                  },
+                  "visibleWhen": {
+                    "equals": [
+                      "$state.category",
+                      "Breakfast"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Breakfast",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.surface",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Breakfast"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "material": "glass"
+                  },
+                  "visibleWhen": {
+                    "notEquals": [
+                      "$state.category",
+                      "Breakfast"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Breakfast",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Lunch"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "background": "$token.color.textPrimary"
+                  },
+                  "visibleWhen": {
+                    "equals": [
+                      "$state.category",
+                      "Lunch"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Lunch",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.surface",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Lunch"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "material": "glass"
+                  },
+                  "visibleWhen": {
+                    "notEquals": [
+                      "$state.category",
+                      "Lunch"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Lunch",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Dinner"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "background": "$token.color.textPrimary"
+                  },
+                  "visibleWhen": {
+                    "equals": [
+                      "$state.category",
+                      "Dinner"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Dinner",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.surface",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Dinner"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "material": "glass"
+                  },
+                  "visibleWhen": {
+                    "notEquals": [
+                      "$state.category",
+                      "Dinner"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Dinner",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Snack"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "background": "$token.color.textPrimary"
+                  },
+                  "visibleWhen": {
+                    "equals": [
+                      "$state.category",
+                      "Snack"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Snack",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.surface",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "modifiers": {
+                    "cornerRadius": "$token.radius.pill",
+                    "onTap": {
+                      "action": "sequence",
+                      "actions": [
+                        {
+                          "action": "haptic",
+                          "style": "light"
+                        },
+                        {
+                          "action": "setState",
+                          "key": "category",
+                          "value": "Snack"
+                        }
+                      ]
+                    },
+                    "padding": {
+                      "leading": "$token.spacing.md",
+                      "trailing": "$token.spacing.md",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "material": "glass"
+                  },
+                  "visibleWhen": {
+                    "notEquals": [
+                      "$state.category",
+                      "Snack"
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Snack",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          },
           {
             "type": "picker",
             "bind": "layout",
             "style": "segmented",
-            "modifiers": { "size": { "width": { "mode": "fill" } } },
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
             "options": [
-              { "label": "List", "value": "list" },
-              { "label": "Grid", "value": "grid" }
+              {
+                "label": "List",
+                "value": "list"
+              },
+              {
+                "label": "Grid",
+                "value": "grid"
+              }
             ]
           },
           {
             "type": "list",
             "items": "$state.rows",
             "spacing": "$token.spacing.sm",
-            "visibleWhen": { "equals": ["$state.layout", "list"] },
+            "visibleWhen": {
+              "equals": [
+                "$state.layout",
+                "list"
+              ]
+            },
             "modifiers": {
               "size": {
                 "height": {
                   "mode": "fixed",
-                  "value": 460
+                  "value": 520
                 }
               },
-              "animation": { "curve": "spring" }
+              "animation": {
+                "curve": "spring"
+              }
             },
             "template": {
               "type": "hstack",
               "alignment": "center",
               "spacing": "$token.spacing.md",
               "modifiers": {
-                "padding": "$token.spacing.md",
-                "background": "$token.color.surface",
-                "cornerRadius": "$token.radius.md",
                 "size": {
                   "width": {
                     "mode": "fill"
                   }
                 },
-                "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "$item.title" } ] }
+                "padding": "$token.spacing.md",
+                "background": "$token.color.surfaceElevated",
+                "cornerRadius": "$token.radius.lg",
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "light"
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "$item.title"
+                    }
+                  ]
+                }
+              },
+              "visibleWhen": {
+                "or": [
+                  {
+                    "equals": [
+                      "$state.category",
+                      "All"
+                    ]
+                  },
+                  {
+                    "equals": [
+                      "$item.category",
+                      "$state.category"
+                    ]
+                  }
+                ]
               },
               "children": [
                 {
-                  "type": "icon",
-                  "name": "$item.icon",
-                  "color": "$token.color.primary"
+                  "type": "image",
+                  "source": "$item.image",
+                  "loader": {
+                    "placeholder": "skeleton",
+                    "contentMode": "fill"
+                  },
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fixed",
+                        "value": 56
+                      },
+                      "height": {
+                        "mode": "fixed",
+                        "value": 56
+                      }
+                    },
+                    "cornerRadius": "$token.radius.md"
+                  }
                 },
                 {
                   "type": "vstack",
@@ -98,20 +674,60 @@
                       "type": "text",
                       "value": "$item.title",
                       "style": "$token.typography.headline",
-                      "color": "$token.color.textPrimary"
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
                     },
                     {
-                      "type": "text",
-                      "value": "$item.subtitle",
-                      "style": "$token.typography.subheadline",
-                      "color": "$token.color.textSecondary"
+                      "type": "hstack",
+                      "alignment": "center",
+                      "spacing": "$token.spacing.xs",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "name": "clock",
+                          "color": "$token.color.textSecondary",
+                          "size": 13
+                        },
+                        {
+                          "type": "text",
+                          "value": "$item.time",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "·",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textTertiary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "icon",
+                          "name": "star.fill",
+                          "color": "$token.color.warning",
+                          "size": 12
+                        },
+                        {
+                          "type": "text",
+                          "value": "$item.rating",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
                     }
                   ]
                 },
                 {
                   "type": "spacer"
                 },
-                { "type": "icon", "name": "chevron.right", "color": "$token.color.textTertiary", "size": 13 }
+                {
+                  "type": "icon",
+                  "name": "chevron.right",
+                  "color": "$token.color.textTertiary",
+                  "size": 14
+                }
               ]
             }
           },
@@ -120,23 +736,108 @@
             "columns": 2,
             "spacing": "$token.spacing.md",
             "items": "$state.rows",
-            "visibleWhen": { "equals": ["$state.layout", "grid"] },
-            "modifiers": { "animation": { "curve": "spring" } },
+            "visibleWhen": {
+              "equals": [
+                "$state.layout",
+                "grid"
+              ]
+            },
+            "modifiers": {
+              "animation": {
+                "curve": "spring"
+              }
+            },
             "template": {
               "type": "vstack",
               "alignment": "leading",
               "spacing": "$token.spacing.xs",
               "modifiers": {
-                "padding": "$token.spacing.md",
-                "background": "$token.color.surface",
-                "cornerRadius": "$token.radius.md",
-                "size": { "width": { "mode": "fill" }, "height": { "mode": "fixed", "value": 110 } },
-                "onTap": { "action": "sequence", "actions": [ { "action": "haptic", "style": "light" }, { "action": "showToast", "message": "$item.title" } ] }
+                "size": {
+                  "width": {
+                    "mode": "fill"
+                  },
+                  "height": {
+                    "mode": "fixed",
+                    "value": 190
+                  }
+                },
+                "background": "$token.color.surfaceElevated",
+                "cornerRadius": "$token.radius.lg",
+                "onTap": {
+                  "action": "sequence",
+                  "actions": [
+                    {
+                      "action": "haptic",
+                      "style": "light"
+                    },
+                    {
+                      "action": "showToast",
+                      "message": "$item.title"
+                    }
+                  ]
+                }
               },
               "children": [
-                { "type": "icon", "name": "$item.icon", "color": "$token.color.primary", "size": 24 },
-                { "type": "spacer" },
-                { "type": "text", "value": "$item.title", "style": "$token.typography.headline", "color": "$token.color.textPrimary", "lineLimit": 2 }
+                {
+                  "type": "image",
+                  "source": "$item.image",
+                  "loader": {
+                    "placeholder": "skeleton",
+                    "contentMode": "fill"
+                  },
+                  "modifiers": {
+                    "size": {
+                      "width": {
+                        "mode": "fill"
+                      },
+                      "height": {
+                        "mode": "fixed",
+                        "value": 120
+                      }
+                    },
+                    "cornerRadius": "$token.radius.md"
+                  }
+                },
+                {
+                  "type": "vstack",
+                  "alignment": "leading",
+                  "spacing": 2,
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.sm",
+                      "trailing": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "$item.title",
+                      "style": "$token.typography.subheadline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    },
+                    {
+                      "type": "hstack",
+                      "spacing": "$token.spacing.xs",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "name": "clock",
+                          "color": "$token.color.textSecondary",
+                          "size": 11
+                        },
+                        {
+                          "type": "text",
+                          "value": "$item.time",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           }
