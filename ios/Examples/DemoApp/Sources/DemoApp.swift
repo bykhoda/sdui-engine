@@ -84,7 +84,7 @@ enum Snapshotter {
                 host.view.frame = CGRect(origin: .zero, size: size)
                 host.view.layoutIfNeeded()
 
-                try? await Task.sleep(nanoseconds: 300_000_000) // let SwiftUI populate + draw
+                try? await Task.sleep(nanoseconds: 2_500_000_000) // let SwiftUI draw AND remote images finish loading (else grey placeholders)
 
                 let format = UIGraphicsImageRendererFormat()
                 format.scale = 3
