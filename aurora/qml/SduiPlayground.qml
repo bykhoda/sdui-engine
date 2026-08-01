@@ -319,8 +319,7 @@ ApplicationWindow {
     }
 
     initialPage: Component {
-        ScreenPage {
-            screenId: "home"
+        ShellPage {
             tokens: win.tokens
             screensById: win.screensById
             dispatch: win.dispatch
