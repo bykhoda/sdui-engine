@@ -41,6 +41,28 @@ Item {
     }
     function _dispatch(a) { if (a && root.ctx && root.ctx.dispatch) root.ctx.dispatch(a); }
 
+    // ---------- material / blur (the shared translucent-glass surface) ----------
+    // `material` frosts a panel behind the node's content (the iOS .ultraThinMaterial…/glass twin,
+    // Modifiers.swift materialView). Qt5 has no live backdrop-blur primitive that is safe inside
+    // this recursive Loader tree, so each tier maps to a theme-aware translucent fill — which,
+    // laid OVER imagery or a blurred backdrop, reads as the same frosted glass on all platforms.
+    function _material() { var m = _m(); return (m && m.material) ? String(m.material) : "" }
+    function _isDark() { return !!(root.ctx && root.ctx.env && root.ctx.env.theme === "dark") }
+    function _matFill(tier) {
+        var d = _isDark();
+        var a;
+        switch (tier) {
+        case "ultraThin": a = d ? 0.30 : 0.50; break;
+        case "thin":      a = d ? 0.45 : 0.62; break;
+        case "regular":   a = d ? 0.62 : 0.72; break;
+        case "thick":     a = d ? 0.80 : 0.86; break;
+        case "bar":       a = d ? 0.72 : 0.82; break;
+        case "glass":     a = d ? 0.24 : 0.44; break;   // lightest — leans on the rim + overlay
+        default: return "transparent";
+        }
+        return d ? Qt.rgba(0.16, 0.16, 0.19, a) : Qt.rgba(1, 1, 1, a);
+    }
+
     property real _padL: _padEdge("left")
     property real _padR: _padEdge("right")
     property real _padT: _padEdge("top")
@@ -100,6 +122,25 @@ Item {
         radius: 18; samples: 25
         horizontalOffset: 0; verticalOffset: 6
         color: "#26000000"; transparentBorder: true
+    }
+
+    // ---------- frosted material panel (behind content, above any background fill) ----------
+    Rectangle {
+        id: mat
+        anchors.fill: parent
+        visible: root._material().length > 0
+        radius: T.num(root._m() ? root._m().cornerRadius : undefined, root.ctx, 0)
+        property string tier: root._material()
+        color: root._matFill(tier)
+        // 'glass' = frost + a faint white wash + a hairline top-lit rim (visionOS pane).
+        Rectangle {
+            anchors.fill: parent
+            radius: parent.radius
+            visible: parent.tier === "glass"
+            color: root._isDark() ? "#14FFFFFF" : "#0DFFFFFF"
+            border.width: 1
+            border.color: root._isDark() ? "#3DFFFFFF" : "#59FFFFFF"
+        }
     }
 
     // ---------- content (inset by padding) ----------
@@ -262,6 +303,15 @@ Item {
             property var node
             property var ctx
             property string align: node && node.alignment ? node.alignment : "center"
+            // Resolve the alignment to exactly ONE horizontal + ONE vertical anchor. Setting two
+            // anchors on the same axis (e.g. left AND horizontalCenter, or left AND right) makes Qt
+            // drop one unpredictably — which stretched fixed overlays to fill and blanked others.
+            property string _ha: (align.indexOf("Leading") >= 0 || align === "leading") ? "left"
+                               : (align.indexOf("Trailing") >= 0 || align === "trailing") ? "right"
+                               : "center"
+            property string _va: (align.indexOf("top") === 0 || align === "top") ? "top"
+                               : (align.indexOf("bottom") === 0 || align === "bottom") ? "bottom"
+                               : "center"
             width: parent ? parent.width : implicitWidth
             // A ZStack (iOS ZStack / Android Box) sizes to its LARGEST child. Deriving that
             // from childrenRect is CIRCULAR here — children are centre-anchored, so
@@ -298,22 +348,26 @@ Item {
                     // a fixed-size child keeps its size, every other child is offered the stack's
                     // width. Without this a non-fixed overlay (e.g. the featured card's caption
                     // vstack) hits a circular width↔implicitWidth and collapses to 0, so its text
-                    // wraps to nothing and piles up. Height stays intrinsic so bottom/top anchoring
-                    // still hugs content.
-                    width: (item && item._fixedW >= 0) ? item._fixedW : st.width
+                    // Width: a fixed child keeps its size; everything else is offered the stack's
+                    // width (a caption/overlay needs a width to lay text into — hugging its own
+                    // implicitWidth collapses it to a circular 0). Height: a fixed child keeps its
+                    // height and a fill child fills, but a hug child keeps its intrinsic height —
+                    // this is what stops a fixed/short overlay from being stretched to the stack.
+                    width:  (item && item._fixedW >= 0) ? item._fixedW : st.width
+                    height: (item && item._fixedH >= 0) ? item._fixedH
+                            : ((item && item._fillH) ? st.height : (item ? item.implicitHeight : 0))
                     onImplicitHeightChanged: st._remeasure()
                     onImplicitWidthChanged: st._remeasure()
                     onHeightChanged: st._remeasure()
                     onWidthChanged: st._remeasure()
-                    // Overlay each child at the stack's alignment corner. "center" must NOT set
-                    // anchors.left — QML then drops the horizontalCenter and the concentric
-                    // ring/overlay children pin left instead of nesting centered.
-                    anchors.left:   st.align.indexOf("Leading") >= 0 || st.align === "leading" || st.align === "top" || st.align === "bottom" ? st.left : undefined
-                    anchors.right:  st.align.indexOf("Trailing") >= 0 || st.align === "trailing" ? st.right : undefined
-                    anchors.top:    st.align.indexOf("top") === 0 || st.align === "topLeading" || st.align === "topTrailing" ? st.top : undefined
-                    anchors.bottom: st.align.indexOf("bottom") === 0 || st.align === "bottomLeading" || st.align === "bottomTrailing" ? st.bottom : undefined
-                    anchors.horizontalCenter: st.align === "center" || st.align === "top" || st.align === "bottom" ? st.horizontalCenter : undefined
-                    anchors.verticalCenter: st.align === "center" || st.align === "leading" || st.align === "trailing" ? st.verticalCenter : undefined
+                    // Overlay each child at the stack's alignment corner — exactly one anchor per
+                    // axis (see st._ha/_va), so nothing is stretched or dropped.
+                    anchors.left:             st._ha === "left"   ? st.left : undefined
+                    anchors.right:            st._ha === "right"  ? st.right : undefined
+                    anchors.horizontalCenter: st._ha === "center" ? st.horizontalCenter : undefined
+                    anchors.top:              st._va === "top"    ? st.top : undefined
+                    anchors.bottom:           st._va === "bottom" ? st.bottom : undefined
+                    anchors.verticalCenter:   st._va === "center" ? st.verticalCenter : undefined
                 }
             }
         }
@@ -452,6 +506,8 @@ Item {
             property real ar: ldr ? T.num(ldr.aspectRatio, ctx, 0) : 0
             property string ph: (ldr && ldr.placeholder) ? T.str(ldr.placeholder, ctx) : "skeleton"
             property bool crop: !(ldr && ldr.contentMode === "fit")
+            // `blur` softens the image itself (a color-bleed backdrop behind glass) — iOS .blur().
+            property real blurR: (node && node.modifiers) ? T.num(node.modifiers.blur, ctx, 0) : 0
             width: parent ? parent.width : implicitWidth
             implicitWidth: parent ? parent.width : 200
             implicitHeight: ar > 0 ? (width / ar) : (parent ? parent.height : 0)
@@ -478,6 +534,12 @@ Item {
                 cache: true
                 source: node ? T.str(node.source, ctx) : ""
             }
+            FastBlur {   // laid over the sharp image only when a blur radius is set
+                anchors.fill: img
+                source: img
+                radius: Math.min(64, parent.blurR)
+                visible: parent.blurR > 0 && img.status === Image.Ready
+            }
         }
     }
     Component {
@@ -502,7 +564,11 @@ Item {
             property var ctx
             width: parent ? parent.width : implicitWidth
             height: parent ? parent.height : implicitHeight
-            property var cols: node && node.colors ? node.colors : ["#888888", "#444444"]
+            // Normalise each stop from the contract's #RRGGBBAA to Qt's #AARRGGBB (see T.normHex),
+            // so a scrim like #000000E6 keeps its alpha instead of being read as transparent.
+            property var cols: node && node.colors
+                ? node.colors.map(function (c) { return T.color(c, ctx, c); })
+                : ["#888888", "#444444"]
             property string dir: node && node.direction ? node.direction : "vertical"
             property real rad: T.num(node && node.modifiers ? node.modifiers.cornerRadius : undefined, ctx, 0)
             LinearGradient {

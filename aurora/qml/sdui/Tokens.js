@@ -20,7 +20,19 @@ function _lookup(token, ctx) {
     if (!ctx) return undefined;
     var parts = token.split('.');
     var ns = parts.shift();
-    if (ns === '$token') return _get(ctx.tokens, parts);
+    if (ns === '$token') {
+        // Dark scheme: colour tokens resolve against the `colorDark` override block
+        // (per-key fallback to the light `color` block for anything it omits) — the
+        // same semantic-token resolution iOS/Android apply for the active appearance.
+        if (parts[0] === 'color' && ctx.env && ctx.env.theme === 'dark'
+                && ctx.tokens && ctx.tokens.colorDark) {
+            var dparts = parts.slice();
+            dparts[0] = 'colorDark';
+            var dv = _get(ctx.tokens, dparts);
+            if (dv !== undefined) return dv;
+        }
+        return _get(ctx.tokens, parts);
+    }
     if (ns === '$state') return _get(ctx.state, parts);
     if (ns === '$data')  return _get(ctx.data, parts);
     if (ns === '$env')   return _get(ctx.env, parts);
@@ -53,10 +65,21 @@ function str(value, ctx) {
     return (v === undefined || v === null) ? '' : String(v);
 }
 
+// The contract expresses colours as #RRGGBB or #RRGGBBAA (the iOS/Android order).
+// Qt parses hex strings as #AARRGGBB, so an 8-digit value handed to Qt untouched has
+// its alpha byte read as red (e.g. #FFFFFF33 → opaque yellow). Re-order the alpha to
+// the front so one contract renders identical colours on all three platforms.
+function normHex(v) {
+    if (typeof v === 'string' && v.charAt(0) === '#' && v.length === 9) {
+        return '#' + v.substr(7, 2) + v.substr(1, 6);
+    }
+    return v;
+}
+
 function color(value, ctx, fallback) {
     if (value === undefined || value === null) return fallback;
     var v = resolve(value, ctx);
-    if (typeof v === 'string' && v.length > 0) return v;
+    if (typeof v === 'string' && v.length > 0) return normHex(v);
     return fallback;
 }
 
