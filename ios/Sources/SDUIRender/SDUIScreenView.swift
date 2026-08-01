@@ -289,6 +289,17 @@ public struct SDUIScreenView: View {
             // height and anchoring `.top` makes iOS match Android. A `scroll` root
             // already greedily fills its axis, so this is a no-op for scrolling screens.
             .frame(maxHeight: .infinity, alignment: .top)
+            // Paint the screen's OWN theme surface behind the content so a screen never
+            // depends on (and never mismatches) whatever background the host container
+            // happens to have. Resolves `surface` through the same theme logic as every
+            // token, so light theme → light surface + dark text, dark → dark + light —
+            // never dark-text-on-dark. `chrome: immersive` screens draw full-bleed media
+            // over this, so it only shows at the safe-area edges there.
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(
+                (Theme.color("$token.color.surface", ctx: contextBinding) ?? Color.clear)
+                    .ignoresSafeArea()
+            )
             .environment(\.sduiScrollTarget, model.scrollTarget.map { SDUIScrollTarget(id: $0.id, generation: $0.generation) })
             .environment(\.sduiSwipeCoordinator, swipeCoordinator)
             // The scroll-reactive header primitive: large title collapse + nav-bar
