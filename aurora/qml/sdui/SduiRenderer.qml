@@ -47,8 +47,16 @@ Item {
     property real _padB: _padEdge("bottom")
     property real _fixedW: _fixed("width")
     property real _fixedH: _fixed("height")
-    property bool _fillW: _isFill("width")
-    property bool _fillH: _isFill("height")
+    property bool _fillW: _isFill("width") || _hasSpacerChild("hstack")
+    property bool _fillH: _isFill("height") || _hasSpacerChild("vstack")
+
+    function _hasSpacerChild(axisType) {
+        var n = root.node;
+        if (!n || n.type !== axisType || !n.children) return false;
+        for (var i = 0; i < n.children.length; i++)
+            if (n.children[i] && n.children[i].type === "spacer") return true;
+        return false;
+    }
 
     // A `visibleWhen` condition gates the whole node (iOS/Android ComponentRegistry skip a node
     // whose condition is false). When hidden we render nothing AND take no layout space, so
@@ -130,7 +138,7 @@ Item {
     function pick(type) {
         switch (type) {
         case "vstack":    return cColumn
-        case "hstack":    return cRow
+        case "hstack":    return _hasSpacerChild("hstack") ? cRowSplit : cRowPlain
         case "zstack":    return cStack
         case "scroll":    return cScroll
         case "grid":      return cGrid
@@ -183,8 +191,10 @@ Item {
             }
         }
     }
+    // hstack without a spacer — a plain hugging Row (also the safe path for a fill/weight child,
+    // which Qt sizes against the loader-provided width). pick() routes here unless a spacer is present.
     Component {
-        id: cRow
+        id: cRowPlain
         Row {
             property var node
             property var ctx
@@ -192,6 +202,56 @@ Item {
             Repeater {
                 model: (node && node.children) ? node.children : []
                 delegate: SduiChild { node: modelData; ctx: parent.ctx }
+            }
+        }
+    }
+
+    // hstack WITH a spacer — split at the first spacer into a leading group (anchored left) and a
+    // trailing group (anchored right) in a full-width Item, so the spacer separates them to opposite
+    // edges (SwiftUI Spacer / Compose weight) — deterministic anchors, no leftover maths. The
+    // SduiRenderer reports fill-width when a spacer is present (so this Item is handed the full width),
+    // so `rr` binds NO width/height — that would double-write against the loader. Only reached for
+    // spacer rows, which don't mix a spacer with a fill child (that would be a contradictory layout),
+    // so a fill child never lands in one of these hugging anchored rows.
+    Component {
+        id: cRowSplit
+        Item {
+            id: rr
+            property var node
+            property var ctx
+            property real gap: T.num(node && node.spacing, ctx, Theme.paddingSmall)
+            property string valign: (node && node.alignment) ? node.alignment : "center"
+            function _spacerIdx() {
+                var ks = (node && node.children) ? node.children : [];
+                for (var i = 0; i < ks.length; i++) if (ks[i] && ks[i].type === "spacer") return i;
+                return -1;
+            }
+            property int _sp: _spacerIdx()
+            property bool _flex: _sp >= 0
+            property var _leftKids: (node && node.children) ? (_flex ? node.children.slice(0, _sp) : node.children) : []
+            property var _rightKids: (node && node.children && _flex) ? node.children.slice(_sp + 1) : []
+
+            implicitWidth: leftRow.implicitWidth + (_flex ? rightRow.implicitWidth + gap : 0)
+            implicitHeight: Math.max(leftRow.implicitHeight, rightRow.implicitHeight)
+
+            Row {
+                id: leftRow
+                anchors.left: parent.left
+                anchors.top: rr.valign === "top" ? parent.top : undefined
+                anchors.bottom: rr.valign === "bottom" ? parent.bottom : undefined
+                anchors.verticalCenter: (rr.valign !== "top" && rr.valign !== "bottom") ? parent.verticalCenter : undefined
+                spacing: rr.gap
+                Repeater { model: rr._leftKids; delegate: SduiChild { node: modelData; ctx: rr.ctx } }
+            }
+            Row {
+                id: rightRow
+                anchors.right: parent.right
+                anchors.top: rr.valign === "top" ? parent.top : undefined
+                anchors.bottom: rr.valign === "bottom" ? parent.bottom : undefined
+                anchors.verticalCenter: (rr.valign !== "top" && rr.valign !== "bottom") ? parent.verticalCenter : undefined
+                spacing: rr.gap
+                visible: rr._flex
+                Repeater { model: rr._rightKids; delegate: SduiChild { node: modelData; ctx: rr.ctx } }
             }
         }
     }
