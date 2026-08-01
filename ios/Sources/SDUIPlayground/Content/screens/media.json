@@ -1,0 +1,1079 @@
+{
+  "version": "0.1",
+  "screen": {
+    "id": "media",
+    "title": "Watch",
+    "content": {
+      "type": "scroll",
+      "child": {
+        "type": "vstack",
+        "alignment": "leading",
+        "spacing": "$token.spacing.lg",
+        "modifiers": {
+          "size": {
+            "width": {
+              "mode": "fill"
+            }
+          },
+          "padding": {
+            "top": "$token.spacing.md",
+            "bottom": "$token.spacing.xl"
+          }
+        },
+        "children": [
+          {
+            "type": "scroll",
+            "axis": "horizontal",
+            "showsIndicators": false,
+            "child": {
+              "type": "hstack",
+              "spacing": "$token.spacing.sm",
+              "modifiers": {
+                "padding": {
+                  "horizontal": "$token.spacing.lg"
+                }
+              },
+              "children": [
+                {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.lg",
+                      "trailing": "$token.spacing.lg",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "cornerRadius": "$token.radius.pill",
+                    "background": "$token.color.primary"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Movies",
+                      "style": "$token.typography.headline",
+                      "color": "#FFFFFF",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.lg",
+                      "trailing": "$token.spacing.lg",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "cornerRadius": "$token.radius.pill",
+                    "material": "glass"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "TV",
+                      "style": "$token.typography.headline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.lg",
+                      "trailing": "$token.spacing.lg",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "cornerRadius": "$token.radius.pill",
+                    "material": "glass"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Animation",
+                      "style": "$token.typography.headline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.xs",
+                  "modifiers": {
+                    "padding": {
+                      "leading": "$token.spacing.lg",
+                      "trailing": "$token.spacing.lg",
+                      "top": "$token.spacing.sm",
+                      "bottom": "$token.spacing.sm"
+                    },
+                    "cornerRadius": "$token.radius.pill",
+                    "material": "glass"
+                  },
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Mystery",
+                      "style": "$token.typography.headline",
+                      "color": "$token.color.textPrimary",
+                      "lineLimit": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "type": "zstack",
+            "alignment": "bottomLeading",
+            "modifiers": {
+              "size": {
+                "width": {
+                  "mode": "fill"
+                }
+              }
+            },
+            "children": [
+              {
+                "type": "image",
+                "source": "https://picsum.photos/seed/foundation-galaxy/800/640",
+                "loader": {
+                  "placeholder": "skeleton",
+                  "contentMode": "fill"
+                },
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 320
+                    }
+                  }
+                }
+              },
+              {
+                "type": "gradient",
+                "colors": [
+                  "#00000000",
+                  "#00000044",
+                  "#000000E6"
+                ],
+                "direction": "vertical",
+                "modifiers": {
+                  "size": {
+                    "width": {
+                      "mode": "fill"
+                    },
+                    "height": {
+                      "mode": "fixed",
+                      "value": 320
+                    }
+                  }
+                }
+              },
+              {
+                "type": "vstack",
+                "alignment": "leading",
+                "spacing": "$token.spacing.sm",
+                "modifiers": {
+                  "padding": "$token.spacing.lg"
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "TRENDING NOW",
+                    "style": "$token.typography.caption",
+                    "color": "#FFFFFFCC",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "text",
+                    "value": "Foundation",
+                    "style": "$token.typography.largeTitle",
+                    "color": "#FFFFFF",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "hstack",
+                    "spacing": "$token.spacing.xs",
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.sm",
+                            "trailing": "$token.spacing.sm",
+                            "top": 3,
+                            "bottom": 3
+                          },
+                          "background": "#FFFFFF22",
+                          "cornerRadius": "$token.radius.pill"
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Suspense",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFFEE",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.sm",
+                            "trailing": "$token.spacing.sm",
+                            "top": 3,
+                            "bottom": 3
+                          },
+                          "background": "#FFFFFF22",
+                          "cornerRadius": "$token.radius.pill"
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "Thriller",
+                            "style": "$token.typography.caption",
+                            "color": "#FFFFFFEE",
+                            "lineLimit": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": "Humans scattered across the galaxy fight to preserve civilisation as empire falls.",
+                    "style": "$token.typography.subheadline",
+                    "color": "#FFFFFFDD",
+                    "lineLimit": 2
+                  },
+                  {
+                    "type": "hstack",
+                    "spacing": "$token.spacing.sm",
+                    "children": [
+                      {
+                        "type": "hstack",
+                        "spacing": "$token.spacing.xs",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.lg",
+                            "trailing": "$token.spacing.lg",
+                            "top": "$token.spacing.sm",
+                            "bottom": "$token.spacing.sm"
+                          },
+                          "cornerRadius": "$token.radius.pill",
+                          "background": "#FFFFFF"
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "► Watch",
+                            "style": "$token.typography.headline",
+                            "color": "#0E0E12",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "hstack",
+                        "spacing": "$token.spacing.xs",
+                        "modifiers": {
+                          "padding": {
+                            "leading": "$token.spacing.lg",
+                            "trailing": "$token.spacing.lg",
+                            "top": "$token.spacing.sm",
+                            "bottom": "$token.spacing.sm"
+                          },
+                          "cornerRadius": "$token.radius.pill",
+                          "material": "glass"
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "⤓ Download",
+                            "style": "$token.typography.headline",
+                            "color": "#FFFFFF",
+                            "lineLimit": 1
+                          }
+                        ]
+                      },
+                      {
+                        "type": "spacer"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Continue watching",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 200
+                          }
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "media",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "image",
+                          "source": "https://picsum.photos/seed/dark-season/200/116",
+                          "loader": {
+                            "placeholder": "skeleton",
+                            "contentMode": "fill"
+                          },
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 200
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 116
+                              }
+                            },
+                            "cornerRadius": "$token.radius.md"
+                          }
+                        },
+                        {
+                          "type": "progress",
+                          "value": 0.6,
+                          "height": 4,
+                          "color": "$token.color.primary",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 200
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 4
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "value": "Dark",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "S1 · E5",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 200
+                          }
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "media",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "image",
+                          "source": "https://picsum.photos/seed/afterparty/200/116",
+                          "loader": {
+                            "placeholder": "skeleton",
+                            "contentMode": "fill"
+                          },
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 200
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 116
+                              }
+                            },
+                            "cornerRadius": "$token.radius.md"
+                          }
+                        },
+                        {
+                          "type": "progress",
+                          "value": 0.35,
+                          "height": 4,
+                          "color": "$token.color.primary",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 200
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 4
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "value": "The Afterparty",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "32m left",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 200
+                          }
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "media",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "image",
+                          "source": "https://picsum.photos/seed/severance/200/116",
+                          "loader": {
+                            "placeholder": "skeleton",
+                            "contentMode": "fill"
+                          },
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 200
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 116
+                              }
+                            },
+                            "cornerRadius": "$token.radius.md"
+                          }
+                        },
+                        {
+                          "type": "progress",
+                          "value": 0.8,
+                          "height": 4,
+                          "color": "$token.color.primary",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 200
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 4
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "text",
+                          "value": "Severance",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "S2 · E2",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "vstack",
+            "alignment": "leading",
+            "spacing": "$token.spacing.sm",
+            "children": [
+              {
+                "type": "hstack",
+                "modifiers": {
+                  "padding": {
+                    "horizontal": "$token.spacing.lg"
+                  }
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "You might like",
+                    "style": "$token.typography.title2",
+                    "color": "$token.color.textPrimary",
+                    "lineLimit": 1
+                  },
+                  {
+                    "type": "spacer"
+                  },
+                  {
+                    "type": "text",
+                    "value": "See all",
+                    "style": "$token.typography.subheadline",
+                    "color": "$token.color.primary",
+                    "lineLimit": 1
+                  }
+                ]
+              },
+              {
+                "type": "scroll",
+                "axis": "horizontal",
+                "showsIndicators": false,
+                "child": {
+                  "type": "hstack",
+                  "spacing": "$token.spacing.md",
+                  "modifiers": {
+                    "padding": {
+                      "horizontal": "$token.spacing.lg"
+                    }
+                  },
+                  "children": [
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 140
+                          }
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "media",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "bottomTrailing",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 140
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 196
+                              }
+                            },
+                            "cornerRadius": "$token.radius.lg"
+                          },
+                          "children": [
+                            {
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/luck-movie/280/392",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 196
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.lg"
+                              }
+                            },
+                            {
+                              "type": "vstack",
+                              "alignment": "trailing",
+                              "modifiers": {
+                                "padding": "$token.spacing.sm"
+                              },
+                              "children": [
+                                {
+                                  "type": "zstack",
+                                  "alignment": "center",
+                                  "modifiers": {
+                                    "size": {
+                                      "width": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      },
+                                      "height": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      }
+                                    },
+                                    "material": "glass",
+                                    "cornerRadius": 22
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "►",
+                                      "style": "$token.typography.headline",
+                                      "color": "#FFFFFF",
+                                      "lineLimit": 1
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Luck",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Animation",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 140
+                          }
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "media",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "bottomTrailing",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 140
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 196
+                              }
+                            },
+                            "cornerRadius": "$token.radius.lg"
+                          },
+                          "children": [
+                            {
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/greyhound/280/392",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 196
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.lg"
+                              }
+                            },
+                            {
+                              "type": "vstack",
+                              "alignment": "trailing",
+                              "modifiers": {
+                                "padding": "$token.spacing.sm"
+                              },
+                              "children": [
+                                {
+                                  "type": "zstack",
+                                  "alignment": "center",
+                                  "modifiers": {
+                                    "size": {
+                                      "width": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      },
+                                      "height": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      }
+                                    },
+                                    "material": "glass",
+                                    "cornerRadius": 22
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "►",
+                                      "style": "$token.typography.headline",
+                                      "color": "#FFFFFF",
+                                      "lineLimit": 1
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Grey Hound",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Drama",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 140
+                          }
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "media",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "bottomTrailing",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 140
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 196
+                              }
+                            },
+                            "cornerRadius": "$token.radius.lg"
+                          },
+                          "children": [
+                            {
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/ghosted/280/392",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 196
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.lg"
+                              }
+                            },
+                            {
+                              "type": "vstack",
+                              "alignment": "trailing",
+                              "modifiers": {
+                                "padding": "$token.spacing.sm"
+                              },
+                              "children": [
+                                {
+                                  "type": "zstack",
+                                  "alignment": "center",
+                                  "modifiers": {
+                                    "size": {
+                                      "width": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      },
+                                      "height": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      }
+                                    },
+                                    "material": "glass",
+                                    "cornerRadius": 22
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "►",
+                                      "style": "$token.typography.headline",
+                                      "color": "#FFFFFF",
+                                      "lineLimit": 1
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Ghosted",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Comedy",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    },
+                    {
+                      "type": "vstack",
+                      "alignment": "leading",
+                      "spacing": "$token.spacing.xs",
+                      "modifiers": {
+                        "size": {
+                          "width": {
+                            "mode": "fixed",
+                            "value": 140
+                          }
+                        },
+                        "onTap": {
+                          "action": "navigate",
+                          "to": "media",
+                          "transition": "push"
+                        }
+                      },
+                      "children": [
+                        {
+                          "type": "zstack",
+                          "alignment": "bottomTrailing",
+                          "modifiers": {
+                            "size": {
+                              "width": {
+                                "mode": "fixed",
+                                "value": 140
+                              },
+                              "height": {
+                                "mode": "fixed",
+                                "value": 196
+                              }
+                            },
+                            "cornerRadius": "$token.radius.lg"
+                          },
+                          "children": [
+                            {
+                              "type": "image",
+                              "source": "https://picsum.photos/seed/cherry/280/392",
+                              "loader": {
+                                "placeholder": "skeleton",
+                                "contentMode": "fill"
+                              },
+                              "modifiers": {
+                                "size": {
+                                  "width": {
+                                    "mode": "fill"
+                                  },
+                                  "height": {
+                                    "mode": "fixed",
+                                    "value": 196
+                                  }
+                                },
+                                "cornerRadius": "$token.radius.lg"
+                              }
+                            },
+                            {
+                              "type": "vstack",
+                              "alignment": "trailing",
+                              "modifiers": {
+                                "padding": "$token.spacing.sm"
+                              },
+                              "children": [
+                                {
+                                  "type": "zstack",
+                                  "alignment": "center",
+                                  "modifiers": {
+                                    "size": {
+                                      "width": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      },
+                                      "height": {
+                                        "mode": "fixed",
+                                        "value": 44
+                                      }
+                                    },
+                                    "material": "glass",
+                                    "cornerRadius": 22
+                                  },
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "value": "►",
+                                      "style": "$token.typography.headline",
+                                      "color": "#FFFFFF",
+                                      "lineLimit": 1
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "value": "Cherry",
+                          "style": "$token.typography.headline",
+                          "color": "$token.color.textPrimary",
+                          "lineLimit": 1
+                        },
+                        {
+                          "type": "text",
+                          "value": "Thriller",
+                          "style": "$token.typography.caption",
+                          "color": "$token.color.textSecondary",
+                          "lineLimit": 1
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

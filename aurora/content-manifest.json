@@ -29,6 +29,7 @@
     "content/screens/layout.json",
     "content/screens/lists.json",
     "content/screens/materials.json",
+    "content/screens/media.json",
     "content/screens/messenger.json",
     "content/screens/music.json",
     "content/screens/paywall.json",

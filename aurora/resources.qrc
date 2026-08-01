@@ -32,6 +32,7 @@
     <file alias="content/screens/layout.json">../ios/Sources/SDUIPlayground/Content/screens/layout.json</file>
     <file alias="content/screens/lists.json">../ios/Sources/SDUIPlayground/Content/screens/lists.json</file>
     <file alias="content/screens/materials.json">../ios/Sources/SDUIPlayground/Content/screens/materials.json</file>
+    <file alias="content/screens/media.json">../ios/Sources/SDUIPlayground/Content/screens/media.json</file>
     <file alias="content/screens/messenger.json">../ios/Sources/SDUIPlayground/Content/screens/messenger.json</file>
     <file alias="content/screens/music.json">../ios/Sources/SDUIPlayground/Content/screens/music.json</file>
     <file alias="content/screens/paywall.json">../ios/Sources/SDUIPlayground/Content/screens/paywall.json</file>
