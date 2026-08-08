@@ -1,1 +1,1 @@
-spec/snapshots/__gallery__/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+* text=auto eol=lf
