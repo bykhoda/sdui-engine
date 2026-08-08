@@ -350,6 +350,12 @@ private extension View {
     /// Liquid Glass on iOS/macOS 26+, with a material fallback for older systems
     /// so the same code stays beautiful across OS versions.
     @ViewBuilder func sduiGlass<S: Shape>(_ shape: S) -> some View {
+        // `glassEffect` only exists in the iOS/macOS 26 SDK (Xcode 26 → Swift 6.2+).
+        // A runtime `#available` check is not enough — the symbol must resolve at
+        // compile time — so gate the whole branch on the compiler/SDK version, and
+        // fall back to a material on every older Xcode (which is what CI and most
+        // contributors build with). Keeps the repo compiling on any recent Xcode.
+        #if compiler(>=6.2)
         if #available(iOS 26, macOS 26, *) {
             self.glassEffect(.regular, in: shape)
         } else {
@@ -357,6 +363,11 @@ private extension View {
                 .background(.ultraThinMaterial, in: shape)
                 .overlay(shape.stroke(Color.primary.opacity(0.08), lineWidth: 1))
         }
+        #else
+        self
+            .background(.ultraThinMaterial, in: shape)
+            .overlay(shape.stroke(Color.primary.opacity(0.08), lineWidth: 1))
+        #endif
     }
 }
 
