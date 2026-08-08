@@ -1,75 +1,90 @@
-# SDUI — Server-Driven UI engine for mobile
+<div align="center">
 
-Ship whole screens from your backend as JSON. One contract renders natively on
-**iOS (SwiftUI)**, **Android (Jetpack Compose)** and **Aurora OS (Qt/Silica)** —
-same payload, same requests, no client release to change a screen.
+# SDUI
 
-> Status: **30 components on all three renderers**, a closed 24-action runtime, a
-> visual composer, and a shared **conformance corpus** that proves the engines
-> interpret the contract identically — same fixtures, JS reference + native, red on
-> drift ([Conformance](#conformance--identical-everywhere)). iOS is the reference
-> (built + tested on every commit); the Android and Aurora renderers are implemented
-> and gated by CI / an Aurora build. Live matrix: [PARITY.md](PARITY.md).
+### Ship whole native screens from your backend as JSON.
+
+One platform-neutral contract renders **natively** on **iOS (SwiftUI)**, **Android (Jetpack Compose)** and **Aurora OS (Qt/Silica)** — same payload, same requests, no app release to change a screen.
+
+[![CI](https://github.com/bykhoda/sdui-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/bykhoda/sdui-engine/actions/workflows/ci.yml)
+[![Swift 5.9+](https://img.shields.io/badge/Swift-5.9%2B-F05138?logo=swift&logoColor=white)](https://swift.org)
+[![SwiftPM](https://img.shields.io/badge/SwiftPM-compatible-brightgreen?logo=swift&logoColor=white)](https://swift.org/package-manager)
+[![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android%20%7C%20Aurora-4B4BE0)](PARITY.md)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+
+<br>
+
+<img src="docs/media/home.jpg" width="18%" alt="Home"/> <img src="docs/media/discover.jpg" width="18%" alt="Discover"/> <img src="docs/media/fitness.jpg" width="18%" alt="Fitness — charts & rings"/> <img src="docs/media/music.jpg" width="18%" alt="Music"/> <img src="docs/media/weather.jpg" width="18%" alt="Weather"/>
+
+<sub>Every screen above is a JSON payload rendered by the engine — not hand-written native code.</sub>
+
+</div>
+
+---
 
 ## Why
 
-Most product screens are content- and config-driven: feeds, forms, onboarding,
-promos, settings, detail pages, checkouts. Those don't need a native release to
-change. SDUI moves them to the backend behind a strict, versioned JSON contract,
-so:
+Most product screens are content- and config-driven: feeds, forms, onboarding, promos, paywalls, settings, detail pages, checkouts. Those don't need a native release to change. SDUI moves them behind a strict, versioned JSON contract, so:
 
-- **One payload, two platforms.** The contract is platform-neutral. `vstack` →
-  `VStack` / `Column`; `$token.spacing.md` resolves from a shared token file.
-  Backends ship one response; iOS and Android share requests.
-- **Errors caught before render.** Every payload is validated against a JSON
-  Schema (`spec/schema/sdui.schema.json`) on the backend, and decoded
-  defensively on the client — an unknown component degrades to nothing, it never
-  crashes.
-- **Small, fully specified contract.** The whole format is described by the
-  schema and one authoring guide ([`spec/docs/authoring.md`](spec/docs/authoring.md)),
-  so screens are quick to write by hand or with your own tooling.
-- **Lightweight, extensible.** The SDK ships a small core of primitives. Anything
-  native the format can't express is registered as a `custom.*` component by the
-  host app — the format stays readable, the SDK stays small.
+- **One payload, every platform.** The contract is platform-neutral. `vstack` → `VStack` / `Column` / `ColumnLayout`; `$token.spacing.md` resolves from a shared token file. Backends ship one response — iOS, Android and Aurora share requests.
+- **Validated before it renders.** Every payload is checked against a JSON Schema ([`spec/schema/sdui.schema.json`](spec/schema/sdui.schema.json)) on the backend and decoded defensively on the client — an unknown component degrades to nothing, it never crashes.
+- **Proven identical, not promised.** A shared [conformance corpus](#conformance) runs the same fixtures through a JS reference **and** the real native engine — binding resolution, condition evaluation and action effects must agree on every platform, or the build is red.
+- **Small, extensible core.** A compact set of semantic primitives; anything native the format can't express is registered by the host app as a `custom.*` component. The SDK stays small, the format stays readable.
 
-## The core idea: four orthogonal languages in one JSON
+## Highlights
 
-```
-Layout/Components — what to draw   (the view tree + modifiers + tokens)
-Actions           — what to do     (declarative, composable side effects)
-Data/Network      — where data is  (services, requests, bindings)
-Navigation        — how to move    (push / sheet / cover / deep links)
-```
+- **30 components** — layout (`vstack`/`hstack`/`zstack`/`grid`/`scroll`/`pager`), content (`text`/`image`/`icon`/`chart`/`rings`/`ticker`/`calendar`/`roadmap`), input (`textfield`/`toggle`/`picker`/`slider`/`datepicker`) and more — [full matrix →](PARITY.md)
+- **24-verb action runtime** — `navigate`, `setState`, `sequence`, `parallel`, `condition`, `share`, `haptic`, `showToast`, `refresh`, `request`… declarative, composable side effects. A button doesn't *know* how to make a request; it fires an action the runtime interprets.
+- **Two-way state & bindings** — `$data` / `$state` / `$item` / `$env` with a fallback-on-failure expression model; forms bind straight to state.
+- **Serializable navigation** — `push` / `sheet` / `fullScreenCover`, deep links, dismiss-to-root; change a flow from the server.
+- **Live theming** — colour, typography, spacing, radius as tokens over the wire, with separate light **and** dark palettes.
+- **Native effects that feel native** — blur materials, haptics, Swift Charts with scrub, activity rings, collapsing headers, swipe-to-reveal, press feedback.
 
-They never mix. A button doesn't "know" how to make a request; it fires an
-`action`, which the runtime interprets. This separation is what keeps the format
-portable and the renderers dumb.
+## Install
 
-## Repository layout
+### iOS · Swift Package Manager
 
-```
-spec/                         # THE SOURCE OF TRUTH (platform-neutral)
-  schema/sdui.schema.json     # the contract — validates every payload
-  schema/tokens.example.json  # shared design tokens
-  examples/*.json             # reference screens
-  conformance/                # shared fixture corpus + JS reference runner (check.mjs)
-  compose/index.html          # the visual composer (direct-manipulation, /compose)
-  tools/                      # validate · codegen · parity · gen-reference · serve · mcp
-  docs/*.md                   # protocol + AI authoring guide
-
-ios/                          # Swift Package (SwiftUI renderer — the REFERENCE)
-  Sources/{SDUICore,SDUINetwork,SDUIRuntime,SDUIRender}/
-  Tests/                      # unit + the native conformance leg (SDUIConformanceTests)
-
-android/                      # Jetpack Compose renderer (same contract)
-aurora/                       # Aurora OS — Qt/QML/Silica renderer (same contract)
-
-docs/blueprint/               # the working hub: audits, parity plans, cited specs
-docs/reference/               # component/modifier/action reference (generated)
-PARITY.md                     # generated renderer parity matrix
+```swift
+// Package.swift
+dependencies: [
+    .package(url: "https://github.com/bykhoda/sdui-engine.git", from: "0.1.0")
+]
 ```
 
-## Quick start (iOS)
+Or in Xcode: **File ▸ Add Package Dependencies…** and paste the repository URL. Products you can import: `SDUICore`, `SDUINetwork`, `SDUIRuntime`, `SDUIRender`, `SDUIPlayground`.
+
+### Android · Jetpack Compose
+
+The Compose renderer lives in [`android/sdui`](android) and consumes the identical contract. Maven Central / JitPack publishing is on the [roadmap](docs/blueprint/05-roadmap.md); today you include it as a Gradle module — see [`android/README.md`](android/README.md).
+
+### Aurora OS · Qt/Silica
+
+The Aurora renderer ([`aurora/`](aurora)) builds an RPM with the Aurora SDK — see [`aurora/README.md`](aurora/README.md).
+
+## 60-second example
+
+A screen is JSON. Bindings resolve against data you pass in; actions fire into the runtime.
+
+```json
+{
+  "version": "0.1",
+  "screen": {
+    "id": "welcome",
+    "content": {
+      "type": "vstack",
+      "spacing": "$token.spacing.md",
+      "children": [
+        { "type": "text", "value": "Hello, $data.user.name",
+          "style": "$token.typography.largeTitle" },
+        { "type": "button", "title": "Continue",
+          "onTap": { "action": "navigate", "to": "home", "transition": "push" } }
+      ]
+    }
+  }
+}
+```
+
+Render it natively on iOS:
 
 ```swift
 import SDUICore
@@ -84,13 +99,13 @@ let loader   = DataLoader(resolver: StaticServiceResolver(
 SDUIScreenView(
     document: document,
     tokens: tokens,
-    env: ["locale": .string("ru"), "theme": .string("light")],
+    env: ["locale": .string("en"), "theme": .string("light")],
     loader: loader,
-    delegate: myRouter                                  // navigation, analytics
+    delegate: myRouter                                  // navigation, analytics, share
 )
 ```
 
-Register a native escape-hatch component:
+Register a native escape-hatch component when the format can't express something:
 
 ```swift
 let registry = ComponentRegistry()
@@ -99,114 +114,74 @@ registry.register("custom.map") { component, ctx in
 }
 ```
 
-## Try the sandbox
+## The core idea: four orthogonal languages in one JSON
 
-A live editor that renders payloads against the reference runtime — type JSON,
-watch it render, see actions fire. Two tabs: **Sandbox** and a **Navigation**
-demo (a full server-driven stack via `SDUIContainerView`).
+```
+Layout / Components — what to draw   (the view tree + modifiers + tokens)
+Actions            — what to do     (declarative, composable side effects)
+Data / Network     — where data is  (services, requests, bindings)
+Navigation         — how to move    (push / sheet / cover / deep links)
+```
 
-**On the iOS Simulator** — open the demo app and Run:
+They never mix. This separation is what keeps the format portable and the renderers dumb.
+
+## What's in the box
+
+| | iOS | Android | Aurora |
+|---|:---:|:---:|:---:|
+| Components | 30 / 30 | 30 / 30 | 30 / 30 |
+| Action verbs | 23 / 24 | 21 / 24 | 19 / 24 |
+
+iOS is the reference renderer (built + tested on every commit). Android and Aurora hold parity against it, gated by CI and the conformance corpus. The numbers are generated from the actual renderer source — regenerate with `node spec/tools/parity.mjs > PARITY.md`. Live matrix: **[PARITY.md](PARITY.md)**.
+
+<div align="center">
+<img src="docs/media/product.jpg" width="18%" alt="Product"/> <img src="docs/media/stocks.jpg" width="18%" alt="Stocks — live chart"/> <img src="docs/media/clips.jpg" width="18%" alt="Clips"/> <img src="docs/media/messenger.jpg" width="18%" alt="Messenger"/> <img src="docs/media/home.dark.jpg" width="18%" alt="Dark mode"/>
+</div>
+
+## Conformance
+
+"Renders the same on every platform" is a **test**, not a promise. A shared corpus under [`spec/conformance/`](spec/conformance) runs every fixture through a JS reference (`check.mjs`) **and** the real native engine (iOS `SDUIConformanceTests`), asserting identical validation, binding resolution, condition evaluation and action effects. Drift is a red build.
 
 ```bash
-open ios/Examples/DemoApp/SDUIDemo.xcodeproj
-# pick the SDUIDemo scheme + an iPhone simulator, then ⌘R
+node spec/conformance/check.mjs      # JS reference — validation / bindings / conditions / effects
+node spec/conformance/coverage.mjs   # 100% of the contract surface is fixtured
 ```
-
-**On macOS** — no Xcode project needed:
-
-```bash
-cd ios && swift run SDUIPlaygroundApp
-```
-
-To embed the sandbox in your own iOS app, use `SDUIPlaygroundView()` from the
-`SDUIPlayground` module. See [`ios/Examples/DemoApp`](ios/Examples/DemoApp).
-
-## Navigation
-
-For a stack of server-driven screens, host `SDUIContainerView` and give it a
-provider that turns any route into a payload (a backend fetch, a cache, or a
-bundled screen):
-
-```swift
-SDUIContainerView(
-    root: SDUIRoute(screen: "home"),
-    tokens: tokens,
-    appDelegate: myRouter,                       // share/toast/analytics/custom
-    provider: { route in await api.screen(route.screen, route.params) }
-)
-```
-
-The contract's `navigate` action drives `push` / `sheet` / `fullScreenCover`,
-`dismiss` and `dismissRoot` — no client release needed to change a flow.
-
-## Android
-
-The [`android/`](android) module renders the **same** contract with Jetpack
-Compose, mirroring the SwiftUI reference file-for-file. See
-[`android/README.md`](android/README.md). A third renderer,
-[`aurora/`](aurora) (Aurora OS — Qt/QML/Silica), consumes the identical payload.
-
-## Conformance — "identical everywhere"
-
-"Renders the same on every platform" is a *test*, not a promise. A shared corpus of
-fixtures under [`spec/conformance/`](spec/conformance) runs through a JS reference
-(`check.mjs`) **and** the real native engine (iOS `SDUIConformanceTests`), asserting the
-same validation, binding resolution, condition evaluation and action effects in every
-language — so drift is a red build.
-
-```bash
-node spec/conformance/check.mjs        # JS reference — validation/bindings/conditions/effects
-node spec/conformance/coverage.mjs     # 100% of the contract surface is fixtured
-```
-
-Every component, modifier and pure-effect action has a fixture, enforced by a `--strict`
-CI gate. The native leg already earned its keep — it caught a real reference bug (context
-mutated mid-sequence where iOS runs a snapshot).
 
 ## Visual composer
 
-A browser composer at `/compose` ([`spec/compose/index.html`](spec/compose/index.html))
-builds screens by direct manipulation — drag on the canvas, set spacing/padding with
-handles, edit colors in place — with a preview that resolves bindings and renders
-iOS- or Material-styled per selected device, and a live, validated JSON export. Run it
-with `node spec/tools/serve.mjs` (also serves the 47 reference + app screens to edit).
+A browser composer at [`spec/compose/index.html`](spec/compose/index.html) builds screens by direct manipulation — drag on the canvas, set spacing with handles, edit colours in place — with a binding-resolving preview and a live, validated JSON export.
 
-## Prior art & cross-platform design
+```bash
+node spec/tools/serve.mjs            # serves the composer + the reference screens to edit
+```
 
-This engine is built against the lessons of DivKit, Airbnb, Lyft, Beagle and
-Nubank, and against the concrete places SwiftUI and Compose disagree (sizing,
-text metrics, list identity, insets, accessibility). The rationale and the rules
-the contract follows are written up in
-[`docs/design-notes.md`](docs/design-notes.md).
+## Repository layout
 
-## How the same JSON drives every platform
+```
+spec/                         # THE SOURCE OF TRUTH (platform-neutral)
+  schema/sdui.schema.json     #   the contract — validates every payload
+  examples/ · conformance/    #   reference screens + shared fixture corpus
+  compose/ · tools/ · docs/   #   visual composer · validate/codegen/parity/serve/mcp · protocol docs
+ios/                          # Swift Package — SwiftUI renderer (the REFERENCE)
+android/                      # Jetpack Compose renderer (same contract)
+aurora/                       # Aurora OS — Qt/QML/Silica renderer (same contract)
+Package.swift                 # root manifest so SwiftPM installs straight from the repo URL
+PARITY.md                     # generated renderer parity matrix
+docs/                         # authoring guide, blueprint, component/action reference
+```
 
-The contract carries nothing SwiftUI-specific. Each renderer consumes the identical
-payload: `vstack`→`Column`/`ColumnLayout`, `hstack`→`Row`/`RowLayout`; the binding engine
-and action interpreter are ported 1:1 (and pinned identical by the conformance corpus);
-the token file is shared. Backends never branch per platform.
+## Documentation
 
-## Roadmap
+- **[Authoring guide](spec/docs/authoring.md)** — write a screen by hand
+- **[Component](docs/reference/components.md) · [Modifier](docs/reference/modifiers.md) · [Action](docs/reference/actions.md) reference**
+- **[Backend guide](docs/backend-guide.md)** — build a native app from JSON alone
+- **[Design notes](docs/design-notes.md)** — prior art (DivKit, Airbnb, Lyft, Nubank) and the cross-platform rules the contract follows
+- **[Blueprint](docs/blueprint/)** — the working hub: audits, parity plans, roadmap
 
-- [x] **v0.1** Contract + core + iOS primitives + networking + actions + sandbox
-- [x] **v0.2** Explicit sizing model (`fixed`/`hug`/`fill`/`weight` + min/max),
-      accessibility fields, dark-mode token palette, forms
-      (`textfield`/`toggle`/`picker` two-way bound to state) — see
-      [design notes](docs/design-notes.md)
-- [x] **v0.3** Lazy `grid`, list pagination (`onReachEnd`) — _remaining: swipe
-      actions, scroll-position restoration_
-- [x] **v0.4** Navigation: `push`/`sheet`/`fullScreenCover`, params, dismiss and
-      dismiss-to-root via `SDUIContainerView` — _remaining: deep-link routing,
-      tab bars_
-- [x] **v0.6** State-driven animations, long-press context menus, shadows
-- [ ] **v0.5** Device actions: file access, device storage, richer analytics
-- [x] **v1.0 (in progress)** Android (Compose) renderer consuming the same
-      contract ([`android/`](android)) — _remaining: parity with the newest
-      components + Kotlin model codegen from the schema_
+## Contributing
 
-Typography metrics parity and stable list-item identity keys are the next
-contract refinements before the platforms are declared feature-equal.
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md). Every renderer feature is a schema field + validator rule + parity-matrix entry + conformance fixture; nothing ships unverified.
 
 ## License
 
-Open source. License TBD (MIT/Apache-2.0 recommended).
+[Apache-2.0](LICENSE).
