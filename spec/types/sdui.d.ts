@@ -31,6 +31,20 @@ export interface Screen {
   teach?: { task: string; title: string; };
   /** Navigation-bar title. May be a binding, e.g. '$data.product.title'. */
   title?: BindableString;
+  /**
+   * Nav-bar toolbar items pinned beside the title — the HIG home for search / filter / add. Unlike controls placed in the scroll body, these do NOT scroll away; they migrate into the compact nav bar as the large title collapses. Renders as iOS .toolbar items, Android TopAppBar actions, Aurora page-header buttons.
+   */
+  toolbar?: { leading?: ToolbarItem[]; trailing?: ToolbarItem[]; };
+}
+
+/** A single nav-bar toolbar button: an icon that fires an action. */
+export interface ToolbarItem {
+  /** VoiceOver label; falls back to the icon name. */
+  accessibilityLabel?: string;
+  /** Action dispatched on tap. */
+  action?: Action;
+  /** Icon / SF-Symbol name (mapped per platform). */
+  icon: string;
 }
 
 /**
@@ -149,7 +163,7 @@ export interface CalendarProps {
  */
 export interface ClipsProps {
   /** The feed. Each page is one full-screen clip. */
-  pages: ({ audio?: string; author?: string; caption?: string; colors?: Color[]; comments?: string; likes?: string; shares?: string; })[];
+  pages: ({ audio?: string; author?: string; caption?: string; colors?: Color[]; comments?: string; id?: string; liked?: BindableString; likes?: BindableString; onComment?: Action; onLike?: Action; onMore?: Action; onShare?: Action; shares?: string; })[];
 }
 
 /**
@@ -555,7 +569,7 @@ interface ActionBase {
 /**
  * A declarative action triggered by an event. Actions compose: 'sequence' and 'parallel' wrap child actions. This is a closed vocabulary so both platforms interpret it identically.
  */
-export type Action = ActionBase & ({ params?: { [key: string]: BindableString; }; to: string; transition?: "push" | "sheet" | "fullScreenCover" | "replace"; }
+export type Action = ActionBase & ({ params?: { [key: string]: BindableString; }; sheet?: SheetConfig; to: string; transition?: "push" | "sheet" | "fullScreenCover" | "replace"; }
   | { url: BindableString; }
   | { key: string; value?: unknown; }
   | { onError?: Action; onSuccess?: Action; source: DataSource; }
@@ -565,6 +579,22 @@ export type Action = ActionBase & ({ params?: { [key: string]: BindableString; }
   | { style?: "light" | "medium" | "heavy" | "success" | "warning" | "error"; }
   | { text?: BindableString; url?: BindableString; }
   | { name: string; payload?: unknown; });
+
+/**
+ * How a 'navigate transition:sheet' presents its modal. Additive to 'navigate'; each renderer maps 'detents' to its native sheet (iOS presentationDetents, Android material3 ModalBottomSheet, Aurora bottom Drawer). Omitted fields fall back to platform defaults.
+ */
+export interface SheetConfig {
+  /** Top corner radius of the sheet; platform default when omitted. */
+  cornerRadius?: Dimension;
+  /**
+   * Allowed resting heights, in order. A named tier, a fixed 'height' in points, or a 'fraction' of the screen. A single value pins the sheet; multiple values let the user drag between them.
+   */
+  detents?: ("small" | "medium" | "large" | { height: number; } | { fraction: number; })[];
+  /** Allow tap-outside / swipe-down to dismiss. false forces an explicit in-content close action. */
+  dismissible?: boolean;
+  /** Show the grabber / drag handle at the top of the sheet. */
+  dragIndicator?: boolean;
+}
 
 /** Boolean expression over bindings. Exactly one operator key is expected. */
 export interface Condition {

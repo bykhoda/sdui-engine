@@ -16,7 +16,9 @@
     <file alias="content/screens/capabilities.json">../ios/Sources/SDUIPlayground/Content/screens/capabilities.json</file>
     <file alias="content/screens/cards.json">../ios/Sources/SDUIPlayground/Content/screens/cards.json</file>
     <file alias="content/screens/cart.json">../ios/Sources/SDUIPlayground/Content/screens/cart.json</file>
+    <file alias="content/screens/clip-menu.json">../ios/Sources/SDUIPlayground/Content/screens/clip-menu.json</file>
     <file alias="content/screens/clips.json">../ios/Sources/SDUIPlayground/Content/screens/clips.json</file>
+    <file alias="content/screens/comments.json">../ios/Sources/SDUIPlayground/Content/screens/comments.json</file>
     <file alias="content/screens/components.json">../ios/Sources/SDUIPlayground/Content/screens/components.json</file>
     <file alias="content/screens/controls.json">../ios/Sources/SDUIPlayground/Content/screens/controls.json</file>
     <file alias="content/screens/delivery.json">../ios/Sources/SDUIPlayground/Content/screens/delivery.json</file>
@@ -37,6 +39,7 @@
     <file alias="content/screens/music.json">../ios/Sources/SDUIPlayground/Content/screens/music.json</file>
     <file alias="content/screens/paywall.json">../ios/Sources/SDUIPlayground/Content/screens/paywall.json</file>
     <file alias="content/screens/reorder.json">../ios/Sources/SDUIPlayground/Content/screens/reorder.json</file>
+    <file alias="content/screens/share-sheet.json">../ios/Sources/SDUIPlayground/Content/screens/share-sheet.json</file>
     <file alias="content/screens/stocks.json">../ios/Sources/SDUIPlayground/Content/screens/stocks.json</file>
     <file alias="content/screens/swipe.json">../ios/Sources/SDUIPlayground/Content/screens/swipe.json</file>
     <file alias="content/screens/table.json">../ios/Sources/SDUIPlayground/Content/screens/table.json</file>

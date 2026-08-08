@@ -57,6 +57,7 @@ _No fields beyond `action` (and optional `analytics`)._
 | `to` | `string` | ✓ | Target screen id or a route path. |
 | `params` | object |  |  |
 | `transition` | `push` · `sheet` · `fullScreenCover` · `replace` |  |  |
+| `sheet` | `SheetConfig` |  | Presentation config for the modal sheet. Ignored unless 'transition' is 'sheet'. |
 
 ## openDeepLink
 
