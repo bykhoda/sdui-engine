@@ -12,7 +12,7 @@ concurrency:
 jobs:
   ios:
     name: Swift build & test
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - name: Show Swift version
@@ -26,7 +26,7 @@ jobs:
 
   ios-app:
     name: Demo app builds for iOS Simulator
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - name: Build demo app
