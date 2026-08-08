@@ -658,7 +658,7 @@ private struct ScrollContainer: View {
     /// • At the very top, a pull rubber-bands the title slightly larger for the
     ///   classic elastic stretch.
     @ViewBuilder private func behaviorBody(shows: Bool) -> some View {
-        let minScale = CGFloat(behavior?.minScale ?? 0.58)
+        let minScale: CGFloat = CGFloat(behavior?.minScale ?? 0.58)
         let titleH: CGFloat = 42
         // Collapse over the title's own shrink distance plus a little runway, so it
         // completes at a natural, unhurried scroll — never too twitchy, never lazy.
@@ -667,15 +667,15 @@ private struct ScrollContainer: View {
         let effOffset = debugOffset ?? offset
         // Eased progress: linear 0…1, then smoothstep so the motion accelerates and
         // settles gently instead of tracking the finger 1:1 (which reads as jitter).
-        let linear = min(max(effOffset / range, 0), 1)
-        let progress = linear * linear * (3 - 2 * linear)
+        let linear: CGFloat = min(max(effOffset / range, 0), 1)
+        let progress: CGFloat = linear * linear * (3 - 2 * linear)
         // Rubber-band: a pull at the top gently enlarges the title (capped), giving
         // the elastic feel of Apple's large title without distorting layout.
-        let stretch = reduceMotion ? 1 : 1 + min(overscroll, 120) * 0.0016
-        let scale = (1 - (1 - minScale) * progress) * stretch
+        let stretch: CGFloat = reduceMotion ? 1 : 1 + min(overscroll, 120) * 0.0016
+        let scale: CGFloat = (1 - (1 - minScale) * progress) * stretch
         // The large title holds, then fades over the last third; the reserved height
         // collapses on the full eased curve so content rises smoothly to meet the bar.
-        let titleFade = 1 - Double(min(max((progress - 0.55) / 0.45, 0), 1))
+        let titleFade: Double = 1 - Double(min(max((progress - 0.55) / 0.45, 0), 1))
         let reveal = behavior?.revealOnPull
         let threshold = CGFloat(reveal?.threshold ?? 52)
         let searchH: CGFloat = reveal == nil ? 0 : (searchOpen ? 44 : min(overscroll, 44))

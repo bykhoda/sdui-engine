@@ -41,6 +41,10 @@ final class SnapshotTests: XCTestCase {
         let fixtures = Self.fixtures(repo)
         XCTAssertFalse(fixtures.isEmpty, "no fixtures resolved from manifest.json")
 
+        // The bitmap capture below needs UIKit. Off iOS (e.g. macOS `swift test`)
+        // there is no UIKit, so compile it out — the fixture/manifest resolution
+        // above is still exercised, and the capture runs on the iOS simulator leg.
+        #if canImport(UIKit)
         let size = CGSize(width: 390, height: 844)
         var written = 0
         for scheme in ["light", "dark"] {
@@ -63,11 +67,13 @@ final class SnapshotTests: XCTestCase {
         }
         print("[SDUI-SNAP] wrote \(written) iOS PNG(s) → \(out.path)")
         XCTAssertGreaterThan(written, 0)
+        #endif
     }
 
     /// Host the SwiftUI view in a real key window and capture with drawHierarchy — unlike
     /// ImageRenderer's single synchronous pass, this drives an actual render/layout cycle so
     /// the whole content subtree (scroll header, cards, charts) draws, not just the background.
+    #if canImport(UIKit)
     @MainActor
     private static func snapshot(_ view: some View, size: CGSize, dark: Bool) -> UIImage? {
         let host = UIHostingController(rootView: view)
@@ -88,6 +94,7 @@ final class SnapshotTests: XCTestCase {
         window.isHidden = true
         return image
     }
+    #endif
 
     // MARK: - manifest / corpus resolution (filesystem, shared with the other legs)
 
