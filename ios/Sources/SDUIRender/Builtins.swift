@@ -679,47 +679,30 @@ private struct ScrollContainer: View {
         let reveal = behavior?.revealOnPull
         let threshold = CGFloat(reveal?.threshold ?? 52)
         let searchH: CGFloat = reveal == nil ? 0 : (searchOpen ? 44 : min(overscroll, 44))
+        // Pre-compute the collapse geometry and split the header rows into helpers
+        // below, so this body stays simple enough to type-check quickly — the inline
+        // version timed out older Xcode type-checkers (Builtins.swift:660).
+        let titleReserved: CGFloat = max(titleH * (1 - progress), 0)
+        let subtitleOpacity: Double = 1 - Double(min(progress * 1.4, 1))
+        let subtitleReserved: CGFloat = max(20 * (1 - progress), 0)
 
         ScrollViewReader { proxy in
             ScrollView(.vertical, showsIndicators: shows) {
                 VStack(alignment: .leading, spacing: 0) {
                     if let reveal, searchH > 0 {
-                        HStack(spacing: 8) {
-                            Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-                            TextField(reveal.placeholder ?? "Search",
-                                      text: reveal.bind.map { ctx.stringBinding($0) } ?? .constant(""))
-                        }
-                        .padding(.horizontal, 12)
-                        .frame(height: 36)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        .padding(.horizontal, 20)
-                        .frame(height: searchH, alignment: .center)
-                        .opacity(Double(min(searchH / 36, 1)))
-                        .clipped()
+                        collapsingSearchBar(
+                            placeholder: reveal.placeholder ?? "Search",
+                            text: reveal.bind.map { ctx.stringBinding($0) } ?? .constant(""),
+                            height: searchH)
                     }
 
-                    Text(screenTitle)
-                        .font(.system(size: 34, weight: .bold))
-                        .lineLimit(1)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .scaleEffect(scale, anchor: .bottomLeading)
-                        .opacity(titleFade)
-                        // Reserved height collapses smoothly from full → 0 on the eased
-                        // curve, so the content below rises to meet the nav bar cleanly.
-                        .frame(height: max(titleH * (1 - progress), 0), alignment: .bottomLeading)
-                        .padding(.horizontal, 20)
-                        .padding(.top, 4)
+                    collapsingTitle(scale: scale, fade: titleFade, reserved: titleReserved)
 
                     if let sub = behavior?.subtitle {
-                        Text(BindingEngine.resolveString(sub, in: ctx.binding))
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            // The subtitle fades a touch ahead of the title so the two
-                            // don't collide as they compress toward the bar.
-                            .opacity(1 - Double(min(progress * 1.4, 1)))
-                            .frame(height: max(20 * (1 - progress), 0), alignment: .topLeading)
-                            .padding(.horizontal, 20)
-                            .padding(.top, 2)
+                        collapsingSubtitle(
+                            BindingEngine.resolveString(sub, in: ctx.binding),
+                            opacity: subtitleOpacity,
+                            reserved: subtitleReserved)
                     }
 
                     if let child = childC {
@@ -758,6 +741,45 @@ private struct ScrollContainer: View {
                 }
             }
         }
+    }
+
+    /// The pull-to-reveal search field of the collapsing header.
+    @ViewBuilder private func collapsingSearchBar(placeholder: String, text: Binding<String>, height: CGFloat) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
+            TextField(placeholder, text: text)
+        }
+        .padding(.horizontal, 12)
+        .frame(height: 36)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .padding(.horizontal, 20)
+        .frame(height: height, alignment: .center)
+        .opacity(Double(min(height / 36, 1)))
+        .clipped()
+    }
+
+    /// The large title that shrinks and fades on the eased curve as the header collapses.
+    private func collapsingTitle(scale: CGFloat, fade: Double, reserved: CGFloat) -> some View {
+        Text(screenTitle)
+            .font(.system(size: 34, weight: .bold))
+            .lineLimit(1)
+            .fixedSize(horizontal: false, vertical: true)
+            .scaleEffect(scale, anchor: .bottomLeading)
+            .opacity(fade)
+            .frame(height: reserved, alignment: .bottomLeading)
+            .padding(.horizontal, 20)
+            .padding(.top, 4)
+    }
+
+    /// The subtitle that fades a touch ahead of the title so the two don't collide.
+    private func collapsingSubtitle(_ text: String, opacity: Double, reserved: CGFloat) -> some View {
+        Text(text)
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .opacity(opacity)
+            .frame(height: reserved, alignment: .topLeading)
+            .padding(.horizontal, 20)
+            .padding(.top, 2)
     }
 }
 
